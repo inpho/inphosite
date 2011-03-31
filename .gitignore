@@ -1,0 +1,8 @@
+development.ini
+*.pyc
+who.log
+access.log
+sandbox
+*.egg/
+*.egg-info
+

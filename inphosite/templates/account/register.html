@@ -1,0 +1,101 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - Register</%def>
+<%def name="head_title()">Register</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<%
+
+from inphosite.model import SEPArea
+from inphosite.model.meta import Session
+
+blank = ('', '-------------')
+
+options = Session.query(SEPArea.id, SEPArea.name).all()
+options.insert(0, blank)
+
+levels = [(1, 'interested amateur'), (2, 'undergraduate course'), 
+            (3, 'graduate course'), (4, 'published in area')]
+levels.insert(0, blank)
+
+form = h.Form(
+    option={'first_area' : options,
+             'second_area' : options,
+             'first_area_level' : levels,
+             'second_area_level' : levels}
+)
+
+
+%>
+
+
+
+<div id="content">
+<h1>Register</h1>
+${form.start_with_layout(h.url(controller='account', action='submit'), method="post") | n}
+    ${form.field(
+        label="Full Name", 
+        name='fullname',
+        type='text',
+        required=False
+    ) | n}
+    ${form.field(
+        label="Username", 
+        name='username',
+        type='text',
+        required=True
+    ) | n}
+    ${form.field(
+        label="Password",
+        name='password',
+        type='password',
+        required=True
+    ) | n}
+    ${form.field(
+        label="Confirm Password",
+        name='confirm_password',
+        type='password',
+        required=True
+    ) | n}
+    ${form.field(
+        label="First Area",
+        name='first_area',
+        type='dropdown',
+        required=True
+    ) | n}
+    ${form.field(
+        label="Level of expertise",
+        name='first_area_level',
+        type='dropdown',
+        required=True
+    ) | n}
+    ${form.field(
+        label="Second Area",
+        name='second_area',
+        type='dropdown',
+        required=False
+    ) | n}
+    ${form.field(
+        label="Level of expertise",
+        name='second_area_level',
+        type='dropdown',
+        required=False
+    ) | n}
+    ${form.field(
+        label="E-mail", 
+        name='email',
+        type='text',
+        required=True
+    ) |n}
+    ${form.field(
+        label="Confirm E-mail", 
+        name='confirm_email',
+        type='text',
+        required=True
+    ) |n}
+    ${form.action_bar(
+        form.submit(value="Register", name='submit')
+    ) | n}
+${form.end_with_layout() | n}
+</div>

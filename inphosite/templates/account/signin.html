@@ -1,0 +1,24 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - Sign In</%def>
+<%def name="head_title()">Sign In</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+<h1>Sign In</h1>
+
+%if c.failed:
+<p>Incorrect username or password. Please try again.</p>
+%endif
+
+<% 
+form = h.Form()
+%>
+
+${form.start_with_layout('/account/dologin', method="post") | n}
+    ${form.field(label="Username", name='login', type='text') | n}
+    ${form.field(label="Password", name='password', type='password') | n}
+    ${form.action_bar(form.submit(value="Login")) | n}
+${form.end_with_layout() | n}
+</div>

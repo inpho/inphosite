@@ -1,0 +1,8 @@
+## utilizing rdf-sparql-json guidelines at:
+## http://www.w3.org/TR/rdf-sparql-json-res/
+
+<%
+a = h.json({'responseData' : {'results' : [s.json_struct(extended=False) for s in c.schools_of_thought]},
+          'responseStatus' : 200, 'responseDetails' : None})
+%>
+${a | n}

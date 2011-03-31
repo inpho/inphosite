@@ -1,0 +1,3 @@
+include inphosite/config/deployment.ini_tmpl
+recursive-include inphosite/public *
+recursive-include inphosite/templates *

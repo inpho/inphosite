@@ -1,0 +1,27 @@
+<%inherit file="/base.html" />
+<%namespace file="/admin/adminactb.html" name="actb" />
+<%! 
+import operator
+import inphosite.lib.helpers as h
+import re
+%>
+
+<%def name="sidebar()">
+${parent.sidebar()}
+${h.form(h.url(controller='entity', action='admin', id=None), method='get')}
+${h.hidden('redirect','True')}
+<strong>InPhO Admin Interface</strong><br /><br />
+${actb.actb("q", "Search to add/edit:")}
+<br />
+Other tasks:<br />
+1. <a href="${h.url(controller='admin', action='addlist')}">New Entries/sep_dir management</a> <br />
+
+${h.end_form()}
+##${h.url(controller='entity', action='admin', id=None)} <br />
+</%def>
+
+<%def name="head_title()">
+${next.head_title()}
+</%def>
+
+${next.body()}

@@ -1,0 +1,7 @@
+<%
+a = {'responseData' : None,
+    'responseStatus' : int(c.code),
+    'responseDetails' : c.message}
+%>
+
+${h.json(a) | n}

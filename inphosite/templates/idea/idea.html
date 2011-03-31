@@ -1,0 +1,556 @@
+<%! import urllib %>
+<%inherit file="/base-tree.html" />
+<% 
+#Intialize variables for evaluation interface
+c.entID = 0 
+
+if c.uid:
+    onchange_rel = "onChange=\"thisFunc($(this).parent().parent(), 'relatedness')\""
+    onchange_gen = "onChange=\"thisFunc($(this).parent().parent(), 'generality')\""
+else:
+    onchange_rel = ''
+    onchange_gen = ''
+%>
+
+## Header
+<%def name="title()">${parent.title()} - Idea - ${c.idea.label}</%def>
+<%def name="head_title()">${c.idea.label}</%def>
+## Sidebar
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw(c.node)}</%def>
+
+## Body
+<div class="yui-gd">
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $("#dialog").dialog({position: [490,380], modal : true, title : 'Multiple Results'});
+});
+</script>
+<div id="content">
+<h1>${c.idea.label}</h1>
+%if c.idea.sep_dir:
+<p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/"
+ target="_blank">
+<img src="/img/sepmanicon.png" /> ${c.idea.label.title()}</a>
+is also an article in the Stanford Encyclopedia of Philosophy.</p>
+%endif
+
+
+%if c.idea.nodes:
+<div id="dialog">
+<p>${c.idea.label.title()} is \
+classified in \
+%if len(c.idea.nodes) > 1:
+<em>multiple places</em> in \
+%endif
+the taxonomy. Where do you want to go?</p>
+<ul>
+
+## Nodes
+%for node in c.idea.nodes:
+<li>\
+<% curParent = node.parent 
+parents = []
+while curParent:
+    parents.insert(0, curParent)
+    curParent = curParent.parent
+%>
+%for parent in parents:
+<a class="idea" href="${parent.url()}">${parent.label}</a> -&gt; \
+%endfor
+<a class="idea" href="${node.url()}">${node.label}</a> \
+</li>
+%endfor
+</ul>
+
+</div>
+%endif
+
+<%doc>
+</%doc>
+
+
+
+
+<%doc>
+%if not c.idea.nodes and not c.idea.instance_of:
+<p>${c.idea.label} is not <em>yet</em> classified in the taxonomy.
+
+%if not request.environ.get('REMOTE_USER'):
+Help improve results by <strong><a href="#" onClick="enableEvals()">enabling idea evaluations</a></strong>!
+%else:
+Help improve results by submitting idea evaluations!
+%endif
+</p>
+%endif
+</%doc>
+
+
+</div> <!-- content -->
+
+
+
+<div id="contentLeft">
+%if not request.environ.get('REMOTE_USER') and (c.idea.nodes or c.idea.instance_of):
+<p class="evaltext">Help improve results by <strong><a href="#"
+onClick="enableEvals($(this).parent().parent())">enabling anonymous 
+idea evaluations</a></strong> or <a href="${h.url('signin')}">signing in</a>! </p>
+%endif
+
+<script type="text/javascript">
+var numEvals = 0;
+var evalsEnabled = ${'true' if request.environ.get('REMOTE_USER') else 'false'};
+
+function enableEvals() {
+    evalsEnabled = true;    
+    $('.active form:hidden').slideToggle();
+    $('.evaltext').html("Thank you for improving the InPhO!");
+}
+
+function search(elm, id, id2) {
+    if (!($(elm).hasClass('active'))) {
+        $("#moreInfo").html("<p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>");
+        var src  = '/entity/' + id + '/search_with/' + id2;
+        $.get(src, function(data){
+                $("#moreInfo").html(data);
+            });
+        $('.active .child').slideToggle("slow")
+        $('.active .childLink').slideToggle("slow")
+        if (evalsEnabled) $('.active form').slideToggle();
+        $('.active').removeClass('active');
+        $(elm).addClass('active');
+        if (evalsEnabled) $('> form', elm).slideToggle("slow");
+        if (evalsEnabled) $('> form .generality', elm).hide();
+        $('.child', elm).toggle("slow");
+        $('.childLink', elm).toggle("slow");
+
+    }
+}
+
+function incrEvals() {
+    numEvals++;
+}
+
+function submitEvals(elm) {
+   thisFunc(elm, 'relatedness');
+   thisFunc(elm, 'generality');
+   incrEvals();
+}
+
+function flagIdea(elm, id) {
+     
+}
+
+function updateForm(elm, val, hide) {
+    //update text
+    switch(val) {
+        case 0:
+            if (hide) {
+                $( "input[name='submit']", elm).show();
+                $(".generality:visible", elm).slideToggle("slow");
+            }
+            $(".generality input[name='generality']", elm).attr("disabled","disabled");
+            $(".generality input[name='generality']:radio", elm).removeAttr("checked");
+
+            %if onchange_gen:
+            thisFunc($("form", elm), 'generality');
+            %endif
+            $( ".reltext", elm ).html( "<em>unrelated</em> to ${c.idea.label}");
+            break;
+        case 1:
+            $(".generality:hidden", elm).slideToggle("slow");
+            $(".generality input[name='generality']", elm).removeAttr("disabled");
+            $( ".reltext", elm).html( "<em>marginally related</em> to ${c.idea.label}" );
+            $( "input[name='submit']", elm).show();
+            break;
+        case 2:
+            $(".generality:hidden", elm).slideToggle("slow");
+            $(".generality input[name='generality']", elm).removeAttr("disabled");
+            $( ".reltext", elm).html( "<em>somewhat related</em> to ${c.idea.label}" );
+            $( "input[name='submit']", elm).show();
+            break;
+        case 3:
+            $(".generality:hidden", elm).slideToggle("slow");
+            $(".generality input[name='generality']", elm).removeAttr("disabled");
+            $( ".reltext", elm).html( "<em>related</em> to ${c.idea.label}" );
+            $( "input[name='submit']", elm).show();
+            break;
+        case 4:
+            $(".generality:hidden").slideToggle("slow");
+            $(".generality input[name='generality']", elm).removeAttr("disabled");
+            $( ".reltext", elm).html( "<em>highly related</em> to ${c.idea.label}" );
+            $( "input[name='submit']", elm).show();
+            break;
+    }
+}
+
+function thisFunc(elm, changed) {
+    var id   = $("> [name='ante_id']", elm).val();
+    var id2  = $("> [name='cons_id']", elm).val();
+    var flag = $("> [name='flag']", elm).val();
+    var img  = $("> .loading", elm.parent());
+    var generality  = $("> div input[name='generality']:checked", elm).val();
+    var relatedness = $("> input[name='relatedness']", elm).val();
+    if (changed == 'generality') {
+        var url_gen = '/idea/' + id + '/generality/' + id2;
+        img.attr("src", "/img/loading.gif");
+        if (generality == '--') {
+            $.ajax({type: 'DELETE',
+            url: url_gen,
+            success: function(data){
+                img.attr("src", "/img/check.gif");
+            }} );
+        }
+        else if (generality == undefined) {
+        $.post(url_gen,
+            { degree : -1 },
+            function(data){
+                img.attr("src", "/img/check.gif");
+            } );
+        }
+        else {
+        $.post(url_gen,
+            { degree : generality },
+            function(data){
+                img.attr("src", "/img/check.gif");
+            } );
+        }
+        //alert(id + '->' + id2 + '\n generality ' + generality);
+    }
+    else if (changed == 'relatedness') {
+        var url_rel = '/idea/' + id + '/relatedness/' + id2;
+        if (relatedness == '--') {
+            $.ajax({type: 'DELETE',
+                url: url_rel,
+                success: function(data){
+                    $("> input[name='relatedness']", elm).val(-1);
+                    img.attr("src", "/img/check.gif");
+                } });
+
+        }
+        else{
+            $.post(url_rel,
+                { degree : relatedness },
+                function(data){
+                    img.attr("src", "/img/check.gif");
+                } );
+        }
+        //alert(id + '->' + id2 + '\n relatedness ' + relatedness );
+    }
+    
+    if ((generality > -1) && (relatedness > -1)) {
+        img.attr("src", "/img/check.gif");
+        incrEvals();    
+    }
+
+    if (numEvals == 10) {
+        $("#dialog").dialog({position: [490,380], modal : true, title : 'Thank you!'});
+    } 
+}
+
+
+
+function resetEvaluation(elm){
+    var id   = $("> [name='ante_id']", elm).val();
+    var id2  = $("> [name='cons_id']", elm).val();
+    var img  = $("> .loading", elm.parent());
+    var url_gen = '/idea/' + id + '/generality/' + id2;
+    var url_rel = '/idea/' + id + '/relatedness/' + id2;
+    img.attr("src", "/img/loading.gif");
+    $.ajax({type: 'DELETE',
+            url: url_gen,
+            success: function(data){
+                $("> div input[name='generality']:radio", elm).removeAttr("checked");
+            }} );
+    $.ajax({type: 'DELETE',
+            url: url_rel,
+            success: function(data){
+                $("> .slider", elm).slider("option", "value", -1);
+                $("> .slidertext", elm).html("<strong>Drag slider to set relatedness:</strong>");
+                $("> input[name='relatedness']", elm).val(-1);
+                
+            } });
+    img.attr("src", "/img/empty.gif");
+    numEvals--;
+}
+
+
+
+function toggleList(selector) {
+    if ($('.on', selector).length > 0) {
+        $('.on', selector).removeClass('on').addClass('off');
+    } else {
+        $('.off', selector).removeClass('off').addClass('on');
+    }
+    $('ol', selector).toggle("slow");
+    $('ul', selector).toggle("slow");
+    $('p', selector).toggle("slow");
+    }
+
+    
+    
+    
+function initSlider(elm, rel, submitOnStop) {
+    var form = elm.parent();
+
+    elm.slider({
+        value: rel,
+        min: 0,
+        max: 4,
+        step: 1,
+        change: function( event, ui ) {
+            updateForm(form, ui.value, true);
+        },
+        slide: function( event, ui ) {
+            updateForm(form, ui.value, false);
+        }
+        , stop: function( event, ui ) {   
+            // if changed, update val and submit
+            if (ui.value != $( "input[name='relatedness']", form).val()) {
+                $( "input[name='relatedness']", form).val(ui.value);
+                if (submitOnStop) thisFunc(form, 'relatedness');
+            }
+        }
+    });
+    $( "a", elm ).focusout(function( event, ui ) {
+            $( "a", elm ).addClass("ui-state-hover"); 
+        });
+    if (rel == -1) {
+        $(".generality input[name='generality']", form).attr("disabled","disabled");
+        $(".generality input[name='generality']:radio", form).removeAttr("checked");
+    }
+    else {
+        elm.slider("option", "value", rel);
+    }
+}
+
+</script>
+
+<div id="taxonomy">
+%if not c.idea.nodes and not c.idea.instance_of:
+<h3 class="empty">Taxonomic Relations</h3>
+<p class="bottom">${c.idea.label} is not <em>yet</em> classified in the taxonomy. Please submit <a
+href="${h.url(controller='idea', action='edit',
+id=c.idea.ID)}">evaluations</a> to help improve the InPhO.</p>
+%else:
+<h3>Taxonomic Relations
+<span class="toggle on" onclick="toggleList('#taxonomy')">&nbsp;</span>
+</h3>
+<ol>
+%for node in c.idea.nodes:
+<div>
+%if node.parent:
+${printEntity(node.parent, group=True)}
+${printEntity(node, cls="child", group=True, srch_id=node.parent.ID)}
+%else:
+${printEntity(node, group=True, srch_id=node.ID)}
+%endif
+</div>
+%endfor
+
+%for i, node in enumerate(c.idea.instance_of):
+<div>
+${printEntity(node, group=True)}
+${printEntity(c.idea, cls="child", group=True, srch_id=node.ID)}
+</div>
+%endfor
+</ol>
+
+%endif
+</div>
+
+<div id="links">
+%if not c.idea.links_to:
+<h3 class="empty">Non-taxonomic Links</h3>
+<p class="bottom">${c.idea.label} does not <em>yet</em> have non-taxonomic links. Please submit <a
+href="${h.url(controller='idea', action='edit',
+id=c.idea.ID)}">evaluations</a> to help improve the InPhO.</p>
+%else:
+<h3>Non-taxonomic Links
+<span class="toggle on" onclick="toggleList('#links')">&nbsp;</span>
+</h3>
+<ol>
+%for i,node in enumerate(c.idea.links_to):
+<div>
+${printEntity(node, group=True)}
+${printEntity(c.idea, cls="childLink", group=True, srch_id=node.ID)}
+</div>
+%endfor
+</ol>
+
+%endif
+</div>
+
+<div id="related">
+%if not c.idea.related.first():
+<h3 class="empty">Related Terms</h3>
+%else:
+<h3>Related Terms 
+<span class="toggle on" onclick="toggleList('#related')">&nbsp;</span>
+</h3>
+<p class="bottom">Generated by <i>statistical measures</i></p>
+<ol>
+%for idea in c.idea.related[0:9]:
+${printEntity(idea)}
+%endfor
+</ol>
+%endif
+</div> <!-- related -->
+
+<div id="relatedThinkers">
+%if not c.idea.related.first():
+<h3 class="empty">Related Thinkers</h3>
+%else:
+<h3>Related Thinkers
+<span class="toggle on" onclick="toggleList('#relatedThinkers')">&nbsp;</span>
+</h3>
+<p class="bottom">Generated by <i>statistical measures</i></p>
+<ol>
+%for thinker in c.idea.related_thinkers[0:9]:
+${printEntity(thinker)}
+%endfor
+</ol>
+%endif
+</div> <!-- related -->
+
+
+<div id="hyponyms">
+%if not c.idea.hyponyms.first():
+<h3 class="empty">Hyponyms</h3>
+%else:
+<h3>Hyponyms
+<span class="toggle on" onclick="toggleList('#hyponyms')">&nbsp;</span>
+</h3>
+<p class="bottom">Generated by <i>statistical measures</i></p>
+<ol>
+%for idea in c.idea.hyponyms[0:9]:
+${printEntity(idea)}
+%endfor
+</ol>
+%endif
+</div> <!-- hyponyms -->
+
+<div id="occurrences">
+%if not c.idea.occurrences.first():
+<h3 class="empty">Occurrences</h3>
+%else:
+<h3>Occurrences
+<span class="toggle on" onclick="toggleList('#occurrences')">&nbsp;</span>
+</h3>
+<p class="bottom">Generated by <i>statistical measures</i></p>
+<ol>
+%for idea in c.idea.occurrences[0:9]:
+${printEntity(idea)}
+%endfor
+</ol>
+%endif
+</div> <!-- occurrences -->
+
+<%def name="printEntity(cons, cls='', group=False, srch_id=None, evaluation_type='Idea')">
+<%
+c.entID += 1
+
+gen, rel = c.evaluations[cons.ID] 
+
+search = "search(this, %d, %d)" % (c.idea.ID, cons.ID)
+    
+%>
+
+    %if group:
+    <% srch_id = srch_id or cons.ID %>
+    <li onClick="search($(this).parent().get(0), ${srch_id}, ${c.idea.ID})" class="idea ${cls}" id="${c.entID}">\
+    %else:
+    <li onClick="search(this, ${c.idea.ID}, ${cons.ID})" class="idea ${cls}" id="${c.entID}">\
+    %endif
+    %if cons not in c.idea.nodes and cons != c.idea:
+    <a href="${cons.url()}" class="sep">
+    <img src="/img/inpho.png" /></a>\
+    %endif
+
+    %if (rel > -1) and (gen > -1):
+    <img class='loading' src="/img/check.gif" />
+    <script>incrEvals();</script>
+    %else:
+    <img class='loading' src="/img/empty.gif" />
+    %endif
+
+    %if cons.sep_dir:
+    <a href="http://plato.stanford.edu/entries/${cons.sep_dir}/" class="icons"
+    target="_blank">
+    <img src="/img/sepmanicon.png" /></a>\
+    %endif
+    <a href="#moreInfo">${cons.label}</a>\
+
+
+%if evaluation_type == 'Idea':
+<form>
+    <!-- <a href="#" onClick="flagIdea(this.parent().parent(), ${cons.ID})">
+        <img class='delete' id="delete" title="Click if this is not a philosophical idea" src="/img/delete.png" />
+    </a> -->
+    <input type="hidden" name="ante_id" value="${c.idea.ID}" />
+    <input type="hidden" name="cons_id" value="${cons.ID}" />
+    
+    <div class="reltext" id="reltext${cons.ID}"><strong>Drag slider to set relatedness:</strong></div>
+    <div id="slider${cons.ID}" class="slider"></div>
+    <script>
+    //$(alert($("#${c.entID} form")));
+    $(initSlider($("#${c.entID} form .slider"), ${rel}, ${'true' if c.uid else 'false'}));
+    </script>
+    <div><small>unrelated</small><small style="float: right;">highly related</small></div>
+    <input type="hidden" class="relatedness" name="relatedness" id="rel${cons.ID}" value="${rel}" />
+
+    <div class="generality" style="display: none;">
+    <input type="radio" name="generality" value="0" ${onchange_gen} \
+%if evaluation:
+checked\
+%endif    
+ />\
+        <em>more specific</em> than ${c.idea.label}<br />
+    <input type="radio" name="generality" value="1" ${onchange_gen} \
+%if gen == 1:
+checked\
+%endif    
+ />\
+        <em>more general</em> than ${c.idea.label}<br />
+    <input type="radio" name="generality" value="2" ${onchange_gen} \
+%if gen == 2:
+checked\
+%endif    
+ />\
+        <em>as general</em> as ${c.idea.label}<br />
+    <input type="radio" name="generality" value="3" ${onchange_gen} \
+%if gen == 3:
+checked\
+%endif    
+ />\
+        <em>incomparable</em> to ${c.idea.label}<br />
+    </div>
+
+%if request.environ.get('REMOTE_USER'):
+    <input name="reset" type="button" value="Reset" onClick="resetEvaluation($(this).parent())" />
+%else:
+    <input name="submit" type="button" value="Submit" onClick="submitEvals($(this).parent())" style="display: none;" />
+%endif
+</form>
+%endif
+    
+    </li>
+
+
+</%def>
+
+</div> <!-- contentLeft -->
+
+<div id="moreInfo">
+<p>This is the page for the idea <em>${c.idea.label}</em>.</p>
+
+<p>Click on any of the links on the left to explore related terms through a
+variety of targeted searches.  Click the <img src="/img/sepmanicon.png" /> icon
+to open the SEP article on the adjacent term. Click the <img src="/img/inpho.png" /> icon
+to open the InPhO page for the adjacent term.</p> 
+</div> <!-- moreInfo-->
+</div> <!-- wrapper-->

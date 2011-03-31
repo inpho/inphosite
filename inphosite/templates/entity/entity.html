@@ -1,0 +1,13 @@
+<%! import urllib %>
+<%inherit file="/base-tree.html" />
+
+## Header
+<%def name="title()">${parent.title()} - Entity - ${c.entity.label}</%def>
+<%def name="head_title()">${c.entity.label}</%def>
+## Sidebar
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<h1>${c.entity.label}</h1>

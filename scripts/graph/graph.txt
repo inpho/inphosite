@@ -1,0 +1,5 @@
+## -*- coding: utf-8 -*-
+${"#%s\t%s\t%s\t%s" % ("ante_ID", "cons_ID", "weight", "jweight")}
+%for edge in graph:
+${"%s\t%s\t%s\t%s\t%s\t%s\t" % (edge.ante_id, edge.cons_id, edge.weight, edge.jweight)}
+%endfor

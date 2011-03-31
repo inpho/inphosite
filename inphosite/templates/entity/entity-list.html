@@ -1,0 +1,31 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - Entities</%def>
+<%def name="head_title()">Entities</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+%if c.entities.count() == 0:
+%if c.query:
+<p>There is currently no InPhO entry for the search <b>${c.query}</b>. Please
+try another search query, or use the taxonomy to explore over 5,000
+philosophical concepts, journals and thinkers.</p>
+%elif c.sep:
+<p>There is currently no InPhO entry for the specified article, however we
+invite you to explore the taxonomy at the left to find related concepts and
+directed search queries for over 5,000 philosophical concepts, journals and
+thinkers.</p>
+%endif
+<p>This taxonomy of ideas is the outcome of the first iteration of our cycle of
+expert-provided structure, statistical analysis of the articles in the Stanford
+Encyclopedia of Philosophy, and a small amount of human feedback. Iterations of
+this cycle will be used to develop the taxonomy. The approach is explained in
+more detail in our <a href="/papers/">papers</a>.</p>
+%endif
+<ul>
+%for entity in c.entities:
+<li><a href="${entity.url()}">${entity.label}</a></li>
+%endfor
+</ul>
+</div>

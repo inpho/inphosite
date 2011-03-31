@@ -1,0 +1,61 @@
+<%inherit file="/admin/entity-edit.html"/>
+<%! 
+import re
+from operator import attrgetter
+%>
+<%def name="title()">Edit Entity Interface</%def>
+<%def name="head_title()">Idea</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+</%def>
+
+
+<div class="yui-gd" style="padding-left:10px">
+
+<strong>${c.message}</strong>
+
+##host is ${request.host}
+<br /><br />
+
+<strong>Fuzzy matches to [${c.title}]:</strong><br />
+%if len(c.linklist) == 0:
+	<font color="#FF0000">No fuzzies; perhaps fuzzymatchall is not done running?</font><br />
+%endif
+%for entry in sorted(sorted(c.linklist, key=attrgetter('edits')), key=attrgetter('strength'), reverse=True):
+	
+
+	<FORM>
+
+	<INPUT TYPE="BUTTON" VALUE="Use this" ONCLICK="window.location.href='${entry.link}'"> ${entry.label} (${entry.strength}, ${entry.edits})
+	%if entry.sep_dir:
+		(Existing sep_dir! = <a
+        href="http://plato.stanford.edu/entries/${entry.sep_dir})">${entry.sep_dir}</a> )
+	%endif
+	%if entry.label.lower() == c.title.lower():
+		<br /><strong>&nbsp;&nbsp;&nbsp;^--PERFECT MATCH</strong>
+	%endif	
+	</FORM>
+##<a href="${entry.link}">${entry.label} (${entry.strength}, ${entry.edits})</a>
+	##%if entry.label.lower() == c.title.lower():
+	##	</strong>
+	##%endif
+	
+	<br />
+%endfor
+<br />
+
+<strong>Add a new entry for sep_dir ${c.sep_dir}:</strong><br />
+	${h.form(h.url(controller="entity", action="admin", redirect=True))}
+	<label for="q">Entity Label</label><br />
+	${h.text(name="q", id="q", value=c.title, size=60)}
+	<br />(Note: name must be unique, and labels for Idea entities will be automatically be rendered lowercase.)<br />
+	<input type="hidden" name="sep_dir", Value="${c.sep_dir}"/>
+	${h.submit(name="action", value="Add")}
+	${h.end_form()}
+
+
+
+
+</div>
+
+

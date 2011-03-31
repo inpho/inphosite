@@ -1,0 +1,54 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()">OWL File</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div class="yui-gd"
+
+<div id="content">
+<p>The ontology is made available as an XML file using the <a
+href="http://www.w3.org/TR/owl-features/">OWL (Web Ontology
+Language)</a>.</p>
+
+<p>Public versions of the ontology are created monthly, and contain all new
+properties and asserted facts, derived from the feedback obtained as of the
+timestamp.</p>
+
+<h3>Monthly Archives</h3>
+<%
+import glob, os
+path = config['owl_path']
+files = glob.glob(os.path.join(path, 'db-arch_*.owl'))
+files = [os.path.split(file)[1] for file in files]
+files.sort( reverse=True)
+%>
+<ol>
+
+%for file in files:
+<%
+year = file[8:12]
+month = file[12:14]
+day = file[14:16]
+# format link title
+%>
+<li><a href="/owl/${file}">${year}-${month}-${day} version</a></li>
+%endfor
+</ol>
+
+<h3 style="padding-top:20px">Early development versions</h3> 
+<ol>
+<li><a href="inpho-1-2009.owl">2009-01-12 version</a></li> 
+<li><a href="SEPv8.5.owl">2007-10-08 version</a></li> 
+<li><a href="inpho.owl">2007-03-14 version</a> (Note: This version does not completely match the browsable taxonomy since it was partly populated by hand instead of using the automated reasoning techniques.)</li> 
+</ol> 
+
+##</div> <!-- contentLeft2 -->
+
+##<div id="moreInfo2">
+##</div
+
+</div> <!-- yui-gd -->
+

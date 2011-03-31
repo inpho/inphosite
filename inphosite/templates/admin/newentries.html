@@ -1,0 +1,29 @@
+<%inherit file="/admin/entity-edit.html"/>
+<%! 
+import re
+%>
+<%def name="title()">Edit Entity Interface</%def>
+<%def name="head_title()">Idea</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+</%def>
+
+
+<div class="yui-gd" style="padding-left:10px">
+
+<strong>${c.message}</strong>
+
+##host is ${request.host}
+<br /><br />
+
+
+%for entry in c.entries:
+	<a href="${entry.link}">${entry.title}</a>  (<a href="${'http://plato.stanford.edu/entries/' + entry.sep_dir}" target="_blank">SEP Entry</a>)<br />
+%endfor
+
+
+
+
+</div>
+
+

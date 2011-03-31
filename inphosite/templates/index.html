@@ -1,0 +1,135 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()"></%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div class="yui-gd">
+<div id="contentLeft2">
+
+<p><span class="big">Welcome</span> to the Indiana Philosophy Ontology (InPhO) project!  We offer a
+variety of tools for students, researchers, programmers and scholars. The
+taxonomy browser, located to the left, provides an entry point for finding
+information on philosophical ideas. With it you can explore related ideas and
+conduct focused searches at the Stanford Encyclopedia of Philosophy, Noesis, and
+Google Scholar with a single click. The ontology currently covers philosophical
+<a href="/idea">ideas</a>, <a href="/thinker">thinkers</a>, and <a
+href="/journal">journals</a>.</p>
+
+<table id="people"> 
+
+<tbody class="underline"> 
+<tr> 
+<th>Project Director</th> 
+<td><img src="/img/front/colin.jpg" style="height:25px; width:25px;" alt="head shot of Colin" /></td> 
+<td> 
+<a href="http://mypage.iu.edu/~colallen/">Colin Allen</a> 
+</td> 
+</tr> 
+</tbody>
+
+<tbody class="underline">
+<tr> 
+<th rowspan="2">Founding Project Members</th> 
+<td><img src="/img/front/cbuckner.jpg" style="height:25px; width:25px;" alt="head shot of Cameron" /></td> 
+<td> 
+<a href="http://nomadicphilosopher.info/professional/">Cameron Buckner</a> 
+</td> 
+</tr> 
+
+<tr> 
+<td><img src="/img/front/mniepert.jpg" style="height:25px; width:25px;" alt="head shot of Mathias" /></td> 
+<td><a href="http://www.matlog.net/research.php">Mathias Niepert</a></td> 
+</tr> 
+</tbody>
+ 
+<tbody class="underline">
+<tr> 
+<th rowspan="2">Current Project Staff</th> 
+<td><img src="/img/front/jaimie.jpg" style="height:25px; width:25px;" alt="head shot of Jaimie" /></td> 
+<td><a href="http://www.jamram.net/">Jaimie Murdock</a></td> 
+</tr> 
+ 
+<tr> 
+<td><img src="/img/front/scott.jpg" style="height:25px; width:25px;" alt="head shot of Scott" /></td> 
+<td><a href="http://www.google.com/profiles/103110477502811794272?hl=en">Scott Weingart</a></td> 
+</tr> 
+</tbody class="underline">
+
+<tbody class="underline">
+<tr> 
+<th>Technical Support</th> 
+<td><img src="/img/front/cogsci.gif" style="height:23px; width:23px; border: 1px solid gray" alt="cognitive science at IU" /></td> 
+<td><a href="http://www.cogs.indiana.edu/people/homepages/eberle.html">Ruth Eberle</a> and <a href="http://www.cogs.indiana.edu/people/homepages/nubli.html">Nubli Kasa</a><br />
+<a href="http://www.cogs.indiana.edu/">IU Cognitive Science Program</a></td> 
+</tr> 
+</tbody>
+
+
+
+<tbody class="underline"> 
+<tr> 
+<th rowspan="2">Funding</th> 
+<td><img src="/img/front/NEH_seal.png" style="height:25px; width:25px;" alt="NEH Seal"></td> 
+<td><a href="http://www.neh.gov/">National Endowment for the Humanities</a></td> 
+</tr> 
+ 
+<tr> 
+<td><img src="/img/front/blockiu_crimson.gif" style="height:25px; width:25px; border: 0px solid maroon"></td> 
+<td><a href="http://www.research.iu.edu/recipients/winners05.html#nf">IU New Frontiers in the Arts and Humanities</a></td> 
+</tr> 
+</tbody>
+ 
+<tbody class="underline">
+<tr> 
+<th rowspan="3">Affiliated Projects and Researchers</th> 
+<td><img src="/img/front/beavers.jpg" style="height:25px; width:25px;" alt="head shot of Tony" /></td> 
+<td><a href="http://faculty.evansville.edu/tb2/">Prof. Tony Beavers</a>, University of Evansville</td> 
+</tr> 
+
+<tr> 
+<td><img src="/img/front/sep.jpg" style="height:25px; width:25px; border: 0px solid maroon" alt="" /></td> 
+<td><a href="http://plato.stanford.edu/">Stanford Encyclopedia of Philosophy</a></td> 
+</tr> 
+ 
+<tr> 
+<td><img src="/img/front/noesissm.bmp" alt="" height="25" /></td> 
+<td><a href="http://noesis.evansville.edu/">Noesis: Philosophical Research Online</a></td> 
+</tr> 
+</tbody> 
+
+<tbody class="bottom">
+<tr> 
+<th rowspan="3">Other Credits</th> 
+<td><img src="/img/front/anon.jpg" style="height:25px; width:25px;" alt="icon for other helpers"></td> 
+<td style="font-size:77%;">Tarun Gangwani &amp; Thom Gennaro (Data Entry &amp; Interface Testing); Kyle Nisswandt (Banner Design Concept)</td> 
+</tbody>
+
+</table> 
+</div>
+
+
+
+
+<div id="moreInfo2">
+ 
+<p>The InPhO is powered by expert feedback, augmented by cutting-edge machine
+learning techniques over the 13 million word <a
+href="http://plato.stanford.edu/">Stanford Encyclopedia of Philosophy</a>
+(SEP). These techniques require user feedback for improvement, so <a href="${h.url('register')}">register</a> for
+an account or <a href="${h.url('signin')}">sign in</a> and start helping today!</p>  
+
+<p>Download the Taxonomy in <a href="/owl">OWL</a> or <a href="/json">JSON</a> format.</p>
+
+<p>Data from the InPhO may be accessed through an <strong><a href="/docs">API</a></strong>
+for easy integration with digital humanities and semantic web applications.</p>
+
+<div id="DHI">
+<p><img src="/img/DHsm.gif" alt="" width="120" /></p>
+<br />
+</div>
+</div>
+
+
+</div>

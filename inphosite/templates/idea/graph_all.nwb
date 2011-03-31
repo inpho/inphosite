@@ -1,0 +1,11 @@
+*Nodes ${len(c.ideas)}
+id*int  label*string     sepdir*string    entropy*float
+%for idea in c.ideas:
+${idea.ID} "${idea.label}" "${idea.sep_dir}" ${idea.entropy}
+%endfor
+
+*DirectedEdges ${len(c.edges)}
+source*int  target*int  jweight*float   weight*float
+%for edge in c.edges:
+${edge.cons_id} ${edge.ante_id}     ${edge.jweight}     ${edge.weight}
+%endfor

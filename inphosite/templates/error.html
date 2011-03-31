@@ -1,0 +1,44 @@
+<%inherit file="/base-tree.html" />
+<%def name="title()">${parent.title()} - Error ${c.code}</%def>
+<%def name="head_title()">Error</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div id="content">
+<h1>Error!</h1>
+## Not Found, potentially incompatabile type
+%if c.code == 404 and c.controller and c.controller != 'entity':
+<%
+url = h.url(controller='entity', id=c.id, action=c.action, filetype=c.filetype)
+%>
+<p>The requested page could not be found. Since you have requested the
+<em>${c.controller}</em> page for the ID ${c.id}, you may have misidentified the
+page type. Follow <a href="${url}">${url}</a> to get the proper location of ID ${c.id}.
+
+
+## Entity does not even exist
+%elif c.code == '404':
+<p>The requested page could not be found. Use the search box on the left to
+continue.</p>
+
+## Bad request
+%elif c.code == '400':
+<p>The request was malformed. Please check request syntax or report this error to <a
+href="mailto:inpho@indiana.edu">inpho@indiana.edu</a>.</p>
+
+## Not Authorized
+%elif c.code == '403':
+<p>You do not have sufficient permissions to access this page. Please sign in as
+a different user, or request permissions from <a
+href="mailto:inpho@indiana.edu">inpho@indiana.edu</a>.</p>
+
+## Not Authenticated
+%elif c.code =='401':
+<p>You are not authenticated. Please sign in or register to complete this
+request.</p>
+
+%endif
+<p>HTTP ${c.message}</p>
+</div>

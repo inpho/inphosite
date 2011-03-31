@@ -1,0 +1,18 @@
+<%inherit file="/base-tree.html"/>
+
+<%def name="title()">Works</%def>
+<%def name="head_title()">Works</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+
+
+<div id="content">
+<ul>
+%for school_of_thought in c.schools_of_thought:
+<li><a href="${school_of_thought.url()}">${school_of_thought.label}</a></li>
+%endfor
+</ul>
+</div>

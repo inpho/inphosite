@@ -1,0 +1,32 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Thinkers</%def>
+<%def name="head_title()">Thinkers</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+%if len(c.thinkers) == 0:
+%if c.query:
+<p>There is currently no InPhO thinker for the search <b>${c.query}</b>. Please
+try another search query, or use the taxonomy to explore over 5,000
+philosophical concepts, journals and thinkers.</p>
+%elif c.sep:
+<p>There is currently no InPhO thinker for the specified article, however we
+invite you to explore the taxonomy at the left to find related concepts and
+directed search queries for over 5,000 philosophical concepts, journals and
+thinkers.</p>
+%endif
+%endif
+
+<p>This list of thinkers is a placeholder for future visualizations and advanced search
+interfaces for our thinker database. Use the searchbox to the left to perform
+searches over the entire InPhO knowledge base.</p>
+
+<ul>
+%for thinker in c.thinkers:
+<li><a href="${thinker.url()}">${thinker.label}</a></li>
+%endfor
+</ul>
+</div>
+

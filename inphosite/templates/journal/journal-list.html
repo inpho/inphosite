@@ -1,0 +1,20 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Journals</%def>
+<%def name="head_title()">Journals</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+<p>This alphabetized list provides links to additional information about each
+journal from the InPhO-Noesis database, including links to the journal websites where
+available.  This journal browser will eventually be upgraded to allow
+classification of journals by subject area and for one stop searching of journal
+content. </p>
+
+<ul>
+%for journal in c.journals:
+<li><a href="${journal.url()}">${journal.label}</a></li>
+%endfor
+</ul>
+</div>

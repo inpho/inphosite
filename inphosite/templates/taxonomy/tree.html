@@ -1,0 +1,24 @@
+<%def name="draw(nodes)">
+<div class="tree">
+<script language="javascript" type="text/javascript" src="${h.url('/js/dtree.js')}" charset="UTF-8"></script>
+<script type="text/javascript">
+d = new dTree('d');
+d.add(0,-1,'Philosophy', '${h.url(controller='idea', action='list')}');
+%for node in nodes:
+d.add(${node.ID},\
+    %if node.parent:
+${node.parent.ID},\
+    %else:
+0,\
+    %endif 
+'${node.name}',\
+'${h.url(controller='idea', action='view_node', id=node.ID)}');
+%endfor
+
+document.write(d);
+</script>
+</div>
+</%def>
+
+
+

@@ -1,0 +1,64 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()">About Us</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div class="yui-gd">
+<div id="content">
+
+<h1>About the InPhO</h1>
+
+<p>The InPhO is an attempt to model the discipline of philosophy. Our
+approach leverages expert knowledge by augmenting it with machine reasoning,
+greatly reducing the need for expensive "double experts" trained in both
+philosophy and computational ontology. The primary source of text data and
+domain experts is the <a href="http://plato.stanford.edu">Stanford Encyclopedia
+of Philosophy</a> (SEP). With over 1 million weekly article downloads, the SEP
+is the leading digital humanities resource for philosophy, maintained by over
+1,600 volunteer authors and subject editors. Consisting of over 1,200 articles
+and 15 million words, the tremendous depth of the encyclopedia makes it
+impossible for any one person to have expertise over the whole domain,
+necessitating the creation of a useful organization scheme to provide better
+editorial control and content accessibility. At the same time, the comprehensive
+richness of the SEP makes it a reasonable proxy for the discipline of philosophy
+as a whole.</p>
+
+<p>Our approach utilizes an iterative three-step process, which we have termed <i>dynamic
+ontology</i>, to create a taxonomic representation of philosophy:
+<ol class="numbered">
+    <li><strong>Data mining</strong> - Natural Language Processing (NLP)
+        techniques are used to generate statistical hypotheses about the
+        relations among various topics in the SEP. </li>
+    <li><strong>Expert feedback</strong> - These hypotheses are evaluated
+        by domain experts through online interfaces.</li>
+    <li><strong>Machine reasoning</strong> - The feedback is combined
+        with the statistical measures as a knowledge base for our machine
+        reasoning program, which uses answer set programming to output a
+        taxonomic view of the discipline.</li>
+</ol></p>
+
+<p>Further details on dynamic ontology can be found on the <a
+href="/papers">Articles and Papers</a> page.</p>
+
+<p>InPhO does not assume that a single, correct view of the discipline is possible, but
+rather takes the pragmatic approach that some representation is better than no
+representation at all. However, even if other projects do not agree with our
+taxonomic projections, our statistical data and expert evaluations may still be
+useful. By exposing our data at all three steps through an easy-to-use <a
+href="/docs">API</a>, we encourage other projects to discover alternative ways
+to construct meaningful and useful representations of the discipline.
+Additionally, by offering an open platform, we invite other projects to
+contribute relevant data and expert feedback to improve the quality of the
+service.</p>
+
+<p>If you are interested in collaborating on the InPhO, digital humanities, or
+dynamic ontology generally, we invite you to contact us at <a
+href="mailto:inpho@indiana.edu">inpho@indiana.edu</a></p>
+
+</div>
+
+
+</div>

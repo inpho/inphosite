@@ -1,0 +1,62 @@
+<%inherit file="/admin/entity-edit.html"/>
+<%! 
+import re
+import inphosite.lib.helpers as h
+%>
+<%def name="title()">Edit work Interface</%def>
+<%def name="head_title()">work</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+</%def>
+
+<%def name="work_form()">
+    <fieldset><legend><u>work #</u> = ${c.work.ID}</legend>
+	<u>Type</u> = work<br />
+	<u>Name</u> = ${c.work.label}<br /><br />	
+
+	<input type="hidden" name="ID", Value="${c.work.ID}"/>
+
+	<table>
+	<tr><td>
+	<label for="label">Label:</label></td><td>
+	${h.text(name="label", id="label", size = 40, value=c.work.label)}<br />
+	</td></tr>
+	<tr><td>
+	<label for="sep_dir">Sep_dir:</label></td><td>
+	${h.text(name="sep_dir", id="sep_dir", size = 40, value=c.work.sep_dir)}<br />
+	%if c.sepdirnew:
+		<font color="#FF0000">New sepdir--click modify to save</font>
+	%endif
+	%if c.alreadysepdir:
+		<font color="#FF0000">Entry already has sep_dir [${c.idea.sep_dir}]; if you would like to replace it with [${c.entry_sep_dir}], please do so manually</font><br />
+	%endif
+	</td></tr><tr><td>
+	</table>
+
+    </fieldset><br />
+
+</%def>
+<br />
+<div class="yui-gd" style="padding-left:10px">
+
+<strong>${c.message | n}</strong>
+<br>
+%if c.found is True:
+	${h.form(h.url(controller='work', action='process'))}
+	${work_form()}
+	${h.submit(name="action", value="Modify")}
+	${h.end_form()}
+	${h.form(h.url(controller='work', action='process'), onSubmit="return verify()")}
+	${h.submit(name="action", value="Delete")}
+	<input type="hidden" name="ID", Value="${c.work.ID}"/>
+	${h.end_form()}
+	
+	<br />
+
+	##${c.work.__dict__}
+	
+%endif
+
+</div>
+
+

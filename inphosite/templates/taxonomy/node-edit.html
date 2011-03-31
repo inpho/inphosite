@@ -1,0 +1,37 @@
+<%inherit file="/base.html"/>
+<%def name="title()">Idea - ${c.idea.label}</%def>
+
+<h1>${c.idea.label}</h1>
+
+For each term on the left, please indicate its relationship to the topic node selected (<b>${c.idea.label}</b>). You may skip any items you are unsure about.
+
+${h.form(h.url(controller='idea', action='evaluate'), method='post')}
+    ${h.field(
+        "Consequent",
+        h.text(name='id2'),
+        required=True
+    )}
+    ${h.field(
+        "Generality",
+        h.text(name='generality'),
+        required=True
+    )}
+    ${h.field(
+        "Relatedness",
+        h.text(name='relatedness'),
+        required=True
+    )}
+    ${h.field(
+        "Hyperrank",
+        h.text(name='hyperrank'),
+        required=True
+    )}
+    ${h.field(
+        "Hyporank",
+        h.text(name='hyporank'),
+        required=True
+    )}
+    ${h.field(
+        field=h.submit(value="Evaluate", name='submit'))}
+
+${h.end_form()}

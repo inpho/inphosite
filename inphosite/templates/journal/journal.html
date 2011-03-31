@@ -1,0 +1,100 @@
+<%inherit file="/base-tree.html"/>
+
+<%
+if c.journal.abbrs:
+    label = c.journal.abbrs[0]
+else:
+    label = c.journal.label
+%>
+
+
+<%def name="title()">
+<%
+if c.journal.abbrs:
+    label = c.journal.abbrs[0]
+else:
+    label = c.journal.label
+%>
+
+Journal - ${label}</%def>
+<%def name="head_title()">
+<%
+if c.journal.abbrs:
+    label = c.journal.abbrs[0]
+else:
+    label = c.journal.label
+
+if len(label) > 30:
+    last_word = label[:30].rfind(' ')
+    label = label[:last_word]
+%>
+
+${label}
+
+</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div class="yui-gd">
+<script type="text/javascript">
+function srch(id) {
+    var src  = '/entity/' + id + '/search';
+    $.get(src, function(data){
+          $("#moreInfo").html(data);
+        });
+}
+$(document).ready(srch(${c.journal.ID}));
+</script>
+
+<div id="content">
+<h1>${c.journal.label}</h1>
+</div>
+
+<div id="contentLeft">
+<dl>
+    %if c.journal.URL:
+    <dt><a href="${c.journal.URL}">Web Site</a></dt>
+    <br />
+    %endif
+
+    %if c.journal.language:
+    <dt>Language:</dt>
+    <dd>${c.journal.language}</dd>
+	<br />
+    %endif
+
+    %if c.journal.ISSN:
+    <dt>ISSN:</dt>
+    <dd>${c.journal.ISSN}</dd>
+	<br />
+    %endif
+    
+    %if c.journal.abbrs:
+    <dt>Abbreviations:</dt>
+    %for abbr in c.journal.abbrs:
+    <dd>${abbr}</dd>
+    %endfor
+	<br />
+    %endif
+    
+    %if c.journal.openAccess or c.journal.student or not c.journal.active:
+    <dt>Extra:</dt>
+    %if c.journal.openAccess:
+    <dd>Open Access</dd>
+    %endif
+    %if c.journal.student:
+    <dd>Student Journal</dd>
+    %endif
+    %if not c.journal.active:
+    <dd>Inactive</dd>
+    %endif
+    %endif
+</dl>
+</div> <!-- contentLeft -->
+
+<div id="moreInfo">
+    <p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>
+</div>
+</div> <!-- wrapper -->

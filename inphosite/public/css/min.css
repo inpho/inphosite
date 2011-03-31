@@ -1,0 +1,152 @@
+/* InPhO CSS */
+
+body {
+    margin-top:0px;
+}
+
+
+/* COLORS AND FONTS */
+a {
+    color:#7b2f31;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
+
+th, td {
+    border: 0;
+    padding: 0em;
+    vertical-align: middle;
+}
+
+th img, td img { 
+    vertical-align: middle;
+}
+
+form td, form th {
+    border: 0;
+    padding: 0.5em 0.25em;
+    vertical-align: middle;
+}
+
+form td.label {
+    text-align: right;
+    vertical-align: bottom;
+    }
+
+label {
+    font-weight:bold;
+}
+
+.actb {
+    width: 90%;
+    padding-bottom:2em;
+}
+
+.error-message {
+    color: #7b2f31;
+    }
+
+/* ****************************** */
+/* ********** HEADER ************ */
+/* ****************************** */
+#hd {
+    height: 186px;
+}
+
+#top-padding {
+    height:19px;
+    width: 100%;
+    background-color:white;
+}
+
+#comments {
+    float: left;
+    margin-left: 100px;
+}
+
+#login {
+    float: right;
+    padding-right: 0.5em
+}
+
+#logo {
+    background-image:url(../img/logo.gif);
+    background-repeat:no-repeat;
+    width:462px;
+    height:167px;
+    position:absolute;
+    top:0px;
+    }
+
+#curve {
+    background-image:url(../img/logo_curve.gif);
+    width:462px;
+    height:52px;
+    position:absolute;
+    top:109px;
+}
+
+
+#tan-top {
+    height:49px;
+    width: 100%;
+    background-color:#f3ebbd;
+    position: relative;
+}
+
+#tan-bottom {
+    height:41px;
+    width: 425px;
+    background-color:#f3ebbd;
+    float: left;
+}
+
+/* ****************************** */
+/* *********** MENU ************* */
+/* ****************************** */
+
+#nav-container {
+    background:url(../img/stretch.gif) repeat-x #c46c61;
+    margin-left:425px;
+    height:41px;
+}
+
+#nav {
+    background-image:url(../img/nav_bg.gif);
+    background-repeat:no-repeat;
+    height:41px;
+    z-index:2;
+}
+
+#menu {
+    float: right;
+    margin-top: 19px;
+}
+
+.yuimenubar {
+    background-color: #c46c61;
+    vertical-align: bottom;
+}
+
+.yuimenubaritemlabel {
+    color:white;
+}
+
+.yuimenubar li {
+    display: block;
+    border-left: 1px white solid;
+    padding:  0 15px;
+    height: 22px;
+    }
+
+/* ****************************** */
+/* ********** FOOTER ************ */
+/* ****************************** */
+#ft {
+    border-top: 1px #7b2f31 solid;
+    margin-top: 1em;
+    padding-top: 0.5em;
+}

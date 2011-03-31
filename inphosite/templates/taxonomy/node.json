@@ -1,0 +1,7 @@
+<%
+a = {'responseData' : {'result' : c.node.json_struct()},
+    'responseStatus' : 200,
+    'responseDetails' : None}
+%>
+
+${h.json(a) | n}

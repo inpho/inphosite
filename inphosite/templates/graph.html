@@ -1,0 +1,51 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()">JSON File</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div id="content">
+<p>The statistical information from each entity type is made available in a
+tab-delimited text file each month. </p>
+
+<p>The graph connection for an individual idea or thinker may be exposed by appending
+<em>/graph.json</em> to the URL. For example, to see the JSON graph
+representation for the node <a
+href="${h.url(controller='idea', id=780,
+action='view')}">Eudaimonia</a> simply change the path from
+<em>${h.url(controller='idea', id=780,
+action='view')}</em> to <em>${h.url(controller='idea', id=780,
+action='graph', filetype='json')}</em>.For more details see the <a href="/docs">API
+documentation</a>. </p>
+
+<p><strong>If you plan to use the graph
+data from multiple nodes DO NOT download data through the API. The data dump
+will much better suit your purposes and reduce redundancy in your imported
+data.</strong></p>
+
+<%
+import glob, os
+path = config['graph_path']
+files = glob.glob(os.path.join(path, '*.txt'))
+files = [os.path.split(file)[1] for file in files]
+files.sort( reverse=True)
+%>
+<ol>
+
+%for file in files:
+<%
+year = file[0:4]
+month = file[4:6]
+day = file[6:8]
+type = file.split(".")[0][8:]
+# format link title
+%>
+<li><a href="/graph/${file}">${year}-${month}-${day} ${type} version</a></li>
+%endfor
+</ol>
+
+
+</div>
+

@@ -1,0 +1,11 @@
+<%inherit file="/base-tree.html" />
+
+<%def name="title()">${parent.title()} - Registeration Successful!</%def>
+<%def name="head_title()">Registration Successful!</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<h1>Registration Successful!</h1>
+<p><a href="${h.url('signin')}">Sign In</a></p>

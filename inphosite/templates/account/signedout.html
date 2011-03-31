@@ -1,0 +1,13 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - Signed Out</%def>
+<%def name="head_title()">Signed Out</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<h1>Signed Out</h1>
+
+<p>You have been signed out. Please close your browser to complete sign out.
+<a href="${h.url(controller='account', action='signin')}">Sign in</a></p>
+

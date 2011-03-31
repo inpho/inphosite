@@ -1,0 +1,6 @@
+<%
+a = h.json({'responseData' : {'results' : [n.json_struct(extended=False) for n in c.nodes]},
+          'responseStatus' : 200, 'responseDetails' : None})
+%>
+${a | n}
+

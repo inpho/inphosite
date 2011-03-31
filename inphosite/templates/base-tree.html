@@ -1,0 +1,71 @@
+<%inherit file="/base.html" />
+<%namespace file="/actb.html" name="actb" />
+<%! 
+import operator
+import inphosite.lib.helpers as h
+
+def nodeRecursion(i, nodes, root, selected):
+    n=""
+    for node in nodes:
+        # configure next node, select currentnode
+        n += "var tmpNode%s = new YAHOO.widget.TextNode({label : '%s', href: '%s', selected: %s, highlightState:%s }, %s);\n" % (i, node.name, h.url(controller="taxonomy", action="view", id=node.ID), str(selected==node.ID).lower(), 1 if selected==node.ID else 0, str(root))
+        if node.children:
+            sorted_children = node.children
+            sorted_children.sort(key=operator.attrgetter('name'))
+            n += nodeRecursion(i+1, sorted_children, "tmpNode"+str(i), selected)
+    return n
+%>
+<%def name="yui()">
+${parent.yui()}
+${actb.yui()}
+##${h.stylesheet_link(h.url('/yui/2.8.0/treeview/assets/skins/sam/treeview.css'))}
+##${h.javascript_link(h.url('/yui/2.8.0/treeview/treeview-min.js'))}
+</%def>
+
+<%def name="sidebar()">
+${parent.sidebar()}
+<%
+form = h.Form(
+   value={'redirect' : 'True'} 
+)
+%>
+${form.start_with_layout(h.url(controller='entity', action='list', id=None),method='get') |n}
+${form.hidden('redirect') | n}
+${actb.actb("q", "Search InPhO")}
+${form.end_with_layout() |n}
+</%def>
+
+<%def name="draw(node=None)">
+<%
+from inphosite.model import Node
+from inphosite.model.meta import Session
+from sqlalchemy.orm import joinedload, subqueryload, joinedload_all
+nodes = Session.query(Node)
+nodes = nodes.options(joinedload_all('children.children.children.children'))
+nodes = nodes.filter(Node.parent_id == None).order_by("name").all()
+%>
+<div id="tree-root"><img src="/favicon.ico" />
+<span><a href="/taxonomy">Philosophy</a> 
+[<a href="#" onclick="tree.expandAll()">Expand All</a>]
+[<a href="#" onclick="tree.collapseAll()">Collapse All</a>]</span></div>
+<div id="tree">
+</div>
+<script type="text/javascript">
+var tree = new YAHOO.widget.TreeView("tree");
+var root = tree.getRoot();
+${nodeRecursion(0, nodes, "root", (node and node.ID)) | n}
+tree.render();
+
+var selectedNode = tree.getNodeByProperty('selected',true);
+if (selectedNode) {
+    selectedNode.focus();
+}
+
+</script>
+</%def>
+
+<%def name="head_title()">
+${next.head_title()}
+</%def>
+
+${next.body()}

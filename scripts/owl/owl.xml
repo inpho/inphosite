@@ -1,0 +1,189 @@
+## -*- coding: utf-8 -*-
+<?xml version="1.0"?>
+<rdf:RDF
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:sumo="http://reliant.teknowledge.com/DAML/SUMO.owl#"
+     xmlns:milo="http://reliant.teknowledge.com/DAML/Mid-level-ontology.owl"
+     xmlns="http://www.owl-ontologies.com/unnamed.owl#"
+   xml:base="http://www.owl-ontologies.com/unnamed.owl">
+   <owl:Ontology rdf:about=""/>
+
+<owl:ObjectProperty rdf:ID="has_nationality">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Nationality"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="has_profession">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Profession"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="has_influenced">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Human"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="criticized">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Human"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="defended">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Human"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="dissertation_advisor_of">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Human"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="discoursed_with">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Human"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="wrote">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Publication"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="edited">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Publication"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="member_of">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="studied_at">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="worked_on">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="created_view">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="attacked_view">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="espoused_view">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="aware_of">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="opposed_to">
+    <rdfs:domain rdf:resource="#Idea"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="commits_to">
+    <rdfs:domain rdf:resource="#Idea"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="cites">
+    <rdfs:domain rdf:resource="#Publication"/>
+    <rdfs:range rdf:resource="#Publication"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="published_in">
+    <rdfs:domain rdf:resource="#Publication"/>
+    <rdfs:range rdf:resource="#Publication"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="discusses">
+    <rdfs:domain rdf:resource="#Publication"/>
+    <rdfs:range rdf:resource="#Idea"/>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:ID="has_birthdate">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="has_deathdate">
+    <rdfs:domain rdf:resource="#Human"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+</owl:DatatypeProperty>
+
+%for thinker in thinkers:
+<Human rdf:ID="${thinker.name.replace(" ","_")}">
+	%for nationality in thinker.nationalities:
+	<has_nationality rdf:resource="#${nationality.name.replace(" ","_")}"/>
+	%endfor
+	%for profession in thinker.professions:
+	<has_profession rdf:resource="#${profession.name.replace(" ","_")}"/>
+	%endfor
+	%for alias in thinker.aliases:
+	<has_alias rdf:resource="#${alias.replace(" ","_")}"/>
+	%endfor
+	%for influenced in thinker.influenced:
+	<has_influenced rdf:resource="#${influenced.name.replace(" ","_")}"/>
+	%endfor
+	%for influenced_by in thinker.influenced_by:
+	<was_influenced_by rdf:resource="#${influenced_by.name.replace(" ","_")}"/>
+	%endfor
+	%for taught_by in thinker.teachers:
+	<was_taught_by rdf:resource="#${taught_by.name.replace(" ","_")}"/>
+	%endfor
+	%for student in thinker.students:
+	<had_student rdf:resource="#${student.name.replace(" ","_")}"/>
+	%endfor
+	%if thinker.birth_sd():
+	<has_birthdate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">${thinker.birth_sd()}</has_birthdate>
+	%endif
+	%if thinker.death_sd():
+	<has_deathdate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">${thinker.death_sd()}</has_deathdate>
+	%endif
+</Human>
+%endfor
+
+%for node in nodes:
+##node.idea.instances -- gets instances
+	%for instance in node.idea.instances:
+<${node.name.replace(" ","_")} rdf:ID="${instance.label.replace(" ","_")}" />
+##</${node.name.replace(" ","_")}>
+	%endfor
+%endfor
+
+%for node in nodes:
+<owl:Class rdf:ID="${node.name.replace(" ","_")}">
+  <rdfs:subClassOf>
+  %if node.parent:
+    <owl:Class rdf:ID="${node.parent.name.replace(" ","_")}"/>
+  %else:
+    <owl:Class rdf:ID="Idea"/>
+  %endif
+  </rdfs:subClassOf>
+</owl:Class>
+
+%endfor
+
+%for profession in professions:
+<Profession rdf:ID="${profession.name.replace(" ","_")}" />
+%endfor
+%for nationality in nationalities:
+<Nationality rdf:ID="${nationality.name.replace(" ","_")}" />
+%endfor
+
+</rdf:RDF>

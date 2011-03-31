@@ -1,0 +1,21 @@
+<%!
+from inphosite.model import Idea,IdeaGraphEdge
+%>\
+<%
+n = c.idea.get_related_idea_ids(n=c.n, recur=c.recur)
+e = IdeaGraphEdge.get_subgraph(n, thresh=c.thresh)
+%>\
+\
+\
+*Nodes ${len(n)}
+id*int  label*string     sepdir*string    entropy*float
+%for idea in n:
+<% idea = h.fetch_obj(Idea, idea) %>\
+${idea.ID} "${idea.label}" "${idea.sep_dir}" ${idea.entropy}
+%endfor
+
+*DirectedEdges ${len(e)}
+source*int  target*int  jweight*float   weight*float
+%for edge in e:
+${edge.cons_id} ${edge.ante_id}     ${edge.jweight}     ${edge.weight}
+%endfor

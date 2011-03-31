@@ -1,0 +1,19 @@
+<%inherit file="/base-tree.html" />
+
+## Header
+<%def name="title()">Thinker - ${c.thinker.label} - Graph</%def>
+<%def name="head_title()">${c.thinker.label}</%def>
+## Sidebar
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div id="content">
+
+<p>This page is a placeholder for future graphical tools to
+explore the InPhO thinkers database utilizing the statistics generated from data
+mining the Stanford Encyclopedia of Philosophy.</p>
+
+</div>
+

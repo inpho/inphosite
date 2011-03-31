@@ -1,0 +1,46 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()">JSON File</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<div id="content">
+<p>Data from each entity type is made available in a monthly <a
+href="http://www.json.org/">JSON</a> file for easy parsing.</p>
+
+<p>Individual entities may be exposed as JSON objects by simply appending
+<em>.json</em> to the URL. For example, to see the JSON for the node <a
+href="${h.url(controller='taxonomy', id=2183, action='view')}">Philosophy of Mind</a> simply change the path from
+<em>${h.url(controller='taxonomy', id=2183, action='view')}</em> to
+<em>${h.url(controller='taxonomy', id=2183, action='view', filetype='json')}</em>. 
+We request that you use the data dumps if you need to
+use many entities to help reduce server load. For more details see the <a
+href="/docs">API
+documentation</a>. 
+
+<%
+import glob, os
+path = config['json_path']
+files = glob.glob(os.path.join(path, '*.json'))
+files = [os.path.split(file)[1] for file in files]
+files.sort( reverse=True)
+%>
+<ol>
+
+%for file in files:
+<%
+year = file[0:4]
+month = file[4:6]
+day = file[6:8]
+type = file.split(".")[0][8:]
+# format link title
+%>
+<li><a href="/json/${file}">${year}-${month}-${day} ${type} version</a></li>
+%endfor
+</ol>
+
+
+</div>
+

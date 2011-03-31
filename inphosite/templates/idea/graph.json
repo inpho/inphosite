@@ -1,0 +1,8 @@
+<%
+a = {'responseData' : {'result' : c.idea.json_struct(sep_filter=c.sep_filter,
+extended=False, graph=True)},
+    'responseStatus' : 200,
+    'responseDetails' : None}
+%>
+
+${h.json(a) | n}

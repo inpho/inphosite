@@ -1,0 +1,160 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()">Articles & Papers</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div class="yui-gd">
+<div id="content">
+
+<script type="text/javascript">
+function showAbstract(elt) {
+    $('~ p', elt).toggle(); 
+    $(elt).hide();
+}
+</script>
+
+
+    <h2>Publications</h2>
+    <div class="paper" id="JCDL2007">
+    <h3>A Dynamic Ontology for a Dynamic Reference Work</h3>
+    
+    <p class="summary"><strong>Summary:</strong> Describes the dynamic ontology design process and the J-weight measure of term relatedness.</p> 
+    <div class="abstract">
+        <a href="#JCDL2007" onClick="showAbstract(this)">show abstract</a>
+        <p>The successful deployment of digital technologies by humanities
+scholars presents computer scientists with a number of unique sci- entific and
+technological challenges. The task seems particularly daunting because issues
+in the humanities are presented in abstract language demanding the kind of
+subtle interpretation often thought to be beyond the scope of artificial
+intelligence, and humanities scholars themselves often disagree about the
+structure of their disciplines. The future of humanities computing depends on
+having tools for automatically discovering complex semantic relationships among
+different parts of a corpus. Digital library tools for the humanities will
+need to be capable of dynamically tracking the introduction of new ideas and
+interpretations and applying them to older texts in ways that support the needs
+of scholars and students.</p>
+
+    <p>This paper describes the design of new algorithms and the adjustment
+of existing algorithms to support the automated and semi-automated management
+of domain-rich metadata for an established digital humanities project, the
+Stanford Encyclopedia of Philosophy. Our approach starts with a "hand-built"
+formal ontology that is modified and extended by a combination of automated and
+semi-automated methods, thus becoming a "dynamic ontology". We assess the
+suitability of current information retrieval and information extraction methods
+for the task of automatically maintaining the ontology. We describe a novel
+measure of term-relatedness that appears to be particularly helpful for
+predicting hierarchical relationships in the ontology. We believe that our
+project makes a further contribution to information science by being the first
+to harness the collaboration inherent in a expert-maintained dynamic reference
+work to the task of maintaining and extending a formal ontology. We place
+special emphasis on the task of bringing domain expertise to bear on all phases
+of the development and deployment of the system, from the initial design of the
+software and ontology to its dynamic use in a fully operational digital
+reference work.</p>
+    </div> <!-- END ABSTRACT -->
+    <p class="citation">Mathias Niepert, Cameron Buckner, Colin Allen. <em>A Dynamic Ontology for
+    a Dynamic Reference Work</em>. In Proceedings of the 7th ACM/IEEE Joint
+    Conference on Digital Libraries (JCDL), Vancouver, British Columbia, pages
+    288-297, ACM Press, 2007. [<a href="/papers/2007NiepertBucknerAllen.pdf">full paper</a>]</p> 
+     
+    </div> <!-- END PUBLICATION -->
+
+    <div class="paper" id="FLAIRS2008">
+    <h3>Answer Set Programming on Expert Feedback to Populate and Extend Dynamic Ontologies</h3>
+    
+    <p class="summary"><strong>Summary:</strong> Describes the answer set programming techniques used to populate the ontology.</p> 
+    <div class="abstract">
+        <a href="#FLAIRS2008" onClick="showAbstract(this)">show abstract</a>
+<p>The next generation of online reference works will require structured
+representations of their contents in order to support scholarly functions
+such as semantic search, automated generation of cross-references, tables of
+contents, and ontology-driven conceptual navigation.  Many of these works can
+be expected to contain mas- sive amounts of data and be updated dynamically,
+which limits the feasibility of "manually" coded ontologies to keep up with
+changes in content. However, relationships relevant to inferring an ontology
+can be recovered from statistical text processing, and these estimates can be
+verified with carefully-solicited expert feedback. In this paper, we explain a
+method by which we have used answer set programming on such expert feedback to
+dynamically populate and partially infer an ontology for a well-established,
+open-access reference work, the Stanford Encyclopedia of Philosophy.</p>
+    </div> <!-- END ABSTRACT -->
+    <p class="citation">Mathias Niepert, Cameron Buckner, Colin Allen. 
+        <em>Answer Set Programming on Expert Feedback to Populate and Extend Dynamic Ontologies</em>. 
+        In Proceedings of the 21st International FLAIRS Conference, Coconut Grove, Florida, pages 500-505, AAAI Press, 2008.  
+        [<a href="/papers/2008-InPhO-flairs.pdf">full paper</a>]
+    </p> 
+    </div> <!-- END PAPER -->
+
+    <div class="paper" id="FM2008">
+    <h3>The World is Not Flat: Expertise and InPhO</h3>
+    <p class="summary"><strong>Summary:</strong> Describes methods for managing the various levels of expertise gathered by our feedback mechanisms.</p>
+    <div class="abstract">
+        <a href="#FM2008" onClick="showAbstract(this)">show abstract</a>
+        <p>The Indiana Philosophy Ontology (InPhO) is a "dynamic ontology" for the domain of philosophy derived from human input and software analysis. The structured nature of the ontology supports machine reasoning about philosophers and their ideas. It is dynamic because it tracks changes in the content of the online Stanford Encyclopedia of Philosophy. This paper discusses ways of managing the varying expertise of people who supply input to the InPhO and provide feedback on the automated methods.</p> 
+    </div>
+    <p class="citation">Colin Allen, Cameron Buckner, Mathias Niepert.
+        <em>The World is Not Flat: Expertise and InPhO</em>.
+        Selected papers from the Ninth Annual WebWise Conference. First Monday, Volume 13, Number 8, 2008.
+        [<a href="http://www.uic.edu/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/2214/2023">full paper</a>]
+    </p>
+    </div> <!-- END PAPER -->
+
+    <div class="paper" id="Synthese2010">
+    <h3>From encyclopedia to ontology: toward dynamic representation of the discipline of philosophy</h3>
+    <p class="summary"><strong>Summary:</strong> Describes the design decisions and philosophical implications of the InPhO.</p>
+    <div class="abstract">
+        <a href="#Synthese2010" onClick="showAbstract(this)">Show abstract</a>
+        <p>The application of digital humanities techniques to philosophy is changing the way scholars approach the discipline. This paper seeks to open a discussion about the difficulties, methods, opportunities, and dangers of creating and utilizing a formal representation of the discipline of philosophy. We review our current project, the Indiana Philosophy Ontology (InPhO) project, which uses a combination of automated methods and expert feedback to create a dynamic computational ontology for the discipline of philosophy. We argue that our distributed, expert-based approach to modeling the discipline carries substantial practical and philosophical benefits over alternatives. We also discuss challenges facing our project (and any other similar project) as well as the future directions for digital philosophy afforded by formal modeling.</p>
+    </div> 
+    <p class="citation">Cameron Buckner, Mathias Niepert, Colin Allen.
+        <em>From encyclopedia to ontology: toward dynamic representation of the discipline of philosophy</em>
+        Synthese, Springer-Verlag, 2010.
+        [<a href="/papers/synthese.pdf">full paper</a>]
+    </p>
+    </div> <!-- END PAPER -->
+    
+    <div class="paper" id="KEOD2010">
+    <h3>Two Methods for Evaluating Dynamic Ontologies</h3>
+    <p class="summary"><strong>Summary:</strong> Describes two novel methods for evaluating dynamic ontologies and revisits the statistical techniques of the FLAIRS 2008 paper.
+    <div class="abstract">
+        <a href="#KEOD2010" onClick="showAbstract(this)">show abstract</a>
+        <p> Ontology evaluation poses a number of difficult
+challenges requiring different evaluation methodologies, particularly for
+a "dynamic ontology" representing a complex set of concepts and generated 
+by a combination of automatic and semi-automatic methods. We review evaluation
+methods that focus solely on syntactic (formal) correctness, on the preservation
+of semantic structure, or on pragmatic utility.  We propose two novel methods
+for dynamic ontology evaluation and describe the use of these methods for 
+evaluating the different taxonomic representations that are generated at 
+different times or with different amounts of expert feedback.  The proposed "volatility"
+and "violation" scores represent an attempt to merge syntactic 
+and semantic considerations. <em>Volatility</em> calculates the stability
+of the methods for ontology generation and extension. <em>Violation</em> measures the degree of "ontological fit"
+to a text corpus representative of the domain.  Combined, they support estimation of 
+convergence towards a stable representation of the domain. No method of evaluation 
+can avoid making substantive normative assumptions about what constitutes "correct"
+representation, but rendering those assumptions explicit can help 
+with the decision about which methods are appropriate for selecting amongst a set
+of available ontologies or for tuning the design of methods used to generate a 
+hierarchically organized representation of a domain.</p> 
+    </div> 
+    <p class="citation">Jaimie Murdock, Cameron Buckner, Colin Allen.
+        <em>Two Methods for Evaluating Dynamic Ontologies</em>
+        In Proceedings of the 2nd International Conference on Knowledge Engineering and Ontology Development (KEOD), Valencia, Spain, 2010. 
+        [<a href="/papers/2010MurdockBucknerAllen.pdf">full paper</a>]
+    </p>
+    </div> <!-- END PAPER -->
+
+
+    <h2>Articles</h2>
+    <div class="article" id="APA2007">
+    <h3>InPhO: The Indiana Philosophy Ontology</h3>
+    <p class="citation">Cameron Buckner, Mathias Niepert, Colin Allen. <em>InPhO: The Indiana Philosophy Ontology</em>.
+    APA Newsletter on Philosophy and Computers, Volume 7, Number 1, pages 26-28, 2007.
+    [<a href="http://www.apaonline.org/documents/publications/v07n1_Computers.pdf">article</a>]</p> 
+    </div>
+    
+</div> <!-- END CONTENT -->
+</div>

@@ -22,7 +22,8 @@ setup(
         "repoze.who>=1.0,<=1.0.99",
         "Sphinx>=0.6.4,<=0.6.99",
         "inflect>=0.2.0,<=0.2.99",
-        "turbomail>=3.0.0,<=3.0.99"
+        "turbomail>=3.0.0,<=3.0.99",
+        "BeautifulSoup>=3.2.0,<=3.2.99"
     ],
     dependency_links = [
         "http://pylonshq.com/download/"

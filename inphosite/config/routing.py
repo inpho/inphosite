@@ -21,6 +21,11 @@ def make_map(config):
     map.connect('signout', '/signout', controller='account', action='signout')
     map.connect('signin', '/signin', controller='account', action='signin')
     map.connect('register', '/register', controller='account', action='register')
+    map.connect('/', controller='page', action='index')
+    map.connect('/papers/', controller='page', action='papers')
+    map.connect('/owl/', controller='page', action='owl')
+    map.connect('/docs/', controller='page', action='docs')
+    map.connect('/about/', controller='page', action='about')
     map.connect('/{controller}', action='list', 
         conditions=dict(method=["GET"]))
     map.connect('/admin', controller='admin', action='index', 

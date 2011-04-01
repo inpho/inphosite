@@ -1,7 +1,7 @@
 Developing inphosite
 ========================
 The inphosite module contains all materials pertaining to the Indiana Philsophy
-Ontology (InPhO) Project's online presence, including the API. 
+Ontology (InPhO) Project's online presence, including the API.
 
 For work pretaining to dynamic ontology, we have started work on the `CodEx
 (Coding Expertise) project <http://github.com/inpho/codex>`_. The scripts
@@ -35,6 +35,10 @@ To begin working with the project:
 
         cd inphosite
 
+#.  Download a current development database from the InPhO
+    project. In coming months we hope to eliminate this step, instead building
+    the data set automatically.
+
 #.  Create a `Python virtual environment
     <http://pypi.python.org/pypi/virtualenv>`_::
 
@@ -50,13 +54,18 @@ To begin working with the project:
 
         python setup.py develop
 
-#.  Setup the development.ini file.
+#.  Setup the development.ini file by first copying over template.ini::
+    
+        cp template.ini development.ini
 
-#.  Download a current development database from the InPhO
-    project. In coming months we hope to eliminate this step, instead building
-    the data set automatically.
+    Modify the ``sqlalchemy.url`` directive to contain the proper username,
+    password, and database name for your copy of the InPhO.
 
-#.  Use the ``websetup.py`` to finish initializing the database values::
+    Modify the ``host`` directie if you wish to enable external access. Be well
+    aware that external access with the debugger enabled is a gargantuan
+    security flaw if the paste server is started with root privileges.
+
+#.  Use the ``websetup.py`` to finish initializing the database::
 
         paster setup-app development.ini
 
@@ -68,6 +77,41 @@ To begin working with the project:
 
         paster shell development.ini
 
-#.  After creating changes that you wish to submit to the inphosite project,
-    `submit a pull request <http://help.github.com/pull-requests/>`_.
+Devlopment practices
+----------------------
+Bugs reports are stored on the `InPhOdev Trac
+<http://inphodev.cogs.indiana.edu:8000>`_. Please coordinate through this
+system. To request a non-anonymous account, please contact us at
+`inpho@indiana.edu <mailto:inpho@indiana.edu>`_.
 
+GitHub makes it incredibly easily to collaborate through the fork and pull
+request model of devlopment. Each fork gives you a free sandbox to create your
+own InPhO, and the pull requests foster quick and easy code review. 
+
+After creating changes that you wish to submit to the inphosite project,
+`submit a pull request <http://help.github.com/pull-requests/>`_.
+
+Style Guidelines
+''''''''''''''''''
+Here are some general code guidelines for the InPhO. If you notice existing code
+which does not follow these guidelines, feel free to patch.
+
+*   `PEP 8: Style Guide for Python Code
+    <http://www.python.org/dev/peps/pep-0008/>`_ -- When in doubt, default to
+    this.
+*   **Indentation**: 4 spaces. **No tabs.** Only way to maintain a consistent look,
+    and is the Python standard practice.
+*   **Docstrings**: Put them everywhere. Triple quote. Inline comments may start
+*   with ``#`` Default to `PEP 257: Docstring
+    Conventions <http://www.python.org/dev/peps/pep-0257/>`_
+*   **Line width**: Prefer to keep limited to 80 characters. Sometimes this
+    doesn't make sense, but make use of automatic linewrapping in your text
+    editor of choice. Use parens to group expressions and break after operators.
+    See `PEP 8 <http://www.python.org/dev/peps/pep-0008/>`_ for details.
+*   **Newline character**: Use Unix-style line returns, not Windows CRLF. We
+    deploy to a Unix environment, and the core team deals in a Unix environment.
+    Git has settings to `autocorrect line endings
+    <http://help.github.com/dealing-with-lineendings/>`_.
+*   **Capitalization**: Function names are NEVER to be capitalized. Use
+    underscore_notation. Class names should be capitalized in PascalCase. Again,
+    see `PEP 8 <http://www.python.org/dev/peps/pep-0008/>`_ for details.

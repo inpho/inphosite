@@ -19,7 +19,10 @@ see `Why Git is Better than X <http://whygitisbetterthanx.com/>`_.
 
 Install inphosite
 -------------------
-To begin working with the project:
+To begin working with the inphosite code:
+
+.. note::
+    If you have not yet done so, please `Copy the Database`_ before begining!
 
 1.  `Create a GitHub account <https://github.com/signup/free>`_
 
@@ -34,10 +37,6 @@ To begin working with the project:
 #.  Enter the git repository directory::
 
         cd inphosite
-
-#.  Download a current development database from the InPhO
-    project. In coming months we hope to eliminate this step, instead building
-    the data set automatically.
 
 #.  Create a `Python virtual environment
     <http://pypi.python.org/pypi/virtualenv>`_::
@@ -76,6 +75,54 @@ To begin working with the project:
     Or interact with the environment directly using the paster shell::
 
         paster shell development.ini
+
+Copy the Database
+'''''''''''''''''''
+.. note::
+    Currently the database is only open to internal InPhO development. In coming
+    months we hope to eliminate this step, instead building the data set
+    automatically. If you wish to have a copy of our database, let us know and
+    we will send a link to a sanitized version of the db.
+
+.. note::
+    You will need to install `MySQL Community Server 5.1
+    <http://dev.mysql.com/downloads/mysql/5.1.html>`_ before proceeding.
+
+1.  ``ssh`` into ``inpho.cogs.indiana.edu`` and export the database::
+    
+        mysqldump seponto -u inpho -p > FILENAME
+
+#.  ``scp`` the backup file to your personal machine::
+        
+        scp FILENAME user@host:~/sql/
+
+#.  back on your personal machine, create the database seponto::
+    
+        mysql -u root -p    #You will be prompted for password
+        mysql> CREATE DATABASE seponto;
+        Query OK, 1 row affected (0.00 sec)
+        mysql> USE seponto;
+        Database changed
+        mysql> exit
+        Bye
+
+#.  Restore the database::
+    
+        mysql --database seponto -u root -p < FILENAME
+
+#.  Create new users for seponto database::
+
+        mysql -u root -p    #You will be prompted for password
+        mysql> CREATE USER 'inpho'@'localhost' IDENTIFIED BY 'password';
+        mysql> GRANT ALL PRIVILEGES ON seponto.* TO 'inpho'@'localhost' 
+            ->     WITH GRANT OPTION;
+        mysql> CREATE USER 'inpho'@'%' IDENTIFIED BY 'password';
+        mysql> GRANT ALL PRIVILEGES ON seponto.* TO 'inpho'@'%' 
+
+    .. note::
+        The second account is only necessary if you wish to allow database
+        connections from other machines. Very important if you set your
+        development.ini's ``host`` directive to ``0.0.0.0``!
 
 Devlopment practices
 ----------------------

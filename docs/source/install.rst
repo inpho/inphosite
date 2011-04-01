@@ -54,6 +54,10 @@ To begin working with the inphosite code:
         aware that external access with the debugger enabled is a gargantuan
         security flaw if the paste server is started with root privileges.
 
+#.  Activate the sandbox environment::
+
+        source sandbox/bin/activate
+
 #.  Use the ``websetup.py`` to finish initializing the database::
 
         paster setup-app development.ini

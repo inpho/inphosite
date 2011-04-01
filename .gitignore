@@ -6,3 +6,5 @@ sandbox
 *.egg/
 *.egg-info
 docs/build
+data
+cache

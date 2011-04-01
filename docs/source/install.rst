@@ -171,7 +171,7 @@ which does not follow these guidelines, feel free to patch.
 *   **Indentation**: 4 spaces. **No tabs.** Only way to maintain a consistent look,
     and is the Python standard practice.
 *   **Docstrings**: Put them everywhere. Triple quote. Inline comments may start
-*   with ``#`` Default to `PEP 257: Docstring
+    with ``#`` Default to `PEP 257: Docstring
     Conventions <http://www.python.org/dev/peps/pep-0257/>`_
 *   **Line width**: Prefer to keep limited to 80 characters. Sometimes this
     doesn't make sense, but make use of automatic linewrapping in your text

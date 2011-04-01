@@ -96,28 +96,28 @@ Copy the Database
         
         scp FILENAME user@host:~/sql/
 
-#.  back on your personal machine, create the database seponto::
+#.  back on your personal machine, create the database inpho::
     
         mysql -u root -p    #You will be prompted for password
-        mysql> CREATE DATABASE seponto;
+        mysql> CREATE DATABASE inpho;
         Query OK, 1 row affected (0.00 sec)
-        mysql> USE seponto;
+        mysql> USE inpho;
         Database changed
         mysql> exit
         Bye
 
 #.  Restore the database::
     
-        mysql --database seponto -u root -p < FILENAME
+        mysql --database inpho -u root -p < FILENAME
 
-#.  Create new users for seponto database::
+#.  Create new users for inpho database::
 
         mysql -u root -p    #You will be prompted for password
         mysql> CREATE USER 'inpho'@'localhost' IDENTIFIED BY 'password';
-        mysql> GRANT ALL PRIVILEGES ON seponto.* TO 'inpho'@'localhost' 
+        mysql> GRANT ALL PRIVILEGES ON inpho.* TO 'inpho'@'localhost' 
             ->     WITH GRANT OPTION;
         mysql> CREATE USER 'inpho'@'%' IDENTIFIED BY 'password';
-        mysql> GRANT ALL PRIVILEGES ON seponto.* TO 'inpho'@'%' 
+        mysql> GRANT ALL PRIVILEGES ON inpho.* TO 'inpho'@'%' 
 
     .. note::
         The second account is only necessary if you wish to allow database

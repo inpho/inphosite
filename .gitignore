@@ -5,9 +5,10 @@ docs/build
 
 sandbox
 development.ini
+production.ini
 
-who.log
-access.log
+*.log
+site.pid
 
 cache
 corpus

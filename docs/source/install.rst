@@ -38,6 +38,38 @@ To begin working with the inphosite code:
 
         cd inphosite
 
+#.  A convenience script has been created which automates the install of the
+    virtual environment, nltk, inphosite and creates a development.ini::
+
+        ./setup.sh
+    
+    If this does not work see `Manual Installation`_ and return to these
+    instructions.
+
+#.  In development.ini:
+
+    *   Modify the ``sqlalchemy.url`` directive to contain the proper username,
+        password, and database name for your copy of the InPhO.
+    *   Modify the ``host`` directie if you wish to enable external access. Be well
+        aware that external access with the debugger enabled is a gargantuan
+        security flaw if the paste server is started with root privileges.
+
+#.  Use the ``websetup.py`` to finish initializing the database::
+
+        paster setup-app development.ini
+
+#.  You are now ready to go! You can start a paster server from the command::
+    
+        paster serve --reload development.ini
+
+    Or interact with the environment directly using the paster shell::
+
+        paster shell development.ini
+
+
+Manual Installation
+'''''''''''''''''''''
+
 #.  Create a `Python virtual environment
     <http://pypi.python.org/pypi/virtualenv>`_::
 
@@ -57,24 +89,6 @@ To begin working with the inphosite code:
     
         cp template.ini development.ini
 
-    Modify the ``sqlalchemy.url`` directive to contain the proper username,
-    password, and database name for your copy of the InPhO.
-
-    Modify the ``host`` directie if you wish to enable external access. Be well
-    aware that external access with the debugger enabled is a gargantuan
-    security flaw if the paste server is started with root privileges.
-
-#.  Use the ``websetup.py`` to finish initializing the database::
-
-        paster setup-app development.ini
-
-#.  You are now ready to go! You can start a paster server from the command::
-    
-        paster serve --reload development.ini
-
-    Or interact with the environment directly using the paster shell::
-
-        paster shell development.ini
 
 Copy the Database
 '''''''''''''''''''

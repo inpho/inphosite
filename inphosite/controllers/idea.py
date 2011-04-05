@@ -724,7 +724,7 @@ class IdeaController(BaseController):
                     searchpatterns.append(values['newsearchpattern'])
                     changed = True
                     
-                #do manually edited searchcpatterns first, so we don't write over them with the new default ones if the searchstring has been changed
+                #do manually edited searchpatterns first, so we don't write over them with the new default ones if the searchstring has been changed
                 if c.idea.searchpatterns != searchpatterns:
                     c.idea.searchpatterns = searchpatterns
                     changed = True

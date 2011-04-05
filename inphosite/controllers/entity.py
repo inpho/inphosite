@@ -98,6 +98,8 @@ class EntityController(BaseController):
         c.custom = False
         c.new = False
         c.sep_dir = sep_dir
+        c.sepdirnew = False
+        c.alreadysepdir = False
 
         if request.params.get('q'):
             q = request.params['q']
@@ -117,12 +119,13 @@ class EntityController(BaseController):
                     c.message = 'Entity edit page for idea ' + c.idea.label
                     #set up c.search_string_list which will be used to structure intersection/union search pattern option
                     if request.params.get('sep_dir'):
-                        sep_dir = request.params['sep_dir']
-                        if not (c.idea.sep_dir):
-                            c.idea.sep_dir = request.params['sep_dir']
-                        else:
-                            c.message = c.message + "WARNING:  entity already has a sep_dir [" + c.idea.sep_dir + "].  Not replacing with [" + sep_dir + "].  If you would like to do so, please do so manually in the form below."
-
+                            sep_dir = request.params['sep_dir']
+                            if not (c.idea.sep_dir):
+                                c.idea.sep_dir = request.params['sep_dir']
+                                c.sepdirnew = True
+                            else:
+                                c.alreadysepdir = True
+                                c.entry_sep_dir = request.params['sep_dir']
                     c.search_string_list = c.idea.setup_SSL()
                     if re.search(' and ', c.idea.label):
                         c.search_pattern_list = ['union', 'intersection']
@@ -136,11 +139,13 @@ class EntityController(BaseController):
                     id = c.thinker.ID
                     c.message = 'Entity edit page for thinker ' + c.thinker.label
                     if request.params.get('sep_dir'):
-                        sep_dir = request.params['sep_dir']
-                        if not (c.thinker.sep_dir):
-                            c.thinker.sep_dir = request.params['sep_dir']
-                        else:
-                            c.message = c.message + "WARNING:  entity already has a sep_dir [" + c.thinker.sep_dir + "].  Not replacing with [" + sep_dir + "].  If you would like to do so, please do so manually in the form below."
+                            sep_dir = request.params['sep_dir']
+                            if not (c.thinker.sep_dir):
+                                c.thinker.sep_dir = request.params['sep_dir']
+                                c.sepdirnew = True
+                            else:
+                                c.alreadysepdir = True
+                                c.entry_sep_dir = request.params['sep_dir']
                     return render ('admin/thinker-edit.html')
                 
                 
@@ -151,11 +156,13 @@ class EntityController(BaseController):
                     id = c.journal.ID
                     c.message = 'Entity edit page for journal ' + c.journal.label
                     if request.params.get('sep_dir'):
-                        sep_dir = request.params['sep_dir']
-                        if not (c.journal.sep_dir):
-                            c.journal.sep_dir = request.params['sep_dir']
-                        else:
-                            c.message = c.message + "WARNING:  entity already has a sep_dir [" + c.journal.sep_dir + "].  Not replacing with [" + sep_dir + "].  If you would like to do so, please do so manually in the form below."
+                            sep_dir = request.params['sep_dir']
+                            if not (c.journal.sep_dir):
+                                c.journal.sep_dir = request.params['sep_dir']
+                                c.sepdirnew = True
+                            else:
+                                c.alreadysepdir = True
+                                c.entry_sep_dir = request.params['sep_dir']
                     return render ('admin/journal-edit.html')
 
                 elif c.entity.typeID == 5:
@@ -165,11 +172,13 @@ class EntityController(BaseController):
                     id = c.work.ID
                     c.message = 'Entity edit page for work ' + c.work.label
                     if request.params.get('sep_dir'):
-                        sep_dir = request.params['sep_dir']
-                        if not (c.work.sep_dir):
-                            c.work.sep_dir = request.params['sep_dir']
-                        else:
-                            c.message = c.message + "WARNING:  entity already has a sep_dir [" + c.work.sep_dir + "].  Not replacing with [" + sep_dir + "].  If you would like to do so, please do so manually in the form below."
+                            sep_dir = request.params['sep_dir']
+                            if not (c.work.sep_dir):
+                                c.work.sep_dir = request.params['sep_dir']
+                                c.sepdirnew = True
+                            else:
+                                c.alreadysepdir = True
+                                c.entry_sep_dir = request.params['sep_dir']
                     return render ('admin/work-edit.html')
                 
                 elif c.entity.typeID == 6:
@@ -179,14 +188,13 @@ class EntityController(BaseController):
                     id = c.school_of_thought.ID
                     c.message = 'Entity edit page for school_of_thought ' + c.school_of_thought.label
                     if request.params.get('sep_dir'):
-                        sep_dir = request.params['sep_dir']
-                        if not (c.school_of_thought.sep_dir):
-                            c.school_of_thought.sep_dir = request.params['sep_dir']
-                            print "setting c.school_of_thought.sepdir to " + c.school_of_thought.sep_dir
-                        else:
-                            c.message = c.message + "WARNING:  entity already has a sep_dir [" + c.school_of_thought.sep_dir + "].  Not replacing with [" + sep_dir + "].  If you would like to do so, please do so manually in the form below."
-                    else:
-                        print "no sep_dir"
+                            sep_dir = request.params['sep_dir']
+                            if not (c.school_of_thought.sep_dir):
+                                c.school_of_thought.sep_dir = request.params['sep_dir']
+                                c.sepdirnew = True
+                            else:
+                                c.alreadysepdir = True
+                                c.entry_sep_dir = request.params['sep_dir']
                     return render ('admin/school_of_thought-edit.html')
             
             

@@ -127,7 +127,7 @@ def fuzzymatchall(SEPEntrieslist):
     
     
     for SEPEntry in SEPEntrieslist:
-            print "working on " + SEPEntry.title + "\n"
+            print "working on " + SEPEntry.title.encode('utf-8') + "\n"
             entities = Session.query(Entity)
             
             #exclude journals and nodes from fuzzy matching

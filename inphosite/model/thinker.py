@@ -109,6 +109,8 @@ class SplitDate(object):
             except:
                 tmp = re.findall("(\d+) BC", year)
                 self.year = int(tmp[0])*-1 if tmp else None
+                tmp2 = re.findall("(\d+) AD", year)
+                self.year = int(tmp2[0]) if tmp2 else None
         else: 
             self.year = None
 
@@ -130,7 +132,7 @@ class SplitDate(object):
             era = "CE"
         else:
             era = "BCE"
-        return "%4d-%2d-%2d %s" % ((self.year and abs(self.year)) or 0, self.month or 0,
+        return "%04.4d-%02.2d-%02.2d %s" % (self.year or 0, self.month or 0,
         self.day or 0, era)
 
     # weird bug in Python: bool(x) --> x.__nonzero__() instead of x.__bool__()

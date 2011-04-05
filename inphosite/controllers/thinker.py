@@ -71,6 +71,9 @@ class ThinkerController(BaseController):
 
     #@beaker_cache(expire=60, type='memory', query_args=True)
     def view(self, id, filetype='html'):
+        sep_filter = request.params.get('sep_filter', False) 
+        c.sep_filter = sep_filter
+
         c.thinker = h.fetch_obj(Thinker, id, new_id=True)
         return render('thinker/thinker.%s' % filetype)
     
@@ -400,17 +403,19 @@ class ThinkerController(BaseController):
             #setup search string and search pattern
             lastname = thinker_add.label.split(' ').pop()
             lastname_q = Session.query(Entity)
-            o = Entity.searchpattern.like('( '+ lastname + ' )')
+            o = Entity.searchstring.like(lastname)
             lastname_q = lastname_q.filter(o).order_by(func.length(Entity.label))
             if lastname_q.count() == 0:
-                thinker_add.searchpattern = "( " + lastname + " )"
+                #if there's no match currently to last name, can use last name alone as searchpattern/searchstring
+                thinker_add.searchpatterns.append(lastname)
                 thinker_add.searchstring = lastname
             else:
-                thinker_add.searchpattern = "( " + label + " )"
+                #otherwise, we need to use the whole name for both, and reset the other pattern to full name too
+                thinker_add.searchpatterns.append(label)
                 thinker_add.searchstring = label
                 #reset old thinker pattern to whole name too to avoid conflict
                 oldthinker = h.fetch_obj(Thinker, lastname_q.first().ID)
-                oldthinker.searchpattern = "( " + oldthinker.label + " )"
+                oldthinker.searchpatterns = [oldthinker.label]
                 oldthinker.searchstring = oldthinker.label
                 Session.add(oldthinker)
 
@@ -428,15 +433,35 @@ class ThinkerController(BaseController):
             c.found = True
             changed = False
             
+            searchpatterns = []
+            for k, v in values.items():
+                key = ""
+                
+                if k.startswith('searchpatterns'):
+                    varname, num = k.split('.')
+                    key = 'delsearchpattern.%s'%(num)
+                    keyval = request.params.get(key, False)
+                    if not keyval:
+                        searchpatterns.append(v)
+            
+            if values['newsearchpattern']:
+                searchpatterns.append(values['newsearchpattern'])
+                changed = True
+                
+            #do manually edited searchpatterns first, so we don't write over them with the new default ones if the searchstring has been changed
+            if c.thinker.searchpatterns != searchpatterns:
+                c.thinker.searchpatterns = searchpatterns
+                changed = True
+            
             #set values from form
-            if c.thinker.name != name:
-                c.thinker.name = name
+            if c.thinker.name != values['name']:
+                c.thinker.name = values['name']
+                changed = True
+            if c.thinker.label != values['label']:
+                c.thinker.name = values['label']
                 changed = True
             if c.thinker.searchstring != values['searchstring']:
                 c.thinker.searchstring = values['searchstring']
-                changed = True
-            if c.thinker.searchpattern != values['searchpattern']:
-                c.thinker.searchpattern = values['searchpattern']
                 changed = True
             if c.thinker.sep_dir != values['sep_dir']:
                 c.thinker.sep_dir = values['sep_dir']

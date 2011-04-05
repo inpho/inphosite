@@ -5,6 +5,13 @@ import operator
 import inphosite.lib.helpers as h
 import re
 %>
+<SCRIPT LANGUAGE=JAVASCRIPT>
+function verify(){
+    msg = "Are you sure you want to delete this entity and all its associated values?  This action cannot be undone.";
+    //all we have to do is return the return value of the confirm() method
+    return confirm(msg);
+    }
+</SCRIPT>
 
 <%def name="sidebar()">
 ${parent.sidebar()}

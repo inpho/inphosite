@@ -109,8 +109,9 @@ class SplitDate(object):
             except:
                 tmp = re.findall("(\d+) BC", year)
                 self.year = int(tmp[0])*-1 if tmp else None
-                tmp2 = re.findall("(\d+) AD", year)
-                self.year = int(tmp2[0]) if tmp2 else None
+                if self.year is None: 
+                    tmp2 = re.findall("(\d+) AD", year)
+                    self.year = int(tmp2[0]) if tmp2 else None
         else: 
             self.year = None
 

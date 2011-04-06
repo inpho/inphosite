@@ -133,8 +133,9 @@ class SplitDate(object):
             era = "CE"
         else:
             era = "BCE"
-        return "%04.4d-%02.2d-%02.2d %s" % (self.year or 0, self.month or 0,
-        self.day or 0, era)
+        return "%4d-%2d-%2d %s" % ((self.year and abs(self.year)) or 0,
+                                   self.month or 0,
+                                   self.day or 0, era)
 
     # weird bug in Python: bool(x) --> x.__nonzero__() instead of x.__bool__()
     # http://mail.python.org/pipermail/python-3000/2006-November/004524.html

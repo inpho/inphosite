@@ -376,7 +376,7 @@ form .active img, form .active #reset {
     }
 
 .child, #contentLeft .child { 
-    background: url('/yui/2.8.0/treeview/assets/skins/sam/treeview-sprite.gif') 9px -1600px no-repeat; 
+    background: url('/yui/2.8.2r1/treeview/assets/skins/sam/treeview-sprite.gif') 9px -1600px no-repeat; 
     display: none;
 }
 

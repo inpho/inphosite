@@ -13,8 +13,8 @@ else:
 %>
 
 ## Header
-<%def name="title()">${parent.title()} - Idea - ${c.idea.label}</%def>
-<%def name="head_title()">${c.idea.label}</%def>
+<%def name="title()">${parent.title()} - Idea - ${h.titlecase(c.idea.label)}</%def>
+<%def name="head_title()">${h.titlecase(c.idea.label)}</%def>
 ## Sidebar
 <%def name="sidebar()">
 ${parent.sidebar()}
@@ -31,7 +31,7 @@ $(document).ready(function() {
 });
 </script>
 <div id="content">
-<h1>${c.idea.label}</h1>
+<h1>${h.titlecase(c.idea.label)}</h1>
 %if c.idea.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/"
  target="_blank">

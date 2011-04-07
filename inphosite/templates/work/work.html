@@ -1,7 +1,7 @@
 <%inherit file="/base-tree.html"/>
 
-<%def name="title()">Work - ${c.work.label}</%def>
-<%def name="head_title()">${c.work.label}</%def>
+<%def name="title()">Work - ${h.titlecase(c.work.label)}</%def>
+<%def name="head_title()">${h.titlecase(c.work.label)}</%def>
 
 <%def name="sidebar()">
 ${parent.sidebar()}

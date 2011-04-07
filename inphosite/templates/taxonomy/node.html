@@ -12,8 +12,8 @@ else:
     onchange_gen = ''
 %>
 ## Header
-<%def name="title()">${parent.title()} - Idea - ${c.idea.label}</%def>
-<%def name="head_title()">${c.idea.label}</%def>
+<%def name="title()">${parent.title()} - Idea - ${h.titlecase(c.idea.label)}</%def>
+<%def name="head_title()">${h.titlecase(c.idea.label)}</%def>
 ## Sidebar
 <%def name="sidebar()">
 ${parent.sidebar()}

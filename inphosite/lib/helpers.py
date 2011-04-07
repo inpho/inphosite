@@ -12,12 +12,12 @@ from webhelpers.html.tags import *
 from pylons.controllers.util import abort, redirect
 import re
 
-def titlecase(s):
-    return re.sub(r"[A-Za-z]+('[A-Za-z]+)?",
-                  lambda mo: mo.group(0)[0].upper() +
-                             mo.group(0)[1:].lower(),
-                  s)
 
+def titlecase(s):
+    title = []
+    for subst in s.split():
+        title.append(subst[0].upper() + subst[1:])
+    return ' '.join(title)
 
 # MISC HELPERS:
 

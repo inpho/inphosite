@@ -126,11 +126,15 @@ body	{
 #title {
 		position:absolute;
 		top:33px;
-		width:602px;
-        left:400px;
+		width:560px;
+        left:442px;
+        height: 45px;
 		text-align:right;
 		font-size:261.5%;
 		font-family:Georgia, "Times New Roman", Times, serif;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
 		/*border-bottom-style:solid;
 		border-bottom-width:thin;
 		border-bottom-color:#763737;*/
@@ -385,6 +389,9 @@ form .active img, form .active #reset {
 .idea {
     padding-top:4px;
     padding-bottom:4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     }
 
 .idea a img {

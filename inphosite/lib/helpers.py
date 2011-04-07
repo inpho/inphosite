@@ -15,8 +15,14 @@ import re
 
 def titlecase(s):
     title = []
-    for subst in s.split():
-        title.append(subst[0].upper() + subst[1:])
+    stops = ['the', 'a', 'an', 'of',
+             'and', 'or', 'but'
+             'in', 'on', 'from', 'with', 'to', 'by']
+    for i, subst in enumerate(s.split()):
+        if i > 0 and subst in stops:
+            title.append(subst)
+        else:
+            title.append(subst[0].upper() + subst[1:])
     return ' '.join(title)
 
 # MISC HELPERS:

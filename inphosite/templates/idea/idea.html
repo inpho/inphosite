@@ -35,14 +35,14 @@ $(document).ready(function() {
 %if c.idea.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/"
  target="_blank">
-<img src="/img/sepmanicon.png" /> ${c.idea.label.title()}</a>
+<img src="/img/sepmanicon.png" /> ${h.titlecase(c.idea.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 
 
 %if c.idea.nodes:
 <div id="dialog">
-<p>${c.idea.label.title()} is \
+<p>${h.titlecase(c.idea.label)} is \
 classified in \
 %if len(c.idea.nodes) > 1:
 <em>multiple places</em> in \

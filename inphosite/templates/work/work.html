@@ -28,7 +28,7 @@ $(document).ready(srch(${c.work.ID}));
 %if c.work.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.work.sep_dir}/"
  target="_blank">
-<img src="/img/sepmanicon.png" /> ${c.work.label.title()}</a>
+<img src="/img/sepmanicon.png" /> ${h.titlecase(c.work.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 

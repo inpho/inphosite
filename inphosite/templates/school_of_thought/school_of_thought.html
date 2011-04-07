@@ -28,7 +28,7 @@ $(document).ready(srch(${c.school_of_thought.ID}));
 %if c.school_of_thought.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.school_of_thought.sep_dir}/"
  target="_blank">
-<img src="/img/sepmanicon.png" /> ${c.school_of_thought.label.title()}</a>
+<img src="/img/sepmanicon.png" /> ${h.titlecase(c.school_of_thought.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 

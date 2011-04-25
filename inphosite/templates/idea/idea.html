@@ -47,8 +47,11 @@ classified in \
 %if len(c.idea.nodes) > 1:
 <em>multiple places</em> in \
 %endif
-the taxonomy. Where do you want to go?</p>
+the taxonomy. You may either go to the following context-specific taxonomy pages
+or <a href="#" onClick="$('#dialog').dialog('close')">stay
+on this general concept page</a>.</p>
 <ul>
+
 
 ## Nodes
 %for node in c.idea.nodes:
@@ -65,6 +68,8 @@ while curParent:
 <a class="idea" href="${node.url()}">${node.label}</a> \
 </li>
 %endfor
+
+<li><a href="#" onClick="$('#dialog').dialog('close')">Stay on the current page</a></li>
 </ul>
 
 </div>

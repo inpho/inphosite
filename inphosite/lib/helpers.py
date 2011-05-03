@@ -73,6 +73,7 @@ from inphosite.lib import auth
 from inphosite.model import User
 from inphosite.model.meta import Session
 from sqlalchemy.orm.attributes import set_attribute, get_attribute 
+from sqlalchemy import or_
 
 def get_user(login):
     """
@@ -80,8 +81,8 @@ def get_user(login):
 
     :rtype: :class:`inphosite.model.User`
     """
-    user = Session.query(User).filter_by(or_(email=login,
-                                             username=login.lower())).first()
+    user = Session.query(User).filter(or_(User.email==login,
+                                          User.username==login.lower())).first()
     return user
 
 def fetch_obj(type, id, error=404, new_id=False):

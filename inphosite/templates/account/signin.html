@@ -10,6 +10,7 @@ ${parent.draw()}</%def>
 
 %if c.failed:
 <p>Incorrect username or password. Please try again.</p>
+<p><a href="${h.url(controller='account', action='reset')}">Reset password</a></p>
 %endif
 
 <% 

@@ -146,7 +146,7 @@ Hello %(name)s, you are logged in as %(username)s.
     
     def reset(self):
         '''Renders the registration form.'''
-        return render('account/reset_form.html')
+        return render('account/reset.html')
         
 
     def _reset(self, username=None):

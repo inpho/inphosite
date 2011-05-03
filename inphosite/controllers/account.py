@@ -43,6 +43,15 @@ class UsernameValidator(FancyValidator):
                 value, state)
         return value
     
+class LoginExistsValidator(FancyValidator):
+    """Validates that a username does not exist or contain spaces."""
+    def _to_python(self, value, state):
+        user = h.get_user(value) 
+        if not user:
+            raise formencode.Invalid(
+                'No user is registered under the username or email %s.'%value,
+                value, state)
+        return value
 
 class RegisterForm(formencode.Schema):
     """
@@ -66,6 +75,16 @@ class RegisterForm(formencode.Schema):
     chained_validators = [v.FieldsMatch('email', 'confirm_email'),
                           v.FieldsMatch('password', 'confirm_password')]
 
+class ResetForm(formencode.Schema):
+    """
+    Validator for the reset form rendered by 
+    ``AccountController.reset()``and accepted by 
+    ``AccountController.reset_submit()``
+    """
+    allow_extra_fields = True
+    filter_extra_fields = True
+    login = formencode.All(v.UnicodeString(not_empty=False),
+                           LoginExistsValidator())
 
 
 class AccountController(BaseController):
@@ -119,6 +138,52 @@ Hello %(name)s, you are logged in as %(username)s.
         directive.
         '''
         return render('account/signedout.html')
+    
+    @validate(schema=ResetForm(), form='reset')
+    def reset_submit(self):
+        ''' Action to process the Reset Form. '''
+        self._reset(self.form_result['login']) 
+    
+    def reset(self):
+        '''Renders the registration form.'''
+        return render('account/reset_form.html')
+        
+
+    def _reset(self, username=None):
+        username = username or request.environ.get('REMOTE_USER', False)
+        if not username:
+            abort(401)
+
+        try:
+            user = h.get_user(username)
+        except:
+            abort(400)
+            
+        new_password = user.reset_password()
+
+
+        msg = Message("inpho@indiana.edu", user.email,
+                      "InPhO password reset")
+        msg.plain = """
+%(name)s, your password at the Indiana Philosophy Ontology (InPhO) has been changed to:
+Username: %(uname)s
+Password: %(passwd)s
+
+The Indiana Philosophy Ontology (InPhO) Team
+inpho@indiana.edu
+                       """ % {'passwd' : new_password,
+                              'uname' : user.username,
+                              'name' : user.fullname or user.username or ''}
+        msg.send()
+
+        Session.commit()
+
+        h.redirect(h.url(controller='account', action='reset_result'))
+
+    def reset_result(self):
+        return render('account/reset_success.html')
+        
+
 
     def profile(self):
         if not request.environ.get('REMOTE_USER', False):

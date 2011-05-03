@@ -1,5 +1,7 @@
 from inphosite.lib.auth import encrypt
 from sqlalchemy.ext.associationproxy import association_proxy
+import random
+import string
 
 class User(object):
     """
@@ -28,6 +30,17 @@ class User(object):
         return "User(%(username)s)" % self.__dict__
     
     roles = association_proxy('_roles', 'name')
+
+    def set_password(self, new_password):
+        self.password = encrypt(new_password)
+
+    def reset_password(self):
+        new_password = ''.join(random.choice(string.letters + string.digits)
+                                   for i in xrange(8))
+
+        self.set_password(new_password)
+        return new_password
+ 
 
 class SEPArea(object):
     pass

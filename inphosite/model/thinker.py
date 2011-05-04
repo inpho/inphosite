@@ -133,9 +133,15 @@ class SplitDate(object):
             era = "CE"
         else:
             era = "BCE"
-        return "%4d-%2d-%2d %s" % ((self.year and abs(self.year)) or 0,
-                                   self.month or 0,
-                                   self.day or 0, era)
+        if (self.year and self.month and self.day):
+            return "%4d-%2d-%2d %s" % (abs(self.year), self.month, self.day, 
+                                       era)
+        elif (self.year and self.month):
+            return "%4d-%2d %s" % (abs(self.year), self.month, era)
+        elif self.year:
+            return "%4d %s" % (abs(self.year), era)
+        else:
+            return "%s" % (era)
 
     # weird bug in Python: bool(x) --> x.__nonzero__() instead of x.__bool__()
     # http://mail.python.org/pipermail/python-3000/2006-November/004524.html

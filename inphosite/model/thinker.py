@@ -103,38 +103,31 @@ class SplitDate(object):
     (month/date/year) dates and transform them into Python ``date`` objects.
     """
     def __init__(self, year, month, day):
-        if year:
-            try:
-                self.year = int(year)
-            except:
-                yearera = re.findall("(\d+) (BC|AD|BCE|CE)", year)
-                if yearera:
-                    year = yearera[0][0]
-                    era = yearera[0][1]
-                    if era in ('BC', 'BCE'):
-                        self.year = int(year)*-1
-                    elif era in ('AD', 'CE'):
-                        self.year = int(year)
-        if not self.year:
-            self.year = None
+        try:
+            self.year = int(year)
+        except:
+            yearera = re.findall("(\d+) (BC|AD|BCE|CE)", year)
+            if yearera:
+                year = yearera[0][0]
+                era = yearera[0][1]
+                if era in ('BC', 'BCE'):
+                    self.year = int(year)*-1
+                elif era in ('AD', 'CE'):
+                    self.year = int(year)
+            else:
+                self.year = None
 
-        if month:
+        try:
+            self.month = int(month)
+        except:
             try:
-                self.month = int(month)
+                self.month = datetime.strptime(month, "%B").month
             except:
-                try:
-                    self.month = datetime.strptime(month, "%B").month
-                except:
-                    self.month = None
-        else:
-            self.month = None
+                self.month = None
 
-        if day:
-            try:
-                self.day = int(day)
-            except:
-                self.day = None
-        else:
+        try:
+            self.day = int(day)
+        except:
             self.day = None
 
     def __composite_values__(self):

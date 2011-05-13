@@ -107,35 +107,53 @@ class SplitDate(object):
             try:
                 self.year = int(year)
             except:
-                tmp = re.findall("(\d+) BC", year)
-                self.year = int(tmp[0])*-1 if tmp else None
-                if self.year is None: 
-                    tmp2 = re.findall("(\d+) AD", year)
-                    self.year = int(tmp2[0]) if tmp2 else None
-        else: 
+                yearera = re.findall("(\d+) (BC|AD|BCE|CE)", year)
+                if yearera:
+                    year = yearera[0][0]
+                    era = yearera[0][1]
+                    if era in ('BC', 'BCE'):
+                        self.year = int(year)*-1
+                    elif era in ('AD', 'CE'):
+                        self.year = int(year)
+        if not self.year:
             self.year = None
 
         if month:
             try:
                 self.month = int(month)
             except:
-                self.month = datetime.strptime(month, "%B").month
+                try:
+                    self.month = datetime.strptime(month, "%B").month
+                except:
+                    self.month = None
         else:
             self.month = None
 
-        self.day = int(day) if day else None
+        if day:
+            try:
+                self.day = int(day)
+            except:
+                self.day = None
+        else:
+            self.day = None
 
     def __composite_values__(self):
         return self.year, self.month, self.day
     
     def __str__(self):
-        if self.year and self.year > 0:
+        if (self.year and self.year > 0):
             era = "CE"
         else:
             era = "BCE"
-        return "%4d-%2d-%2d %s" % ((self.year and abs(self.year)) or 0,
-                                   self.month or 0,
-                                   self.day or 0, era)
+        if (self.year and self.month and self.day):
+            return "%4d-%2d-%2d %s" % (abs(self.year), self.month, self.day, 
+                                       era)
+        elif (self.year and self.month):
+            return "%4d-%2d %s" % (abs(self.year), self.month, era)
+        elif self.year:
+            return "%4d %s" % (abs(self.year), era)
+        else:
+            return "%s" % (era)
 
     # weird bug in Python: bool(x) --> x.__nonzero__() instead of x.__bool__()
     # http://mail.python.org/pipermail/python-3000/2006-November/004524.html

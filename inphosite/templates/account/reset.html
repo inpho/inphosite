@@ -1,0 +1,21 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">${parent.title()} - Sign In</%def>
+<%def name="head_title()">Sign In</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+<h1>Reset Password</h1>
+
+<% 
+form = h.Form()
+%>
+
+<p>Please enter either a usernmae or email address to have a new password sent
+to you</p>
+${form.start_with_layout('/account/reset_submit', method="post") | n}
+    ${form.field(label="Username or Email", name='login', type='text') | n}
+    ${form.action_bar(form.submit(value="Reset")) | n}
+${form.end_with_layout() | n}
+</div>

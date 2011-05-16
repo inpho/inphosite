@@ -11,6 +11,7 @@ class User(object):
         self,
         username,
         password=None,
+        fullname=None,
         group_uid=None,
         email=None,
         first_area_id=None,
@@ -20,6 +21,7 @@ class User(object):
     ):
         self.username   = username
         self.password   = encrypt(password)
+        self.fullname   = fullname
         self.group_uid  = group_uid
         self.email = email
         self.first_area_id=first_area_id

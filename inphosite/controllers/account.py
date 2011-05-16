@@ -171,6 +171,8 @@ Password: %(passwd)s
 
 The Indiana Philosophy Ontology (InPhO) Team
 inpho@indiana.edu
+Username: %(uname)s
+Password: %(passwd)s
                        """ % {'passwd' : new_password,
                               'uname' : user.username,
                               'name' : user.fullname or user.username or ''}
@@ -290,6 +292,7 @@ inpho@indiana.edu
         user = User(
             self.form_result['username'],
             self.form_result['password'],
+            fullname=self.form_result['fullname'],
             email=self.form_result['email'],
             first_area_id=self.form_result['first_area'],
             first_area_level=self.form_result['first_area_level'],
@@ -303,8 +306,20 @@ inpho@indiana.edu
 
         msg = Message("inpho@indiana.edu", self.form_result['email'], 
                       "InPhO registration")
-        msg.plain = """%s, thank you for registering with the Indiana Philosophy
-                        Ontology Project (InPhO). You can access your """ % self.form_result['username'] 
+        msg.plain = """Dear %(name)s, 
+Thank you for registering with the Indiana Philosophy Ontology Project (InPhO).
+
+You can sign in at https://inpho.cogs.indiana.edu/signin with the following
+information:
+
+Username: %(uname)s
+Password: %(passwd)s
+
+The Indiana Philosophy Ontology Project (InPhO) Team
+inpho@indiana.edu
+                       """ % {'passwd' : self.form_result['password'],
+                              'uname' : user.username,
+                              'name' : user.fullname or user.username or ''}
         msg.send()
 
         h.redirect(h.url(controller='account', action='result'))

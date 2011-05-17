@@ -75,6 +75,28 @@ class RegisterForm(formencode.Schema):
     chained_validators = [v.FieldsMatch('email', 'confirm_email'),
                           v.FieldsMatch('password', 'confirm_password')]
 
+class EditForm(formencode.Schema):
+    """
+    Validator for the registration form rendered by 
+    ``AccountController.register()``and accepted by 
+    ``AccountController.submit()``
+    """
+    allow_extra_fields = True
+    filter_extra_fields = True
+    fullname =v.UnicodeString()
+    password =v.UnicodeString()
+    confirm_password =v.UnicodeString()
+    email =v.Email()
+    confirm_email =v.Email()
+    '''
+    first_area = v.Int()
+    first_area_level = v.Int()
+    second_area = v.Int()
+    second_area_level = v.Int()
+    '''
+    chained_validators = [v.FieldsMatch('email', 'confirm_email'),
+                          v.FieldsMatch('password', 'confirm_password')]
+
 class ResetForm(formencode.Schema):
     """
     Validator for the reset form rendered by 
@@ -171,8 +193,6 @@ Password: %(passwd)s
 
 The Indiana Philosophy Ontology (InPhO) Team
 inpho@indiana.edu
-Username: %(uname)s
-Password: %(passwd)s
                        """ % {'passwd' : new_password,
                               'uname' : user.username,
                               'name' : user.fullname or user.username or ''}
@@ -198,6 +218,7 @@ Password: %(passwd)s
                                    or_(IdeaEvaluation.generality>-1,
                                        IdeaEvaluation.relatedness>-1)))
         c.recent = c.recent.limit(5)
+        c.message = request.params.get('message', None)
 
 
 
@@ -276,6 +297,15 @@ Password: %(passwd)s
                                     / c.rel_overlap)
 
         return render('account/profile.html')
+    
+    def edit(self):
+        '''Renders the registration form.'''
+        if not h.auth.is_logged_in():
+            abort(401)
+
+        c.user = h.get_user(request.environ['REMOTE_USER'])
+
+        return render('account/edit.html')
 
     def register(self):
         '''Renders the registration form.'''
@@ -323,6 +353,35 @@ inpho@indiana.edu
         msg.send()
 
         h.redirect(h.url(controller='account', action='result'))
+    
+    @validate(schema=EditForm(), form='edit')
+    def submit_changes(self):
+        ''' 
+        This function validates the submitted profile edit form and commits the 
+        changes. Restricted to ``POST`` requests. If successful, redirects to 
+        the result action to prevent resubmission.
+        ''' 
+        if not h.auth.is_logged_in():
+            abort(401)
+
+        c.user = h.get_user(request.environ['REMOTE_USER'])
+       
+        if self.form_result['password'] != '':
+            c.user.set_password(self.form_result['password'])
+
+        # TODO: Enable area editing
+        #c.user.first_area_id=self.form_result['first_area'],
+        #user.first_area_level=self.form_result['first_area_level'],
+        #if self.form_result['second_area']:
+        #    c.user.second_area_id=self.form_result['second_area'],
+        #    c.user.second_area_level=self.form_result['second_area_level']
+        c.user.fullname = self.form_result['fullname']
+
+        Session.flush()
+
+        Session.commit()
+
+        h.redirect(h.url(controller='account', action='profile', message='edited'))
 
 
     def result(self):

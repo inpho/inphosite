@@ -15,6 +15,10 @@ ${parent.draw()}</%def>
 
 <div id="contentLeft2">
 
+%if c.message == 'edited':
+<p>Profile successfully edited!</p>
+%endif
+
 <p>Thank you, ${c.user.fullname}, for registering with the Indiana Philosophy Ontology (InPhO)
 Project! As a registered user, you gain faster access to our evaluation
 interfaces. By completing your expertise profile, you can help us train our

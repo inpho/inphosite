@@ -59,6 +59,18 @@ ${form.start_with_layout(h.url(controller='account', action='submit'), method="p
         required=True
     ) | n}
     ${form.field(
+        label="E-mail", 
+        name='email',
+        type='text',
+        required=True
+    ) |n}
+    ${form.field(
+        label="Confirm E-mail", 
+        name='confirm_email',
+        type='text',
+        required=True
+    ) |n}
+    ${form.field(
         label="First Area",
         name='first_area',
         type='dropdown',
@@ -82,18 +94,6 @@ ${form.start_with_layout(h.url(controller='account', action='submit'), method="p
         type='dropdown',
         required=False
     ) | n}
-    ${form.field(
-        label="E-mail", 
-        name='email',
-        type='text',
-        required=True
-    ) |n}
-    ${form.field(
-        label="Confirm E-mail", 
-        name='confirm_email',
-        type='text',
-        required=True
-    ) |n}
     ${form.action_bar(
         form.submit(value="Register", name='submit')
     ) | n}

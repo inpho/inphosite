@@ -7,9 +7,11 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 
+<div id="content">
 <h1>Password Reset</h1>
 <p>Your password has been successfully reset. Please check your inbox for a message from inpho@indiana.edu.</p>
 
 %if not h.auth.is_logged_in():
 <p><a href="${h.url('signin')}">Sign In</a></p>
 %endif
+</div>

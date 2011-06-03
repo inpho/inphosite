@@ -248,7 +248,7 @@ class IdeaController(BaseController):
 
         if redirect and len(c.idea.nodes) == 1:
             h.redirect(h.url(controller='taxonomy', action='view',
-            id=c.idea.nodes[0].ID,filetype=filetype), code=303)
+                             id=c.idea.nodes[0].ID,filetype=filetype), code=303)
 
         return render('idea/idea.' + filetype)
 

@@ -7,7 +7,11 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 
-<h1>Registration Successful!</h1>
-<p>An e-mail has been sent containing your password. If you do not receive this
-message, please contact <a href="mailto:inpho@indiana.edu">inpho@indiana.edu</a></p>
+<div id="content">
+<h1>Password Reset</h1>
+<p>Your password has been successfully reset. Please check your inbox for a message from inpho@indiana.edu.</p>
+
+%if not h.auth.is_logged_in():
 <p><a href="${h.url('signin')}">Sign In</a></p>
+%endif
+</div>

@@ -70,17 +70,19 @@ class LiteralForm(Form):
 from inphosite.lib import auth
 
 #model tools
-from inphosite import model
-from inphosite.model import meta
+from inphosite.model import User
+from inphosite.model.meta import Session
 from sqlalchemy.orm.attributes import set_attribute, get_attribute 
+from sqlalchemy import or_
 
-def get_user(username):
+def get_user(login):
     """
     Returns the User object from the model.
 
     :rtype: :class:`inphosite.model.User`
     """
-    user = meta.Session.query(model.User).filter_by(username=username.lower()).first()
+    user = Session.query(User).filter(or_(User.email==login,
+                                          User.username==login.lower())).first()
     return user
 
 def fetch_obj(type, id, error=404, new_id=False):
@@ -97,7 +99,7 @@ def fetch_obj(type, id, error=404, new_id=False):
     """
     if id is None:
         abort(error)
-    obj_q = meta.Session.query(type)
+    obj_q = Session.query(type)
     obj = obj_q.get(int(id))
     #else:
     #    obj = obj_q.filter(type.ID==int(id)).first()
@@ -124,7 +126,7 @@ def update_obj(obj, attributes, params):
             except:
                 abort(400)
     
-    meta.Session.flush()
+    Session.flush()
 
 def delete_obj(obj):
     """
@@ -133,8 +135,8 @@ def delete_obj(obj):
     :param obj: object to delete
 
     """
-    meta.Session.delete(obj)
-    meta.Session.flush()
+    Session.delete(obj)
+    Session.flush()
 
 import simplejson
 from decimal import Decimal

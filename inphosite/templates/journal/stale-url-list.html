@@ -1,0 +1,16 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Journals with bad links</%def>
+<%def name="head_title()">Journals with bad links</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+<p> This is a list of journals with broken links. </p>
+
+<ul>
+%for journal in c.journals:
+<li><a href="${journal.url(action='admin')}">${journal.label}</a></li>
+%endfor
+</ul>
+</div>

@@ -37,6 +37,24 @@ class JournalController(BaseController):
         response.content_type = 'application/json'
         return self.list('json')
 
+    def list_stale_url(self, filetype='html', redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        journal_q = Session.query(Journal)
+        
+        # check for query
+        if request.params.get('q'):
+            journal_q = journal_q.filter(Journal.name.like(u'%'+request.params['q']+'%'))
+            journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
+            # if only 1 result, go ahead and view that journal
+            if redirect and journal_q.count() == 1:
+                return self.view(journal_q.first().id, filetype)
+        c.journals = list(journal_q)
+        return render('journal/stale-url-list.' + filetype)
+
 
 
     #VIEW

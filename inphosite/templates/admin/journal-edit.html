@@ -8,6 +8,11 @@ import inphosite.lib.helpers as h
 <%def name="sidebar()">
 ${parent.sidebar()}
 </%def>
+<script>
+function goToURL(){
+    window.location = $("#URL").val();    
+}
+</script>
 
 <%def name="journal_form()">
     <fieldset><legend><u>Journal #</u> = ${c.journal.ID}</legend>
@@ -32,7 +37,9 @@ ${parent.sidebar()}
 	%endif
 	</td></tr><tr><td>
 	<label for="URL">Website:</label></td><td>
-	${h.text(name="URL", id="URL", size = 40, value=c.journal.URL)}<br />
+	${h.text(name="URL", id="URL", size = 40, value=c.journal.URL)}
+    <a onclick="goToURL()" href="#">Test</a>
+    <br />
 	</td></tr><tr><td>
 	<label for="language">Language:</label></td><td>
 	${h.text(name="language", id="language", size = 40, value=c.journal.language)}<br />

@@ -5,4 +5,3 @@ which easy_install
 easy_install PyYAML
 easy_install nltk
 python setup.py develop
-cp template.ini development.ini

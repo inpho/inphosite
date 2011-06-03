@@ -47,18 +47,6 @@ ${form.start_with_layout(h.url(controller='account', action='submit'), method="p
         required=True
     ) | n}
     ${form.field(
-        label="Password",
-        name='password',
-        type='password',
-        required=True
-    ) | n}
-    ${form.field(
-        label="Confirm Password",
-        name='confirm_password',
-        type='password',
-        required=True
-    ) | n}
-    ${form.field(
         label="E-mail", 
         name='email',
         type='text',

@@ -1,0 +1,59 @@
+<%
+journal = c.journal.json_struct()
+%>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<journal>
+
+  %if journal['website'] != None:
+  <website>${journal['website']}</website>
+  %else:
+  <website></website>
+  %endif
+
+  ## guaranteed to have openAccess field
+  <openAccess>${journal['openAccess']}</openAccess>
+
+  <abbreviations>
+  %for abbr in journal['abbrs']:
+    <abbreviation>${abbr}</abbreviation>
+  %endfor
+  </abbreviation>
+
+  ## guaranteed to have language field
+  <language>${journal['language']}</language>
+
+  ## guaranteed to have URL
+  <url>${journal['url']}</url>
+
+  %if journal['ISSN'] != None:
+  <ISSN>${journal['ISSN']}</ISSN>
+  %else:
+  <ISSN></ISSN>
+  %endif
+
+  %if journal['sep_dir'] != None:
+  <sep_dir>${journal['sep_dir']}</sep_dir>
+  %else:
+  <sep_dir></sep_dir>
+  %endif
+
+  ## guaranteed to have student field
+  <student>${journal['student']}</student>
+
+  <queries>
+  %for query in journal['queries']:
+    <query>${query}</query>
+  %endfor
+  </queries>
+
+  ## guaranteed to have active field, label, type, & id number
+  <active>${journal['active']}</active>
+
+  <label>${journal['label']}</label>
+
+  <type>${journal['type']}</type>
+
+  <ID>${journal['ID']}</ID>
+
+</journal>

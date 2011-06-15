@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<thinkers>
+  %for t in c.thinkers:
+  <%
+  thinkers = t.json_struct(extended=False)
+  %>
+  <thinker>
+  
+    ## guaranteed to have URL
+    <url>${thinkers['url']}</url>
+
+    %if thinkers['sep_dir'] != None:
+    <sep_dir>${thinkers['sep_dir']}</sep_dir>
+    %else:
+    <sep_dir></sep_dir>
+    %endif
+
+    ## guaranteed to have label, type, & id number
+    <type>${thinkers['type']}</type>
+
+    <ID>${thinkers['ID']}</ID>
+
+    <label>${thinkers['label']}</label>
+
+  </thinker>
+  %endfor
+
+</thinkers>

@@ -1,0 +1,102 @@
+<%
+thinker = c.thinker.json_struct()
+%>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<thinker>
+
+  <students>
+  %for student in thinker['students']:
+    <student>${student}</student>
+  %endfor
+  </students>
+
+  %if thinker['death_string'] != None:
+  <death_string>${thinker['death_string']}</death_string>
+  %else:
+  <death_string></death_string>
+  %endif
+
+  %if thinker['sep_dir'] != None:
+  <sep_dir>${thinker['sep_dir']}</sep_dir>
+  %else:
+  <sep_dir></sep_dir>
+  %endif
+
+  %if thinker['birth_string'] != None:
+  <birth_string>${thinker['birth_string']}</birth_string>
+  %else:
+  <birth_string></birth_string>
+  %endif
+
+  %if thinker['birth'] != None:
+  <birth>
+    <month>${thinker['birth']['month']}</month>
+    <day>${thinker['birth']['day']}</day>
+    <year>${thinker['birth']['year']}</year>
+  </birth>
+  %else:
+  <birth></birth>
+  %endif
+
+  <nationalities> 
+  %for nationality in thinker['nationalities']:
+    <nationality>${nationality}</nationality>
+  %endfor
+  </nationalities>
+
+  <influenced_by> 
+  %for influenced_by in thinker['influenced_by']:
+    <influenced_by_thinker>${influenced_by}</influenced_by_thinker>
+  %endfor
+  </influenced_by>
+
+  <ID>${thinker['ID']}</ID>
+
+  <aliases> 
+  %for alias in thinker['aliases']:
+    <alias>${alias}</alias>
+  %endfor
+  </aliases>
+
+  <influenced> 
+  %for influenced in thinker['influenced']:
+    <influenced_thinker>${influenced}</influenced_thinker>
+  %endfor
+  </influenced>
+
+  %if thinker['death'] != None:
+  <death>
+    <month>${thinker['death']['month']}</month>
+    <day>${thinker['death']['day']}</day>
+    <year>${thinker['death']['year']}</year>
+  </death>
+  %else:
+  <death></death>
+  %endif
+
+  <url>${thinker['url']}</url>
+
+  <professions> 
+  %for profession in thinker['professions']:
+    <profession>${profession}</profession>
+  %endfor
+  </professions>
+
+  <label>${thinker['label']}</label>
+
+  <teachers>
+  %for teacher in thinker['teachers']:
+    <teacher>${teacher}</teacher>
+  %endfor
+  </teachers>
+
+  <related_ideas> 
+  %for idea in thinker['related_ideas']:
+    <rel_idea>${idea}</rel_idea>
+  %endfor
+  </related_ideas>
+
+  <type>${thinker['type']}</type>
+
+</thinker>

@@ -64,16 +64,13 @@ class RegisterForm(formencode.Schema):
     fullname =v.UnicodeString()
     username = formencode.All(v.UnicodeString(not_empty=True), 
                               UsernameValidator())
-    password =v.UnicodeString(not_empty=True)
-    confirm_password =v.UnicodeString(not_empty=True)
     email =v.Email(not_empty=True)
     confirm_email =v.Email(not_empty=True)
     first_area = v.Int(not_empty=True)
     first_area_level = v.Int(not_empty=True)
     second_area = v.Int()
     second_area_level = v.Int()
-    chained_validators = [v.FieldsMatch('email', 'confirm_email'),
-                          v.FieldsMatch('password', 'confirm_password')]
+    chained_validators = [v.FieldsMatch('email', 'confirm_email')]
 
 class EditForm(formencode.Schema):
     """
@@ -84,8 +81,6 @@ class EditForm(formencode.Schema):
     allow_extra_fields = True
     filter_extra_fields = True
     fullname =v.UnicodeString()
-    password =v.UnicodeString()
-    confirm_password =v.UnicodeString()
     email =v.Email()
     confirm_email =v.Email()
     '''
@@ -94,8 +89,7 @@ class EditForm(formencode.Schema):
     second_area = v.Int()
     second_area_level = v.Int()
     '''
-    chained_validators = [v.FieldsMatch('email', 'confirm_email'),
-                          v.FieldsMatch('password', 'confirm_password')]
+    chained_validators = [v.FieldsMatch('email', 'confirm_email')]
 
 class ResetForm(formencode.Schema):
     """
@@ -321,7 +315,6 @@ inpho@indiana.edu
         
         user = User(
             self.form_result['username'],
-            self.form_result['password'],
             fullname=self.form_result['fullname'],
             email=self.form_result['email'],
             first_area_id=self.form_result['first_area'],
@@ -332,6 +325,7 @@ inpho@indiana.edu
 
 
         Session.add(user) 
+        password = user.reset_password()
         Session.commit()
 
         msg = Message("inpho@indiana.edu", self.form_result['email'], 
@@ -345,9 +339,11 @@ information:
 Username: %(uname)s
 Password: %(passwd)s
 
+You may change your password at https://inpho.cogs.indiana.edu/account/edit .
+
 The Indiana Philosophy Ontology Project (InPhO) Team
 inpho@indiana.edu
-                       """ % {'passwd' : self.form_result['password'],
+                       """ % {'passwd' : password,
                               'uname' : user.username,
                               'name' : user.fullname or user.username or ''}
         msg.send()

@@ -20,7 +20,6 @@ class User(object):
         second_area_level=None
     ):
         self.username   = username
-        self.password   = encrypt(password)
         self.fullname   = fullname
         self.group_uid  = group_uid
         self.email = email

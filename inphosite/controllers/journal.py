@@ -1,4 +1,5 @@
 import logging
+import time
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
@@ -48,10 +49,8 @@ class JournalController(BaseController):
         # check for query
         if request.params.get('q'):
             journal_q = journal_q.filter(Journal.name.like(u'%'+request.params['q']+'%'))
-            journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
-            # if only 1 result, go ahead and view that journal
-            if redirect and journal_q.count() == 1:
-                return self.view(journal_q.first().id, filetype)
+        
+        journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
         c.journals = list(journal_q)
         return render('journal/stale-url-list.' + filetype)
 

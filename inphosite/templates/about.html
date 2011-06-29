@@ -6,6 +6,16 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 
+<%
+import subprocess
+proc = subprocess.Popen('/Users/colallen/bin/sep_stats_for_inpho', \
+                        stdout=subprocess.PIPE)
+stats = proc.communicate()[0]
+people = stats.split('\n')[1].partition(',')[2].split()[0]
+entries = stats.split('\n')[2].partition(',')[2]
+words = stats.split('\n')[3].partition(',')[2]
+%>
+
 <div class="yui-gd">
 <div id="content">
 
@@ -18,13 +28,13 @@ philosophy and computational ontology. The primary source of text data and
 domain experts is the <a href="http://plato.stanford.edu">Stanford Encyclopedia
 of Philosophy</a> (SEP). With over 1 million weekly article downloads, the SEP
 is the leading digital humanities resource for philosophy, maintained by over
-1,600 volunteer authors and subject editors. Consisting of over 1,200 articles
-and 15 million words, the tremendous depth of the encyclopedia makes it
+${people} volunteer authors and subject editors. Consisting of over ${entries}
+articles and ${words} words, the tremendous depth of the encyclopedia makes it
 impossible for any one person to have expertise over the whole domain,
 necessitating the creation of a useful organization scheme to provide better
-editorial control and content accessibility. At the same time, the comprehensive
-richness of the SEP makes it a reasonable proxy for the discipline of philosophy
-as a whole.</p>
+editorial control and content accessibility. At the same time, the
+comprehensive richness of the SEP makes it a reasonable proxy for the 
+discipline of philosophy as a whole.</p>
 
 <p>Our approach utilizes an iterative three-step process, which we have termed <i>dynamic
 ontology</i>, to create a taxonomic representation of philosophy:

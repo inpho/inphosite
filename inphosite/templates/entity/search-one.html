@@ -18,15 +18,16 @@ sep = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + searchstr
 
 google = url_base + "&q=" + searchstr
 google_sep = url_base + "&q=" + quote_plus("site:plato.stanford.edu ") + searchstr
+google_philpapers = url_base + "&q=" + quote_plus("site:philpapers.org ") + searchstr
 
 noesis_cx = "001558599338650237094:d3zzyouyz0s"
 noesis = url_base + "&q=" + searchstr + "&cx=" + noesis_cx
 
-sep, google, google_sep, noesis = [x[1] for x in  multi_get([sep, google,
-google_sep, noesis])]
+sep, google, google_sep, google_philpapers, noesis = [x[1] for x in  multi_get([sep, google, google_sep, google_philpapers, noesis])]
 
 google = simplejson.loads(google) if google else None
 google_sep = simplejson.loads(google_sep) if google_sep else None
+google_philpapers = simplejson.loads(google_philpapers) if google_philpapers else None
 noesis = simplejson.loads(noesis) if noesis else None
 
 if sep:
@@ -50,6 +51,7 @@ function toggleList(selector) {
 
 ${printResults("Google", google)}
 ${printResults("Google SEP Site Search", google_sep)}
+${printResults("Google PhilPapers Site Search", google_philpapers)}
 ${printResults("Noesis", noesis,
 results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
 

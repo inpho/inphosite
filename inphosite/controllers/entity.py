@@ -26,6 +26,9 @@ class EntityController(BaseController):
         c.query = '' 
         c.sep = ''
 
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         if request.params.get('sep_filter'):
             idea_q = idea_q.filter(model.Idea.sep_dir != '')
         

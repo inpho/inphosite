@@ -47,6 +47,9 @@ class ThinkerController(BaseController):
         if request.params.get('sep_filter'):
             idea_q = idea_q.filter(Idea.sep_dir != '')
         
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         # check for query
         if request.params.get('q'):
             c.query = request.params['q']
@@ -65,14 +68,13 @@ class ThinkerController(BaseController):
         c.thinkers = thinker_q.all()
         return render('thinker/thinker-list.' + filetype)
 
-    def list_json(self):
-        response.content_type = 'application/json'
-        return self.list('json')
-
     #@beaker_cache(expire=60, type='memory', query_args=True)
     def view(self, id, filetype='html'):
         sep_filter = request.params.get('sep_filter', False) 
         c.sep_filter = sep_filter
+
+        if filetype=='json':
+            response.content_type = 'application/json'
 
         c.thinker = h.fetch_obj(Thinker, id, new_id=True)
         return render('thinker/thinker.%s' % filetype)

@@ -54,6 +54,9 @@ class IdeaController(BaseController):
         if request.params.get('sep_filter'):
             idea_q = idea_q.filter(Idea.sep_dir != '')
         
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         # Check for query
         if request.params.get('q'):
             q = request.params['q']
@@ -102,10 +105,6 @@ class IdeaController(BaseController):
 
         c.ideas = idea_q.limit(limit)
         return render('idea/idea-list.' + filetype)
-
-    def list_json(self):
-        response.content_type = 'application/json'
-        return self.list('json')
 
 
 
@@ -249,6 +248,9 @@ class IdeaController(BaseController):
         if redirect and len(c.idea.nodes) == 1:
             h.redirect(h.url(controller='taxonomy', action='view',
                              id=c.idea.nodes[0].ID,filetype=filetype), code=303)
+
+        if filetype=='json':
+            response.content_type = 'application/json'
 
         return render('idea/idea.' + filetype)
 

@@ -30,6 +30,9 @@ class WorkController(BaseController):
     def list(self, filetype='html', redirect=False):
         work_q = model.meta.Session.query(model.Work)
         
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         # check for query
         if request.params.get('q'):
             work_q = work_q.filter(model.Work.name.like(u'%'+request.params['q']+'%'))
@@ -46,14 +49,13 @@ class WorkController(BaseController):
         c.works = work_q.all()
         return render('work/work-list.' + filetype)
 
-    def list_json(self):
-        response.content_type = 'application/json'
-        return self.list('json')
-
     #@beaker_cache(expire=60, type='memory', query_args=True)
     def view(self, id, filetype='html'):
         sep_filter = request.params.get('sep_filter', False) 
         c.sep_filter = sep_filter
+
+        if filetype=='json':
+            response.content_type = 'application/json'
 
         c.work = h.fetch_obj(Work, id, new_id=True)
         return render('work/work.%s' % filetype)

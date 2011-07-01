@@ -80,16 +80,19 @@ class EditForm(formencode.Schema):
     """
     allow_extra_fields = True
     filter_extra_fields = True
-    fullname =v.UnicodeString()
-    email =v.Email()
-    confirm_email =v.Email()
+    fullname = v.UnicodeString()
+    email = v.Email()
+    confirm_email = v.Email()
+    password = v.UnicodeString()
+    confirm_password = v.UnicodeString()
     '''
     first_area = v.Int()
     first_area_level = v.Int()
     second_area = v.Int()
     second_area_level = v.Int()
     '''
-    chained_validators = [v.FieldsMatch('email', 'confirm_email')]
+    chained_validators = [v.FieldsMatch('email', 'confirm_email'),
+                          v.FieldsMatch('password', 'confirm_password')]
 
 class ResetForm(formencode.Schema):
     """

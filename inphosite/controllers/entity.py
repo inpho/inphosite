@@ -27,7 +27,7 @@ class EntityController(BaseController):
         c.sep = ''
 
         if request.params.get('sep_filter'):
-            idea_q = idea_q.filter(model.Idea.sep_dir != '')
+            entity_q = entity_q.filter(model.Entity.sep_dir != '')
         
         if request.params.get('sep'):
             entity_q = entity_q.filter(model.Entity.sep_dir == request.params['sep'])

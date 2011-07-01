@@ -106,7 +106,7 @@ class SplitDate(object):
         try:
             self.year = int(year)
         except:
-            yearera = re.findall("(\d+) (BC|AD|BCE|CE)", year)
+            yearera = re.findall("(\d+) (BC|AD|BCE|CE)", str(year))
             if yearera:
                 year = yearera[0][0]
                 era = yearera[0][1]

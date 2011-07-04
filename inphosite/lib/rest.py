@@ -60,8 +60,9 @@ def dispatch_on(**method_map):
     """
     def dispatcher(func, self, *args, **kwargs):
         """Wrapper for dispatch_on"""
-        alt_method = method_map.get(get_pylons(args).request.params.get('_method'))
-        alt_method = method_map.get(get_pylons(args).request.method, alt_method)
+        alt_method = method_map.get(get_pylons(args).request.method)
+        alt_method = method_map.get(get_pylons(args).request.params.get('_method'), alt_method)
+        log.debug("Potentially dispatching to %s instead", alt_method)
         if alt_method:
             alt_method = getattr(self, alt_method)
             log.debug("Dispatching to %s instead", alt_method)

@@ -498,11 +498,10 @@ class IdeaController(BaseController):
 
         # Delete evaluation if this eliminates both settings, new db schema
         # will eliminate this need
-        if evaluation.generality == -1 and evaluation.relatedness == -1:
-            h.delete_obj(evaluation)
-        else:
-            # save change in evaluation
-            Session.flush()
+        #if evaluation.generality == -1 and evaluation.relatedness == -1:
+        #    h.delete_obj(evaluation)
+        
+        Session.flush()
         Session.commit()
         response.status_int = 200
         return "OK"

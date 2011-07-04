@@ -200,6 +200,9 @@ function thisFunc(elm, changed) {
     var img  = $("> .loading", elm.parent());
     var generality  = $("> div input[name='generality']:checked", elm).val();
     var relatedness = $("> input[name='relatedness']", elm).val();
+    if (id == null || id2 == null) {
+        return false;    
+    }
     if (changed == 'generality') {
         var url_gen = '/idea/' + id + '/generality/' + id2;
         img.attr("src", "/img/loading.gif");
@@ -263,21 +266,20 @@ function resetEvaluation(elm){
     var id   = $("> [name='ante_id']", elm).val();
     var id2  = $("> [name='cons_id']", elm).val();
     var img  = $("> .loading", elm.parent());
-    var url_gen = '/idea/' + id + '/generality/' + id2;
-    var url_rel = '/idea/' + id + '/relatedness/' + id2;
+    var url_gen = '/idea/' + id + '/generality/' + id2 + "?_method=DELETE";
+    var url_rel = '/idea/' + id + '/relatedness/' + id2 + "?_method=DELETE";
     img.attr("src", "/img/loading.gif");
-    $.ajax({type: 'DELETE',
+    $.ajax({type: 'GET',
             url: url_gen,
             success: function(data){
                 $("> div input[name='generality']:radio", elm).removeAttr("checked");
-            }} );
-    $.ajax({type: 'DELETE',
+            } } );
+    $.ajax({type: 'GET',
             url: url_rel,
             success: function(data){
                 $("> .slider", elm).slider("option", "value", -1);
                 $("> .slidertext", elm).html("<strong>Drag slider to set relatedness:</strong>");
                 $("> input[name='relatedness']", elm).val(-1);
-                
             } });
     img.attr("src", "/img/empty.gif");
     numEvals--;

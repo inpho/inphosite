@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<nodes>
+  %for n in c.nodes:
+  <%
+  node = n.json_struct(extended=False)
+  %>
+  <node>
+  
+    ## guaranteed to have URL
+    <url>${node['url']}</url>
+
+    %if node['sep_dir'] != None:
+    <sep_dir>${node['sep_dir']}</sep_dir>
+    %else:
+    <sep_dir></sep_dir>
+    %endif
+
+    ## guaranteed to have label, type, & id number
+    <type>${node['type']}</type>
+
+    <ID>${node['ID']}</ID>
+
+    <label>${node['label']}</label>
+
+  </node>
+  %endfor
+
+</nodes>

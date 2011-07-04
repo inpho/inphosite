@@ -33,6 +33,9 @@ class SchoolOfThoughtController(BaseController):
     def list(self, filetype='html', redirect=False):
         school_of_thought_q = model.meta.Session.query(model.SchoolOfThought)
         
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         # check for query
         if request.params.get('q'):
             school_of_thought_q = school_of_thought_q.filter(model.SchoolOfThought.label.like(u'%'+request.params['q']+'%'))
@@ -49,14 +52,13 @@ class SchoolOfThoughtController(BaseController):
         c.schools_of_thought = school_of_thought_q.all()
         return render('school_of_thought/school_of_thought-list.' + filetype)
 
-    def list_json(self):
-        response.content_type = 'application/json'
-        return self.list('json')
-
     #@beaker_cache(expire=60, type='memory', query_args=True)
     def view(self, id, filetype='html'):
         sep_filter = request.params.get('sep_filter', False) 
         c.sep_filter = sep_filter
+
+        if filetype=='json':
+            response.content_type = 'application/json'
 
         c.school_of_thought = h.fetch_obj(model.SchoolOfThought, id, new_id=True)
         return render('school_of_thought/school_of_thought.%s' % filetype)

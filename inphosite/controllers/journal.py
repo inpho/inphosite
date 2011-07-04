@@ -25,6 +25,9 @@ class JournalController(BaseController):
     def list(self, filetype='html', redirect=False):
         journal_q = Session.query(Journal)
         
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         # check for query
         if request.params.get('q'):
             journal_q = journal_q.filter(Journal.name.like(u'%'+request.params['q']+'%'))
@@ -33,10 +36,6 @@ class JournalController(BaseController):
                 return self.view(journal_q.first().id, filetype)
         c.journals = list(journal_q)
         return render('journal/journal-list.' + filetype)
-
-    def list_json(self):
-        response.content_type = 'application/json'
-        return self.list('json')
 
     def list_stale_url(self, filetype='html', redirect=False):
         if not h.auth.is_logged_in():
@@ -59,6 +58,8 @@ class JournalController(BaseController):
     #VIEW
     def view(self, id=None, filetype='html'):
         c.journal = h.fetch_obj(Journal, id)
+        if filetype=='json':
+            response.content_type = 'application/json'
         return render('journal/journal.%s' % filetype)
 
     def graph(self, id=None, filetype='json'):

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<works>
+  %for w in c.works:
+  <%
+  works = w.json_struct(extended=False)
+  %>
+  <work>
+  
+    ## guaranteed to have URL
+    <url>${works['url']}</url>
+
+    %if works['sep_dir'] != None:
+    <sep_dir>${works['sep_dir']}</sep_dir>
+    %else:
+    <sep_dir></sep_dir>
+    %endif
+
+    ## guaranteed to have label, type, & id number
+    <type>${works['type']}</type>
+
+    <ID>${works['ID']}</ID>
+
+    <label>${works['label']}</label>
+
+  </work>
+  %endfor
+
+</works>

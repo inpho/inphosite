@@ -1,0 +1,24 @@
+<%
+sot = c.school_of_thought.json_struct()
+%>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<school_of_thought>
+
+  ## guaranteed to have URL
+  <url>${sot['url']}</url>
+
+  %if sot['sep_dir'] != None:
+  <sep_dir>${sot['sep_dir']}</sep_dir>
+  %else:
+  <sep_dir></sep_dir>
+  %endif
+
+  ## guaranteed to have active field, label, type, & id number
+  <type>${sot['type']}</type>
+
+  <ID>${sot['ID']}</ID>
+
+  <label>${sot['label']}</label>
+
+</school_of_thought>

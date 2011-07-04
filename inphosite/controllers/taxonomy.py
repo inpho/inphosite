@@ -17,6 +17,9 @@ class TaxonomyController(BaseController):
     def list(self, filetype='html', redirect=False):
         node_q = Session.query(Node)
             
+        if filetype=='json':
+            response.content_type = 'application/json'
+
         # check for query
         if request.params.get('q'):
             node_q = node_q.filter(Node.name.like(u'%'+request.params['q']+'%'))
@@ -51,6 +54,9 @@ class TaxonomyController(BaseController):
 
         else:
             c.uid = None
+
+        if filetype=='json':
+            response.content_type = 'application/json'
 
         return render('taxonomy/node.%s' % filetype)
         #if filetype=='html':

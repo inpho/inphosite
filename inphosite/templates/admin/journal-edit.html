@@ -41,6 +41,10 @@ function goToURL(){
     <a onclick="goToURL()" href="#">Test</a>
     <br />
 	</td></tr><tr><td>
+	<label for="Last accessed time">Last accessed:</label></td><td>
+	${h.text(name="Last accessed", id="Last accessed", size = 40, 
+             value=c.journal.last_accessed)}<br />
+	</td></tr><tr><td>
 	<label for="language">Language:</label></td><td>
 	${h.text(name="language", id="language", size = 40, value=c.journal.language)}<br />
 	</td></tr><tr><td>

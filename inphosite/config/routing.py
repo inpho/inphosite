@@ -30,19 +30,19 @@ def make_map(config):
         conditions=dict(method=["GET"]))
     map.connect('/admin', controller='admin', action='index', 
         conditions=dict(method=["GET"]))
-    map.connect('/{controller}.{filetype:html|json}', action='list', 
+    map.connect('/{controller}.{filetype:html|json|xml}', action='list', 
         conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}', action='view',
         conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}', action='view', filetype='html',
         conditions=dict(method=["GET"]))
-    map.connect('/{controller}/{id:\d+}.{filetype:html|json}', action='view', 
+    map.connect('/{controller}/{id:\d+}.{filetype:html|json|xml}', action='view', 
         conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}', action='update', 
         conditions=dict(method=["PUT"]))
     map.connect('/{controller}/{id:\d+}', action='delete', 
         conditions=dict(method=["DELETE"]))
-    map.connect('/{controller}/{id:\d+}/{action}.{filetype:html|json|nwb}', 
+    map.connect('/{controller}/{id:\d+}/{action}.{filetype:html|json|nwb|xml}', 
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
     map.connect('/{controller}/{id:\d+}/{action}', 
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))

@@ -48,7 +48,6 @@ noesis = simplejson.loads(noesis) if noesis else None
 
 %>
 
-
 <p>Search for <em>${c.entity2.label}</em> in the context of <em>${c.entity.label}</em>:</p>
 <script type="text/javascript">
 function toggleList(selector) {
@@ -63,12 +62,13 @@ function toggleList(selector) {
 </script>
 
 ${printSEPResults()}
+
 ${printResults("Noesis", noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
 
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
 <div class="result">
-%if results['queries']['request'][0]['totalResults'] == 0:
+%if not results or results['queries']['request'][0]['totalResults'] == 0:
 <h3>${title}</h3>
 <p>No search results.</p>
 %else:

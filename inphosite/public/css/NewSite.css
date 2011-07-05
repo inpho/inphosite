@@ -360,6 +360,14 @@ form .active img, form .active #reset {
     left: 512px; */
 }
 
+.concept {
+    display: inline-block;
+    width: 209px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+    }
 
 .child .sep, .childLink .sep {
     margin-left: 0px;
@@ -389,9 +397,6 @@ form .active img, form .active #reset {
 .idea {
     padding-top:4px;
     padding-bottom:4px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     }
 
 .idea a img {

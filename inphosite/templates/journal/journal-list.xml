@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<journals>
+  %for j in c.journals:
+  <%
+  journal = j.json_struct(extended=False)
+  %>
+  <journal>
+  
+    ## guaranteed to have URL
+    <url>${journal['url']}</url>
+
+    %if journal['sep_dir'] != None:
+    <sep_dir>${journal['sep_dir']}</sep_dir>
+    %else:
+    <sep_dir></sep_dir>
+    %endif
+
+    ## guaranteed to have label, type, & id number
+    <type>${journal['type']}</type>
+
+    <ID>${journal['ID']}</ID>
+
+    <label>${journal['label']}</label>
+
+  </journal>
+  %endfor
+
+</journals>

@@ -4,30 +4,31 @@
 from inphosite.lib.multi_get import multi_get
 from urllib import quote_plus
 import urllib
-from elementtree.ElementTree import parse
+from xml.etree.ElementTree import parse
 from xml.etree import ElementTree as ET
 
 
 searchstr = c.entity.web_search_string() + " " + c.entity2.web_search_string()
 searchstr = quote_plus(searchstr.encode('utf8'))
-api_key = "ABQIAAAA1XbMiDxx_BTCY2_FkPh06RRaGTYH6UMl8mADNa0YKuWNNa8VNxQEerTAUcfkyrr6OwBovxn7TDAH5Q" 
-url_base = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0" + \
-            "&key=" + api_key + \
-            "&userip=" + request.environ['REMOTE_ADDR']
 
+#### SEP Search URL ####
 
 sepsearchstr =  c.entity.web_search_string() + " + " + c.entity2.web_search_string()
-sepsearchstr1 = sepsearchstr
 sepsearchstr = quote_plus(sepsearchstr.encode('utf8'))
 sep = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + sepsearchstr
 
-google = url_base + "&q=" + searchstr
-google_sep = url_base + "&q=" + quote_plus("site:plato.stanford.edu ") + searchstr
+#### Noesis Search URL ####
 
+# API key is registered with the account inpho.project, password is the usual 
+# one
+api_key = "AIzaSyAd7fxJRf5Yj1ehBQAco72qqBSK1l0_p7c"
 noesis_cx = "001558599338650237094:d3zzyouyz0s"
-noesis = url_base + "&q=" + searchstr + "&cx=" + noesis_cx
+noesis = "https://www.googleapis.com/customsearch/v1?" + \
+         "key=" + api_key + "&cx=" + noesis_cx + "&q=" + searchstr
 
-sep, google, google_sep, noesis = [x[1] for x in  multi_get([sep, google, google_sep, noesis])]
+#### Run the searches ####
+
+sep, noesis = [x[1] for x in  multi_get([sep, noesis])]
 
 if sep:
     tree = ET.ElementTree(ET.fromstring(sep))
@@ -43,11 +44,10 @@ if sep:
         for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
             Url.append('http://plato.stanford.edu/entries/%s/' % iter.text) 
 
-google = simplejson.loads(google) if google else None
-google_sep = simplejson.loads(google_sep) if google_sep else None
 noesis = simplejson.loads(noesis) if noesis else None
 
 %>
+
 
 <p>Search for <em>${c.entity2.label}</em> in the context of <em>${c.entity.label}</em>:</p>
 <script type="text/javascript">
@@ -63,25 +63,22 @@ function toggleList(selector) {
 </script>
 
 ${printSEPResults()}
-${printResults("Google", google)}
-${printResults("Google SEP Site Search", google_sep)}
 ${printResults("Noesis", noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
+
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
 <div class="result">
-%if not results or results['responseStatus'] != 200:
-<h3>${title}</h3>
-<p>Error loading results</p>
-%elif len(results['responseData']['results']) == 0:
+%if results['queries']['request'][0]['totalResults'] == 0:
 <h3>${title}</h3>
 <p>No search results.</p>
 %else:
 <h3>${title} <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
 <ol class="search-results">
-    %for r in results['responseData']['results']:
+    %for i in range(min(len(results['items']), 4)):
+    <% r = results['items'][i] %>
     <li>
-    <h4><a href="${r['url']}" target="_blank">${r['titleNoFormatting'] | n}</a></h4>
-    <p>${r['content'] | n}</p>
+    <h4><a href="${r['link']}" target="_blank">${r['title'] | n}</a></h4>
+    <p>${r['htmlSnippet'] | n}</p>
     </li>
     %endfor
 </ol>
@@ -92,12 +89,11 @@ if icon:
 %>
 
 %if not results_link:
+## This arm of the 'if' will *not* work with the new Google CSE API.
 <p style="text-align:right; font-weight:bold"><a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a></p>
 %else:
-<% more = results['responseData']['cursor']['moreResultsUrl']
-more_s = more.split("?")
-if len(more_s) > 1:
-    more = results_link + "?" + more_s[1] + "&cof=FORID:11"
+<% 
+more = results_link + "?cx=" + noesis_cx + "&q=" + searchstr + "&cof=FORID:11"
 %>
 <p style="text-align:right; font-weight:bold"><a target="_blank" href="${more | n}">${img}More results...</a></p>
 %endif

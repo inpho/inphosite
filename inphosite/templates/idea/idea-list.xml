@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ideas>
+  %for i in c.ideas:
+  <%
+  idea = i.json_struct(extended=False)
+  %>
+  <idea>
+  
+    ## guaranteed to have URL
+    <url>${idea['url']}</url>
+
+    %if idea['sep_dir'] != None:
+    <sep_dir>${idea['sep_dir']}</sep_dir>
+    %else:
+    <sep_dir></sep_dir>
+    %endif
+
+    ## guaranteed to have label, type, & id number
+    <type>${idea['type']}</type>
+
+    <ID>${idea['ID']}</ID>
+
+    <label>${idea['label']}</label>
+
+  </idea>
+  %endfor
+
+</ideas>

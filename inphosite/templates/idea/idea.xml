@@ -1,0 +1,72 @@
+<%
+idea = c.idea.json_struct()
+%>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<idea>
+
+  <links>
+  %for link in idea['links']:
+    <link>${link}</link>
+  %endfor
+  </links>
+
+  ## guaranteed to have URL
+  <url>${idea['url']}</url>
+
+  <related> 
+  %for rel_idea in idea['related']:
+    <rel_idea>${rel_idea}</rel_idea>
+  %endfor
+  </related>
+
+  %if idea['sep_dir'] != None:
+  <sep_dir>${idea['sep_dir']}</sep_dir>
+  %else:
+  <sep_dir></sep_dir>
+  %endif
+
+  <instances> 
+  %for instance in idea['instances']:
+    <instance>${instance}</instance>
+  %endfor
+  </instances>
+
+  <classes> 
+  %for cls in idea['classes']:
+    <class>${cls}</class>
+  %endfor
+  </classes>
+
+  <hyponyms> 
+  %for hyponym in idea['hyponyms']:
+    <hyponym>${hyponym}</hyponym>
+  %endfor
+  </hyponyms>
+
+  <related_thinkers> 
+  %for thinker in idea['related_thinkers']:
+    <thinker>${thinker}</thinker>
+  %endfor
+  </related_thinkers>
+
+  <nodes> 
+  %for node in idea['nodes']:
+    <node>${node}</node>
+  %endfor
+  </nodes>
+
+  ## guaranteed to have label, type, & id number
+  <label>${idea['label']}</label>
+
+  <type>${idea['type']}</type>
+
+  <ID>${idea['ID']}</ID>
+
+  <occurrences> 
+  %for occurrence in idea['occurrences']:
+    <occurrence>${occurrence}</occurrence>
+  %endfor
+  </occurrences>
+
+</idea>

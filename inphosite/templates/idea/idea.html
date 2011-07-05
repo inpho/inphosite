@@ -128,8 +128,8 @@ function search(elm, id, id2) {
         if (evalsEnabled) $('.active form').slideToggle();
         $('.active').removeClass('active');
         $(elm).addClass('active');
-        if (evalsEnabled) $('> form', elm).slideToggle("slow");
-        if (evalsEnabled) $('> form .generality', elm).hide();
+        if (evalsEnabled) $('form', elm).slideToggle("slow");
+        if (evalsEnabled) $('form .generality', elm).hide();
         $('.child', elm).toggle("slow");
         $('.childLink', elm).toggle("slow");
 
@@ -493,13 +493,18 @@ search = "search(this, %d, %d)" % (c.idea.ID, cons.ID)
     <a class="concept" href="#moreInfo">${cons.label}</a>\
 
 
-%if evaluation_type == 'Idea':
+%if evaluation_type == 'Idea' and (not group or (group and cls != '')):
 <form>
     <!-- <a href="#" onClick="flagIdea(this.parent().parent(), ${cons.ID})">
         <img class='delete' id="delete" title="Click if this is not a philosophical idea" src="/img/delete.png" />
     </a> -->
+    %if group:
+    <input type="hidden" name="ante_id" value="${c.idea.ID}" />
+    <input type="hidden" name="cons_id" value="${srch_id}" />
+    %else:
     <input type="hidden" name="ante_id" value="${c.idea.ID}" />
     <input type="hidden" name="cons_id" value="${cons.ID}" />
+    %endif
     
     <div class="reltext" id="reltext${cons.ID}"><strong>Drag slider to set relatedness:</strong></div>
     <div id="slider${cons.ID}" class="slider"></div>

@@ -31,7 +31,7 @@ var evalsEnabled = ${'true' if request.environ.get('REMOTE_USER') else 'false'};
 function enableEvals() {
     evalsEnabled = true;    
     $('.active form:hidden').slideToggle();
-    $('.evaltext').html("Thank you for improving the InPhO!");
+    $('.evaltext').html("Thank you for improving the InPhO! Click on the ideas below to reveal the evaluation form.");
 }
 
 function search(elm, id, id2) {

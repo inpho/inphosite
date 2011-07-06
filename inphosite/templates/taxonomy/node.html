@@ -270,7 +270,9 @@ is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %if not request.environ.get('REMOTE_USER'):
 <p class="evaltext">Help improve results by <strong><a href="#"
 onClick="enableEvals($(this).parent().parent())">enabling anonymous 
-idea evaluations</a></strong> or <a href="${h.url('signin')}">signing in</a>! </p>
+idea evaluations</a></strong> or <strong><a href="${h.url('signin',
+came_from=h.url(controller='taxonomy', id=c.node.ID, action='view'))}">signing
+in</a></strong>! </p>
 %endif
 
 <p><a href="#moreInfo" onClick="showEvalHelp()"><img class="loading"
@@ -492,7 +494,7 @@ article on the adjacent term. Click the <img src="/img/inpho.png" /> icon to
 open the InPhO page for the adjacent term. </p>
 
 <p>To help improve the InPhO, please <strong><a
-href="/login?redirect=${url(controller='taxonomy', action='view',
+href="/signin?came_from=${url(controller='taxonomy', action='view',
 id=c.idea.ID)}">log in</a></strong> to submit evaluations and to be
 notified of new ontology-driven research tools. Alternatively, you may submit
 anonymous evaluations by <strong><a href="#"

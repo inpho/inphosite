@@ -103,7 +103,9 @@ Help improve results by submitting idea evaluations!
 %if not request.environ.get('REMOTE_USER') and (c.idea.nodes or c.idea.instance_of):
 <p class="evaltext">Help improve results by <strong><a href="#"
 onClick="enableEvals($(this).parent().parent())">enabling anonymous 
-idea evaluations</a></strong> or <a href="${h.url('signin')}">signing in</a>! </p>
+idea evaluations</a></strong> or <strong><a href="${h.url('signin',
+came_from=h.url(controller='idea', action='view', id=c.idea.ID))}">signing
+in</a></strong>! </p>
 %endif
 
 <script type="text/javascript">

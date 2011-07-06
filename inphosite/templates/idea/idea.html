@@ -131,7 +131,6 @@ function search(elm, id, id2) {
         $('.active').removeClass('active');
         $(elm).addClass('active');
         if (evalsEnabled) $('form', elm).slideToggle("slow");
-        if (evalsEnabled) $('form .generality', elm).hide();
         $('.child', elm).toggle("slow");
         $('.childLink', elm).toggle("slow");
 
@@ -517,9 +516,13 @@ search = "search(this, %d, %d)" % (c.idea.ID, cons.ID)
     <div><small>unrelated</small><small style="float: right;">highly related</small></div>
     <input type="hidden" class="relatedness" name="relatedness" id="rel${cons.ID}" value="${rel}" />
 
+    %if gen > -1:
+    <div class="generality" style="">
+    %else:
     <div class="generality" style="display: none;">
+    %endif
     <input type="radio" name="generality" value="0" ${onchange_gen} \
-%if evaluation:
+%if gen == 0:
 checked\
 %endif    
  />\

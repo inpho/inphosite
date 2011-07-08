@@ -13,6 +13,14 @@ import inphosite.lib.helpers as h
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 
+from inphosite.lib.multi_get import multi_get
+from urllib import quote_plus
+import urllib
+import simplejson
+
+from xml.etree.ElementTree import parse
+from xml.etree import ElementTree as ET
+
 log = logging.getLogger(__name__)
 
 class EntityController(BaseController):
@@ -57,14 +65,62 @@ class EntityController(BaseController):
         return render('entity/entity-list.' + filetype)
     
     def search_with(self, id, id2):
+        # Grab ID(s) from database and get their search strings.
         c.entity = h.fetch_obj(model.Entity, id)
         c.entity2 = h.fetch_obj(model.Entity, id2)
+ 
+        c.sep = EntityController._search_sep(c.entity, c.entity2)
+        c.noesis = EntityController._search_noesis(c.entity, c.entity2)
         return render('entity/search.html')
-    def search2(self, id, id2):
-        c.entity = h.fetch_obj(model.Entity, id)
-        c.entity2 = h.fetch_obj(model.Entity, id2)
-        return render('entity/search2.html')
-    
+
+    @staticmethod
+    def _search_sep(entity, entity2):
+        # Concatenate search strings for each entity
+        searchstr = entity.web_search_string() + " + " + \
+                    entity2.web_search_string()
+        c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
+
+        # Put together URL string
+        url = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + \
+              c.sep_searchstr
+
+        # Get results and parse the XML
+        results = multi_get([url])[0][1]
+        if results:
+            tree = ET.ElementTree(ET.fromstring(results))
+            root = tree.getroot()
+            json = []
+            for element in root.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Item'):
+                dict = {}
+                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Text'):
+                    dict['Text'] = iter.text
+                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}LongDescription'):
+                    dict['LongDescription'] = iter.text
+                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
+                    dict['URL'] = 'http://plato.stanford.edu/entries/%s/' % iter.text
+                json.append(dict)
+
+        return json
+
+    @staticmethod
+    def _search_noesis(entity, entity2):
+        # Concatenate search strings for each entity
+        searchstr = entity.web_search_string() + " " + \
+                    entity2.web_search_string()
+        c.noesis_searchstr = quote_plus(searchstr.encode('utf8'))
+
+        # Put together URL string
+        api_key = "AIzaSyAd7fxJRf5Yj1ehBQAco72qqBSK1l0_p7c"
+        c.noesis_cx = "001558599338650237094:d3zzyouyz0s"
+        url = "https://www.googleapis.com/customsearch/v1?" + \
+              "key=" + api_key + "&cx=" + c.noesis_cx + \
+              "&q=" + c.noesis_searchstr
+
+        # Get results and parse into json
+        results = multi_get([url])[0][1]
+        json = simplejson.loads(results) if results else None
+        return json
+
     def search(self, id):
         c.entity = h.fetch_obj(model.Entity, id)
         return render('entity/search-one.html')

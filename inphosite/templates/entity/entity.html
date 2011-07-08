@@ -28,10 +28,12 @@ ${parent.draw()}</%def>
 <ol>
 %for idea in ideas:
 %if tax_class:
+<div>
 ${printEntity(idea[0], group=True)}
 %if idea[0] != idea[1]:
 ${printEntity(idea[1], cls=tax_class, group=True, srch_id=idea[0].ID)}
 %endif
+</div>
 %else:
 ${printEntity(idea)}
 %endif

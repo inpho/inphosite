@@ -22,6 +22,7 @@ import webhelpers.paginate as paginate
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
+from sqlalchemy.exc import IntegrityError
 log = logging.getLogger(__name__)
 
 import formencode
@@ -443,21 +444,19 @@ class IdeaController(BaseController):
     # create new evaluation
     @dispatch_on(DELETE='delete_evaluation')
     @restrict('POST', 'PUT')
-    def _evaluate(self, evaltype, id, id2=None, uid=None, username=None, degree=-1, maxdegree=4):
+    def _evaluate(self, evaltype, id, id2=None, uid=None, username=None,
+                  degree=-1, maxdegree=4, errors=0):
         """
         Function to submit an evaluation. Takes a POST request containing the consequesnt id and 
         all or none of: generality, relatedness, hyperrank, hyporank.
         """
-        if not h.auth.is_logged_in():
-            abort(401)
-
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
-        username = request.environ.get('REMOTE_USER', username)
 
         print "grabbing eval for", username, uid
 
         if request.environ.get('REMOTE_USER', False):
+            username = request.environ.get('REMOTE_USER', username)
             evaluation = self._get_evaluation(id, id2, None, username)
         else:
             evaluation = self._get_anon_evaluation(id, id2, request.environ.get('REMOTE_ADDR', '0.0.0.0'))
@@ -472,8 +471,14 @@ class IdeaController(BaseController):
 
 
         # Create and commit evaluation
-        Session.flush()
-        Session.commit()
+        try:
+            Session.flush()
+            Session.commit()
+        except IntegrityError:
+            Session.rollback()
+            if not errors:
+                self._evaluate(evaltype, id, id2, username, 
+                               degree, maxdegree, errors+1)
 
         # Issue an HTTP success
         response.status_int = 200

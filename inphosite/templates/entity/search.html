@@ -1,54 +1,10 @@
-<%! import simplejson %>
-<% 
 
-from inphosite.lib.multi_get import multi_get
-from urllib import quote_plus
-import urllib
-from xml.etree.ElementTree import parse
-from xml.etree import ElementTree as ET
-
-
-searchstr = c.entity.web_search_string() + " " + c.entity2.web_search_string()
-searchstr = quote_plus(searchstr.encode('utf8'))
-
-#### SEP Search URL ####
-
-sepsearchstr =  c.entity.web_search_string() + " + " + c.entity2.web_search_string()
-sepsearchstr = quote_plus(sepsearchstr.encode('utf8'))
-sep = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + sepsearchstr
-
-#### Noesis Search URL ####
-
-# API key is registered with the account inpho.project, password is the usual 
-# one
-api_key = "AIzaSyAd7fxJRf5Yj1ehBQAco72qqBSK1l0_p7c"
-noesis_cx = "001558599338650237094:d3zzyouyz0s"
-noesis = "https://www.googleapis.com/customsearch/v1?" + \
-         "key=" + api_key + "&cx=" + noesis_cx + "&q=" + searchstr
-
-#### Run the searches ####
-
-sep, noesis = [x[1] for x in  multi_get([sep, noesis])]
-
-if sep:
-    tree = ET.ElementTree(ET.fromstring(sep))
-    root = tree.getroot()
-    Text = []
-    LongDescription = []
-    Url = []
-    for element in root.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Item'):
-        for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Text'):
-            Text.append(iter.text)      
-        for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}LongDescription'):
-            LongDescription.append(iter.text)      
-        for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
-            Url.append('http://plato.stanford.edu/entries/%s/' % iter.text) 
-
-noesis = simplejson.loads(noesis) if noesis else None
-
-%>
-
+%if c.entity2 is None:
+<p>Search for <em>${c.entity.label}</em>:</p>
+%else:
 <p>Search for <em>${c.entity2.label}</em> in the context of <em>${c.entity.label}</em>:</p>
+%endif
+
 <script type="text/javascript">
 function toggleList(selector) {
     if ($('.on', selector).length > 0) {
@@ -63,7 +19,7 @@ function toggleList(selector) {
 
 ${printSEPResults()}
 
-${printResults("Noesis", noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
+${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
 
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
@@ -93,7 +49,8 @@ if icon:
 <p style="text-align:right; font-weight:bold"><a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a></p>
 %else:
 <% 
-more = results_link + "?cx=" + noesis_cx + "&q=" + searchstr + "&cof=FORID:11"
+more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + \
+       "&cof=FORID:11"
 %>
 <p style="text-align:right; font-weight:bold"><a target="_blank" href="${more | n}">${img}More results...</a></p>
 %endif
@@ -104,26 +61,24 @@ more = results_link + "?cx=" + noesis_cx + "&q=" + searchstr + "&cof=FORID:11"
 
 <%def name="printSEPResults()">
 <div class="result">
-%if not sep:
+%if not c.sep:
 <h3>SEP Internal Search</h3>
 <p>Error loading results.</p>
-%elif len(Text) == 0:
+%elif len(c.sep) == 0:
 <h3>SEP Internal Search</h3>
 <p>No search results.</p>
 %else:
 	<h3>SEP Internal Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
 	<ol class="search-results">
-    %for i in range(min(len(Text), 4)):
+    %for i in range(min(len(c.sep), 4)):
 	<li>
-			<h4><a href="${Url[i]}" target="_blank">${Text[i] | n}</a></h4>
-			<p>${LongDescription[i] | n}</p>
+			<h4><a href="${c.sep[i]['URL']}" target="_blank">${c.sep[i]['Text'] | n}</a></h4>
+			<p>${c.sep[i]['LongDescription'] | n}</p>
 	</li>
     %endfor
     </ol>
-	%for elements in root.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Query'):
 	    <p style="text-align:right; font-weight:bold"><a target="_blank"
-        href="http://plato.stanford.edu/search/searcher.py?query=${sepsearchstr}">More results...</a></p>
-	%endfor
+        href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
 
 %endif
 </div>

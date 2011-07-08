@@ -64,21 +64,31 @@ class EntityController(BaseController):
         c.entities = entity_q.limit(limit)
         return render('entity/entity-list.' + filetype)
     
-    def search_with(self, id, id2):
-        # Grab ID(s) from database and get their search strings.
-        c.entity = h.fetch_obj(model.Entity, id)
-        c.entity2 = h.fetch_obj(model.Entity, id2)
- 
+
+    def search(self, id, id2=None):
+        # Grab ID(s) from database and get their search string(s).
+        if id2 is None:
+            c.entity = h.fetch_obj(model.Entity, id)
+            c.entity2 = None
+        else:
+            c.entity = h.fetch_obj(model.Entity, id)
+            c.entity2 = h.fetch_obj(model.Entity, id2)
+
+        # Run searches
         c.sep = EntityController._search_sep(c.entity, c.entity2)
         c.noesis = EntityController._search_noesis(c.entity, c.entity2)
         return render('entity/search.html')
 
     @staticmethod
     def _search_sep(entity, entity2):
-        # Concatenate search strings for each entity
-        searchstr = entity.web_search_string() + " + " + \
-                    entity2.web_search_string()
-        c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
+        # Build search string
+        if entity2 is None:
+            searchstr = c.entity.web_search_string()
+            c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
+        else:
+            searchstr = entity.web_search_string() + " + " + \
+                        entity2.web_search_string()
+            c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
 
         # Put together URL string
         url = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + \
@@ -105,9 +115,13 @@ class EntityController(BaseController):
     @staticmethod
     def _search_noesis(entity, entity2):
         # Concatenate search strings for each entity
-        searchstr = entity.web_search_string() + " " + \
-                    entity2.web_search_string()
-        c.noesis_searchstr = quote_plus(searchstr.encode('utf8'))
+        if entity2 is None:
+            searchstr = c.entity.web_search_string()
+            c.noesis_searchstr = quote_plus(searchstr.encode('utf8'))
+        else:
+            searchstr = entity.web_search_string() + " " + \
+                        entity2.web_search_string()
+            c.noesis_searchstr = quote_plus(searchstr.encode('utf8'))
 
         # Put together URL string
         api_key = "AIzaSyAd7fxJRf5Yj1ehBQAco72qqBSK1l0_p7c"
@@ -121,9 +135,6 @@ class EntityController(BaseController):
         json = simplejson.loads(results) if results else None
         return json
 
-    def search(self, id):
-        c.entity = h.fetch_obj(model.Entity, id)
-        return render('entity/search-one.html')
 
     def view(self, id=None, filetype='html'):
         c.entity = h.fetch_obj(model.Entity, id, new_id=True)

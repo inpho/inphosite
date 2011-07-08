@@ -1,7 +1,10 @@
-<%! import simplejson %>
 
-
+%if c.entity2 is None:
+<p>Search for <em>${c.entity.label}</em>:</p>
+%else:
 <p>Search for <em>${c.entity2.label}</em> in the context of <em>${c.entity.label}</em>:</p>
+%endif
+
 <script type="text/javascript">
 function toggleList(selector) {
     if ($('.on', selector).length > 0) {
@@ -74,10 +77,8 @@ more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + \
 	</li>
     %endfor
     </ol>
-##	%for elements in root.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Query'):
 	    <p style="text-align:right; font-weight:bold"><a target="_blank"
         href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
-##	%endfor
 
 %endif
 </div>

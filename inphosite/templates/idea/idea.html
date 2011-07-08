@@ -121,7 +121,7 @@ function enableEvals() {
 function search(elm, id, id2) {
     if (!($(elm).hasClass('active'))) {
         $("#moreInfo").html("<p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>");
-        var src  = '/entity/' + id + '/search_with/' + id2;
+        var src  = '/entity/' + id + '/search/' + id2;
         $.get(src, function(data){
                 $("#moreInfo").html(data);
             });

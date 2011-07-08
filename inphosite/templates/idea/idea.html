@@ -1,4 +1,4 @@
-<%! import urllib %>
+<%! import urllib, itertools %>
 <%inherit file="/base-tree.html" />
 <%namespace name="entity" file="/entity/entity.html" />
 <% 
@@ -105,65 +105,23 @@ came_from=h.url(controller='idea', action='view', id=c.idea.ID))}">signing
 in</a></strong>! </p>
 %endif
 
-<div id="taxonomy">
-%if not c.idea.nodes and not c.idea.instance_of:
-<h3 class="empty">Taxonomic Relations</h3>
-<p class="bottom">${c.idea.label} is not <em>yet</em> classified in the taxonomy. Please submit <a
-href="${h.url(controller='idea', action='edit',
-id=c.idea.ID)}">evaluations</a> to help improve the InPhO.</p>
-%else:
-<h3>Taxonomic Relations
-<span class="toggle on" onclick="toggleList('#taxonomy')">&nbsp;</span>
-</h3>
-<ol>
-%for node in c.idea.nodes:
-<div>
-%if node.parent:
-${entity.printEntity(node.parent, group=True)}
-${entity.printEntity(node, cls="child", group=True, srch_id=node.parent.ID)}
-%else:
-${entity.printEntity(node, group=True, srch_id=node.ID)}
-%endif
-</div>
-%endfor
 
-%for i, node in enumerate(c.idea.instance_of):
-<div>
-${entity.printEntity(node, group=True)}
-${entity.printEntity(c.idea, cls="child", group=True, srch_id=node.ID)}
-</div>
-%endfor
-</ol>
+<%
+taxonomic = []
+parents = [node.parent or c.idea for node in c.idea.nodes]
+if c.idea.nodes and parents:
+    taxonomic.extend(zip(parents, itertools.repeat(c.idea)))
 
-%endif
-</div>
+if c.idea.instance_of:
+    taxonomic.extend(zip(c.idea.instance_of, itertools.repeat(c.idea)))
+%>
 
-<div id="links">
-%if not c.idea.links_to:
-<h3 class="empty">Non-taxonomic Links</h3>
-<p class="bottom">${c.idea.label} does not <em>yet</em> have non-taxonomic links. Please submit <a
-href="${h.url(controller='idea', action='edit',
-id=c.idea.ID)}">evaluations</a> to help improve the InPhO.</p>
-%else:
-<h3>Non-taxonomic Links
-<span class="toggle on" onclick="toggleList('#links')">&nbsp;</span>
-</h3>
-<ol>
-%for i,node in enumerate(c.idea.links_to):
-<div>
-${entity.printEntity(node, group=True)}
-${entity.printEntity(c.idea, cls="childLink", group=True, srch_id=node.ID)}
-</div>
-%endfor
-</ol>
-
-%endif
-</div>
-
-${entity.printList(c.idea, 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.idea, 'related_thinkers', statistical=True)}
-${entity.printList(c.idea, 'hyponyms', statistical=True)}
-${entity.printList(c.idea, 'occurrences', statistical=True)}
+${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
+${entity.printList(zip(c.idea.links_to[:10], itertools.repeat(c.idea)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
+${entity.printList(c.idea.related[:10], 'related', alt_title='Related Terms', statistical=True)}
+${entity.printList(c.idea.related_thinkers[:10], 'related_thinkers', statistical=True)}
+${entity.printList(c.idea.hyponyms[:10], 'hyponyms', statistical=True)}
+${entity.printList(c.idea.occurrences[:10], 'occurrences', statistical=True)}
 
 </div> <!-- contentLeft -->
 

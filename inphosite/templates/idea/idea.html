@@ -30,15 +30,15 @@ $(document).ready(function() {
 <div id="content">
 <h1>${h.titlecase(c.idea.label)}</h1>
 %if c.idea.sep_dir:
-<p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/"
- target="_blank">
+<p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/" target="_blank">
 <img src="/img/sepmanicon.png" /> ${h.titlecase(c.idea.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 
 
+
 %if c.idea.nodes:
-<div id="dialog">
+<div id="dialog"> <!-- DIALOG BOX -->
 <p>${h.titlecase(c.idea.label)} is \
 classified in \
 %if len(c.idea.nodes) > 1:
@@ -50,7 +50,7 @@ on this general concept page</a>.</p>
 <ul>
 
 
-## Nodes
+<!-- Print out paths to the nodes -->
 %for node in c.idea.nodes:
 <li>\
 <% curParent = node.parent 
@@ -69,28 +69,8 @@ while curParent:
 <li><a href="#" onClick="$('#dialog').dialog('close')">Stay on the current page</a></li>
 </ul>
 
-</div>
+</div> <!-- END DIALOG -->
 %endif
-
-<%doc>
-</%doc>
-
-
-
-
-<%doc>
-%if not c.idea.nodes and not c.idea.instance_of:
-<p>${c.idea.label} is not <em>yet</em> classified in the taxonomy.
-
-%if not request.environ.get('REMOTE_USER'):
-Help improve results by <strong><a href="#" onClick="enableEvals()">enabling idea evaluations</a></strong>!
-%else:
-Help improve results by submitting idea evaluations!
-%endif
-</p>
-%endif
-</%doc>
-
 
 </div> <!-- content -->
 

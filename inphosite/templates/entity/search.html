@@ -70,10 +70,10 @@ more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + \
 %else:
 	<h3>SEP Internal Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
 	<ol class="search-results">
-    %for i in range(min(len(c.sep), 4)):
+    %for item in c.sep[:4]:
 	<li>
-			<h4><a href="${c.sep[i]['URL']}" target="_blank">${c.sep[i]['Text'] | n}</a></h4>
-			<p>${c.sep[i]['LongDescription'] | n}</p>
+			<h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
+			<p>${item['LongDescription'] | n}</p>
 	</li>
     %endfor
     </ol>

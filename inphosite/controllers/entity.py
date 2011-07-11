@@ -9,6 +9,7 @@ from inphosite.lib.base import BaseController, render
 
 import inphosite.model as model
 from inphosite.model.meta import Session
+from inphosite.model import Entity, Node, Idea
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
@@ -24,55 +25,51 @@ from xml.etree import ElementTree as ET
 log = logging.getLogger(__name__)
 
 class EntityController(BaseController):
-    def list(self, filetype='html'):
-        redirect = request.params.get('redirect', False)
-        limit = request.params.get('limit', None)
-        entity_q = model.meta.Session.query(model.Entity)
-        entity_q = entity_q.filter(model.Entity.typeID != 2)
-        
-        c.nodes = model.meta.Session.query(model.Node).filter(model.Node.parent_id == None).order_by("name").all()
-        c.query = '' 
-        c.sep = ''
+    _type = Entity
+    _controller = 'entity'
 
+    def list(self, filetype='html'):
+        entity_q = Session.query(self._type)
+        entity_q = entity_q.limit(request.params.get('limit', None))
+        #TODO: Remove the following line when Nodes are eliminated
+        entity_q = entity_q.filter(Entity.typeID != 2)
+        
+        c.nodes = Session.query(Node).filter(Node.parent_id == None)
+        c.nodes = c.nodes.order_by("name").all()
+
+        c.query = request.params.get('q', '')
+        c.sep = request.params.get('sep', '')
+
+        if request.params.get('sep_filter', False):
+            entity_q = entity_q.filter(Entity.sep_dir != '')
+        
+        if c.sep:
+            entity_q = entity_q.filter(Entity.sep_dir == c.sep) 
+
+        if c.query:
+            o = or_(Entity.label.like(q+'%'), Entity.label.like('% '+q+'%'))
+            entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
+        
         if filetype=='json':
             response.content_type = 'application/json'
-
-        if request.params.get('sep_filter'):
-            entity_q = entity_q.filter(model.Entity.sep_dir != '')
         
-        if request.params.get('sep'):
-            entity_q = entity_q.filter(model.Entity.sep_dir == request.params['sep'])
-            c.sep = request.params['sep']
-            # if only 1 result, go ahead and view that entity
-            if redirect and entity_q.count() == 1:
-                h.redirect(h.url(controller='entity', action='view',
-                filetype=filetype, id=entity_q.first().ID), code=302)
-
-        # Check for query
-        if request.params.get('q'):
-            q = request.params['q']
-            c.query = q
-            o = or_(model.Entity.label.like(q+'%'), model.Entity.label.like('% '+q+'%'))
-            entity_q = entity_q.filter(o).order_by(func.length(model.Entity.label))
-            # if only 1 result, go ahead and view that idea
-            if redirect and entity_q.count() == 1:
-                return self.view(entity_q.first().ID, filetype)
-            else:
-                c.entities = entity_q.limit(limit)
-                return render('entity/entity-list.' + filetype)
-
-        c.entities = entity_q.limit(limit)
-        return render('entity/entity-list.' + filetype)
+        c.entities = entity_q.all()
+        if request.params.get('redirect', False) and len(c.entities) == 1: 
+            h.redirect(h.url(controller=self._controller, action='view', 
+                             filetype=filetype, id=c.entities[0].ID), 
+                       code=302)
+        else:
+            return render('entity/entity-list.' + filetype)
     
 
     def search(self, id, id2=None):
         # Grab ID(s) from database and get their search string(s).
         if id2 is None:
-            c.entity = h.fetch_obj(model.Entity, id)
+            c.entity = h.fetch_obj(Entity, id)
             c.entity2 = None
         else:
-            c.entity = h.fetch_obj(model.Entity, id)
-            c.entity2 = h.fetch_obj(model.Entity, id2)
+            c.entity = h.fetch_obj(Entity, id)
+            c.entity2 = h.fetch_obj(Entity, id2)
 
         # Run searches
         c.sep = EntityController._search_sep(c.entity, c.entity2)
@@ -137,17 +134,17 @@ class EntityController(BaseController):
 
 
     def view(self, id=None, filetype='html'):
-        c.entity = h.fetch_obj(model.Entity, id, new_id=True)
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
         redirect(c.entity.url(filetype), code=303)
-        #c.nodes = model.meta.Session.query(model.Node).order_by("Name").all()
+        #c.nodes = Session.query(Node).order_by("Name").all()
         #return render('entity/entity.' + filetype)
 
     def graph(self, id=None, id2=None, filetype='json'):
-        c.entity = h.fetch_obj(model.Entity, id, new_id=True)
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
         if not id2:
             redirect(c.entity.url(filetype, action="graph"), code=303)
         else:
-            c.entity2 = h.fetch_obj(model.Entity, new_id=True)
+            c.entity2 = h.fetch_obj(Entity, new_id=True)
             redirect(c.entity.url(filetype, action="graph"), code=303)
 
             
@@ -163,7 +160,7 @@ class EntityController(BaseController):
         add = request.params.get('add', False)
         limit = request.params.get('limit', None)
         sep_dir = request.params.get('sep_dir', "")
-        entity_q = Session.query(model.Entity)
+        entity_q = Session.query(Entity)
         c.found = False    
         c.custom = False
         c.new = False
@@ -173,11 +170,11 @@ class EntityController(BaseController):
 
         if request.params.get('q'):
             q = request.params['q']
-            o = model.Entity.label.like(q)
-            entity_q = entity_q.filter(o).order_by(func.length(model.Entity.label))
+            o = Entity.label.like(q)
+            entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
             # if only 1 result, go ahead and view that entity
             if redirect and entity_q.count() == 1:
-                c.entity = h.fetch_obj(model.Entity, entity_q.first().ID)
+                c.entity = h.fetch_obj(Entity, entity_q.first().ID)
                 
                 #now get type and route to correct edit page
                 #first, if it is an idea, typeID = 1
@@ -282,7 +279,7 @@ class EntityController(BaseController):
             c.message = "Please input an idea using the search bar to the left."
             return render ('admin/idea-edit.html')
         else:
-            c.entity = h.fetch_obj(model.Entity, id)
+            c.entity = h.fetch_obj(Entity, id)
             c.found = True
             c.message = 'Entity edit page for entity ' + c.entity.label
             
@@ -321,7 +318,7 @@ class EntityController(BaseController):
                 return render('admin/school_of_thought-edit.html')
         
         
-        c.entity = h.fetch_obj(model.Entity, id, new_id=True)
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
         redirect(c.entity.url(action='admin'), code=303)
         
     def process(self, entity_type = '1', id=None):

@@ -1,39 +1,21 @@
 import logging
+from collections import defaultdict
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 
+from inphosite.controllers.entity import EntityController
 from inphosite.lib.base import BaseController, render
-
+import inphosite.lib.helpers as h
 from inphosite.model.idea import IdeaEvaluation
 from inphosite.model.taxonomy import *
 from inphosite.model.meta import Session
-import inphosite.lib.helpers as h
-from collections import defaultdict
 
 log = logging.getLogger(__name__)
 
-class TaxonomyController(BaseController):
-    def list(self, filetype='html', redirect=False):
-        node_q = Session.query(Node)
-            
-        if filetype=='json':
-            response.content_type = 'application/json'
-
-        # check for query
-        if request.params.get('q'):
-            node_q = node_q.filter(Node.name.like(u'%'+request.params['q']+'%'))
-            # if only 1 result, go ahead and view that node
-            if redirect and node_q.count() == 1:
-                h.redirect(h.url(controller='taxonomy', action='view',
-                                 id=node_q.first().ID, filetype=filetype))
-                
-        if filetype=='html':
-            c.nodes = Session.query(Node).filter(Node.parent_id == None).order_by("name").all()
-            return render('taxonomy/node-list.html')
-        else:
-            c.nodes = node_q.all()
-            return render('taxonomy/node-list.%s' % filetype)
+class TaxonomyController(EntityController):
+    _type = Node
+    _controller = 'taxonomy'
 
     def view(self, id=None, filetype='html'):
         c.node = h.fetch_obj(Node, id, new_id=True)

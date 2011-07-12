@@ -48,13 +48,13 @@ in</a></strong>! </p>
 src="/img/help-browser.png" title="Help"/> What are evaluations?</a></p>
 
 
-${entity.printList(c.idea, 'instances')}
-${entity.printList(c.node, 'children', alt_title='Subclasses')}
-${entity.printList(c.idea, 'links')}
-${entity.printList(c.idea, 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.idea, 'related_thinkers', statistical=True)}
-${entity.printList(c.idea, 'hyponyms', statistical=True)}
-${entity.printList(c.idea, 'occurrences', statistical=True)}
+${entity.printList(c.idea.instances, 'instances')}
+${entity.printList(c.node.children, 'children', alt_title='Subclasses')}
+${entity.printList(c.idea.links, 'links')}
+${entity.printList(c.idea.related[:10], 'related', alt_title='Related Terms', statistical=True)}
+${entity.printList(c.idea.related_thinkers[:10], 'related_thinkers', statistical=True)}
+${entity.printList(c.idea.hyponyms[:10], 'hyponyms', statistical=True)}
+${entity.printList(c.idea.occurrences[:10], 'occurrences', statistical=True)}
 
 </div> <!-- contentLeft -->
 

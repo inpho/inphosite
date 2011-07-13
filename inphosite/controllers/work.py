@@ -25,17 +25,6 @@ class WorkController(EntityController):
     _type = Work
     _controller = 'work'
 
-    #@beaker_cache(expire=60, type='memory', query_args=True)
-    def view(self, id, filetype='html'):
-        sep_filter = request.params.get('sep_filter', False) 
-        c.sep_filter = sep_filter
-
-        if filetype=='json':
-            response.content_type = 'application/json'
-
-        c.work = h.fetch_obj(Work, id, new_id=True)
-        return render('work/work.%s' % filetype)
-    
     # render the editing GUI
     def edit(self, id=None):
         if not h.auth.is_logged_in():

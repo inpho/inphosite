@@ -40,17 +40,6 @@ class ThinkerController(EntityController):
     _type = Thinker
     _controller = 'thinker'
 
-    #@beaker_cache(expire=60, type='memory', query_args=True)
-    def view(self, id, filetype='html'):
-        sep_filter = request.params.get('sep_filter', False) 
-        c.sep_filter = sep_filter
-
-        if filetype=='json':
-            response.content_type = 'application/json'
-
-        c.thinker = h.fetch_obj(Thinker, id, new_id=True)
-        return render('thinker/thinker.%s' % filetype)
-    
     def graph(self, id, filetype='html', limit=False):
         sep_filter = request.params.get('sep_filter', False) 
         c.sep_filter = sep_filter

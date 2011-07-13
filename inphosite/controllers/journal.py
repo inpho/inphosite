@@ -38,12 +38,6 @@ class JournalController(EntityController):
         c.journals = list(journal_q)
         return render('journal/stale-url-list.' + filetype)
 
-    def view(self, id=None, filetype='html'):
-        c.journal = h.fetch_obj(Journal, id)
-        if filetype=='json':
-            response.content_type = 'application/json'
-        return render('journal/journal.%s' % filetype)
-
     def graph(self, id=None, filetype='json'):
         abort(404)
 

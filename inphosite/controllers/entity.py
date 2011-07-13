@@ -134,10 +134,19 @@ class EntityController(BaseController):
 
 
     def view(self, id=None, filetype='html'):
+        c.sep_filter = request.params.get('sep_filter', False) 
+
+        # Set MIME type of json files
+        if filetype=='json':
+            response.content_type = 'application/json'
+
+        # Get entity and render template
         c.entity = h.fetch_obj(Entity, id, new_id=True)
-        redirect(c.entity.url(filetype), code=303)
-        #c.nodes = Session.query(Node).order_by("Name").all()
-        #return render('entity/entity.' + filetype)
+        if self._type == Entity:
+            h.redirect(c.entity.url(action='view', filetype=filetype), 
+                       code=303)
+        else:
+            return render('entity/entity.' + filetype)
 
     def graph(self, id=None, id2=None, filetype='json'):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
@@ -146,8 +155,6 @@ class EntityController(BaseController):
         else:
             c.entity2 = h.fetch_obj(Entity, new_id=True)
             redirect(c.entity.url(filetype, action="graph"), code=303)
-
-            
 
 
     def admin(self, id=None):

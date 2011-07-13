@@ -29,17 +29,6 @@ class SchoolOfThoughtController(EntityController):
     _type = SchoolOfThought
     _controller = 'school_of_thought'
 
-    #@beaker_cache(expire=60, type='memory', query_args=True)
-    def view(self, id, filetype='html'):
-        sep_filter = request.params.get('sep_filter', False) 
-        c.sep_filter = sep_filter
-
-        if filetype=='json':
-            response.content_type = 'application/json'
-
-        c.school_of_thought = h.fetch_obj(SchoolOfThought, id, new_id=True)
-        return render('school_of_thought/school_of_thought.%s' % filetype)
-
     # render the editing GUI
     def edit(self, id=None):
         if not h.auth.is_logged_in():

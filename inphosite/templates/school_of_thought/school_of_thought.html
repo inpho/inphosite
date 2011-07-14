@@ -1,7 +1,7 @@
 <%inherit file="/base-tree.html"/>
 
-<%def name="title()">Work - ${h.titlecase(c.school_of_thought.label)}</%def>
-<%def name="head_title()">${h.titlecase(c.school_of_thought.label)}</%def>
+<%def name="title()">School of Thought - ${h.titlecase(c.entity.label)}</%def>
+<%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
 
 <%def name="sidebar()">
 ${parent.sidebar()}
@@ -17,18 +17,18 @@ function srch(id) {
           $("#moreInfo").html(data);
         });
 }
-$(document).ready(srch(${c.school_of_thought.ID}));
+$(document).ready(srch(${c.entity.ID}));
 </script>
 
 <div id="content">
-<h1>${h.titlecase(c.school_of_thought.label)}</h1>
+<h1>${h.titlecase(c.entity.label)}</h1>
 </div>
 
 <div id="contentLeft">
-%if c.school_of_thought.sep_dir:
-<p><a href="http://plato.stanford.edu/entries/${c.school_of_thought.sep_dir}/"
+%if c.entity.sep_dir:
+<p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/"
  target="_blank">
-<img src="/img/sepmanicon.png" /> ${h.titlecase(c.school_of_thought.label)}</a>
+<img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 

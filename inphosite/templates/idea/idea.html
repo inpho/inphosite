@@ -7,8 +7,8 @@ c.entID = 0
 %>
 
 ## Header
-<%def name="title()">${parent.title()} - Idea - ${h.titlecase(c.idea.label)}</%def>
-<%def name="head_title()">${h.titlecase(c.idea.label)}</%def>
+<%def name="title()">${parent.title()} - Idea - ${h.titlecase(c.entity.label)}</%def>
+<%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
 ## Sidebar
 <%def name="sidebar()">
 ${parent.sidebar()}
@@ -28,20 +28,20 @@ $(document).ready(function() {
 </script>
 
 <div id="content">
-<h1>${h.titlecase(c.idea.label)}</h1>
-%if c.idea.sep_dir:
-<p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/" target="_blank">
-<img src="/img/sepmanicon.png" /> ${h.titlecase(c.idea.label)}</a>
+<h1>${h.titlecase(c.entity.label)}</h1>
+%if c.entity.sep_dir:
+<p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/" target="_blank">
+<img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 
 
 
-%if c.idea.nodes:
+%if c.entity.nodes:
 <div id="dialog"> <!-- DIALOG BOX -->
-<p>${h.titlecase(c.idea.label)} is \
+<p>${h.titlecase(c.entity.label)} is \
 classified in \
-%if len(c.idea.nodes) > 1:
+%if len(c.entity.nodes) > 1:
 <em>multiple places</em> in \
 %endif
 the taxonomy. You may either go to the following context-specific taxonomy pages
@@ -51,7 +51,7 @@ on this general concept page</a>.</p>
 
 
 <!-- Print out paths to the nodes -->
-%for node in c.idea.nodes:
+%for node in c.entity.nodes:
 <li>\
 <% curParent = node.parent 
 parents = []
@@ -77,36 +77,36 @@ while curParent:
 
 
 <div id="contentLeft">
-%if not request.environ.get('REMOTE_USER') and (c.idea.nodes or c.idea.instance_of):
+%if not request.environ.get('REMOTE_USER') and (c.entity.nodes or c.entity.instance_of):
 <p class="evaltext">Help improve results by <strong><a href="#"
 onClick="enableEvals($(this).parent().parent())">enabling anonymous 
 idea evaluations</a></strong> or <strong><a href="${h.url('signin',
-came_from=h.url(controller='idea', action='view', id=c.idea.ID))}">signing
+came_from=h.url(controller='idea', action='view', id=c.entity.ID))}">signing
 in</a></strong>! </p>
 %endif
 
 
 <%
 taxonomic = []
-parents = [node.parent or c.idea for node in c.idea.nodes]
-if c.idea.nodes and parents:
-    taxonomic.extend(zip(parents, itertools.repeat(c.idea)))
+parents = [node.parent or c.entity for node in c.entity.nodes]
+if c.entity.nodes and parents:
+    taxonomic.extend(zip(parents, itertools.repeat(c.entity)))
 
-if c.idea.instance_of:
-    taxonomic.extend(zip(c.idea.instance_of, itertools.repeat(c.idea)))
+if c.entity.instance_of:
+    taxonomic.extend(zip(c.entity.instance_of, itertools.repeat(c.entity)))
 %>
 
 ${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
-${entity.printList(zip(c.idea.links_to[:10], itertools.repeat(c.idea)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
-${entity.printList(c.idea.related[:10], 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.idea.related_thinkers[:10], 'related_thinkers', statistical=True)}
-${entity.printList(c.idea.hyponyms[:10], 'hyponyms', statistical=True)}
-${entity.printList(c.idea.occurrences[:10], 'occurrences', statistical=True)}
+${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
+${entity.printList(c.entity.related[:10], 'related', alt_title='Related Terms', statistical=True)}
+${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True)}
+${entity.printList(c.entity.hyponyms[:10], 'hyponyms', statistical=True)}
+${entity.printList(c.entity.occurrences[:10], 'occurrences', statistical=True)}
 
 </div> <!-- contentLeft -->
 
 <div id="moreInfo">
-<p>This is the page for the idea <em>${c.idea.label}</em>.</p>
+<p>This is the page for the idea <em>${c.entity.label}</em>.</p>
 
 <p>Click on any of the links on the left to explore related terms through a
 variety of targeted searches.  Click the <img src="/img/sepmanicon.png" /> icon

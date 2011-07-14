@@ -143,8 +143,7 @@ class EntityController(BaseController):
         # Get entity and render template
         c.entity = h.fetch_obj(Entity, id, new_id=True)
         if self._type == Entity:
-            h.redirect(c.entity.url(action='view', filetype=filetype), 
-                       code=303)
+            h.redirect(c.entity.url(filetype), code=303)
         else:
             return render('entity/entity.' + filetype)
 

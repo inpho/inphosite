@@ -63,15 +63,6 @@ def validate(*args, **kwargs):
     return f(*args, **kwargs)
 '''
 
-from webhelpers.html import literal
-class LiteralForm(Form):
-    def __getattribute__(self, name):
-        if name in ['value', 'option', 'error', 'checked', 'flow']:
-            return Form.__getattribute__(self, name)
-        def make_literal(*k, **p):
-            return literal(getattr(Form, name)(self, *k, **p))
-        return make_literal
-
 #authentication tools
 from inphosite.lib import auth
 

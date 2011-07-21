@@ -68,7 +68,7 @@ class IdeaController(BaseController):
             if redirect and idea_q.count() == 1:
                 h.redirect(h.url(controller='idea', action='view', id=idea_q.first().ID,filetype=filetype))
             else:
-                c.ideas = idea_q.limit(limit)
+                c.entities = idea_q.limit(limit)
                 return render('idea/idea-list.' + filetype)
         
         #TODO: Error handling - we shouldn't have multiple results
@@ -81,7 +81,7 @@ class IdeaController(BaseController):
             elif idea_q.count() == 0:
                 h.redirect(h.url(controller='entity', action='list', filetype=filetype, sep=request.params['sep'], redirect=redirect))
             else:
-                c.ideas = idea_q.limit(limit)
+                c.entities = idea_q.limit(limit)
                 return render('idea/idea-list.' + filetype)
         
         all_param = request.params.get('all', False)
@@ -104,7 +104,7 @@ class IdeaController(BaseController):
         elif instance_param:
             idea_q = instance_q
 
-        c.ideas = idea_q.limit(limit)
+        c.entities = idea_q.limit(limit)
         return render('idea/idea-list.' + filetype)
 
 

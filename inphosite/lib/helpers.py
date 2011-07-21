@@ -63,7 +63,6 @@ def validate(*args, **kwargs):
     return f(*args, **kwargs)
 '''
 
-from formbuild import Form
 from webhelpers.html import literal
 class LiteralForm(Form):
     def __getattribute__(self, name):

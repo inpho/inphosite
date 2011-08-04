@@ -26,6 +26,7 @@ def make_map(config):
     map.connect('/owl/', controller='page', action='owl')
     map.connect('/docs/', controller='page', action='docs')
     map.connect('/about/', controller='page', action='about')
+    map.connect('/privacy/', controller='page', action='privacy')
     map.connect('/{controller}', action='list', 
         conditions=dict(method=["GET"]))
     map.connect('/admin', controller='admin', action='index', 

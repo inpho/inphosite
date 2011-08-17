@@ -31,3 +31,6 @@ class PageController(BaseController):
     
     def graph(self):
         return render('graph.html')
+
+    def privacy(self):
+        return render('privacy.html')

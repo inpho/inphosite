@@ -5,6 +5,7 @@
 ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
+
 <%
 
 from inphosite.model import SEPArea
@@ -19,91 +20,168 @@ levels = [(1, 'interested amateur'), (2, 'undergraduate course'),
             (3, 'graduate course'), (4, 'published in area')]
 levels.insert(0, blank)
 
-form = h.Form(
-    value={'fullname' : c.user.fullname,
-           'first_area' : unicode(c.user.first_area_id),
-           'second_area' : unicode(c.user.second_area_id),
-           'first_area_level' : unicode(c.user.first_area_level),
-           'second_area_level' : unicode(c.user.second_area_level),
-           'email' : c.user.email,
-           'confirm_email' : c.user.email},
-    option={'first_area' : options,
-             'second_area' : options,
-             'first_area_level' : levels,
-             'second_area_level' : levels}
-)
-
 %>
-
 
 
 <div id="content">
 <h1>Edit Profile</h1>
-${form.start_with_layout(h.url(controller='account', action='submit_changes'), method="post") | n}
-    <tr class="field">
-        <td class="label" valign="top" height="10"><span style="visibility: hidden">*</span>Username:</td>
+
+<form method="post" action="/account/submit_changes">
+  <table class="formbuild">
+    <tbody>
+      ## Username
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          Username:
+        </td>
         <td class="field" valign="top">${c.user.username}</td>
-        <td rowspan="2" valign="top"></td>
-    </tr>
-    ${form.field(
-        label="Full Name", 
-        name='fullname',
-        type='text',
-        required=False
-    ) | n}
-    ${form.field(
-        label="E-mail", 
-        name='email',
-        type='text',
-        required=False
-    ) |n}
-    ${form.field(
-        label="Confirm E-mail", 
-        name='confirm_email',
-        type='text',
-        required=False
-    ) |n}
-    ${form.field(
-        label="Password",
-        name='password',
-        type='password',
-        required=False
-    ) | n}
-    ${form.field(
-        label="Confirm Password",
-        name='confirm_password',
-        type='password',
-        required=False
-    ) | n}
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Full Name
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="fullname">Full Name:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="text" value="${c.user.fullname}" name="fullname">
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Email
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span class="required">*</span>
+          <label for="email">E-mail:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="text" value="${c.user.email}" name="email">
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Confirm Email
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span class="required">*</span>
+          <label for="confirm_email">Confirm E-mail:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="text" value="${c.user.email}" name="confirm_email">
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Password
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="password">Password:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="password" name="password">
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Confirm Password
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="confirm_password">Confirm Password:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="password" name="confirm_password">
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
 <%doc>
-## TODO: enable area editing
-    ${form.field(
-        label="First Area",
-        name='first_area',
-        type='dropdown',
-        required=True
-    ) | n}
-    ${form.field(
-        label="Level of expertise",
-        name='first_area_level',
-        type='dropdown',
-        required=True
-    ) | n}
-    ${form.field(
-        label="Second Area",
-        name='second_area',
-        type='dropdown',
-        required=False
-    ) | n}
-    ${form.field(
-        label="Level of expertise",
-        name='second_area_level',
-        type='dropdown',
-        required=False
-    ) | n}
+ TODO: enable area editing
+      ## First Area
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span class="required">*</span>
+          <label for="first_area">First Area:</label>
+        </td>
+        <td class="field" valign="top">
+          <select name="first_area">
+            %for i,option in options:
+            %if i == c.user.first_area_id:
+            <option value="${i}" selected="selected">${option}</option>
+            %else:
+            <option value="${i}">${option}</option>
+            %endif
+            %endfor
+          </select>
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Level of Expertise
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span class="required">*</span>
+          <label for="first_area_level">Level of expertise:</label>
+        </td>
+        <td class="field" valign="top">
+          <select name="first_area_level">
+            %for i,level in levels:
+            %if i == c.user.first_area_level:
+            <option value="${i}" selected="selected">${level}</option>
+            %else:
+            <option value="${i}">${level}</option>
+            %endif
+            %endfor
+          </select>
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Second Area
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="second_area">Second Area:</label>
+        </td>
+        <td class="field" valign="top">
+          <select name="second_area">
+            %for i,option in options:
+            %if i == c.user.second_area_id:
+            <option value="${i}" selected="selected">${option}</option>
+            %else:
+            <option value="${i}">${option}</option>
+            %endif
+            %endfor
+          </select>
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      ## Level of Expertise
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="second_area_level">Level of expertise:</label>
+        </td>
+        <td class="field" valign="top">
+          <select name="second_area_level">
+            %for i,level in levels:
+            %if i == c.user.second_area_level:
+            <option value="${i}" selected="selected">${level}</option>
+            %else:
+            <option value="${i}">${level}</option>
+            %endif
+            %endfor
+          </select>
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
 </%doc>
-    ${form.action_bar(
-        form.submit(value="Edit", name='submit')
-    ) | n}
-${form.end_with_layout() | n}
+      ## Submit button
+      <tr>
+        <td></td>
+        <td colspan="2">
+          <input type="submit" value="Edit" name="submit">
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</form>
+
 </div>

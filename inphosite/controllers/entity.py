@@ -59,8 +59,9 @@ class EntityController(BaseController):
                              filetype=filetype, id=c.entities[0].ID), 
                        code=302)
         else:
-            return render('entity/entity-list.' + filetype)
-    
+            return render('{type}/{type}-list.'.format(type=self._controller) 
+                          + filetype)
+
 
     def search(self, id, id2=None):
         # Grab ID(s) from database and get their search string(s).
@@ -145,7 +146,9 @@ class EntityController(BaseController):
         if self._type == Entity:
             h.redirect(c.entity.url(filetype), code=303)
         else:
-            return render('entity/entity.' + filetype)
+            return render('{type}/{type}.'.format(type=self._controller) + 
+                          filetype)
+
 
     def graph(self, id=None, id2=None, filetype='json'):
         c.entity = h.fetch_obj(Entity, id, new_id=True)

@@ -23,16 +23,12 @@ ${actb.yui()}
 </%def>
 
 <%def name="sidebar()">
-${parent.sidebar()}
-<%
-form = h.Form(
-   value={'redirect' : 'True'} 
-)
-%>
-${form.start_with_layout(h.url(controller='entity', action='list', id=None),method='get') |n}
-${form.hidden('redirect') | n}
-${actb.actb("q", "Search InPhO")}
-${form.end_with_layout() |n}
+<form method="get" action="/entity?id=None">
+  <table class="formbuild">
+    <input type="hidden" value="True" name="redirect">
+    ${actb.actb("q", "Search InPhO")}
+  </table>
+</form>
 </%def>
 
 <%def name="draw(node=None)">

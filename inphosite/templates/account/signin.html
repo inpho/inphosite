@@ -13,14 +13,39 @@ ${parent.draw()}</%def>
 <p><a href="${h.url(controller='account', action='reset')}">Reset password</a></p>
 %endif
 
-<% 
-form = h.Form()
-%>
+<form method="post" action="/account/dologin">
+  <table class="formbuild">
+    <tbody>
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="login">Username:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="text" name="login">
+        </td>
+        <td valign="top" rowspan="2">
+        </td>
+      </tr>
+      <tr class="field">
+        <td class="label" valign="top" height="10">
+          <span style="visibility: hidden">*</span>
+          <label for="password">Password:</label>
+        </td>
+        <td class="field" valign="top">
+          <input type="password" name="password">
+        </td>
+        <td valign="top" rowspan="2"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="2">
+          <input type="submit" value="Login" name="sumbit">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
 
-${form.start_with_layout('/account/dologin', method="post") | n}
-    ${form.field(label="Username", name='login', type='text') | n}
-    ${form.field(label="Password", name='password', type='password') | n}
-    ${form.action_bar(form.submit(value="Login")) | n}
-${form.end_with_layout() | n}
 <p><a href="${h.url(controller='account', action='reset')}">Forgot your username or password?</a></p>
 </div>

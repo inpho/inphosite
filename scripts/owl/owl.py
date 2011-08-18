@@ -1,19 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from scripts.environment import load
-
 if __name__ == "__main__":
-    import sys
-    load(sys.argv[-1])
-
-    from scripts.model import *
+    from inpho.model import *
     from mako.template import Template
     
-    node_q = model.meta.Session.query(model.Node)
-    thinker_q = model.meta.Session.query(model.Thinker)
-    profession_q = model.meta.Session.query(model.Profession)
-    nationality_q = model.meta.Session.query(model.Nationality)
+    node_q = Session.query(Node)
+    thinker_q = Session.query(Thinker)
+    profession_q = Session.query(Profession)
+    nationality_q = Session.query(Nationality)
     
     nodes = node_q.all()
     thinkers = thinker_q.all()

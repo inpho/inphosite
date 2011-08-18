@@ -6,8 +6,8 @@
 c.entID = 0 
 %>
 ## Header
-<%def name="title()">${parent.title()} - Idea - ${h.titlecase(c.idea.label)}</%def>
-<%def name="head_title()">${h.titlecase(c.idea.label)}</%def>
+<%def name="title()">${parent.title()} - Idea - ${h.titlecase(c.entity.label)}</%def>
+<%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
 ## Sidebar
 <%def name="sidebar()">
 ${parent.sidebar()}
@@ -26,13 +26,13 @@ $(document).ready(function() {
 <div id="contentLeft">
 <h1>
 <a href="#moreInfo" onClick="showHelp()"><img class="loading" src="/img/help-browser.png" title="Help"/></a>
-${h.titlecase(c.idea.label)}
+${h.titlecase(c.entity.label)}
 
 </h1>
 
-%if c.idea.sep_dir:
-<p><a href="http://plato.stanford.edu/entries/${c.idea.sep_dir}/">
-<img src="/img/sepmanicon.png" /> ${h.titlecase(c.idea.label)}</a>
+%if c.entity.sep_dir:
+<p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/">
+<img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
 
@@ -48,19 +48,19 @@ in</a></strong>! </p>
 src="/img/help-browser.png" title="Help"/> What are evaluations?</a></p>
 
 
-${entity.printList(c.idea.instances, 'instances')}
+${entity.printList(c.entity.instances, 'instances')}
 ${entity.printList(c.node.children, 'children', alt_title='Subclasses')}
-${entity.printList(c.idea.links, 'links')}
-${entity.printList(c.idea.related[:10], 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.idea.related_thinkers[:10], 'related_thinkers', statistical=True)}
-${entity.printList(c.idea.hyponyms[:10], 'hyponyms', statistical=True)}
-${entity.printList(c.idea.occurrences[:10], 'occurrences', statistical=True)}
+${entity.printList(c.entity.links, 'links')}
+${entity.printList(c.entity.related[:10], 'related', alt_title='Related Terms', statistical=True)}
+${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True)}
+${entity.printList(c.entity.hyponyms[:10], 'hyponyms', statistical=True)}
+${entity.printList(c.entity.occurrences[:10], 'occurrences', statistical=True)}
 
 </div> <!-- contentLeft -->
 
 <div id="moreInfo">
 <div id="help">
-<p>This is the page for the node <em>${c.idea.label}</em>.</p>
+<p>This is the page for the node <em>${c.entity.label}</em>.</p>
 
 <p>This taxonomy of ideas is the outcome of our three-step ontology population
 method utlizing statistical analysis, expert feedback and machine reasoning (<a
@@ -72,7 +72,7 @@ open the InPhO page for the adjacent term. </p>
 
 <p>To help improve the InPhO, please <strong><a
 href="/signin?came_from=${url(controller='taxonomy', action='view',
-id=c.idea.ID)}">log in</a></strong> to submit evaluations and to be
+id=c.entity.ID)}">log in</a></strong> to submit evaluations and to be
 notified of new ontology-driven research tools. Alternatively, you may submit
 anonymous evaluations by <strong><a href="#"
 onClick="enableEvals($(this).parent().parent())">enabling idea
@@ -80,7 +80,7 @@ evaluations</a></strong>.</p>
 </div>
 
 <div id="evalHelp"> 
-<p>For each term on the left, indicate its relation to <em>${c.idea.label}</em>.
+<p>For each term on the left, indicate its relation to <em>${c.entity.label}</em>.
 You may skip any items you are unsure about. New feedback will be incorporated
 in nightly runs of our machine reasoning program.</p>
 

@@ -7,9 +7,9 @@ from pylons.controllers.util import abort, redirect
 from inphosite.controllers.entity import EntityController
 from inphosite.lib.base import BaseController, render
 import inphosite.lib.helpers as h
-from inphosite.model.idea import IdeaEvaluation
-from inphosite.model.taxonomy import *
-from inphosite.model.meta import Session
+from inpho.model.idea import IdeaEvaluation
+from inpho.model.taxonomy import *
+from inphosite.model import Session
 
 log = logging.getLogger(__name__)
 
@@ -19,17 +19,17 @@ class TaxonomyController(EntityController):
 
     def view(self, id=None, filetype='html'):
         c.node = h.fetch_obj(Node, id, new_id=True)
-        c.idea = c.node.idea
+        c.entity = c.node.idea
 
         c.evaluations = defaultdict(lambda: (-1, -1))
         identity = request.environ.get('repoze.who.identity')
         if identity:
             c.uid = identity['user'].ID
-            #c.evaluations = Session.query(IdeaEvaluation).filter_by(ante_id=c.idea.ID, uid=uid).all()
+            #c.evaluations = Session.query(IdeaEvaluation).filter_by(ante_id=c.entity.ID, uid=uid).all()
             eval_q = Session.query(IdeaEvaluation.cons_id, 
                                    IdeaEvaluation.generality, 
                                    IdeaEvaluation.relatedness)
-            eval_q = eval_q.filter_by(uid=c.uid, ante_id=c.idea.ID)
+            eval_q = eval_q.filter_by(uid=c.uid, ante_id=c.entity.ID)
             evals = eval_q.all()
             evals = map(lambda x: (x[0], (x[1], x[2])), evals)
             c.evaluations.update(dict(evals))
@@ -42,7 +42,7 @@ class TaxonomyController(EntityController):
 
         return render('taxonomy/node.%s' % filetype)
         #if filetype=='html':
-        #    c.idea = c.node.idea
+        #    c.entity = c.node.idea
         #    return render('idea/idea.html')
         #else:
         #    return render('taxonomy/node.%s' % filetype)

@@ -18,7 +18,7 @@ ${parent.draw()}</%def>
 %if not ideas:
 <h3 class="empty">${title}</h3>
 %if tax_class:
-<p class="bottom">${c.idea.label} is not <em>yet</em> classified in the taxonomy. Please submit <a href="${h.url(controller='idea', action='edit', id=c.idea.ID)}">evaluations</a> to help improve the InPhO.</p>
+<p class="bottom">${c.entity.label} is not <em>yet</em> classified in the taxonomy. Please submit <a href="${h.url(controller='idea', action='edit', id=c.entity.ID)}">evaluations</a> to help improve the InPhO.</p>
 %endif
 %else:
 <h3>${title} <span class="toggle on" onclick="toggleList('#${attr}')">&nbsp;</span> </h3>
@@ -50,7 +50,7 @@ c.entID += 1
 
 gen, rel = c.evaluations[cons.ID] 
 
-search = "search(this, %d, %d)" % (c.idea.ID, cons.ID)
+search = "search(this, %d, %d)" % (c.entity.ID, cons.ID)
 
 if c.uid:
     onchange_rel = "onChange=\"thisFunc($(this).parent().parent(), 'relatedness')\""
@@ -63,11 +63,11 @@ else:
 
     %if group:
     <% srch_id = srch_id or cons.ID %>
-    <li onClick="search($(this).parent().get(0), ${srch_id}, ${c.idea.ID})" class="idea ${cls}" id="${c.entID}">\
+    <li onClick="search($(this).parent().get(0), ${srch_id}, ${c.entity.ID})" class="idea ${cls}" id="${c.entID}">\
     %else:
-    <li onClick="search(this, ${c.idea.ID}, ${cons.ID})" class="idea ${cls}" id="${c.entID}">\
+    <li onClick="search(this, ${c.entity.ID}, ${cons.ID})" class="idea ${cls}" id="${c.entID}">\
     %endif
-    %if cons not in c.idea.nodes and cons != c.idea:
+    %if cons not in c.entity.nodes and cons != c.entity:
     <a href="${cons.url()}" class="sep">
     <img src="/img/inpho.png" /></a>\
     %endif
@@ -92,10 +92,10 @@ else:
         <img class='delete' id="delete" title="Click if this is not a philosophical idea" src="/img/delete.png" />
     </a> -->
     %if group:
-    <input type="hidden" name="ante_id" value="${c.idea.ID}" />
+    <input type="hidden" name="ante_id" value="${c.entity.ID}" />
     <input type="hidden" name="cons_id" value="${srch_id}" />
     %else:
-    <input type="hidden" name="ante_id" value="${c.idea.ID}" />
+    <input type="hidden" name="ante_id" value="${c.entity.ID}" />
     <input type="hidden" name="cons_id" value="${cons.ID}" />
     %endif
     
@@ -118,25 +118,25 @@ else:
 checked\
 %endif    
  />\
-        <em>more specific</em> than ${c.idea.label}<br />
+        <em>more specific</em> than ${c.entity.label}<br />
     <input type="radio" name="generality" value="1" ${onchange_gen} \
 %if gen == 1:
 checked\
 %endif    
  />\
-        <em>more general</em> than ${c.idea.label}<br />
+        <em>more general</em> than ${c.entity.label}<br />
     <input type="radio" name="generality" value="2" ${onchange_gen} \
 %if gen == 2:
 checked\
 %endif    
  />\
-        <em>as general</em> as ${c.idea.label}<br />
+        <em>as general</em> as ${c.entity.label}<br />
     <input type="radio" name="generality" value="3" ${onchange_gen} \
 %if gen == 3:
 checked\
 %endif    
  />\
-        <em>incomparable</em> to ${c.idea.label}<br />
+        <em>incomparable</em> to ${c.entity.label}<br />
     </div>
 
 %if request.environ.get('REMOTE_USER'):

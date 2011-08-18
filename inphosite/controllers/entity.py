@@ -142,7 +142,7 @@ class EntityController(BaseController):
             response.content_type = 'application/json'
 
         # Get entity and render template
-        c.entity = h.fetch_obj(Entity, id, new_id=True)
+        c.entity = h.fetch_obj(self._type, id, new_id=True)
         if self._type == Entity:
             h.redirect(c.entity.url(filetype), code=303)
         else:

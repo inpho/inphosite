@@ -9,7 +9,7 @@ ${parent.draw(c.node)}</%def>
 <%def name="printEntity(cons, cls='', group=False, srch_id=None)">
 <%
 from inphosite.model import IdeaEvaluation
-from inphosite.model.meta import Session
+from inphosite.model import Session
 
 if request.environ.get('REMOTE_USER'):
     uid = h.get_user(request.environ['REMOTE_USER']).ID

@@ -12,9 +12,8 @@ from inphosite.lib.base import BaseController, render
 import inphosite.lib.helpers as h
 from inphosite.lib.rest import restrict, dispatch_on
 import inphosite.model as model
-from inphosite.model import Work
-from inphosite.model.meta import Session
-import inphosite.model.meta as meta
+from inphosite.model import Work, Entity
+from inphosite.model import Session
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
@@ -94,15 +93,15 @@ class WorkController(EntityController):
         redirect = request.params.get('redirect', False)
         add = request.params.get('add', False)
         limit = request.params.get('limit', None)
-        entity_q = Session.query(model.Entity)
+        entity_q = Session.query(Entity)
         c.found = False    
         c.custom = False
         c.new = False
 
         if request.params.get('q'):
             q = request.params['q']
-            o = model.Entity.label.like(q)
-            entity_q = entity_q.filter(o).order_by(func.length(model.Entity.label))
+            o = Entity.label.like(q)
+            entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
             # if only 1 result, go ahead and view that idea
             if redirect and entity_q.count() == 1:
                 print "have a q, entityq count = 1"
@@ -167,9 +166,9 @@ class WorkController(EntityController):
             
             #setup search string and search pattern
             workname = work_add.label
-            workname_q = Session.query(model.Entity)
-            o = model.Entity.label.like('( '+ workname + ' )')
-            workname_q = workname_q.filter(o).order_by(func.length(model.Entity.label))
+            workname_q = Session.query(Entity)
+            o = Entity.label.like('( '+ workname + ' )')
+            workname_q = workname_q.filter(o).order_by(func.length(Entity.label))
             if workname_q.count() == 0:
                 work_add.searchpattern = "( " + workname + " )"
                 work_add.searchstring = workname

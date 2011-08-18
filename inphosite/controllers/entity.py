@@ -8,8 +8,8 @@ import re
 from inphosite.lib.base import BaseController, render
 
 import inphosite.model as model
-from inphosite.model.meta import Session
-from inphosite.model import Entity, Node, Idea
+from inphosite.model import Session
+from inphosite.model import Entity, Node, Idea, Journal, Work, SchoolOfThought
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
@@ -189,7 +189,7 @@ class EntityController(BaseController):
                 #first, if it is an idea, typeID = 1
                 if c.entity.typeID == 1:
                     print "have an idea, q, entityq count = 1"
-                    c.idea = h.fetch_obj(model.Idea, entity_q.first().ID)
+                    c.idea = h.fetch_obj(Idea, entity_q.first().ID)
                     c.found = True
                     id = c.idea.ID
                     c.message = 'Entity edit page for idea ' + c.idea.label
@@ -210,7 +210,7 @@ class EntityController(BaseController):
                 #thinkers
                 elif c.entity.typeID == 3:
                     print "have a thinker, q, entityq count = 1"
-                    c.thinker = h.fetch_obj(model.Thinker, entity_q.first().ID)
+                    c.thinker = h.fetch_obj(Thinker, entity_q.first().ID)
                     c.found = True
                     id = c.thinker.ID
                     c.message = 'Entity edit page for thinker ' + c.thinker.label
@@ -227,7 +227,7 @@ class EntityController(BaseController):
                 
                 elif c.entity.typeID == 4:
                     print "have a journal, q, entityq count = 1"
-                    c.journal = h.fetch_obj(model.Journal, entity_q.first().ID)
+                    c.journal = h.fetch_obj(Journal, entity_q.first().ID)
                     c.found = True
                     id = c.journal.ID
                     c.message = 'Entity edit page for journal ' + c.journal.label
@@ -243,7 +243,7 @@ class EntityController(BaseController):
 
                 elif c.entity.typeID == 5:
                     print "have a work, q, entityq count = 1"
-                    c.work = h.fetch_obj(model.Work, entity_q.first().ID)
+                    c.work = h.fetch_obj(Work, entity_q.first().ID)
                     c.found = True
                     id = c.work.ID
                     c.message = 'Entity edit page for work ' + c.work.label
@@ -259,7 +259,7 @@ class EntityController(BaseController):
                 
                 elif c.entity.typeID == 6:
                     print "have a school_of_thought, q, entityq count = 1"
-                    c.school_of_thought = h.fetch_obj(model.SchoolOfThought, entity_q.first().ID)
+                    c.school_of_thought = h.fetch_obj(SchoolOfThought, entity_q.first().ID)
                     c.found = True
                     id = c.school_of_thought.ID
                     c.message = 'Entity edit page for school_of_thought ' + c.school_of_thought.label
@@ -310,20 +310,20 @@ class EntityController(BaseController):
                     
             #set up c.search_string_list which will be used to structure intersection/union search pattern option
             if c.entity.typeID == 1:
-                c.idea = h.fetch_obj(model.Idea, c.entity.ID)
+                c.idea = h.fetch_obj(Idea, c.entity.ID)
                 c.search_string_list = c.idea.setup_SSL()
                 return render ('admin/idea-edit.html')
             elif c.entity.typeID == 3:
-                c.thinker = h.fetch_obj(model.Thinker, c.entity.ID)
+                c.thinker = h.fetch_obj(Thinker, c.entity.ID)
                 return render('admin/thinker-edit.html')
             elif c.entity.typeID == 4:
-                c.journal = h.fetch_obj(model.Journal, c.entity.ID)
+                c.journal = h.fetch_obj(Journal, c.entity.ID)
                 return render('admin/journal-edit.html')
             elif c.entity.typeID == 5:
-                c.work = h.fetch_obj(model.Work, c.entity.ID)
+                c.work = h.fetch_obj(Work, c.entity.ID)
                 return render('admin/work-edit.html')
             elif c.entity.typeID == 6:
-                c.school_of_thought = h.fetch_obj(model.SchoolOfThought, c.entity.ID)
+                c.school_of_thought = h.fetch_obj(SchoolOfThought, c.entity.ID)
                 return render('admin/school_of_thought-edit.html')
         
         

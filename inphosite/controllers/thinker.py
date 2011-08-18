@@ -10,9 +10,9 @@ from inphosite.controllers.entity import EntityController
 from inphosite.lib.base import BaseController, render
 import inphosite.lib.helpers as h
 from inphosite.lib.rest import restrict, dispatch_on
+from inpho.model.thinker import *
+from inphosite.model import Session
 from inphosite.model import Idea, Entity
-from inphosite.model.thinker import *
-from inphosite.model.meta import Session
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func

@@ -34,7 +34,7 @@ ${actb.yui()}
 <%def name="draw(node=None)">
 <%
 from inphosite.model import Node
-from inphosite.model.meta import Session
+from inphosite.model import Session
 from sqlalchemy.orm import joinedload, subqueryload, joinedload_all
 nodes = Session.query(Node)
 nodes = nodes.options(joinedload_all('children.children.children.children'))

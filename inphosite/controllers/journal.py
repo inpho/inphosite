@@ -12,7 +12,7 @@ from inphosite.lib.rest import restrict
 from inphosite.lib.base import BaseController, render
 
 from inphosite.model import Journal, Entity
-from inphosite.model.meta import Session
+from inphosite.model import Session
 import inphosite.lib.helpers as h
 from inphosite.controllers.entity import EntityController
 

@@ -68,7 +68,7 @@ from inphosite.lib import auth
 
 #model tools
 from inphosite.model import User
-from inphosite.model.meta import Session
+from inphosite.model import Session
 from sqlalchemy.orm.attributes import set_attribute, get_attribute 
 from sqlalchemy import or_
 

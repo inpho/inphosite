@@ -11,8 +11,8 @@ from inphosite.lib.rest import restrict, dispatch_on
 from inphosite.lib.base import BaseController, render
 
 import inphosite.model as model
-from inphosite.model import SchoolOfThought
-from inphosite.model.meta import Session
+from inphosite.model import SchoolOfThought, Entity
+from inphosite.model import Session
 import inphosite.lib.helpers as h
 from inphosite.controllers.entity import EntityController
 
@@ -95,7 +95,7 @@ class SchoolOfThoughtController(EntityController):
         redirect = request.params.get('redirect', False)
         add = request.params.get('add', False)
         limit = request.params.get('limit', None)
-        entity_q = Session.query(model.Entity)
+        entity_q = Session.query(Entity)
         c.found = False    
         c.custom = False
         c.new = False
@@ -104,8 +104,8 @@ class SchoolOfThoughtController(EntityController):
 
         if request.params.get('q'):
             q = request.params['q']
-            o = model.Entity.label.like(q)
-            entity_q = entity_q.filter(o).order_by(func.length(model.Entity.label))
+            o = Entity.label.like(q)
+            entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
             # if only 1 result, go ahead and view that idea
             if redirect and entity_q.count() == 1:
                 print "have a q, entityq count = 1"
@@ -170,9 +170,9 @@ class SchoolOfThoughtController(EntityController):
             
             #setup search string and search pattern
             school_of_thoughtname = school_of_thought_add.label
-            school_of_thoughtname_q = Session.query(model.Entity)
-            o = model.Entity.label.like('( '+ school_of_thoughtname + ' )')
-            school_of_thoughtname_q = school_of_thoughtname_q.filter(o).order_by(func.length(model.Entity.label))
+            school_of_thoughtname_q = Session.query(Entity)
+            o = Entity.label.like('( '+ school_of_thoughtname + ' )')
+            school_of_thoughtname_q = school_of_thoughtname_q.filter(o).order_by(func.length(Entity.label))
             if school_of_thoughtname_q.count() == 0:
                 school_of_thought_add.searchpattern = "( " + school_of_thoughtname + " )"
                 school_of_thought_add.searchstring = school_of_thoughtname

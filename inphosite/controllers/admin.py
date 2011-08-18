@@ -13,8 +13,7 @@ from inphosite.lib.base import BaseController, render
 
 import inphosite.model as model
 from inphosite.model import *
-from inphosite.model.meta import Session
-import inphosite.model.meta as meta
+from inphosite.model import Session
 import inphosite.lib.helpers as h
 import inphosite.lib.sepparse as sep 
 import webhelpers.paginate as paginate

@@ -1,5 +1,5 @@
 from php import PHP
-from inphosite.model.meta import Session
+from inphosite.model import Session
 from inphosite.model import Entity, SEPEntry, Fuzzymatch
 
 def convertSS(choicestring, ioru):

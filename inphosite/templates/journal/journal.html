@@ -1,15 +1,14 @@
 <%inherit file="/base-tree.html"/>
+<%def name="label()">
+%if c.entity.abbrs:
+${c.entity.abbrs[0]}
+%else:
+${c.entity.label}
+%endif
+</%def>
 
-<%
-if c.entity.abbrs:
-    label = c.entity.abbrs[0]
-else:
-    label = c.entity.label
-%>
-
-
-<%def name="title()">Journal - ${label}</%def>
-<%def name="head_title()">${label}</%def>
+<%def name="title()">Journal - ${label()}</%def>
+<%def name="head_title()">${label()}</%def>
 <%def name="sidebar()">
 ${parent.sidebar()}
 <br />

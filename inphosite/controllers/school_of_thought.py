@@ -10,9 +10,9 @@ from inphosite.lib.rest import restrict, dispatch_on
 
 from inphosite.lib.base import BaseController, render
 
-import inphosite.model as model
-from inphosite.model import SchoolOfThought, Entity
-from inphosite.model import Session
+import inpho.model as model
+from inpho.model import SchoolOfThought, Entity
+from inpho.model import Session
 import inphosite.lib.helpers as h
 from inphosite.controllers.entity import EntityController
 

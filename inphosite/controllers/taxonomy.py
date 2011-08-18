@@ -9,7 +9,7 @@ from inphosite.lib.base import BaseController, render
 import inphosite.lib.helpers as h
 from inpho.model.idea import IdeaEvaluation
 from inpho.model.taxonomy import *
-from inphosite.model import Session
+from inpho.model import Session
 
 log = logging.getLogger(__name__)
 

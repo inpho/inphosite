@@ -2,8 +2,8 @@ import re
 import HTMLParser
 from collections import defaultdict
 
-from inphosite.model import *
-from inphosite.model import Session
+from inpho.model import *
+from inpho.model import Session
 from sqlalchemy import or_
 import os.path
 import inphosite.lib.helpers as h

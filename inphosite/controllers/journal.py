@@ -11,8 +11,8 @@ from inphosite.lib.rest import restrict
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
-from inphosite.model import Journal, Entity
-from inphosite.model import Session
+from inpho.model import Journal, Entity
+from inpho.model import Session
 import inphosite.lib.helpers as h
 from inphosite.controllers.entity import EntityController
 

@@ -7,9 +7,9 @@ import re
 
 from inphosite.lib.base import BaseController, render
 
-import inphosite.model as model
-from inphosite.model import Session
-from inphosite.model import Entity, Node, Idea, Journal, Work, SchoolOfThought
+import inpho.model as model
+from inpho.model import Session
+from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func

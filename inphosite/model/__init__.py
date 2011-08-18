@@ -1,1 +1,0 @@
-from inpho.model import *

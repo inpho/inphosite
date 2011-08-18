@@ -14,10 +14,10 @@ from inphosite.lib import auth
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
-from inphosite.model import Entity
+from inpho.model import Entity
 from inpho.model.idea import *
 from inpho.model.taxonomy import *
-from inphosite.model import Session
+from inpho.model import Session
 import webhelpers.paginate as paginate
 
 from sqlalchemy import or_

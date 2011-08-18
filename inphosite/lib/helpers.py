@@ -67,8 +67,8 @@ def validate(*args, **kwargs):
 from inphosite.lib import auth
 
 #model tools
-from inphosite.model import User
-from inphosite.model import Session
+from inpho.model import User
+from inpho.model import Session
 from sqlalchemy.orm.attributes import set_attribute, get_attribute 
 from sqlalchemy import or_
 
@@ -76,7 +76,7 @@ def get_user(login):
     """
     Returns the User object from the model.
 
-    :rtype: :class:`inphosite.model.User`
+    :rtype: :class:`inpho.model.User`
     """
     user = Session.query(User).filter(or_(User.email==login,
                                           User.username==login.lower())).first()
@@ -88,7 +88,7 @@ def fetch_obj(type, id, error=404, new_id=False):
     the object does not exist, throw an HTTP error (default: 404 Not Found).
 
     :param type: object type
-    :type type: class in :mod:`inphosite.model`
+    :type type: class in :mod:`inpho.model`
     :param id: object id
     :type id: integer or None
     :param error: HTTP error code.

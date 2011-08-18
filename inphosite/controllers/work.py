@@ -11,9 +11,9 @@ from inphosite.controllers.entity import EntityController
 from inphosite.lib.base import BaseController, render
 import inphosite.lib.helpers as h
 from inphosite.lib.rest import restrict, dispatch_on
-import inphosite.model as model
-from inphosite.model import Work, Entity
-from inphosite.model import Session
+import inpho.model as model
+from inpho.model import Work, Entity
+from inpho.model import Session
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func

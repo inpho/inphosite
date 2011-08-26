@@ -2,26 +2,23 @@
 # -*- coding: utf-8 -*-
 """
 Usage:
-python graph/graph.py <PATH TO CONFIG.INI> <TYPE>
+python graph/graph.py <TYPE>
 type: ii | it | tt
 """
 
-from scripts.environment import load
-
 if __name__ == "__main__":
     import sys
-    load(sys.argv[-2])
 
-    from scripts.model import *
+    from inpho.model import *
     from mako.template import Template
     
     type = sys.argv[-1]
     if type == "ii":
-        edges = model.meta.Session.query(model.IdeaGraphEdge).all()
+        edges = Session.query(IdeaGraphEdge).all()
     elif type == "it":
-        edges = model.meta.Session.query(model.IdeaThinkerGraphEdge).all()
+        edges = Session.query(IdeaThinkerGraphEdge).all()
     elif type == "tt":
-        edges = model.meta.Session.query(model.ThinkerGraphEdge).all()
+        edges = Session.query(ThinkerGraphEdge).all()
     else:
         raise Exception("unrecognized type")
     

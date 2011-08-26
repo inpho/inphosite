@@ -15,10 +15,10 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.decorators.rest import restrict
 
-from inphosite.model import Idea, IdeaEvaluation, User
+from inpho.model import Idea, IdeaEvaluation, User
 from inphosite.lib.base import BaseController, render
 import inphosite.lib.helpers as h
-from inphosite.model.meta import Session
+from inpho.model import Session
 
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import aliased

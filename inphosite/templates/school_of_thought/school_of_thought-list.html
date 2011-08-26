@@ -11,7 +11,7 @@ ${parent.draw()}</%def>
 
 <div id="content">
 <ul>
-%for school_of_thought in c.schools_of_thought:
+%for school_of_thought in c.entities:
 <li><a href="${school_of_thought.url()}">${school_of_thought.label}</a></li>
 %endfor
 </ul>

@@ -11,10 +11,9 @@ from inphosite.lib.rest import restrict, dispatch_on
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
-import inphosite.model as model
-from inphosite.model import *
-from inphosite.model.meta import Session
-import inphosite.model.meta as meta
+import inpho.model as model
+from inpho.model import *
+from inpho.model import Session
 import inphosite.lib.helpers as h
 import inphosite.lib.sepparse as sep 
 import webhelpers.paginate as paginate

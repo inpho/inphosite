@@ -11,31 +11,16 @@ from inphosite.lib.rest import restrict
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
-from inphosite.model import Journal, Entity
-from inphosite.model.meta import Session
+from inpho.model import Journal, Entity
+from inpho.model import Session
 import inphosite.lib.helpers as h
+from inphosite.controllers.entity import EntityController
 
 log = logging.getLogger(__name__)
 
-class JournalController(BaseController):
-
-    def index(self):
-        return 'Hello World'
-
-    def list(self, filetype='html', redirect=False):
-        journal_q = Session.query(Journal)
-        
-        if filetype=='json':
-            response.content_type = 'application/json'
-
-        # check for query
-        if request.params.get('q'):
-            journal_q = journal_q.filter(Journal.name.like(u'%'+request.params['q']+'%'))
-            # if only 1 result, go ahead and view that journal
-            if redirect and journal_q.count() == 1:
-                return self.view(journal_q.first().id, filetype)
-        c.journals = list(journal_q)
-        return render('journal/journal-list.' + filetype)
+class JournalController(EntityController):
+    _type = Journal
+    _controller = 'journal'
 
     def list_stale_url(self, filetype='html', redirect=False):
         if not h.auth.is_logged_in():
@@ -52,15 +37,6 @@ class JournalController(BaseController):
         journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
         c.journals = list(journal_q)
         return render('journal/stale-url-list.' + filetype)
-
-
-
-    #VIEW
-    def view(self, id=None, filetype='html'):
-        c.journal = h.fetch_obj(Journal, id)
-        if filetype=='json':
-            response.content_type = 'application/json'
-        return render('journal/journal.%s' % filetype)
 
     def graph(self, id=None, filetype='json'):
         abort(404)

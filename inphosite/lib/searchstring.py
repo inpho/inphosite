@@ -1,6 +1,6 @@
 from php import PHP
-from inphosite.model.meta import Session
-from inphosite.model import Entity, SEPEntry, Fuzzymatch
+from inpho.model import Session
+from inpho.model import Entity, SEPEntry, Fuzzymatch
 
 def convertSS(choicestring, ioru):
     #takes one of the output choices from setup_SSL(), as well as whether we are dealing with intersection or union

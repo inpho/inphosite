@@ -14,10 +14,10 @@ from inphosite.lib import auth
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
-from inphosite.model import Entity
-from inphosite.model.idea import *
-from inphosite.model.taxonomy import *
-from inphosite.model.meta import Session
+from inpho.model import Entity
+from inpho.model.idea import *
+from inpho.model.taxonomy import *
+from inpho.model import Session
 import webhelpers.paginate as paginate
 
 from sqlalchemy import or_
@@ -43,6 +43,9 @@ from collections import defaultdict
 #    idea_sep_dir = validators.String()
 
 class IdeaController(BaseController):
+    _type = Idea
+    _controller = 'idea'
+    
     #@beaker_cache(expire=300, type='memory', query_args=True)
     def list(self, filetype='html'):
         redirect = request.params.get('redirect', False)
@@ -68,7 +71,7 @@ class IdeaController(BaseController):
             if redirect and idea_q.count() == 1:
                 h.redirect(h.url(controller='idea', action='view', id=idea_q.first().ID,filetype=filetype))
             else:
-                c.ideas = idea_q.limit(limit)
+                c.entities = idea_q.limit(limit)
                 return render('idea/idea-list.' + filetype)
         
         #TODO: Error handling - we shouldn't have multiple results
@@ -81,7 +84,7 @@ class IdeaController(BaseController):
             elif idea_q.count() == 0:
                 h.redirect(h.url(controller='entity', action='list', filetype=filetype, sep=request.params['sep'], redirect=redirect))
             else:
-                c.ideas = idea_q.limit(limit)
+                c.entities = idea_q.limit(limit)
                 return render('idea/idea-list.' + filetype)
         
         all_param = request.params.get('all', False)
@@ -104,7 +107,7 @@ class IdeaController(BaseController):
         elif instance_param:
             idea_q = instance_q
 
-        c.ideas = idea_q.limit(limit)
+        c.entities = idea_q.limit(limit)
         return render('idea/idea-list.' + filetype)
 
 
@@ -219,25 +222,27 @@ class IdeaController(BaseController):
         sep_filter = request.params.get('sep_filter', False) 
         c.sep_filter = sep_filter
 
-        c.idea = h.fetch_obj(Idea, id, new_id=True)
+        # IDEA GETTIN'
+        c.entity = h.fetch_obj(Idea, id, new_id=True)
 
-        c.count = len(c.idea.nodes) + len(c.idea.instance_of) + len(c.idea.links_to)
-        if len(c.idea.nodes) > 0:
-            c.node = c.idea.nodes[0]
-        elif len(c.idea.instance_of) > 0:
-            c.node = c.idea.instance_of[0]
+        c.count = len(c.entity.nodes) + len(c.entity.instance_of) + len(c.entity.links_to)
+        if len(c.entity.nodes) > 0:
+            c.node = c.entity.nodes[0]
+        elif len(c.entity.instance_of) > 0:
+            c.node = c.entity.instance_of[0]
         else:
             c.node = None
         
+        # EVALUATION PROCESSING
         c.evaluations = defaultdict(lambda: (-1, -1))
         identity = request.environ.get('repoze.who.identity')
         if identity:
             c.uid = identity['user'].ID
-            #c.evaluations = Session.query(IdeaEvaluation).filter_by(ante_id=c.idea.ID, uid=uid).all()
+            #c.evaluations = Session.query(IdeaEvaluation).filter_by(ante_id=c.entity.ID, uid=uid).all()
             eval_q = Session.query(IdeaEvaluation.cons_id, 
                                    IdeaEvaluation.generality, 
                                    IdeaEvaluation.relatedness)
-            eval_q = eval_q.filter_by(uid=c.uid, ante_id=c.idea.ID)
+            eval_q = eval_q.filter_by(uid=c.uid, ante_id=c.entity.ID)
             evals = eval_q.all()
             evals = map(lambda x: (x[0], (x[1], x[2])), evals)
             c.evaluations.update(dict(evals))
@@ -245,10 +250,10 @@ class IdeaController(BaseController):
         else:
             c.uid = None
 
-
-        if redirect and len(c.idea.nodes) == 1:
+        # REDIRECTING
+        if redirect and len(c.entity.nodes) == 1:
             h.redirect(h.url(controller='taxonomy', action='view',
-                             id=c.idea.nodes[0].ID,filetype=filetype), code=303)
+                             id=c.entity.nodes[0].ID,filetype=filetype), code=303)
 
         if filetype=='json':
             response.content_type = 'application/json'

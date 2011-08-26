@@ -6,7 +6,7 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 <div id="content">
-%if not c.ideas:
+%if not c.entities:
 %if c.query:
 <p>There is currently no InPhO concept for the search <b>${c.query}</b>. Please
 try another search query, or use the taxonomy to explore over 5,000
@@ -24,7 +24,7 @@ Encyclopedia of Philosophy, and a small amount of human feedback. Iterations of
 this cycle will be used to develop the taxonomy. The approach is explained in
 more detail in our <a href="/papers/">papers</a>.</p>
 <ul>
-%for idea in c.ideas:
+%for idea in c.entities:
 <li><a href="${h.url(controller='idea', action='view', id=idea.ID)}">${idea.label}</a></li>
 %endfor
 </ul>

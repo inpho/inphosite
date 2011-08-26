@@ -1,5 +1,5 @@
 <%!
-from inphosite.model import Idea,IdeaGraphEdge
+from inpho.model import Idea,IdeaGraphEdge
 %>\
 <%
 n = c.idea.get_related_idea_ids(n=c.n, recur=c.recur)

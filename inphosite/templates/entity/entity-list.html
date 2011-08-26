@@ -6,7 +6,7 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 <div id="content">
-%if c.entities.count() == 0:
+%if not c.entities:
 %if c.query:
 <p>There is currently no InPhO entry for the search <b>${c.query}</b>. Please
 try another search query, or use the taxonomy to explore over 5,000

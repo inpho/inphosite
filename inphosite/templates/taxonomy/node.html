@@ -17,6 +17,7 @@ ${parent.draw(c.node)}</%def>
 ## Body
 <div class="yui-gd">
 <script src="/js/eval.js" type="text/javascript"></script>
+<script src="/js/admin.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     evalsEnabled = ${'true' if request.environ.get('REMOTE_USER') else 'false'};
@@ -46,6 +47,12 @@ in</a></strong>! </p>
 
 <p><a href="#moreInfo" onClick="showEvalHelp()"><img class="loading"
 src="/img/help-browser.png" title="Help"/> What are evaluations?</a></p>
+
+
+## If user is logged in, show admin panel
+%if h.auth.is_logged_in():
+  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy"])}
+%endif
 
 
 ${entity.printList(c.entity.instances, 'instances')}

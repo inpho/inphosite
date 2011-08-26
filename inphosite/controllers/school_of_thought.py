@@ -42,17 +42,8 @@ class SchoolOfThoughtController(EntityController):
     
     #UPDATE
     def update(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
-        school_of_thought = h.fetch_obj(SchoolOfThought, id)
-        terms = ['sep_dir'] 
-
-        h.update_obj(school_of_thought, terms, request.params)
-
-        return self.view(id)
+        terms = ['sep_dir']
+        super(SchoolOfThoughtController, self).update(id, terms)
 
     @restrict('POST')
     def create(self):

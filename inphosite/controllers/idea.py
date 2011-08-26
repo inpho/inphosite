@@ -13,6 +13,7 @@ from inphosite.lib import auth
 
 # import inphosite information
 from inphosite.lib.base import BaseController, render
+from inphosite.controllers.entity import EntityController
 
 from inpho.model import Entity
 from inpho.model.idea import *
@@ -42,7 +43,7 @@ from collections import defaultdict
 #    idea_searchstring = validators.String()
 #    idea_sep_dir = validators.String()
 
-class IdeaController(BaseController):
+class IdeaController(EntityController):
     _type = Idea
     _controller = 'idea'
     
@@ -283,19 +284,10 @@ class IdeaController(BaseController):
         return render('idea/graph_all.' + filetype)
         
     #UPDATE
-    @restrict('PUT')
     def update(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
+        terms = ['sep_dir', 'searchstring']
+        super(IdeaController, self).update(id, terms)
 
-        idea = h.fetch_obj(Idea, id, new_id=True)
-        terms = ['sep_dir'] 
-
-        h.update_obj(idea, terms, request.params)
-
-        return self.view(id)
-
-    
     #DELETE
     @restrict('DELETE')
     def delete(self, id=None):

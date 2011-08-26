@@ -28,6 +28,23 @@ class EntityController(BaseController):
     _type = Entity
     _controller = 'entity'
 
+    # UPDATE
+    def update(self, id, terms):
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
+        entity = h.fetch_obj(self._type, id)
+        h.update_obj(entity, terms, request.params)
+
+        # Issue an HTTP success
+        response.status_int = 200
+        return "OK"
+
+
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
         entity_q = entity_q.limit(request.params.get('limit', None))

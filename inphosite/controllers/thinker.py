@@ -1,25 +1,24 @@
 import logging
+import re
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
-
-# import decorators
 from pylons.decorators import validate
 from pylons.decorators.cache import beaker_cache
-from inphosite.lib.rest import restrict, dispatch_on
 
+from inphosite.controllers.entity import EntityController
 from inphosite.lib.base import BaseController, render
-
-from inphosite.model import Idea, Entity
-from inphosite.model.thinker import *
-from inphosite.model.meta import Session
 import inphosite.lib.helpers as h
+from inphosite.lib.rest import restrict, dispatch_on
+from inpho.model.thinker import *
+from inpho.model import Session
+from inpho.model import Idea, Entity
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 
-import re
 log = logging.getLogger(__name__)
+
 unary_vars = {
     'nationality' : {'object' : Nationality, 
                      'property' : 'nationalities'},
@@ -37,48 +36,10 @@ binary_vars = {
                         'reverse' : True, 'maxdegree' : 1}
 }
 
-class ThinkerController(BaseController):
-    #@beaker_cache(expire=300, type='memory', query_args=True)
-    def list(self, filetype='html', redirect=False):
-        thinker_q = Session.query(Thinker)
-        c.query = ''
-        c.sep = ''
-        
-        if request.params.get('sep_filter'):
-            idea_q = idea_q.filter(Idea.sep_dir != '')
-        
-        if filetype=='json':
-            response.content_type = 'application/json'
+class ThinkerController(EntityController):
+    _type = Thinker
+    _controller = 'thinker'
 
-        # check for query
-        if request.params.get('q'):
-            c.query = request.params['q']
-            thinker_q = thinker_q.filter(Thinker.name.like(u'%'+request.params['q']+'%'))
-            # if only 1 result, go ahead and view that thinker
-            if redirect and thinker_q.count() == 1:
-                return self.view(thinker_q.first().ID, filetype)
-        
-        if request.params.get('sep'):
-            thinker_q = thinker_q.filter(Thinker.sep_dir == request.params['sep'])
-            c.sep = request.params['sep']
-            # if only 1 result, go ahead and view that thinker
-            if redirect and thinker_q.count() == 1:
-                return self.view(thinker_q.first().ID, filetype)
-
-        c.thinkers = thinker_q.all()
-        return render('thinker/thinker-list.' + filetype)
-
-    #@beaker_cache(expire=60, type='memory', query_args=True)
-    def view(self, id, filetype='html'):
-        sep_filter = request.params.get('sep_filter', False) 
-        c.sep_filter = sep_filter
-
-        if filetype=='json':
-            response.content_type = 'application/json'
-
-        c.thinker = h.fetch_obj(Thinker, id, new_id=True)
-        return render('thinker/thinker.%s' % filetype)
-    
     def graph(self, id, filetype='html', limit=False):
         sep_filter = request.params.get('sep_filter', False) 
         c.sep_filter = sep_filter

@@ -1,22 +1,16 @@
 #!/usr/bin/python
-
-from scripts.environment import load
-
 if __name__ == "__main__":
+    from inpho.model import *
     import sys
-    load(sys.argv[-1])
-
-    from scripts.model import *
 
     # initialize a list for people
     people = []
     
     # open people database and add each person to the people list
-    f = open(sys.argv[-2])
+    f = open(sys.argv[-1])
     for line in f:
         line = line.split("::")
         people.append(line)
-    
     
     for p in people:
         # skip incomplete entries
@@ -41,9 +35,8 @@ if __name__ == "__main__":
             #update password
             users.user_set_password(username, password)
     
-    meta.Session.flush()
-    meta.Session.commit()
-
+    Session.flush()
+    Session.commit()
 
     if not users.user_exists(username):
         raise Exception("Did not add %s to db!" % username)

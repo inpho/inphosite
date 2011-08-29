@@ -13,7 +13,7 @@ classification of journals by subject area and for one stop searching of journal
 content. </p>
 
 <ul>
-%for journal in c.journals:
+%for journal in c.entities:
 <li><a href="${journal.url()}">${journal.label}</a></li>
 %endfor
 </ul>

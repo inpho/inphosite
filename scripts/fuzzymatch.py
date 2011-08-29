@@ -11,7 +11,7 @@ if __name__ == "__main__":
     app = config['app_conf']
     print app['sep.databases']
     
-    from scripts.model import *
+    from inpho.model import *
     from mako.template import Template
     import inphosite.lib.sepparse as sepparse
     import inphosite.lib.searchstring as searchstring

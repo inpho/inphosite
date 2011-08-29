@@ -103,7 +103,7 @@ else:
     <div id="slider${cons.ID}" class="slider"></div>
     <script>
     //$(alert($("#${c.entID} form")));
-    $(initSlider($("#${c.entID} form .slider"), ${rel}, ${'true' if c.uid else 'false'}));
+    $(initSlider($("#${c.entID} form .slider"), ${rel}, ${'true' if c.uid else 'false'}, "${cons.label}"));
     </script>
     <div><small>unrelated</small><small style="float: right;">highly related</small></div>
     <input type="hidden" class="relatedness" name="relatedness" id="rel${cons.ID}" value="${rel}" />

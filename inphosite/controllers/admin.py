@@ -11,6 +11,7 @@ from inphosite.lib.rest import restrict, dispatch_on
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
+from inpho.corpus.sep import get_title, get_titles, new_entries
 import inpho.model as model
 from inpho.model import *
 from inpho.model import Session
@@ -58,14 +59,18 @@ class AdminController(BaseController):
         
         
         #second, get the list of entries to be added in a context objects
-        addlist = sep.addlist()
+        addlist = new_entries()
+        titles = get_titles()
         c.entries = []
         
         #perform a fuzzy match for each page and construct an appropriate link
-        for entry in addlist:
+        for sep_dir in addlist:
             #create a link for each entry in addlist()
-            entry.link = h.url(controller='admin', action='addentry', title=entry.title, sep_dir = entry.sep_dir)
-            c.entries.append(entry)
+            link = h.url(controller='admin', action='addentry', 
+                               title=titles[sep_dir], sep_dir=sep_dir)
+            c.entries.append({ 'sep_dir' : sep_dir, 
+                               'title' : titles[sep_dir], 
+                               'link' : link })
         
         c.message = "Below is a list of SEP entries lacking a corresponding entry in the entity table.  Please click on the link to edit the page for that idea.\n Note that clicking on one of these can take 2-5 minutes to fuzzymatch existing entity entries."
         return render ('admin/newentries.html')
@@ -76,9 +81,9 @@ class AdminController(BaseController):
         #displays a list of urls for edit pages for everything which is a fuzzymatch to the target title
         #also gives a default option to add a new entry, taking the user to the appropriate entity_add page  
         
-        title = request.params.get('title', None)
+        title = request.params.get('title', title)
         sep_dir = request.params.get('sep_dir', "")
-        if not sep_dir:
+        if title is None:
             raise Exception('I don\'t know how you got here, but you shouldn\'t be here without a "title"...please start over at the main page.')
         c.title = title
         c.sep_dir = sep_dir

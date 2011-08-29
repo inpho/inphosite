@@ -47,7 +47,7 @@ class EntityController(BaseController):
             entity_q = entity_q.filter(Entity.sep_dir == c.sep) 
 
         if c.query:
-            o = or_(Entity.label.like(q+'%'), Entity.label.like('% '+q+'%'))
+            o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
         
         if filetype=='json':

@@ -18,7 +18,7 @@ ${parent.sidebar()}
 
 
 %for entry in c.entries:
-	<a href="${entry.link}">${entry.title}</a>  (<a href="${'http://plato.stanford.edu/entries/' + entry.sep_dir}" target="_blank">SEP Entry</a>)<br />
+	<a href="${entry['link']}">${entry['title']}</a>  (<a href="${'http://plato.stanford.edu/entries/' + entry['sep_dir']}" target="_blank">SEP Entry</a>)<br />
 %endfor
 
 

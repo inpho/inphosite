@@ -18,7 +18,7 @@ ${parent.draw()}</%def>
 %if not ideas:
 <h3 class="empty">${title}</h3>
 %if tax_class:
-<p class="bottom">${c.entity.label} is not <em>yet</em> classified in the taxonomy. Please submit <a href="${h.url(controller='idea', action='edit', id=c.entity.ID)}">evaluations</a> to help improve the InPhO.</p>
+<p class="bottom evaltext">${c.entity.label} is not <em>yet</em> classified in the taxonomy. Help improve results by <strong><a href="#" onClick="enableEvals($(this).parent().parent())">enabling anonymous idea evaluations</a></strong> or <strong><a href="${h.url('signin', came_from=h.url(controller='idea', action='view', id=c.entity.ID))}">signing in</a></strong>! </p>
 %endif
 %else:
 <h3>${title} <span class="toggle on" onclick="toggleList('#${attr}')">&nbsp;</span> </h3>

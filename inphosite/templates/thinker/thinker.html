@@ -59,8 +59,8 @@ function toggleList(selector) {
 </script>
 
 
-## If user is logged in, show admin panel
-%if h.auth.is_logged_in():
+## If user is authorised, show admin panel
+%if h.auth.is_admin():
   ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "wiki", "birthday", "deathday"])}
 %endif
 

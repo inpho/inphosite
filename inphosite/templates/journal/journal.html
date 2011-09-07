@@ -34,8 +34,8 @@ $(document).ready(srch(${c.entity.ID}));
 
 <div id="contentLeft">
 
-## If user is logged in, show admin panel
-%if h.auth.is_logged_in():
+## If user is authorised, show admin panel
+%if h.auth.is_admin():
   ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "URL", "last_accessed", "language", "openAccess", "active", "student", "ISSN"])}
 %else:
   <dl>

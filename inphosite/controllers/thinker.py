@@ -102,17 +102,8 @@ class ThinkerController(EntityController):
     
     #UPDATE
     def update(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
-        thinker = h.fetch_obj(Thinker, id)
-        terms = ['sep_dir', 'wiki'] 
-
-        h.update_obj(thinker, terms, request.params)
-
-        return self.view(id)
+        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday']
+        super(ThinkerController, self).update(id, terms)
 
     @restrict('POST')
     def create(self):

@@ -42,21 +42,11 @@ class JournalController(EntityController):
         abort(404)
 
 
-
     #UPDATE
-    @restrict('PUT')
     def update(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
+        terms = ['sep_dir', 'URL', 'last_accessed', 'language', 'openAccess', 'active', 'student', 'ISSN']
+        super(JournalController, self).update(id, terms)
 
-        journal = h.fetch_obj(Journal, id)
-        terms = ['openAccess', 'URL', 'ISSN', 'noesisInclude', 'student', 'active']
-
-        h.update_obj(journal, terms, request.params)
-
-        return self.view(id)
 
     @restrict('DELETE')
     def delete(self, id=None):

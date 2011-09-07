@@ -276,31 +276,25 @@ checked\
         <span id="current_birth" onclick="edit('birth', '${c.entity.url()}')">
           ${c.entity.birth_string}
         </span>
-        <input type="text" style="visibility: hidden" id="birth_year" value="${h.bc(c.entity.birth_year)[1]}" size="4" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="birth_year" value="${c.entity.birth_year}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
         <input type="text" style="visibility: hidden" id="birth_month" value="${c.entity.birth_month}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
         <input type="text" style="visibility: hidden" id="birth_day" value="${c.entity.birth_day}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
-        <select id="birth_era" style="visibility: hidden" onclick="submit('birth', '${c.entity.url()}')">
-          %if h.bc(c.entity.birth_year)[0] == "BCE":
-          <option selected="selected" value="BCE"> BCE </option>
-          <option value="CE"> CE </option>
-          %elif h.bc(c.entity.birth_year)[0] == "CE":
-          <option value="BCE"> BCE </option>
-          <option selected="selected" value="CE"> CE </option>
-          %endif
-        </select>
       </span>
     </li>
   ## Deathday (mutable; for Thinker)
   %elif (attr == "deathday"):
     <li class="idea">
-      <span id="deathday_edit" class="sep" onclick="edit('deathday', '${c.entity.url()}')">
+      <span id="death_edit" class="sep" onclick="edit('death', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>Deathday:</b>
-      <span id="deathday_field">
-        <span id="current_deathday" onclick="edit('deathday', '${c.entity.url()}')">
+      <span id="death_field">
+        <span id="current_death" onclick="edit('death', '${c.entity.url()}')">
           ${c.entity.death_string}
         </span>
+        <input type="text" style="visibility: hidden" id="death_year" value="${c.entity.death_year}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="death_month" value="${c.entity.death_month}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="death_day" value="${c.entity.death_day}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
       </span>
     </li>
   ## Website (mutable; for Journal)

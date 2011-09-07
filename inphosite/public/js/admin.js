@@ -50,7 +50,6 @@ function edit_textbox(attr, url) {
     document.getElementById(attr_year).style.visibility = 'visible';
     document.getElementById(attr_month).style.visibility = 'visible';
     document.getElementById(attr_day).style.visibility = 'visible';
-    document.getElementById(attr_era).style.visibility = 'visible';
   }
   else {
     var attr_value = document.getElementById(current_attr).innerHTML.trim();
@@ -105,19 +104,17 @@ function edit_dropdown(attr, url) {
 //
 function submit(attr, url) {
   // get value of attr
-  // birthdays must PUT three values: the day, month, and year
+  // dates must PUT three values: the day, month, and year
   if (attr == "birth" || attr == "death") {
     var attr_year = attr + "_year";
     var attr_month = attr + "_month";
     var attr_day = attr + "_day";
-    var attr_era = attr + "_era";
-    var value = attr_day + "=" + 
-                document.getElementById(attr_day).value + "\n" + 
-                attr_month + "=" + 
-                document.getElementById(attr_month).value + "\n" + 
-                attr_year + "=" + 
-                document.getElementById(attr_year).value + " " + 
-                document.getElementById(attr_era).value;
+    var year = document.getElementById(attr_year).value;
+    var month = document.getElementById(attr_month).value;
+    var day = document.getElementById(attr_day).value;
+    var value = attr_year + "=" + year + "\n" + 
+                attr_month + "=" + month + "\n" + 
+                attr_day + "=" + day
   }
   // input sanitisation for URLs
   else if (attr == "URL") {
@@ -160,11 +157,20 @@ function reset(attr, url, response) {
       var attr_year = attr + "_year";
       var attr_month = attr + "_month";
       var attr_day = attr + "_day";
-      var attr_era = attr + "_era";
-      var attr_value = document.getElementById(attr_year).value + "-" +
-                       document.getElementById(attr_month).value + "-" + 
-                       document.getElementById(attr_day).value + " " + 
-                       document.getElementById(attr_era).value;
+      var year = document.getElementById(attr_year).value;
+      var month = document.getElementById(attr_month).value;
+      var day = document.getElementById(attr_day).value;
+
+      var era_pattern = new RegExp("(BC|AD|BCE|CE)");
+      var era = era_pattern.exec(year);
+      if (era == null) {
+        var attr_value = year + "-" + month + "-" + day;
+      }
+      else {
+        var year_pattern = new RegExp("[0-9]+");
+        var year = year_pattern.exec(year);
+        var attr_value = year + "-" + month + "-" + day + " " + era;
+      }
     }
     else
       var attr_value = document.getElementById(attr_text).value;

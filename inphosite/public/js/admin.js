@@ -7,7 +7,7 @@
  *
  * The edit function changes the HTML to the following:
  * "$attr_field" span
- *   "$attr" input box / dropdown menu
+ *   "$attr_text" input box / dropdown menu
  *   "old_$attr" input box
  *
  * The reset function reverts it to the original tags.
@@ -21,10 +21,10 @@
 //     to a text input box or dropdown menu.
 function edit(attr, url) {
   if (attr == "sep_dir" || attr == "searchstring" || attr == "wiki" || 
-      attr == "birth" || attr == "death" || attr == "website" || 
-      attr == "last_accessed" || attr == "language" || attr == "issn")
+      attr == "birth" || attr == "death" || attr == "URL" || 
+      attr == "last_accessed" || attr == "language" || attr == "ISSN")
     edit_textbox(attr, url);
-  else if (attr == "open_access" || attr == "active" || attr == "student")
+  else if (attr == "openAccess" || attr == "active" || attr == "student")
     edit_dropdown(attr, url);
 }
 
@@ -58,8 +58,8 @@ function edit_textbox(attr, url) {
     document.getElementById(attr_field).innerHTML = textbox;
   }
 
-  if (attr == "website")
-    document.getElementById("test_website").style.visibility = 'hidden';
+  if (attr == "URL")
+    document.getElementById("test_URL").style.visibility = 'hidden';
 }
 
 function edit_dropdown(attr, url) {
@@ -67,7 +67,7 @@ function edit_dropdown(attr, url) {
   var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
   var attr_edit = attr + "_edit";
-  if (attr == "open_access") {
+  if (attr == "openAccess") {
     var negative = "Closed";
     var positive = "Open";
   }
@@ -120,11 +120,11 @@ function submit(attr, url) {
                 document.getElementById(attr_era).value;
   }
   // input sanitisation for URLs
-  else if (attr == "website") {
-      var url = document.getElementById(attr_text).value;
-      if (url.substring(0, 6) != "http://")
-        url = "http://" + url;
-      var value = attr + "=" + url;
+  else if (attr == "URL") {
+      var value = document.getElementById("URL_text").value;
+      if (value.substring(0, 7) != "http://")
+        value = "http://" + value;
+      var value = attr + "=" + value;
   }
   else {
     var attr_text = attr + "_text";
@@ -169,12 +169,14 @@ function reset(attr, url, response) {
     else
       var attr_value = document.getElementById(attr_text).value;
   }
+
+  // PUT was not successful:
   else
     var attr_value = document.getElementById(old_attr).value;
 
-  if (attr == "open_access" && attr_value == 0)
+  if (attr == "openAccess" && attr_value == 0)
     var attr_value = "Closed";
-  else if (attr == "open_access" && attr_value == 1)
+  else if (attr == "openAccess" && attr_value == 1)
     var attr_value = "Open";
   else if (attr == "active" && attr_value == 0)
     var attr_value = "Inactive";
@@ -189,8 +191,8 @@ function reset(attr, url, response) {
   document.getElementById(attr_field).innerHTML = input_field;
   document.getElementById(attr_edit).style.visibility = 'visible';
 
-  if (attr == "website" && response == 200) {
-    document.getElementById("test_website").setAttribute('href', attr_value);
-    document.getElementById("test_website").style.visibility = 'visible';
+  if (attr == "URL" && response == 200) {
+    document.getElementById("test_URL").setAttribute('href', attr_value);
+    document.getElementById("test_URL").style.visibility = 'visible';
   }
 }

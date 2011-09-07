@@ -36,7 +36,7 @@ $(document).ready(srch(${c.entity.ID}));
 
 ## If user is logged in, show admin panel
 %if h.auth.is_logged_in():
-  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "website", "last_accessed", "language", "open_access", "active", "student", "issn"])}
+  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "URL", "last_accessed", "language", "openAccess", "active", "student", "ISSN"])}
 %else:
   <dl>
     %if c.entity.URL:

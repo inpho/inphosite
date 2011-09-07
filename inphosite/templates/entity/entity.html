@@ -304,18 +304,18 @@ checked\
       </span>
     </li>
   ## Website (mutable; for Journal)
-  %elif (attr == "website"):
+  %elif (attr == "URL"):
     <li class="idea">
-      <span id="website_edit" class="sep" onclick="edit('website', '${c.entity.url()}')">
+      <span id="URL_edit" class="sep" onclick="edit('URL', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
-      <b>Website:</b>
-      <span id="website_field">
-        <span id="current_website" onclick="edit('website', '${c.entity.url()}')">
+      <b>URL:</b>
+      <span id="URL_field">
+        <span id="current_URL" onclick="edit('URL', '${c.entity.url()}')">
           ${c.entity.URL}
         </span>
       </span>
-      <a id="test_website" href="${c.entity.URL}">(test)</a></dt>
+      <a id="test_URL" href="${c.entity.URL}">(test)</a></dt>
     </li>
   ## Last_accessed (mutable; for Journal)
   %elif (attr == "last_accessed"):
@@ -344,29 +344,29 @@ checked\
       </span>
     </li>
   ## ISSN (mutable; for Journal)
-  %elif (attr == "issn"):
+  %elif (attr == "ISSN"):
     <li class="idea">
-      <span id="issn_edit" class="sep" onclick="edit('issn', '${c.entity.url()}')">
+      <span id="ISSN_edit" class="sep" onclick="edit('ISSN', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>ISSN:</b>
-      <span id="issn_field">
-        <span id="current_issn" onclick="edit('issn', '${c.entity.url()}')">
+      <span id="ISSN_field">
+        <span id="current_ISSN" onclick="edit('ISSN', '${c.entity.url()}')">
           ${c.entity.ISSN}
         </span>
       </span>
     </li>
 
   ## Mutable via dropdown menu
-  ## Open_Access (mutable; for Journal)
-  %elif (attr == "open_access"):
+  ## Open Access (mutable; for Journal)
+  %elif (attr == "openAccess"):
     <li class="idea">
-      <span id="open_access_edit" class="sep" onclick="edit('open_access', '${c.entity.url()}')">
+      <span id="openAccess_edit" class="sep" onclick="edit('openAccess', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>OpenAccess:</b>
-      <span id="open_access_field">
-        <span id="current_open_access" onclick="edit('open_access', '${c.entity.url()}')">
+      <span id="openAccess_field">
+        <span id="current_openAccess" onclick="edit('openAccess', '${c.entity.url()}')">
           %if c.entity.openAccess == 0:
             Closed
           %elif c.entity.openAccess == 1:

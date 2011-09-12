@@ -72,7 +72,6 @@ class AdminController(BaseController):
                                'title' : titles[sep_dir], 
                                'link' : link })
         
-        c.message = "Below is a list of SEP entries lacking a corresponding entry in the entity table.  Please click on the link to edit the page for that idea.\n Note that clicking on one of these can take 2-5 minutes to fuzzymatch existing entity entries."
         return render ('admin/newentries.html')
 
     def addentry(self, title=None, sep_dir=None):
@@ -112,6 +111,5 @@ class AdminController(BaseController):
             entity.edits = match.edits
             c.linklist.append(entity)
         
-        c.message = c.message + "To add the sep_dir to one of the existing entities below, click on the appropriate button in the first list. (Note that your changes will not be committed until you click 'modify' on the next page.) \n\nAlternatively if none of the existing entity entries correspond to the entry, you may add a new entity by clicking on the final button below."
         return render ('admin/addentry.html')
     

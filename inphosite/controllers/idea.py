@@ -2,7 +2,6 @@ import logging
 
 from pylons import request, response, session, tmpl_context as c
 import inphosite.lib.helpers as h
-import inphosite.lib.searchstring as s
 from pylons.controllers.util import abort, redirect
 
 # import decorators
@@ -701,6 +700,7 @@ class IdeaController(EntityController):
                 changed = True
                 
             if not c.custom:
+                """
                 if c.idea.searchstring != s.convertSS(searchstring, ioru)[0]:
                     c.idea.searchstring = s.convertSS(searchstring, ioru)[0]
                     
@@ -709,6 +709,8 @@ class IdeaController(EntityController):
                         if label not in c.idea.searchpatterns:
                             c.idea.searchpatterns.append(label)
                     changed = True
+                """
+                pass
             else:
                 
                 searchpatterns = []

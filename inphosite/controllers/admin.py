@@ -16,7 +16,6 @@ import inpho.model as model
 from inpho.model import *
 from inpho.model import Session
 import inphosite.lib.helpers as h
-import inphosite.lib.sepparse as sep 
 import webhelpers.paginate as paginate
 from sqlalchemy import or_
 
@@ -53,10 +52,6 @@ class AdminController(BaseController):
     def addlist(self):
         #functionality for parsing through the list of entries which need to be added in light of additions to SEP
         #first step; run the genetries function to refresh the sepentries table from SEPMirror
-        
-        #uncomment the next line to refresh entries -- need to figure out how to coordinate with doing fuzzymatches ahead of time...maybe just look for new entries and add them?
-        #sep.getentries()
-        
         
         #second, get the list of entries to be added in a context objects
         addlist = new_entries()

@@ -4,9 +4,12 @@ from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons import url
 import re
+import os.path
+import csv
 
 from inphosite.lib.base import BaseController, render
 
+from inpho import config
 import inpho.model as model
 from inpho.model import Session
 from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought
@@ -81,6 +84,13 @@ class EntityController(BaseController):
                           + filetype)
 
     def list_new(self):
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
         addlist = sep.new_entries()
         titles = sep.get_titles()
         
@@ -89,8 +99,8 @@ class EntityController(BaseController):
         #perform a fuzzy match for each page and construct an appropriate link
         for sep_dir in addlist:
             #create a link for each entry in addlist()
-            link = h.url(controller='admin', action='addentry', 
-                               title=titles[sep_dir], sep_dir=sep_dir)
+            link = h.url(controller='entity', action='new', 
+                               label=titles[sep_dir], sep_dir=sep_dir)
             c.entries.append({ 'sep_dir' : sep_dir, 
                                'title' : titles[sep_dir], 
                                'link' : link })
@@ -98,17 +108,58 @@ class EntityController(BaseController):
         return render ('admin/newentries.html')
 
     def new(self):
+        """ Form for creating a new entry """
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
         # initialize template variables
-        c.title = request.params.get('title', None)
+        c.label = request.params.get('label', None)
         c.sep_dir = request.params.get('sep_dir', None)
-        if c.sep_dir and not title:
-            c.title = sep.get_title(sep_dir)
+        if c.sep_dir and not c.label:
+            c.label = sep.get_title(c.sep_dir)
 
         c.linklist = []
-
-        # TODO: Insert fuzzy match logic
+        if c.sep_dir:
+            fuzzypath = config.get('corpus', 'fuzzy_path')
+            fuzzypath = os.path.join(fuzzypath, c.sep_dir)
+            if os.path.exists(fuzzypath):
+                with open(fuzzypath) as f:
+                    matches = csv.reader(f)
+                    for row in matches:
+                        c.linklist.append(row)
+                    
 
         return render('entity/new.html')
+
+    def create(self, entity_type=None, filetype='html'):
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
+        entity_type = int(request.params.get('entity_type', entity_type))
+        label = request.params.get('label')
+        sep_dir = request.params.get('sep_dir')
+
+        if entity_type == 1:
+            c.entity = Idea(label, sep_dir=sep_dir)
+        else:
+            raise NotImplementedError
+
+        Session.add(c.entity)
+        Session.commit()
+        if redirect: 
+            redirect(c.entity.url(filetype, action="view"), code=303)
+        else:
+            return "200 OK"
+            
+
 
 
     def search(self, id, id2=None):

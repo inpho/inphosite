@@ -10,12 +10,61 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 
+
+
+<form action="/entity" method="POST">
 <fieldset>
-<legend>New Entry form</legend>
-<label for="title">Title</label>
-%if c.title:
-<div class="input"><input id="title" name="title" size="50" type="text" value="${c.title}" /></div>
-%else:
-<div class="input"><input id="title" name="title" size="50" type="text" /></div>
+<input type="hidden" name="redirect" id="redirect" value="True" />
+
+<legend>New entity form</legend>
+
+<div class="input">
+%if c.sep_dir and c.linklist:
+<p>This entry may already have a corresponding InPhO Entity:</p>
+<ul class="unstyled">
+%for entity in c.linklist:
+    <li><a href="${url(controller='entity', action='view', id=entity[1], sep_dir=c.sep_dir)}">${entity[2]}</a> (${entity[0]})</li>
+%endfor
+</ul>
+%elif c.sep_dir:
+<p>This entry does not have a corresponding InPhO Entity, as determined by the fuzzymatch algorithm.</p>
 %endif
+</div>
+
+<label for="label">Label</label>
+%if c.label:
+<div class="input"><input id="label" name="label" size="80" type="text" value="${c.label}" /></div>
+%else:
+<div class="input"><input id="label" name="label" size="80" type="text" /></div>
+%endif
+
+<label for="sep_dir">SEP Path</label>
+<div class="input">
+    <div class="input-prepend">
+## TODO: Lineup length properly
+##        <span class="add-on">http://plato.stanford.edu/entries/</span>
+%if c.sep_dir:
+        <input id="sep_dir" name="title" size="25" type="text" value="${c.sep_dir}" />
+%else:
+        <input id="sep_dir" name="title" size="25" type="text" />
+%endif
+    </div>
+</div>
+
+<label for="entity_type">Entity Type</label>
+<div class="input">
+<select id="entity_type" name="entity_type">
+    <option value="1">Idea</option>
+    <option value="3">Thinker</option>
+    <option value="4">Journal</option>
+    <option value="5">Work</option>
+    <option value="6">Group</option>
+</select>
+</div>
+
+<div class="actions">
+    <input type="submit" class="btn primary" value="Create Entry">
+</div>
+
 </fieldset>
+</form>

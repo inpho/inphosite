@@ -47,8 +47,25 @@ class JournalController(EntityController):
     #UPDATE
     def update(self, id=None):
         terms = ['sep_dir', 'URL', 'last_accessed', 'language', 'openAccess', 'active', 'student', 'ISSN']
+
+        if request.params.get('URL', None):
+            journal = h.fetch_obj(Journal, id)
+            journal.URL = request.params.get('URL')
+            journal.check_url()
+            Session.commit()
+
+        # TODO: Insert URL code
         super(JournalController, self).update(id, terms)
 
+    @restrict('GET')
+    def url(self, id=None, url=None):
+        # Get entity and render template
+        entity = h.fetch_obj(self._type, id, new_id=True)
+
+        if entity.check_url():
+            return "200 OK"
+        else:
+            abort(404)
 
     @restrict('DELETE')
     def delete(self, id=None):

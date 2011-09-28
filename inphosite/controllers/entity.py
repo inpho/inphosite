@@ -108,7 +108,7 @@ class EntityController(BaseController):
 
         # TODO: Insert fuzzy match logic
 
-        return render('admin/addentry.html')
+        return render('entity/new.html')
 
 
     def search(self, id, id2=None):

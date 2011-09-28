@@ -1,0 +1,21 @@
+<%! import urllib %>
+<%inherit file="/base-tree.html" />
+
+## Header
+<%def name="title()">${parent.title()} - New Entity</%def>
+<%def name="head_title()">New Entity</%def>
+## Sidebar
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+
+<fieldset>
+<legend>New Entry form</legend>
+<label for="title">Title</label>
+%if c.title:
+<div class="input"><input id="title" name="title" size="50" type="text" value="${c.title}" /></div>
+%else:
+<div class="input"><input id="title" name="title" size="50" type="text" /></div>
+%endif
+</fieldset>

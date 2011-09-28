@@ -4,11 +4,12 @@
 <title>${self.title()}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 ##${h.stylesheet_link('http://yui.yahooapis.com/combo?2.8.1/build/reset-fonts-grids/reset-fonts-grids.css&2.8.1/build/autocomplete/assets/skins/sam/autocomplete.css&2.8.1/build/treeview/assets/skins/sam/treeview.css')}
-${h.stylesheet_link(h.url('/yui/2.8.2r1/reset-fonts-grids/reset-fonts-grids.css'))}
-${h.stylesheet_link(h.url('/yui/2.8.2r1/autocomplete/assets/skins/sam/autocomplete.css'))}
+##${h.stylesheet_link(h.url('/yui/2.8.2r1/autocomplete/assets/skins/sam/autocomplete.css'))}
 ${h.stylesheet_link(h.url('/yui/2.8.2r1/treeview/assets/skins/sam/treeview.css'))}
-${h.stylesheet_link(h.url('/css/NewSite.css'))}
-${h.stylesheet_link(h.url('/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'))}
+##${h.stylesheet_link(h.url('/css/NewSite.css'))}
+##${h.stylesheet_link(h.url('/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'))}
+<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css">
+${h.stylesheet_link(h.url('/css/style.css'))}
 
 <!--  <link
   href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
@@ -24,23 +25,30 @@ ${h.javascript_link(h.url('/yui/2.8.2r1/treeview/treeview-min.js'))}
 ${h.javascript_link(h.url('/jquery/jquery-1.4.2.min.js'))}
 ${h.javascript_link(h.url('/jqueryui/js/jquery-ui-1.8.10.custom.min.js'))}
 ##${h.javascript_link(h.url('/jquery/jquery-ui-1.8.2.custom.min.js'))}
-${self.yui()}
+##${self.yui()}
 ##${h.stylesheet_link(h.url('/css/min.css'))}
-${self.head()}
+##${self.head()}
 </head>
 
 <body class="yui-skin-sam">
-<div id="container">
+<div class="topbar">
     <div id="header">${self.header()}</div>
-    <div id="sidebar">${self.sidebar()}
-<div id="sidebarFooter"></div>
+</div>
+<div id="logo-container">
+    <div id="logo"><img src="http://jamram.net/inpho-logo.gif"></div>
+</div>
+<div class="container" id="container">
+    <div class="row">
+    <div class="sidebar columns span5" id="sidebar">
+        ${self.sidebar()}
     </div>
-    <div id="main">
+    <div class="content columns span11" id="content">
         ${next.body()}
+        <%doc>
         <div id="footer">${self.footer()}</div>
+        </%doc>
     </div><!-- body -->
-    <!--<div id="ft"></div> footer -->
-    <div style="clear:both; padding-left:400px;">&nbsp;</div>
+    </div>
 </div><!-- doc -->
 </body>
 </html>
@@ -54,6 +62,18 @@ ${self.head()}
 
 
 <%def name="header()">
+<div class="fill">
+<div class="container">
+    <div style="margin-left: 300px; float: right;">
+    <ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/docs/">API</a></li>
+        <li><a href="/papers/">Articles &amp; Papers</a></li>
+    </ul> 
+    </div>
+</div>
+</div>
+<!--
 <div id="comments">Comments and feedback welcome! <a href="mailto:inpho@indiana.edu">inpho@indiana.edu</a></div>
 
 <div id="login">
@@ -79,71 +99,7 @@ ${self.head()}
     <div class="subButtons"><a href="/thinker">Thinkers</a></div>
     <div class="subButtons"><a href="/idea">Ideas</a></div>
 </div>
-</%def>
-
-<%def name="menu()">
-<div id="menu" class="yuimenubar yuimenubarnav"></div>
-<script type="text/javascript">
-YAHOO.util.Event.onDOMReady(function () {
-
-    var aItemData = [
-
-        { text: "Articles &amp; Papers", submenu: {  id: "papermenu", itemdata: [
-
-                { text: "2007", submenu: { id: "2007papermenu", itemdata: [
-                        "JCDL", 
-                        "APA Newsletter" 
-                    ] } 
-                },
-                { text: "2008", submenu: { id: "2008papermenu", itemdata: [
-                        "FLAIRS", 
-                        "The World is not Flat",
-                        "Synthese"
-                    ] } 
-                }
-
-            ] }
-        
-        },
-        
-        { text: "Tools", submenu: { id: "toolmenu", itemdata: [
-
-                [ 
-                    { text: "Taxonomy Browser"},
-                    { text: "Thinker Browser"}
-                ],
-                
-                [
-                    { text: "Download Taxonomy" },
-                    { text: "API" },
-                    { text: "Digital Humanities Initiative" }
-                ]
-        
-            ] }
-        },
-
-        { text: "About" }
-
-    ];
-
-
-    // Instantiate a MenuBar, passing in the id of the element to be created
-
-    var oMenuBar = new YAHOO.widget.MenuBar("menu");
-    
-
-    // Add items to the MenuBar instance
-    
-    oMenuBar.addItems(aItemData);
-
-
-    // Render the MenuBar instance
-    
-    oMenuBar.render();
-    
-});
-</script>
-
+-->
 </%def>
 
 

@@ -1,0 +1,21 @@
+body {
+    padding-top: 60px;
+    }
+
+.topbar { }
+#logo-container {
+    width: 940px; margin:0 auto; zoom: 1; z-index: -1;
+}
+#logo {
+        /* float: left; */
+        position: fixed;
+        top: 0;
+        margin-top: 0px;
+        z-index: 100000;
+		height:147px;
+        width: 262px;
+	}
+#sidebar {
+    margin-top: 87px;
+}
+*/

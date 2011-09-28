@@ -22,13 +22,14 @@ ${actb.yui()}
 ##${h.javascript_link(h.url('/yui/2.8.2r1/treeview/treeview-min.js'))}
 </%def>
 
-<%def name="sidebar()">
-<form method="get" action="/entity?id=None">
-  <table class="formbuild">
+<%def name="sidebar(node=None)">
+<%doc>
+<form class="form-stacked" method="get" action="/entity?id=None">
     <input type="hidden" value="True" name="redirect">
     ${actb.actb("q", "Search InPhO")}
-  </table>
 </form>
+</%doc>
+${draw(node)}
 </%def>
 
 <%def name="draw(node=None)">

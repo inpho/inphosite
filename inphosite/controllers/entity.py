@@ -4,12 +4,16 @@ from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons import url
 import re
+import os.path
+import csv
 
 from inphosite.lib.base import BaseController, render
 
+from inpho import config
 import inpho.model as model
 from inpho.model import Session
 from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought
+import inpho.corpus.sep as sep
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
@@ -27,6 +31,23 @@ log = logging.getLogger(__name__)
 class EntityController(BaseController):
     _type = Entity
     _controller = 'entity'
+
+    # UPDATE
+    def update(self, id, terms):
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
+        entity = h.fetch_obj(self._type, id)
+        h.update_obj(entity, terms, request.params)
+
+        # Issue an HTTP success
+        response.status_int = 200
+        return "OK"
+
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
@@ -61,6 +82,84 @@ class EntityController(BaseController):
         else:
             return render('{type}/{type}-list.'.format(type=self._controller) 
                           + filetype)
+
+    def list_new(self):
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
+        addlist = sep.new_entries()
+        titles = sep.get_titles()
+        
+        c.entries = []
+        
+        #perform a fuzzy match for each page and construct an appropriate link
+        for sep_dir in addlist:
+            #create a link for each entry in addlist()
+            link = h.url(controller='entity', action='new', 
+                               label=titles[sep_dir], sep_dir=sep_dir)
+            c.entries.append({ 'sep_dir' : sep_dir, 
+                               'title' : titles[sep_dir], 
+                               'link' : link })
+
+        return render ('admin/newentries.html')
+
+    def new(self):
+        """ Form for creating a new entry """
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
+        # initialize template variables
+        c.label = request.params.get('label', None)
+        c.sep_dir = request.params.get('sep_dir', None)
+        if c.sep_dir and not c.label:
+            c.label = sep.get_title(c.sep_dir)
+
+        c.linklist = []
+        if c.sep_dir:
+            fuzzypath = config.get('corpus', 'fuzzy_path')
+            fuzzypath = os.path.join(fuzzypath, c.sep_dir)
+            if os.path.exists(fuzzypath):
+                with open(fuzzypath) as f:
+                    matches = csv.reader(f)
+                    for row in matches:
+                        c.linklist.append(row)
+                    
+
+        return render('entity/new.html')
+
+    def create(self, entity_type=None, filetype='html'):
+        if not h.auth.is_logged_in():
+            response.status_int = 401
+            return "Unauthorized"
+        if not h.auth.is_admin():
+            response.status_int = 403
+            return "Forbidden"
+
+        entity_type = int(request.params.get('entity_type', entity_type))
+        label = request.params.get('label')
+        sep_dir = request.params.get('sep_dir')
+
+        if entity_type == 1:
+            c.entity = Idea(label, sep_dir=sep_dir)
+        else:
+            raise NotImplementedError
+
+        Session.add(c.entity)
+        Session.commit()
+        if redirect: 
+            redirect(c.entity.url(filetype, action="view"), code=303)
+        else:
+            return "200 OK"
+            
+
 
 
     def search(self, id, id2=None):

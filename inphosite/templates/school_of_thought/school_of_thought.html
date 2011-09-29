@@ -1,4 +1,5 @@
 <%inherit file="/base-tree.html"/>
+<%namespace name="entity" file="/entity/entity.html" />
 
 <%def name="title()">School of Thought - ${h.titlecase(c.entity.label)}</%def>
 <%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
@@ -10,6 +11,7 @@ ${parent.draw()}</%def>
 
 
 <div class="yui-gd">
+<script src="/js/admin.js" type="text/javascript"></script>
 <script type="text/javascript">
 function srch(id) {
     var src  = '/entity/' + id + '/search';
@@ -30,6 +32,11 @@ $(document).ready(srch(${c.entity.ID}));
  target="_blank">
 <img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
+%endif
+
+## If user is authorised, show admin panel
+%if h.auth.is_admin():
+  ${entity.printAdminPanel(["id", "type", "label", "sep_dir"])}
 %endif
 
 </div> <!-- contentLeft -->

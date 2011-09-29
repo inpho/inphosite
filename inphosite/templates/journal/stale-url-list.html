@@ -8,9 +8,18 @@ ${parent.draw()}</%def>
 <div id="content">
 <p> This is a list of journals with broken links. </p>
 
+<h2>Broken URLs</h2>
+<p>${len(c.broken)} journals</p>
 <ul>
-%for journal in c.journals:
-<li><a href="${journal.url(action='admin')}">${journal.label}</a></li>
+%for journal in c.broken:
+<li><a href="${journal.url()}">${journal.label}</a></li>
+%endfor
+</ul>
+<h2>Missing URLs</h2>
+<p>${len(c.missing)} journals</p>
+<ul>
+%for journal in c.missing:
+<li><a href="${journal.url()}">${journal.label}</a></li>
 %endfor
 </ul>
 </div>

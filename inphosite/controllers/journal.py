@@ -36,27 +36,36 @@ class JournalController(EntityController):
         
         journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
         c.journals = list(journal_q)
+        c.broken = [journal for journal in c.journals if journal.URL]
+        c.missing = [journal for journal in c.journals if not journal.URL]
         return render('journal/stale-url-list.' + filetype)
 
     def graph(self, id=None, filetype='json'):
         abort(404)
 
 
-
     #UPDATE
-    @restrict('PUT')
     def update(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
+        terms = ['sep_dir', 'URL', 'last_accessed', 'language', 'openAccess', 'active', 'student', 'ISSN']
 
-        journal = h.fetch_obj(Journal, id)
-        terms = ['openAccess', 'URL', 'ISSN', 'noesisInclude', 'student', 'active']
+        if request.params.get('URL', None):
+            journal = h.fetch_obj(Journal, id)
+            journal.URL = request.params.get('URL')
+            journal.check_url()
+            Session.commit()
 
-        h.update_obj(journal, terms, request.params)
+        # TODO: Insert URL code
+        super(JournalController, self).update(id, terms)
 
-        return self.view(id)
+    @restrict('GET')
+    def url(self, id=None, url=None):
+        # Get entity and render template
+        entity = h.fetch_obj(self._type, id, new_id=True)
+
+        if entity.check_url():
+            return "200 OK"
+        else:
+            abort(404)
 
     @restrict('DELETE')
     def delete(self, id=None):

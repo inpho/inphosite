@@ -16,7 +16,6 @@ import inpho.model as model
 from inpho.model import *
 from inpho.model import Session
 import inphosite.lib.helpers as h
-import inphosite.lib.sepparse as sep 
 import webhelpers.paginate as paginate
 from sqlalchemy import or_
 
@@ -54,10 +53,6 @@ class AdminController(BaseController):
         #functionality for parsing through the list of entries which need to be added in light of additions to SEP
         #first step; run the genetries function to refresh the sepentries table from SEPMirror
         
-        #uncomment the next line to refresh entries -- need to figure out how to coordinate with doing fuzzymatches ahead of time...maybe just look for new entries and add them?
-        #sep.getentries()
-        
-        
         #second, get the list of entries to be added in a context objects
         addlist = new_entries()
         titles = get_titles()
@@ -72,7 +67,6 @@ class AdminController(BaseController):
                                'title' : titles[sep_dir], 
                                'link' : link })
         
-        c.message = "Below is a list of SEP entries lacking a corresponding entry in the entity table.  Please click on the link to edit the page for that idea.\n Note that clicking on one of these can take 2-5 minutes to fuzzymatch existing entity entries."
         return render ('admin/newentries.html')
 
     def addentry(self, title=None, sep_dir=None):
@@ -112,6 +106,5 @@ class AdminController(BaseController):
             entity.edits = match.edits
             c.linklist.append(entity)
         
-        c.message = c.message + "To add the sep_dir to one of the existing entities below, click on the appropriate button in the first list. (Note that your changes will not be committed until you click 'modify' on the next page.) \n\nAlternatively if none of the existing entity entries correspond to the entry, you may add a new entity by clicking on the final button below."
         return render ('admin/addentry.html')
     

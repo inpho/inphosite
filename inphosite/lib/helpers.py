@@ -45,10 +45,16 @@ def bc(year=None):
     if year:
         if re.search('BC', year):
             year = year.split(' BC')[0]
-            return ('BC', year)
+            return ('BCE', year)
+        elif re.search('BCE', year):
+            year = year.split(' BCE')[0]
+            return ('BCE', year)
         elif re.search('AD', year):
             year = year.split(' AD')[0]
-            return ('AD', year)
+            return ('CE', year)
+        elif re.search('CE', year):
+            year = year.split(' CE')[0]
+            return ('CE', year)
         else:
             return ("", year)
     else:
@@ -124,6 +130,7 @@ def update_obj(obj, attributes, params):
                 abort(400)
     
     Session.flush()
+    Session.commit()
 
 def delete_obj(obj):
     """

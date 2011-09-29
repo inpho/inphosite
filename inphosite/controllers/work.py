@@ -37,17 +37,8 @@ class WorkController(EntityController):
     
     #UPDATE
     def update(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
-        work = h.fetch_obj(Work, id)
-        terms = ['sep_dir'] 
-
-        h.update_obj(work, terms, request.params)
-
-        return self.view(id)
+        terms = ['sep_dir']
+        super(WorkController, self).update(id, terms)
 
     @restrict('POST')
     def create(self):

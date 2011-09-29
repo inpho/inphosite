@@ -18,7 +18,12 @@ ${parent.draw()}</%def>
 %if not ideas:
 <h3 class="empty">${title}</h3>
 %if tax_class:
-<p class="bottom evaltext">${c.entity.label} is not <em>yet</em> classified in the taxonomy. Help improve results by <strong><a href="#" onClick="enableEvals($(this).parent().parent())">enabling anonymous idea evaluations</a></strong> or <strong><a href="${h.url('signin', came_from=h.url(controller='idea', action='view', id=c.entity.ID))}">signing in</a></strong>! </p>
+<p class="bottom evaltext">${h.titlecase(c.entity.label)} is not <em>yet</em> classified in the taxonomy. 
+%if h.auth.is_logged_in():
+</p>
+%else:
+Help improve results by <strong><a href="#" onClick="enableEvals($(this).parent().parent())">enabling anonymous idea evaluations</a></strong> or <strong><a href="${h.url('signin', came_from=h.url(controller='idea', action='view', id=c.entity.ID))}">signing in</a></strong>! </p>
+%endif
 %endif
 %else:
 <h3>${title} <span class="toggle on" onclick="toggleList('#${attr}')">&nbsp;</span> </h3>
@@ -149,5 +154,306 @@ checked\
 %endif
     
     </li>
+
+</%def>
+
+
+<%def name="printAdminPanel(attrs)">
+    <div id="admin">
+    <h3>Admin
+    <span class="toggle on" onclick="toggleList('#admin')">&nbsp;</span>
+    </h3>
+      <ul>
+        %for attr in attrs:
+        ${printAttr(attr)}
+        %endfor
+      </ul>
+    </div>
+</%def>
+
+
+<%def name="printAttr(attr)">
+
+  ## Immutable attributes
+  ## ID (immutable; for Idea, Thinker, Journal, SOT, Work)
+  %if (attr == "id"):
+    <li class="idea">
+      <span id="id_edit" class="sep" style="visibility: hidden">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>ID:</b>
+      <span id="id_field"> ${c.entity.ID} </span>
+    </li>
+  ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
+  %elif (attr == "type"):
+    <li class="idea">
+      <span id="type_edit" class="sep" style="visibility: hidden">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Type:</b>
+      <span id="type_field"> ${type(c.entity).__name__} </span>
+    </li>
+  ## Label (immutable; for Idea, Thinker, Journal, SOT, Work)
+  %elif (attr == "label"):
+    <li class="idea">
+      <span id="label_edit" class="sep" style="visibility: hidden">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Label:</b>
+      <span id="label_field"> ${c.entity.label} </span>
+    </li>
+  ## In-degree (immutable; for Idea)
+  %elif (attr == "in-degree"):
+    <li class="idea">
+      <span id="in-degree_edit" class="sep" style="visibility: hidden">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>In-degree:</b>
+      <span id="in-degree_field"> ${c.entity.in_degree} </span>
+    </li>
+  ## Out-degree (immutable; for Idea)
+  %elif (attr == "out-degree"):
+    <li class="idea">
+      <span id="out-degree_edit" class="sep" style="visibility: hidden">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Out-degree:</b>
+      <span id="out-degree_field"> ${c.entity.in_degree} </span>
+    </li>
+  ## Entropy (immutable; for Idea)
+  %elif (attr == "entropy"):
+    <li class="idea">
+      <span id="entropy_edit" class="sep" style="visibility: hidden">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Entropy:</b>
+      <span id="entropy_field"> ${c.entity.entropy} </span>
+    </li>
+
+  ## Mutable via textbox
+  ## Sep_dir (mutable; for Idea, Thinker, Journal, SOT, Work)
+  %elif (attr == "sep_dir"):
+    <li class="idea">
+      <span id="sep_dir_edit" class="sep" onclick="edit('sep_dir', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Sep_dir:</b>
+      <span id="sep_dir_field">
+        <span id="current_sep_dir" onclick="edit('sep_dir', '${c.entity.url()}')">
+          ${c.entity.sep_dir}
+        </span>
+      </span>
+    </li>
+  ## Searchstring (mutable; for Idea, Thinker)
+  %elif (attr == "searchstring"):
+    <li class="idea">
+      <span id="searchstring_edit" class="sep" onclick="edit('searchstring', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Searchstring:</b>
+      <span id="searchstring_field">
+        <span id="current_searchstring" onclick="edit('searchstring', '${c.entity.url()}')">
+          ${c.entity.searchstring}
+        </span>
+      </span>
+    </li>
+  ## Wiki (mutable; for Thinker)
+  %elif (attr == "wiki"):
+    <li class="idea">
+      <span id="wiki_edit" class="sep" onclick="edit('wiki', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Wiki:</b>
+      <span id="wiki_field">
+        <span id="current_wiki" onclick="edit('wiki', '${c.entity.url()}')">
+          ${c.entity.wiki}
+        </span>
+      </span>
+    </li>
+  ## Birthday (mutable; for Thinker)
+  %elif (attr == "birthday"):
+    <li class="idea">
+      <span id="birth_edit" class="sep" onclick="edit('birth', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Birthday:</b>
+      <span id="birth_field">
+        <span id="current_birth" onclick="edit('birth', '${c.entity.url()}')">
+          ${c.entity.birth_string}
+        </span>
+        <input type="text" style="visibility: hidden" id="birth_year" value="${c.entity.birth_year}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="birth_month" value="${c.entity.birth_month}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="birth_day" value="${c.entity.birth_day}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
+      </span>
+    </li>
+  ## Deathday (mutable; for Thinker)
+  %elif (attr == "deathday"):
+    <li class="idea">
+      <span id="death_edit" class="sep" onclick="edit('death', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Deathday:</b>
+      <span id="death_field">
+        <span id="current_death" onclick="edit('death', '${c.entity.url()}')">
+          ${c.entity.death_string}
+        </span>
+        <input type="text" style="visibility: hidden" id="death_year" value="${c.entity.death_year}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="death_month" value="${c.entity.death_month}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
+        <input type="text" style="visibility: hidden" id="death_day" value="${c.entity.death_day}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
+      </span>
+    </li>
+  ## Website (mutable; for Journal)
+  %elif (attr == "URL"):
+    <li class="idea">
+      <span id="URL_edit" class="sep" onclick="edit('URL', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>URL:</b>
+      <span id="URL_field">
+        <span id="current_URL" onclick="edit('URL', '${c.entity.url()}')">
+          ${c.entity.URL}
+        </span>
+      </span>
+      <a id="test_URL" href="${c.entity.URL}" target="_blank">(test)</a>
+      <a id="test_URL" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
+    </li>
+  ## Last_accessed (mutable; for Journal)
+  %elif (attr == "last_accessed"):
+    <li class="idea">
+      <span id="last_accessed_edit" class="sep" onclick="edit('last_accessed', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Last Accessed:</b>
+      <span id="last_accessed_field">
+        <span id="current_last_accessed" onclick="edit('last_accessed', '${c.entity.url()}')">
+          ${c.entity.last_accessed}
+        </span>
+      </span>
+    </li>
+  ## Language (mutable; for Journal)
+  %elif (attr == "language"):
+    <li class="idea">
+      <span id="language_edit" class="sep" onclick="edit('language', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Language:</b>
+      <span id="language_field">
+        <span id="current_language" onclick="edit('language', '${c.entity.url()}')">
+          ${c.entity.language}
+        </span>
+      </span>
+    </li>
+  ## ISSN (mutable; for Journal)
+  %elif (attr == "ISSN"):
+    <li class="idea">
+      <span id="ISSN_edit" class="sep" onclick="edit('ISSN', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>ISSN:</b>
+      <span id="ISSN_field">
+        <span id="current_ISSN" onclick="edit('ISSN', '${c.entity.url()}')">
+          ${c.entity.ISSN}
+        </span>
+      </span>
+    </li>
+
+  ## Mutable via dropdown menu
+  ## Open Access (mutable; for Journal)
+  %elif (attr == "openAccess"):
+    <li class="idea">
+      <span id="openAccess_edit" class="sep" onclick="edit('openAccess', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>OpenAccess:</b>
+      <span id="openAccess_field">
+        <span id="current_openAccess" onclick="edit('openAccess', '${c.entity.url()}')">
+          %if c.entity.openAccess == 0:
+            Closed
+          %elif c.entity.openAccess == 1:
+            Open
+          %endif
+        </span>
+      </span>
+    </li>
+  ## Active (mutable; for Journal)
+  %elif (attr == "active"):
+    <li class="idea">
+      <span id="active_edit" class="sep" onclick="edit('active', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Active:</b>
+      <span id="active_field">
+        <span id="current_active" onclick="edit('active', '${c.entity.url()}')">
+          %if c.entity.active == 0:
+            Inactive
+          %elif c.entity.active == 1:
+            Active
+          %endif
+        </span>
+      </span>
+    </li>
+  ## Student (mutable; for Journal)
+  %elif (attr == "student"):
+    <li class="idea">
+      <span id="student_edit" class="sep" onclick="edit('student', '${c.entity.url()}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <b>Student:</b>
+      <span id="student_field">
+        <span id="current_student" onclick="edit('student', '${c.entity.url()}')">
+          %if c.entity.student == 0:
+            Nonstudent
+          %elif c.entity.student == 1:
+            Student
+          %endif
+        </span>
+      </span>
+    </li>
+
+
+  ## Searchpattern(s) (mutable; for Idea, Thinker)
+  %elif (attr == "searchpatterns"):
+    %for i,searchpattern in enumerate(c.entity.searchpatterns):
+      <li class="idea">
+        <span id="searchpattern${i}_edit" class="sep" onclick="edit('searchpattern${i}', '${c.entity.url()}')">
+          <img src="/img/pencil.png"/>
+        </span>
+        <span id="searchpattern${i}_field">
+          <span id="current_searchpattern${i}" onclick="edit('searchpattern${i}', '${c.entity.url()}')">
+            ${searchpattern}
+          </span>
+        </span>
+      </li>
+    %endfor
+  ## Abbreviation(s) (mutable; for Journal)
+  %elif (attr == "abbreviations"):
+    %for i,abbreviation in enumerate(c.entity.abbreviations):
+      <li class="idea">
+        <span id="abbreviation${i}_edit" class="sep" onclick="edit('abbreviation${i}', '${c.entity.url()}')">
+          <img src="/img/pencil.png"/>
+        </span>
+        <span id="abbreviation${i}_field">
+          <span id="current_abbreviation${i}" onclick="edit('searchpattern${i}', '${c.entity.url()}')">
+            ${abbreviation}
+          </span>
+        </span>
+      </li>
+    %endfor
+  ## Quer[y|ies] (mutable; for Journal)
+  %elif (attr == "queries"):
+    %for i,query in enumerate(c.entity.queries):
+      <li class="idea">
+        <span id="query${i}_edit" class="sep" onclick="edit('query${i}', '${c.entity.url()}')">
+          <img src="/img/pencil.png"/>
+        </span>
+        <span id="query${i}_field">
+          <span id="current_query${i}" onclick="edit('query${i}', '${c.entity.url()}')">
+            ${query}
+          </span>
+        </span>
+      </li>
+    %endfor
+  %endif
+
 
 </%def>

@@ -1,0 +1,30 @@
+<%def name="toggletext(attr, uneditable=False)">
+<div class="clearfix">
+<label for="${attr}_field">${attr}:</label>
+<div class="input">
+    %if uneditable:
+    <span id="${attr}_field" class="uneditable-input"> 
+    %else:
+    <span id="${attr}_field" onclick="edit('${attr}', '${c.entity.url()}')"
+          style="width: 200px; text-overflow: ellipsis; display: block; float: left;"> 
+    %endif
+        <span id="current_${attr}">${getattr(c.entity, attr)}</span>
+    </span>
+    %if attr == "URL":
+    <span id="URL_test" style="float: right;">
+      <script>
+      function test_URL() {
+          if (document.getElementById('current_URL') != null) {
+              window.open(document.getElementById('current_URL').innerHTML.trim());    
+          } else {
+              window.open(document.getElementById('URL_text').value);
+          }
+      }
+      </script>
+      <span class="btn primary" id="test_URL" onclick="test_URL()">Test</span>
+      <a class="btn" id="test_URL" href="${c.entity.google_url}" target="_blank">Google</a></dt>
+    </span>
+    %endif
+</div>
+</div>
+</%def>

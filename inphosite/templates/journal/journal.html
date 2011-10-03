@@ -1,8 +1,9 @@
 <%inherit file="/base-tree.html"/>
 <%namespace name="entity" file="/entity/entity.html" />
+<%namespace name="form" file="/form.html" />
 
 <%def name="label()">
-%if c.entity.abbrs:
+%if c.entity.abbrs and len(c.entity.label) > 50:
 ${c.entity.abbrs[0]}
 %else:
 ${c.entity.label}
@@ -25,7 +26,7 @@ function srch(id) {
           $("#moreInfo").html(data);
         });
 }
-$(document).ready(srch(${c.entity.ID}));
+//$(document).ready(srch(${c.entity.ID}));
 </script>
 
 <div id="content">
@@ -36,7 +37,7 @@ $(document).ready(srch(${c.entity.ID}));
 
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
-  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "URL", "last_accessed", "language", "openAccess", "active", "student", "ISSN"])}
+  ${adminPanel()}
 %else:
   <dl>
     %if c.entity.URL:
@@ -85,3 +86,22 @@ $(document).ready(srch(${c.entity.ID}));
     <p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>
 </div>
 </div> <!-- wrapper -->
+
+<%def name="adminPanel()">
+<form>
+    <fieldset>
+        <legend>Admin Panel</legend>
+${form.toggletext("ID", uneditable=True)}
+##${form.toggletext("type")}
+${form.toggletext("label")}
+${form.toggletext("sep_dir")}
+${form.toggletext("URL")}
+${form.toggletext("last_accessed", uneditable=True)}
+${form.toggletext("active")}
+${form.toggletext("openAccess")}
+${form.toggletext("student")}
+${form.toggletext("ISSN")}
+    </fieldset>
+</form>
+</%def>
+

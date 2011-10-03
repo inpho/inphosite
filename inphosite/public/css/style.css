@@ -18,4 +18,10 @@ body {
 #sidebar {
     margin-top: 87px;
 }
-*/
+#login {
+    float: right;
+}
+
+.icon {
+    float: right;
+}

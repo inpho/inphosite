@@ -22,19 +22,27 @@
 function edit(attr, url) {
   if (attr == "sep_dir" || attr == "searchstring" || attr == "wiki" || 
       attr == "birth" || attr == "death" || attr == "URL" || 
-      attr == "last_accessed" || attr == "language" || attr == "ISSN")
+      attr == "last_accessed" || attr == "language" || attr == "ISSN" ||
+      attr == "label")
     edit_textbox(attr, url);
   else if (attr == "openAccess" || attr == "active" || attr == "student")
     edit_dropdown(attr, url);
+  else
+      alert('Field not implemented: ' + attr);
 }
 
 function edit_textbox(attr, url) {
   // set up strings for use later & hide edit icon
   var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
-  var attr_edit = attr + "_edit";
+  var attr_text = attr + "_text";
+  //var attr_edit = attr + "_edit";
 
-  document.getElementById(attr_edit).style.visibility = 'hidden';
+  // document.getElementById(attr_edit).style.visibility = 'hidden';
+
+  // Hacky way to keep onclick from erroring already editable field
+  if (document.getElementById(attr_text))
+      return;
 
   // get current value of attr and change the attr_field to a text input box 
   // (with a hidden textbox containing the original value); special case for 
@@ -52,20 +60,19 @@ function edit_textbox(attr, url) {
     document.getElementById(attr_day).style.visibility = 'visible';
   }
   else {
-    var attr_value = document.getElementById(current_attr).innerHTML.trim();
-    var textbox = '<input type="text" id="' + attr + '_text" value="' + attr_value + '" onKeyDown="Javascript: if (event.keyCode == 13) submit(\'' + attr + '\', \'' + url + '\')"> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    if (document.getElementById(current_attr) != null)
+        var attr_value = document.getElementById(current_attr).innerHTML.trim();
+    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onKeyDown="Javascript: if (event.keyCode == 13) submit3(\'' + attr + '\', \'' + url + '\')"> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
     document.getElementById(attr_field).innerHTML = textbox;
   }
 
-  if (attr == "URL")
-    document.getElementById("test_URL").style.visibility = 'hidden';
 }
 
 function edit_dropdown(attr, url) {
   // set up strings for use later & hide edit icon
   var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
-  var attr_edit = attr + "_edit";
+  //var attr_edit = attr + "_edit";
   if (attr == "openAccess") {
     var negative = "Closed";
     var positive = "Open";
@@ -79,15 +86,15 @@ function edit_dropdown(attr, url) {
     var positive = "Nonstudent";
   }
 
-  document.getElementById(attr_edit).style.visibility = 'hidden';
+  //document.getElementById(attr_edit).style.visibility = 'hidden';
 
   // get current value of attr and change the attr_field to a dropdown menu 
   // (with a hidden textbox containing the original value)
   var attr_value = document.getElementById(current_attr).innerHTML.trim();
   if (attr_value == negative)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="submit3(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
   else if (attr_value == positive)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="submit3(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
 
   document.getElementById(attr_field).innerHTML = dropdown;
 }
@@ -102,7 +109,7 @@ function edit_dropdown(attr, url) {
 // If it is successful, the reset() function is called to handle the cosmetic 
 // changes.
 //
-function submit(attr, url) {
+function submit3(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
   if (attr == "birth" || attr == "death") {
@@ -119,7 +126,7 @@ function submit(attr, url) {
   // input sanitisation for URLs
   else if (attr == "URL") {
       var value = document.getElementById("URL_text").value;
-      if (value.substring(0, 7) != "http://")
+      if (value && (value.substring(0, 4) != "http"))
         value = "http://" + value;
       var value = attr + "=" + value;
   }
@@ -127,7 +134,9 @@ function submit(attr, url) {
     var attr_text = attr + "_text";
     var value = attr + "=" + document.getElementById(attr_text).value;
   }
-
+  if (value == "None" || value == "undefined") {
+    value = "";
+  }
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
@@ -150,7 +159,7 @@ function reset(attr, url, response) {
   var attr_text = attr + "_text";
   var old_attr = "old_" + attr;
   var attr_field = attr + "_field";
-  var attr_edit = attr + "_edit";
+ // var attr_edit = attr + "_edit";
   
   if (response == 200) {
     if (attr == "birth" || attr == "death") {
@@ -195,7 +204,7 @@ function reset(attr, url, response) {
 
   var input_field = '<span id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
   document.getElementById(attr_field).innerHTML = input_field;
-  document.getElementById(attr_edit).style.visibility = 'visible';
+  //document.getElementById(attr_edit).style.visibility = 'visible';
 
   if (attr == "URL" && response == 200) {
     document.getElementById("test_URL").setAttribute('href', attr_value);

@@ -6,7 +6,7 @@
     <span id="${attr}_field" class="uneditable-input"> 
     %else:
     <span id="${attr}_field" onclick="edit('${attr}', '${c.entity.url()}')"
-          style="width: 200px; text-overflow: ellipsis; display: block; float: left;"> 
+          style="height: 20px; width: 200px; text-overflow: ellipsis; display: block; float: left;"> 
     %endif
         <span id="current_${attr}">${getattr(c.entity, attr)}</span>
     </span>
@@ -21,7 +21,11 @@
           }
       }
       </script>
-      <span class="btn primary" id="test_URL" onclick="test_URL()">Test</span>
+      %if c.entity.URL:
+      <input type="button" class="btn primary" id="test_URL" onclick="test_URL()" value="Test" />
+      %else:
+      <input type="button" class="btn primary" id="test_URL" onclick="test_URL()" value="Test" disabled="true" />
+      %endif
       <a class="btn" id="test_URL" href="${c.entity.google_url}" target="_blank">Google</a></dt>
     </span>
     %endif

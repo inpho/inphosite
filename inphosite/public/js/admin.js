@@ -60,9 +60,15 @@ function edit_textbox(attr, url) {
     document.getElementById(attr_day).style.visibility = 'visible';
   }
   else {
+    var attr_value = '';
     if (document.getElementById(current_attr) != null)
-        var attr_value = document.getElementById(current_attr).innerHTML.trim();
-    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onKeyDown="Javascript: if (event.keyCode == 13) submit3(\'' + attr + '\', \'' + url + '\')"> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+        attr_value = document.getElementById(current_attr).innerHTML.trim();
+    if ((attr_value == 'None') || (attr_value == 'undefined') || !attr_value)
+        attr_value = '';
+
+    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
+    //onblur="reset(\'' + attr +'\', \'' + url + '\', 400)" />';
+    textbox = textbox + '<input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
     document.getElementById(attr_field).innerHTML = textbox;
   }
 
@@ -92,13 +98,39 @@ function edit_dropdown(attr, url) {
   // (with a hidden textbox containing the original value)
   var attr_value = document.getElementById(current_attr).innerHTML.trim();
   if (attr_value == negative)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit3(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="submit_field(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
   else if (attr_value == positive)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit3(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="submit_field(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
 
   document.getElementById(attr_field).innerHTML = dropdown;
 }
 
+// Process input to text fields, checking for 3 things:
+// 1) Blank input or blank-equivilent input to disable URL test button and
+//    clear the field properly.
+// 2) Escape key to exit the field (i.e., call the reset() function)
+// 3) Enter key to submit the field (i.e., call the submit_field() function)
+function process_text(e, attr, url) {
+    if (e.keyCode == 13)
+        return submit_field(attr, url);
+    if (e.keyCode == 27)
+        return reset_field(attr, url, 400);
+    // TODO: add tab (e.keyCode == 9) support
+    if (attr == "URL")
+        return toggle_test_url(attr);
+}
+
+function toggle_test_url(attr) {
+        var test_attr = "test_" + attr;
+        var attr_text = attr + "_text";
+        //alert(document.getElementById(attr_text).value);
+        if (document.getElementById(attr_text).value.length > 4)
+            document.getElementById(test_attr).disabled = false;
+        else
+            document.getElementById(test_attr).disabled = true;
+         
+        return true;
+    }
 
 // If a mutable attribute has been edited, three changes should happen.  The 
 // submit() function takes care of the first.  The reset() function takes care 
@@ -109,7 +141,7 @@ function edit_dropdown(attr, url) {
 // If it is successful, the reset() function is called to handle the cosmetic 
 // changes.
 //
-function submit3(attr, url) {
+function submit_field(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
   if (attr == "birth" || attr == "death") {
@@ -140,7 +172,7 @@ function submit3(attr, url) {
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
-        reset(attr, url, xhr.status)
+        reset_field(attr, url, xhr.status)
     }
   }
   xhr.open('PUT', url, true);
@@ -154,7 +186,7 @@ function submit3(attr, url) {
 //     the new property (on success) or the old property (on failure).
 // 2.) The edit icon should re-appear.
 //
-function reset(attr, url, response) {
+function reset_field(attr, url, response) {
   // set up strings for use later
   var attr_text = attr + "_text";
   var old_attr = "old_" + attr;
@@ -205,9 +237,5 @@ function reset(attr, url, response) {
   var input_field = '<span id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
   document.getElementById(attr_field).innerHTML = input_field;
   //document.getElementById(attr_edit).style.visibility = 'visible';
-
-  if (attr == "URL" && response == 200) {
-    document.getElementById("test_URL").setAttribute('href', attr_value);
-    document.getElementById("test_URL").style.visibility = 'visible';
-  }
+  return true;
 }

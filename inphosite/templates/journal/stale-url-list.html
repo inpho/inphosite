@@ -22,4 +22,11 @@ ${parent.draw()}</%def>
 <li><a href="${journal.url()}">${journal.label}</a></li>
 %endfor
 </ul>
+<h2>Inactive and Missing URL</h2>
+<p>${len(c.inactive)} journals</p>
+<ul>
+%for journal in c.inactive:
+<li><a href="${journal.url()}">${journal.label}</a></li>
+%endfor
+</ul>
 </div>

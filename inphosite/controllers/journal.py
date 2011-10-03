@@ -37,7 +37,10 @@ class JournalController(EntityController):
         journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
         c.journals = list(journal_q)
         c.broken = [journal for journal in c.journals if journal.URL]
-        c.missing = [journal for journal in c.journals if not journal.URL]
+        c.missing = [journal for journal in c.journals 
+                     if not journal.URL and journal.active]
+        c.inactive = [journal for journal in c.journals 
+                      if not journal.URL and not journal.active]
         return render('journal/stale-url-list.' + filetype)
 
     def graph(self, id=None, filetype='json'):

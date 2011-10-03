@@ -1,3 +1,27 @@
+<%def name="checkbox_group(attrs, label)">
+<div class="clearfix">
+<label>${label}</label>
+<div class="input">
+<ul class="inputs-list">
+%for attr, label in attrs:
+    <li>${checkbox(attr, label)}</li>
+%endfor
+</ul>
+</div>
+</div>
+</%def>
+
+<%def name="checkbox(attr, label)">
+<label>
+    %if getattr(c.entity, attr):
+    <input type="checkbox" name="${attr}" value="${attr}" selected="true" />
+    %else:
+    <input type="checkbox" name="${attr}" value="${attr}" />
+    %endif
+    <span>${label}</span>
+</label>
+</%def>
+
 <%def name="toggletext(attr, uneditable=False)">
 <div class="clearfix">
 <label for="${attr}_field">${attr}:</label>

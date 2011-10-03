@@ -97,10 +97,9 @@ ${form.toggletext("label")}
 ${form.toggletext("sep_dir")}
 ${form.toggletext("URL")}
 ${form.toggletext("last_accessed", uneditable=True)}
-${form.toggletext("active")}
-${form.toggletext("openAccess")}
-${form.toggletext("student")}
+${form.toggletext("language")}
 ${form.toggletext("ISSN")}
+${form.checkbox_group([('active', 'Active'), ('openAccess', "Open Access"), ('student', "Student Journal")], 'Properties')}
     </fieldset>
 </form>
 </%def>

@@ -72,6 +72,8 @@ function edit_textbox(attr, url) {
     document.getElementById(attr_field).innerHTML = textbox;
   }
 
+  document.getElementById(attr + '_text').focus();
+
 }
 
 function edit_dropdown(attr, url) {

@@ -164,6 +164,13 @@ function submit_field(attr, url) {
         value = "http://" + value;
       var value = attr + "=" + value;
   }
+  else if (attr == "active" || attr == "openAccess" || attr == "student") {
+      var check = attr + "_check";
+      if (document.getElementById(check).checked)
+        var value = attr + "=1";  
+      else
+        var value = attr + "=0";
+  }
   else {
     var attr_text = attr + "_text";
     var value = attr + "=" + document.getElementById(attr_text).value;
@@ -172,10 +179,12 @@ function submit_field(attr, url) {
     value = "";
   }
   var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4) {
-        reset_field(attr, url, xhr.status)
-    }
+  if (attr != "active" && attr != "openAccess" && attr != "student") {
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            reset_field(attr, url, xhr.status)
+        }
+      }
   }
   xhr.open('PUT', url, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -14,9 +14,9 @@
 <%def name="checkbox(attr, label)">
 <label>
     %if getattr(c.entity, attr):
-    <input type="checkbox" name="${attr}" value="${attr}" selected="true" />
+    <input type="checkbox" name="${attr}" id="${attr}_check" value="${attr}" onclick="submit_field('${attr}', '${c.entity.url()}')" checked="true" />
     %else:
-    <input type="checkbox" name="${attr}" value="${attr}" />
+    <input type="checkbox" name="${attr}" id="${attr}_check" value="${attr}" onclick="submit_field('${attr}', '${c.entity.url()}')" />
     %endif
     <span>${label}</span>
 </label>

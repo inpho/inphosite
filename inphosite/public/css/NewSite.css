@@ -262,6 +262,14 @@ li p {
     width: 302px;
 }
 
+#admin .current {
+    clear: both;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 #admin label {
     padding-top: 5px;
     float: left;

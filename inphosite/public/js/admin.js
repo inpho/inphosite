@@ -245,7 +245,7 @@ function reset_field(attr, url, response) {
   else if (attr == "student" && attr_value == 1)
     var attr_value = "Nonstudent";
 
-  var input_field = '<span id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
+  var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
   document.getElementById(attr_field).innerHTML = input_field;
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;

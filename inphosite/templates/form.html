@@ -32,7 +32,7 @@
     <span id="${attr}_field" onclick="edit('${attr}', '${c.entity.url()}')"
           style="height: 20px; width: 200px; text-overflow: ellipsis; display: block; float: left;"> 
     %endif
-        <span id="current_${attr}">${getattr(c.entity, attr)}</span>
+        <span class="current" id="current_${attr}">${getattr(c.entity, attr)}</span>
     </span>
     %if attr == "URL":
     <span id="URL_test" style="float: right;">

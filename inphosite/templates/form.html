@@ -36,8 +36,8 @@
     </span>
     %if attr == "URL":
     <span id="URL_test" style="float: right;">
-      <script>
-      function test_URL() {
+      <script type="text/javascript">
+      function test_URL_fn() {
           if (document.getElementById('current_URL') != null) {
               window.open(document.getElementById('current_URL').innerHTML.trim());    
           } else {
@@ -46,9 +46,9 @@
       }
       </script>
       %if c.entity.URL:
-      <input type="button" class="btn primary" id="test_URL" onclick="test_URL()" value="Test" />
+      <input type="button" class="btn primary" id="test_URL" onclick="test_URL_fn()" value="Test" />
       %else:
-      <input type="button" class="btn primary" id="test_URL" onclick="test_URL()" value="Test" disabled="true" />
+      <input type="button" class="btn primary" id="test_URL" onclick="test_URL_fn()" value="Test" disabled="true" />
       %endif
       <a class="btn" id="test_URL" href="${c.entity.google_url}" target="_blank">Google</a></dt>
     </span>

@@ -29,7 +29,7 @@ h2	{
 		padding-top:5px;
 		}
 
-h3 {
+h3, legend {
         font-size:larger;
         font-weight:bold;
         padding-top:2px;
@@ -49,7 +49,8 @@ h3 {
 
 dt {font-weight:bold}
 
-#contentLeft h3, .big-border {
+
+#contentLeft h3, .big-border, legend {
     margin-right: 0px;
     margin-left: 0px;
     padding-left: 10px;
@@ -252,6 +253,36 @@ li p {
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+#admin legend {
+    margin-left: -10px;
+    padding-left: -10px;
+    padding-right:-10px;
+    width: 302px;
+}
+
+#admin label {
+    padding-top: 5px;
+    float: left;
+    width: 90px;
+    display: block;
+    height: 30px;
+    clear: left;
+}
+
+#admin .input {
+    padding-top:5px;
+    float: left;
+    /*margin-left: 100px;*/
+    display: block;
+    width: 180px;
+}
+
+.inputs-list label {
+    margin-left: -30px;
+    padding: 0 !important;
+    width: 100% !important;    
 }
 
 #contentLeft li {

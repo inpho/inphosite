@@ -88,6 +88,13 @@ function srch(id) {
 </div> <!-- wrapper -->
 
 <%def name="adminPanel()">
+## "magic number" 2419200 == four weeks in seconds
+%if c.entity.last_accessed < 2419200: 
+<div class="alert-message warning">
+  <a class="close" href="#">×</a>
+    <p><strong>Broken Journal URL!</strong> Journal URL unreachable since ${c.entity.last_accessed_str}</p>
+</div>
+%endif
 <form>
     <fieldset>
         <legend>Admin Panel</legend>

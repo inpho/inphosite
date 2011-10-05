@@ -24,7 +24,7 @@ ${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/re
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
 <div class="result">
-%if not results or results['queries']['request'][0]['totalResults'] == 0:
+%if not results or results['queries']['request'][0]['totalResults'] == '0':
 <h3>${title}</h3>
 <p>No search results.</p>
 %else:

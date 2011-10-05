@@ -162,7 +162,7 @@ function submit_field(attr, url) {
       var value = document.getElementById("URL_text").value;
       if (value && (value.substring(0, 4) != "http"))
         value = "http://" + value;
-      var value = attr + "=" + value;
+      var value = attr + "=" + encodeURIComponent(value);
   }
   else if (attr == "active" || attr == "openAccess" || attr == "student") {
       var check = attr + "_check";

@@ -1,5 +1,6 @@
 import logging
 import time
+from urllib import unquote
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
@@ -53,7 +54,7 @@ class JournalController(EntityController):
 
         if request.params.get('URL', None):
             journal = h.fetch_obj(Journal, id)
-            journal.URL = request.params.get('URL')
+            journal.URL = unquote(request.params.get('URL'))
             journal.check_url()
             Session.commit()
         else:

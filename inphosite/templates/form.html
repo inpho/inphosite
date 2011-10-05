@@ -38,11 +38,11 @@
     <span id="URL_test" style="float: right;">
       <script type="text/javascript">
       function test_URL_fn() {
-          if (document.getElementById('current_URL') != null) {
-              window.open(document.getElementById('current_URL').innerHTML.trim());    
-          } else {
-              window.open(document.getElementById('URL_text').value);
-          }
+          if (document.getElementById('current_URL') != null)
+              var url = document.getElementById('current_URL').innerHTML.trim();
+          else 
+              var url = document.getElementById('URL_text').value;
+          window.open($("<div/>").html(url).text());    
       }
       </script>
       %if c.entity.URL:

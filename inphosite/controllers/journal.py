@@ -35,13 +35,28 @@ class JournalController(EntityController):
         if request.params.get('q'):
             journal_q = journal_q.filter(Journal.name.like(u'%'+request.params['q']+'%'))
         
+        # Magic constant of 2419200 corresponds to 4 weeks in seconds
         journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
+
+        # get the list of journals
         c.journals = list(journal_q)
+
+        # filter out results into different chunks
+        # Valid URL, not found
         c.broken = [journal for journal in c.journals if journal.URL]
+        
+        # Journal is active, no URL set
         c.missing = [journal for journal in c.journals 
-                     if not journal.URL and journal.active]
+                     if journal.URL is None and journal.active]
+        
+        # Journal is active, URL is set to blank
+        c.blank = [journal for journal in c.journals 
+                   if journal.URL == '' and journal.active]
+        
+        # Jornal is inactive and missing URL
         c.inactive = [journal for journal in c.journals 
-                      if not journal.URL and not journal.active]
+                      if journal.URL is None and not journal.active]
+
         return render('journal/stale-url-list.' + filetype)
 
     def graph(self, id=None, filetype='json'):
@@ -52,9 +67,13 @@ class JournalController(EntityController):
     def update(self, id=None):
         terms = ['label', 'sep_dir', 'URL', 'last_accessed', 'language', 'openAccess', 'active', 'student', 'ISSN']
 
-        if request.params.get('URL', None):
+        URL = request.params.get('URL', None)
+        if URL is not None:
             journal = h.fetch_obj(Journal, id)
-            journal.URL = unquote(request.params.get('URL'))
+            if URL == 'none' or URL == 'None':
+               journal.URL = None
+            else:
+                journal.URL = unquote(URL)
             journal.check_url()
             Session.commit()
         else:

@@ -8,22 +8,36 @@ ${parent.draw()}</%def>
 <div id="content">
 <p> This is a list of journals with broken links. </p>
 
+## Valid URL, not found
 <h2>Broken URLs</h2>
-<p>${len(c.broken)} journals</p>
+<p>${len(c.broken)} journals have been inaccessible for 4 weeks.</p>
 <ul>
 %for journal in c.broken:
 <li><a href="${journal.url()}">${journal.label}</a></li>
 %endfor
 </ul>
+
+## Journal is active, no URL set
 <h2>Missing URLs</h2>
-<p>${len(c.missing)} journals</p>
+<p>${len(c.missing)} journals are active without a URL.</p>
 <ul>
 %for journal in c.missing:
 <li><a href="${journal.url()}">${journal.label}</a></li>
 %endfor
 </ul>
+
+## Journal is active, URL is set to blank
+<h2>Blank URLs</h2>
+<p>${len(c.blank)} journals are active with a blank URL.</p>
+<ul>
+%for journal in c.blank:
+<li><a href="${journal.url()}">${journal.label}</a></li>
+%endfor
+</ul>
+
+## Jornal is inactive and missing URL
 <h2>Inactive and Missing URL</h2>
-<p>${len(c.inactive)} journals</p>
+<p>${len(c.inactive)} journals are inactive and missing a URL.</p>
 <ul>
 %for journal in c.inactive:
 <li><a href="${journal.url()}">${journal.label}</a></li>

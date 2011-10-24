@@ -21,8 +21,10 @@ ${h.hidden('redirect','True')}
 ${actb.actb("q", "Search to add/edit:")}
 <br />
 Other tasks:<br />
-1. <a href="${h.url(controller='admin', action='addlist')}">New Entries/sep_dir management</a> <br />
-2. <a href="${h.url(controller='journal', action='list_stale_url')}">Journal URL Checker</a> <br />
+<ol>
+    <li><a href="${h.url(controller='entity', action='list_new')}">New Entries/sep_dir management</a></li>
+    <li><a href="${h.url(controller='journal', action='list_stale_url')}">Journal URL Checker</a></li>
+</ol>
 
 ${h.end_form()}
 ##${h.url(controller='entity', action='admin', id=None)} <br />

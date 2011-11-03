@@ -137,18 +137,21 @@ class EntityController(BaseController):
 
     def create(self, entity_type=None, filetype='html'):
         if not h.auth.is_logged_in():
-            response.status_int = 401
-            return "Unauthorized"
+            abort(401)
         if not h.auth.is_admin():
-            response.status_int = 403
-            return "Forbidden"
-
+            abort(403)
         entity_type = int(request.params.get('entity_type', entity_type))
         label = request.params.get('label')
         sep_dir = request.params.get('sep_dir')
 
         if entity_type == 1:
             c.entity = Idea(label, sep_dir=sep_dir)
+        elif entity_type == 3:
+            c.entity = Thinker(label, sep_dir=sep_dir)
+        elif entity_type == 4:
+            c.entity = Journal(label, sep_dir=sep_dir)
+        elif entity_type == 5:
+            c.entity = Work(label, sep_dir=sep_dir)
         else:
             raise NotImplementedError
 
@@ -164,11 +167,10 @@ class EntityController(BaseController):
 
     def search(self, id, id2=None):
         # Grab ID(s) from database and get their search string(s).
+        c.entity = h.fetch_obj(Entity, id)
         if id2 is None:
-            c.entity = h.fetch_obj(Entity, id)
             c.entity2 = None
         else:
-            c.entity = h.fetch_obj(Entity, id)
             c.entity2 = h.fetch_obj(Entity, id2)
 
         # Run searches

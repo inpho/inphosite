@@ -1,4 +1,4 @@
-<%inherit file="/admin/entity-edit.html"/>
+<%inherit file="/admin/base.html"/>
 <%! 
 import re
 %>
@@ -7,72 +7,6 @@ import re
 <%def name="sidebar()">
 ${parent.sidebar()}
 </%def>
-
-<%def name="idea_form()">
-    <br /><fieldset><legend><u>Entity # </u> = ${c.idea.ID}</legend>
-	<u>Label</u> = ${c.idea.label}<br />
-	<u>Type</u> = Idea<br /><br />
-
-	<strong>Current Values:</strong><br />
-        <u>Searchstring</u> = ${c.idea.searchstring | h}<br />
-	<u>Searchpatterns</u><br /> 
-	%for i,pat in enumerate(c.idea.searchpatterns):
-		Searchpattern#${i} = ${pat | h}<br />
-	%endfor
-	<u>Sep_dir</u> = ${c.idea.sep_dir}<br /><br />
-
-	<strong>Change Current Values:</strong><br />
-	
-	<label for="label">Label:</label></td><td>
-	${h.text(name="label", id="label", size = 40, value=c.idea.label)}<br />
-	
-	%if c.custom is True:
-
-		<label for="searchstring">Search String</label><br />
-		${h.text(name="searchstring", id="searchstring", value=c.idea.searchstring, size=len(c.idea.searchstring) + 4)}<br /><br />
-
-       		<table><tr><td>
-	       	%for i,searchpattern in enumerate(c.idea.searchpatterns):
-			<label for="searchpattern">Searchpattern #${i}:</label></td><td>
-			${h.text(name="searchpatterns.%s"%(i), id="searchpatterns.%s"%(i), size = len(searchpattern) + 4, value=searchpattern)}  Delete? ${h.checkbox(name="delsearchpattern.%s"%(i), id="delsearchpattern.%s"%(i))} <br />
-			</td></tr><tr><td>
-		%endfor
-		<label for="newsearchpattern">Add new searchpattern:</label></td><td>
-		${h.text(name="newsearchpattern", id="newsearchpattern", size = 40)}<br />
-		</td></tr></table>
-
-		<input type="hidden" name="custom" value="${c.custom}" />
-		
-	%else:
-		<label for="searchstring">Search String/Pattern format</label><br />
-		%if len(c.search_string_list) == 1:
-			${c.search_string_list[0]}<br />
-			(Note:  only one option, so no disambiguation needed; if you wish to alter the default, click "use custom" below)<br /><br />
-			<input type="hidden" name="searchstring", Value="${c.idea.setup_SSL()[0]}"/>
-		%else:
-			${h.select("searchstring", "1", c.search_string_list)}<br /><br />
-		%endif
-
-		%if re.search(' and ', c.idea.label) or re.search(' in ', c.idea.label):
-			<label for="ioru">If your disambiguation option contains an &lt;and&gt;, should it be disambiguated as an &cup; or &cap;?</label><br />
-			(Note: only the first "&lt;and&gt;" may be disambiguated; the rest will automatically be understood as &cup;'s)<br />
-			${h.select("ioru", "1", [['u', 'union'], ['i', 'intersection']])}<br /><br />
-		%endif
-	%endif
-
-	<label for="sep_dir">Sep_dir (optional)</label><br />
-	${h.text(name="sep_dir", id="sep_dir", value=c.idea.sep_dir)}<br />
-	%if c.sepdirnew:
-		<font color="#FF0000">New sepdir--click modify to save</font>
-	%endif
-	%if c.alreadysepdir:
-		<font color="#FF0000">Entry already has sep_dir [${c.idea.sep_dir}]; if you would like to replace it with [${c.entry_sep_dir}], please do so manually</font><br />
-	%endif
-
-    </fieldset><br />
-
-</%def>
-
 
 <br />
 <div class="yui-gd" style="padding-left:10px">

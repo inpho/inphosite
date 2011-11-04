@@ -47,5 +47,5 @@ class AdminController(BaseController):
         if id is None:
             c.message = "Edit Idea Manager v1.0; please search for the idea label you would like to add or modify using the search bar to the left."
             
-        return render('admin/idea-edit.html')
+        return render('admin/index.html')
 

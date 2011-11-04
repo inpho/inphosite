@@ -12,7 +12,7 @@ from inphosite.lib.base import BaseController, render
 from inpho import config
 import inpho.model as model
 from inpho.model import Session
-from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought
+from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought, Thinker
 import inpho.corpus.sep as sep
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
@@ -234,6 +234,28 @@ class EntityController(BaseController):
         json = simplejson.loads(results) if results else None
         return json
 
+    @staticmethod
+    def _search_bing(entity, entity2):
+        # Concatenate search strings for each entity
+        if entity2 is None:
+            searchstr = c.entity.web_search_string()
+            c.noesis_searchstr = quote_plus(searchstr.encode('utf8'))
+        else:
+            searchstr = entity.web_search_string() + " " + \
+                        entity2.web_search_string()
+            c.noesis_searchstr = quote_plus(searchstr.encode('utf8'))
+
+        # Put together URL string
+        api_key = "AIzaSyAd7fxJRf5Yj1ehBQAco72qqBSK1l0_p7c"
+        c.noesis_cx = "001558599338650237094:d3zzyouyz0s"
+        url = "https://www.googleapis.com/customsearch/v1?" + \
+              "key=" + api_key + "&cx=" + c.noesis_cx + \
+              "&q=" + c.noesis_searchstr
+
+        # Get results and parse into json
+        results = multi_get([url])[0][1]
+        json = simplejson.loads(results) if results else None
+        return json
 
     def view(self, id=None, filetype='html'):
         c.sep_filter = request.params.get('sep_filter', False) 

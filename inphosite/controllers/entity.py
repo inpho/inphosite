@@ -174,6 +174,7 @@ class EntityController(BaseController):
         # Run searches
         c.sep = EntityController._search_sep(c.entity, c.entity2)
         c.noesis = EntityController._search_noesis(c.entity, c.entity2)
+        c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
     @staticmethod
@@ -226,6 +227,28 @@ class EntityController(BaseController):
         url = "https://www.googleapis.com/customsearch/v1?" + \
               "key=" + api_key + "&cx=" + c.noesis_cx + \
               "&q=" + c.noesis_searchstr
+
+        # Get results and parse into json
+        results = multi_get([url])[0][1]
+        json = simplejson.loads(results) if results else None
+        return json
+
+    @staticmethod
+    def _search_bing(entity, entity2):
+        # Concatenate search strings for each entity
+        if entity2 is None:
+            searchstr = c.entity.web_search_string()
+            c.bing_searchstr = quote_plus(searchstr.encode('utf8'))
+        else:
+            searchstr = entity.web_search_string() + " " + \
+                        entity2.web_search_string()
+            c.bing_searchstr = quote_plus(searchstr.encode('utf8'))
+
+        # Put together URL string
+        api_key = "34B53247AE710D6C3F5AFB35100F396E780C2CC4"
+        url = "http://api.search.live.net/json.aspx" + \
+              "?Appid=" + api_key  + "&query=" + \
+              c.bing_searchstr + "&sources=web"
 
         # Get results and parse into json
         results = multi_get([url])[0][1]

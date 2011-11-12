@@ -23,9 +23,10 @@ ${parent.draw()}</%def>
 <p>This entry may already have a corresponding InPhO Entity:</p>
 <ul class="unstyled">
 %for entity in c.linklist:
-    <li><a href="${url(controller='entity', action='view', id=entity[1], sep_dir=c.sep_dir)}">${entity[2]}</a> (${entity[0]})</li>
+    <li><a href="${url(controller='entity', action='view', id=entity[0], sep_dir=c.sep_dir)}">${entity[1]}</a> (${entity[2]})</li>
 %endfor
 </ul>
+<p>&nbsp;</a>
 %elif c.sep_dir:
 <p>This entry does not have a corresponding InPhO Entity, as determined by the fuzzymatch algorithm.</p>
 %endif

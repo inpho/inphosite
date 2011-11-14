@@ -14,6 +14,7 @@ ${parent.draw()}</%def>
 %endif
 
 <form method="post" action="/account/dologin">
+  <input type="hidden" name="came_from" value="${c.referer}" />
   <table class="formbuild">
     <tbody>
       <tr class="field">

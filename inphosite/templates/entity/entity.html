@@ -49,7 +49,10 @@ ${printEntity(idea)}
 
 </%def>
 
+## generates list item evaluation & feedback form with slider
 <%def name="printEntity(cons, cls='', group=False, srch_id=None, evaluation_type='Idea')">
+
+## assimilate relationship (generality & relatedness)
 <%
 c.entID += 1
 
@@ -77,6 +80,7 @@ else:
     <img src="/img/inpho.png" /></a>\
     %endif
 
+    ## handles previously evaluated entity
     %if (rel > -1) and (gen > -1):
     <img class='loading' src="/img/check.gif" />
     <script>incrEvals();</script>
@@ -84,6 +88,7 @@ else:
     <img class='loading' src="/img/empty.gif" />
     %endif
 
+    ## displays out our mascot, the SEP rodin thinker, to cheer on our readers
     %if cons.sep_dir:
     <a href="http://plato.stanford.edu/entries/${cons.sep_dir}/" class="icons"
     target="_blank">
@@ -91,6 +96,7 @@ else:
     %endif
     <a class="concept" href="#moreInfo">${cons.label}</a>\
 
+## Evaluation form
 %if evaluation_type == 'Idea' and (not group or (group and cls != '')):
 <form>
     <!-- <a href="#" onClick="flagIdea(this.parent().parent(), ${cons.ID})">
@@ -104,6 +110,7 @@ else:
     <input type="hidden" name="cons_id" value="${cons.ID}" />
     %endif
     
+    ## Relatedness Slider, based on jQuery UI
     <div class="reltext" id="reltext${cons.ID}"><strong>Drag slider to set relatedness:</strong></div>
     <div id="slider${cons.ID}" class="slider"></div>
     <script>
@@ -113,6 +120,7 @@ else:
     <div><small>unrelated</small><small style="float: right;">highly related</small></div>
     <input type="hidden" class="relatedness" name="relatedness" id="rel${cons.ID}" value="${rel}" />
 
+    ## Specificity Radio Button (more or less general/specific)
     %if gen > -1:
     <div class="generality" style="">
     %else:
@@ -140,13 +148,16 @@ checked\
 %if gen == 3:
 checked\
 %endif    
- />\
+ />\OB
         <em>incomparable</em> to ${c.entity.label}<br />
     </div>
 
+## Check log-in status
 %if request.environ.get('REMOTE_USER'):
+    ## session evaluation
     <input name="reset" type="button" value="Reset" onClick="resetEvaluation($(this).parent())" />
 %else:
+    ## anonymous evaluation
     <input name="submit" type="button" value="Submit" onClick="submitEvals($(this).parent())" style="display: none;" />
 %endif
 </form>

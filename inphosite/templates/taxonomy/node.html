@@ -51,7 +51,7 @@ src="/img/help-browser.png" title="Help"/> What are evaluations?</a></p>
 
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
-  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy"])}
+  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy", "searchpatterns"])}
 %endif
 
 

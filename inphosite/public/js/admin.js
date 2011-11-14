@@ -159,6 +159,7 @@ function toggle_test_url(attr) {
 // If it is successful, the reset() function is called to handle the cosmetic 
 // changes.
 //
+spid=100;
 function submit_field(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
@@ -199,6 +200,12 @@ function submit_field(attr, url) {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             reset_field(attr, url, xhr.status)
+            if (attr == "searchpattern") {
+                spid = spid + 1;
+                var attr_text = attr + "_text";
+                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field">'+value.split('=')[1]+'</span></li>';
+                $('#new_searchpattern').before(new_entry);
+            }
         }
       }
   }
@@ -206,7 +213,6 @@ function submit_field(attr, url) {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send(value);
 }
-
 
 // The reset function does the following:
 // 1.) The text input box should go back to a static field displaying either 
@@ -260,6 +266,9 @@ function reset_field(attr, url, response) {
     var attr_value = "Student";
   else if (attr == "student" && attr_value == 1)
     var attr_value = "Nonstudent";
+  else if (attr == "searchpattern") {
+    var attr_value = "Add a New Search Pattern";
+  }
 
   var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
   document.getElementById(attr_field).innerHTML = input_field;

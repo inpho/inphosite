@@ -34,18 +34,4 @@ class AdminController(BaseController):
             abort(403)
 
     def list(self, id = None):
-        # sloppy workaround for routing
-        return self.index(id)
-
-    def index(self, id = None):
-        #two kinds of functionality; either the entity is found or it is not
-        #if found, user is given option to modify; if not found, user is given option to add
-        c.found = False
-        c.new = False
-        c.custom = False
-        
-        if id is None:
-            c.message = "Edit Idea Manager v1.0; please search for the idea label you would like to add or modify using the search bar to the left."
-            
-        return render('admin/index.html')
-
+        return rd('/entity/list_new')

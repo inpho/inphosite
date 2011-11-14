@@ -39,7 +39,7 @@ function edit(attr, url) {
   if (attr == "sep_dir" || attr == "searchstring" || attr == "wiki" || 
       attr == "birth" || attr == "death" || attr == "URL" || 
       attr == "last_accessed" || attr == "language" || attr == "ISSN" ||
-      attr == "label")
+      attr == "label" || attr == "searchpattern")
     edit_textbox(attr, url);
   else if (attr == "openAccess" || attr == "active" || attr == "student")
     edit_dropdown(attr, url);

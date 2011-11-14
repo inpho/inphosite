@@ -449,5 +449,15 @@ checked\
       </li>
     %endfor
     ## New search pattern
+    <li class="idea">
+      <span id="searchpattern_edit" class="sep" onclick="edit('searchpattern','${c.entity.url(action='searchpattern')}')">
+        <img src="/img/pencil.png"/>
+      </span>
+      <span id="searchpattern_field">
+        <span id="current_searchpattern_edit" class="sep" onclick="edit('searchpattern','${c.entity.url(action='searchpattern')}')">
+          Add a new searchpattern
+        </span>
+      </span>
+    </li>
   %endif
 </%def>

@@ -14,6 +14,22 @@
  */
 
 
+function removesp(id, url) {
+  var field_id = id + '_field';
+  var sp = document.getElementById(field_id).innerHTML.trim();
+  var value = "?pattern=" + encodeURIComponent(sp);
+  url = url + value
+  var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            $('#'+id).remove();
+        }
+      }
+  xhr.open('DELETE', url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send();
+}
+
 // When the text of an editable attribute (or the pencil icon next to it) is 
 // clicked, two changes occur:
 // 1.) The edit icon is hidden.

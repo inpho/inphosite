@@ -250,7 +250,7 @@ checked\
       <b>Searchstring:</b>
       <span id="searchstring_field">
         <span id="current_searchstring" onclick="edit('searchstring', '${c.entity.url()}')">
-          ${c.entity.searchstring}
+          ${c.entity.searchstring | h}
         </span>
       </span>
     </li>
@@ -408,20 +408,6 @@ checked\
     </li>
 
 
-  ## Searchpattern(s) (mutable; for Idea, Thinker)
-  %elif (attr == "searchpatterns"):
-    %for i,searchpattern in enumerate(c.entity.searchpatterns):
-      <li class="idea">
-        <span id="searchpattern${i}_edit" class="sep" onclick="edit('searchpattern${i}', '${c.entity.url()}')">
-          <img src="/img/pencil.png"/>
-        </span>
-        <span id="searchpattern${i}_field">
-          <span id="current_searchpattern${i}" onclick="edit('searchpattern${i}', '${c.entity.url()}')">
-            ${searchpattern}
-          </span>
-        </span>
-      </li>
-    %endfor
   ## Abbreviation(s) (mutable; for Journal)
   %elif (attr == "abbreviations"):
     %for i,abbreviation in enumerate(c.entity.abbreviations):
@@ -450,7 +436,18 @@ checked\
         </span>
       </li>
     %endfor
+  ## Searchpattern(s) (mutable; for Idea, Thinker)
+  %elif (attr == "searchpatterns"):
+    %for i,sp in enumerate(c.entity.searchpatterns):
+      <li class="idea" id="searchpattern${i}">
+        <span id="searchpattern${i}_edit" class="sep" onclick="removesp('searchpattern${i}','${c.entity.url(action='searchpattern')}')">
+          <img src="/img/delete.png" width=18 height=18 />
+        </span>
+        <span id="searchpattern${i}_field">
+            ${sp}
+        </span>
+      </li>
+    %endfor
+    ## New search pattern
   %endif
-
-
 </%def>

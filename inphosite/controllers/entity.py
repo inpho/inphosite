@@ -8,6 +8,7 @@ import os.path
 import csv
 
 from inphosite.lib.base import BaseController, render
+from inphosite.lib.rest import restrict, dispatch_on
 
 from inpho import config
 import inpho.model as model
@@ -281,3 +282,33 @@ class EntityController(BaseController):
             c.entity2 = h.fetch_obj(Entity, new_id=True)
             redirect(c.entity.url(filetype, action="graph"), code=303)
 
+    def _delete_search_pattern(self, id):
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+
+        if pattern in c.entity.searchpatterns:
+            c.entity.searchpatterns.remove(pattern)
+
+            Session.commit()
+
+        return "OK"
+
+    @dispatch_on(DELETE='_delete_search_pattern')
+    def searchpattern(self, id):
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('searchpattern', None)
+        if pattern is None:
+            abort(400)
+        
+        if pattern not in c.entity.searchpatterns:
+            c.entity.searchpatterns.append(unicode(pattern))
+
+            Session.commit()
+
+        return "OK"

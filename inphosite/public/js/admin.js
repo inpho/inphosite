@@ -145,7 +145,7 @@ inpho.admin.toggle_test_url = function(attr) {
 // If it is successful, the reset() function is called to handle the cosmetic 
 // changes.
 //
-function submit_field(attr, url) {
+inpho.admin.submit_field = function(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
   if (attr == "birth" || attr == "death") {

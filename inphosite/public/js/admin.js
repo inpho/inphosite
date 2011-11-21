@@ -124,7 +124,7 @@ inpho.admin.process_text = function(e, attr, url) {
         return toggle_test_url(attr);
 }
 
-function toggle_test_url(attr) {
+inpho.admin.toggle_test_url = function(attr) {
         var test_attr = "test_" + attr;
         var attr_text = attr + "_text";
         //alert(document.getElementById(attr_text).value);

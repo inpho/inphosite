@@ -114,7 +114,7 @@ inpho.admin.edit_dropdown = function(attr, url) {
 //    clear the field properly.
 // 2) Escape key to exit the field (i.e., call the reset() function)
 // 3) Enter key to submit the field (i.e., call the submit_field() function)
-function process_text(e, attr, url) {
+inpho.admin.process_text = function(e, attr, url) {
     if (e.keyCode == 13)
         return submit_field(attr, url);
     if (e.keyCode == 27)

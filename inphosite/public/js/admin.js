@@ -199,7 +199,7 @@ inpho.admin.submit_field = function(attr, url) {
 //     the new property (on success) or the old property (on failure).
 // 2.) The edit icon should re-appear.
 //
-function reset_field(attr, url, response) {
+inpho.admin.reset_field = function(attr, url, response) {
   // set up strings for use later
   var attr_text = attr + "_text";
   var old_attr = "old_" + attr;

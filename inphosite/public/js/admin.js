@@ -33,7 +33,7 @@ inpho.admin.edit = function(attr, url) {
       alert('Field not implemented: ' + attr);
 }
 
-function edit_textbox(attr, url) {
+inpho.admin.edit_textbox = function(attr, url) {
   // set up strings for use later & hide edit icon 
  var current_attr = "current_" + attr;
   var attr_field = attr + "_field";

@@ -26,9 +26,9 @@ inpho.admin.edit = function(attr, url) {
       attr == "birth" || attr == "death" || attr == "URL" || 
       attr == "last_accessed" || attr == "language" || attr == "ISSN" ||
       attr == "label")
-    edit_textbox(attr, url);
+    inpho.admin.edit_textbox(attr, url);
   else if (attr == "openAccess" || attr == "active" || attr == "student")
-    edit_dropdown(attr, url);
+    inpho.admin.edit_dropdown(attr, url);
   else
       alert('Field not implemented: ' + attr);
 }
@@ -116,12 +116,12 @@ inpho.admin.edit_dropdown = function(attr, url) {
 // 3) Enter key to submit the field (i.e., call the submit_field() function)
 inpho.admin.process_text = function(e, attr, url) {
     if (e.keyCode == 13)
-        return submit_field(attr, url);
+        return inpho.admin.submit_field(attr, url);
     if (e.keyCode == 27)
-        return reset_field(attr, url, 400);
+        return inpho.admin.reset_field(attr, url, 400);
     // TODO: add tab (e.keyCode == 9) support
     if (attr == "URL")
-        return toggle_test_url(attr);
+        return inpho.admin.toggle_test_url(attr);
 }
 
 inpho.admin.toggle_test_url = function(attr) {
@@ -184,7 +184,7 @@ inpho.admin.submit_field = function(attr, url) {
   if (attr != "active" && attr != "openAccess" && attr != "student") {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            reset_field(attr, url, xhr.status)
+            inpho.admin.reset_field(attr, url, xhr.status)
         }
       }
   }

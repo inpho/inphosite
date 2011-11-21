@@ -107,7 +107,7 @@ if c.entity.instance_of:
 ${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
 ${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
 ${entity.printList(c.entity.related[:10], 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True)}
+${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True, evaluation_type='Thinker-Idea')}
 ${entity.printList(c.entity.hyponyms[:10], 'hyponyms', statistical=True)}
 ${entity.printList(c.entity.occurrences[:10], 'occurrences', statistical=True)}
 

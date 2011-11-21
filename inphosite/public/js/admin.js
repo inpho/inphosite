@@ -78,7 +78,7 @@ inpho.admin.edit_textbox = function(attr, url) {
 
 }
 
-function edit_dropdown(attr, url) {
+inpho.admin.edit_dropdown = function(attr, url) {
   // set up strings for use later & hide edit icon
   var current_attr = "current_" + attr;
   var attr_field = attr + "_field";

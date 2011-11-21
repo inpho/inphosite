@@ -1,3 +1,5 @@
+var inpho = inpho || {};
+
 /* Functions for use with by the entity admin lists.
  *
  * With the exception of the birthday and deathday attributes for Thinkers, 
@@ -19,7 +21,7 @@
 // 1.) The edit icon is hidden.
 // 2.) The field displaying the property is changed from a static text field 
 //     to a text input box or dropdown menu.
-function edit(attr, url) {
+inpho.admin.edit = function(attr, url) {
   if (attr == "sep_dir" || attr == "searchstring" || attr == "wiki" || 
       attr == "birth" || attr == "death" || attr == "URL" || 
       attr == "last_accessed" || attr == "language" || attr == "ISSN" ||
@@ -32,8 +34,8 @@ function edit(attr, url) {
 }
 
 function edit_textbox(attr, url) {
-  // set up strings for use later & hide edit icon
-  var current_attr = "current_" + attr;
+  // set up strings for use later & hide edit icon 
+ var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
   var attr_text = attr + "_text";
   //var attr_edit = attr + "_edit";

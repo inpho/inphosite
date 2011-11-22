@@ -18,3 +18,7 @@ data
 .*.swp
 *~
 #*#
+
+_templates
+_static
+_build

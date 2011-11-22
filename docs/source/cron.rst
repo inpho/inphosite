@@ -27,3 +27,5 @@ Cron jobs:
 7. ``/Users/inpho/bin/checkurl.sh``, runs at midnight every Friday
    Checks URLs in journals database.
 
+8. ``/Users/inpho/bin/fuzzymatch``, runs at 07:00 daily
+   Syncs the fuzzymatches daily

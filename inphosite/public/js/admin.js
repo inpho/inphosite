@@ -204,8 +204,11 @@ function submit_field(attr, url) {
                 spid = spid + 1;
                 var attr_text = attr + "_text";
                 var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
+                var val = value.split('=')[1]
+                val = val.replace("<", "&lt;")
+                val = val.replace(">", "&gt;")
                 $('#new_searchpattern').before(new_entry);
-                $("#searchpattern"+spid+"_field").text(value.split('=')[1]);
+                $("#searchpattern"+spid+"_field").html(val);
             }
         }
       }

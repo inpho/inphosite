@@ -10,7 +10,9 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 
-
+%if c.message:
+<p>${c.message}</p>
+%endif
 
 <form action="/entity" method="POST">
 <fieldset>

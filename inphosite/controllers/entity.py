@@ -118,13 +118,15 @@ class EntityController(BaseController):
             return "Forbidden"
 
         # initialize template variables
+        c.message = ""
         c.label = request.params.get('label', None)
         c.sep_dir = request.params.get('sep_dir', None)
-        if c.sep_dir and not c.label:
-            c.label = sep.get_title(c.sep_dir)
 
         c.linklist = []
-        if c.sep_dir:
+        if c.sep_dir and sep.published(c.sep_dir):
+            if not c.label:
+                c.label = sep.get_title(c.sep_dir)
+
             fuzzypath = config.get('corpus', 'fuzzy_path')
             fuzzypath = os.path.join(fuzzypath, c.sep_dir)
             if os.path.exists(fuzzypath):
@@ -133,6 +135,9 @@ class EntityController(BaseController):
                     for row in matches:
                         c.linklist.append(row)
                     
+        elif c.sep_dir and not sep.published(c.sep_dir):
+            c.message = "Invalid sep_dir: " + c.sep_dir
+            c.sep_dir = ""
 
         return render('entity/new.html')
 

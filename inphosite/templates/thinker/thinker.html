@@ -45,23 +45,11 @@ also has an article in the Stanford Encyclopedia of Philosophy.</p>
 <div id="contentLeft">
 <script src="/js/eval.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-function toggleList(selector) {
-    if ($('.on', selector).length > 0) {
-        $('.on', selector).removeClass('on').addClass('off');
-    } else {
-        $('.off', selector).removeClass('off').addClass('on');
-    }
-    $('ol', selector).toggle("slow");
-    $('ul', selector).toggle("slow");
-    $('p', selector).toggle("slow");
-    }
-</script>
 
 
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
-  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "wiki", "birthday", "deathday"])}
+  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "wiki", "birthday", "deathday", "searchpatterns"])}
 %endif
 
 

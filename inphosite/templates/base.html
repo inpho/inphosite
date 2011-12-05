@@ -57,6 +57,9 @@ ${self.head()}
 <div id="comments">Comments and feedback welcome! <a href="mailto:inpho@indiana.edu">inpho@indiana.edu</a></div>
 
 <div id="login">
+    %if h.auth.is_admin():
+    <a href="/admin">Admin Panel</a> ::
+    %endif
     ## check if user is logged in or signing out
     % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
     <a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a> :: <a href="${h.url(controller='account', action='signout')}">Sign Out</a>

@@ -11,12 +11,19 @@ ${parent.draw()}</%def>
 <p>There is currently no InPhO entry for the search <b>${c.query}</b>. Please
 try another search query, or use the taxonomy to explore over 5,000
 philosophical concepts, journals and thinkers.</p>
+%if h.auth.is_admin():
+<p><a href="${h.url(controller='entity', action='new', label=c.query)}">Create an entity for <b>${c.query}</b></a></p>
+%endif
 %elif c.sep:
 <p>There is currently no InPhO entry for the specified article, however we
 invite you to explore the taxonomy at the left to find related concepts and
 directed search queries for over 5,000 philosophical concepts, journals and
-thinkers.</p>
+thinkers.</p> 
+%if h.auth.is_admin():
+<p><a href="${h.url(controller='entity', action='new', sep_dir=c.sep)}">Create an entity for sep entry <b>${c.sep}</b></a></p>
 %endif
+%endif
+
 <p>This taxonomy of ideas is the outcome of the first iteration of our cycle of
 expert-provided structure, statistical analysis of the articles in the Stanford
 Encyclopedia of Philosophy, and a small amount of human feedback. Iterations of

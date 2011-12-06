@@ -141,6 +141,7 @@ def delete_obj(obj):
     """
     Session.delete(obj)
     Session.flush()
+    Session.commit()
 
 import simplejson
 from decimal import Decimal

@@ -1,5 +1,5 @@
 <%
-a = {'responseData' : {'result' : c.idea.json_struct(sep_filter=c.sep_filter)},
+a = {'responseData' : {'result' : c.entity.json_struct(sep_filter=c.sep_filter)},
     'responseStatus' : 200,
     'responseDetails' : None}
 %>

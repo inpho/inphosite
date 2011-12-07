@@ -1,3 +1,5 @@
+var inpho = inpho || {};
+
 /* Functions for use with by the entity admin lists.
  *
  * With the exception of the birthday and deathday attributes for Thinkers, 
@@ -35,21 +37,21 @@ function removesp(id, url) {
 // 1.) The edit icon is hidden.
 // 2.) The field displaying the property is changed from a static text field 
 //     to a text input box or dropdown menu.
-function edit(attr, url) {
+inpho.admin.edit = function(attr, url) {
   if (attr == "sep_dir" || attr == "searchstring" || attr == "wiki" || 
       attr == "birth" || attr == "death" || attr == "URL" || 
       attr == "last_accessed" || attr == "language" || attr == "ISSN" ||
       attr == "label" || attr == "searchpattern")
-    edit_textbox(attr, url);
+    inpho.admin.edit_textbox(attr, url);
   else if (attr == "openAccess" || attr == "active" || attr == "student")
-    edit_dropdown(attr, url);
+    inpho.admin.edit_dropdown(attr, url);
   else
       alert('Field not implemented: ' + attr);
 }
 
-function edit_textbox(attr, url) {
-  // set up strings for use later & hide edit icon
-  var current_attr = "current_" + attr;
+inpho.admin.edit_textbox = function(attr, url) {
+  // set up strings for use later & hide edit icon 
+ var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
   var attr_text = attr + "_text";
   //var attr_edit = attr + "_edit";
@@ -92,7 +94,7 @@ function edit_textbox(attr, url) {
 
 }
 
-function edit_dropdown(attr, url) {
+inpho.admin.edit_dropdown = function(attr, url) {
   // set up strings for use later & hide edit icon
   var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
@@ -128,17 +130,17 @@ function edit_dropdown(attr, url) {
 //    clear the field properly.
 // 2) Escape key to exit the field (i.e., call the reset() function)
 // 3) Enter key to submit the field (i.e., call the submit_field() function)
-function process_text(e, attr, url) {
+inpho.admin.process_text = function(e, attr, url) {
     if (e.keyCode == 13)
-        return submit_field(attr, url);
+        return inpho.admin.submit_field(attr, url);
     if (e.keyCode == 27)
-        return reset_field(attr, url, 400);
+        return inpho.admin.reset_field(attr, url, 400);
     // TODO: add tab (e.keyCode == 9) support
     if (attr == "URL")
-        return toggle_test_url(attr);
+        return inpho.admin.toggle_test_url(attr);
 }
 
-function toggle_test_url(attr) {
+inpho.admin.toggle_test_url = function(attr) {
         var test_attr = "test_" + attr;
         var attr_text = attr + "_text";
         //alert(document.getElementById(attr_text).value);
@@ -160,7 +162,7 @@ function toggle_test_url(attr) {
 // changes.
 //
 spid=100;
-function submit_field(attr, url) {
+inpho.admin.submit_field = function(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
   if (attr == "birth" || attr == "death") {
@@ -199,7 +201,7 @@ function submit_field(attr, url) {
   if (attr != "active" && attr != "openAccess" && attr != "student") {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            reset_field(attr, url, xhr.status)
+            inpho.admin.reset_field(attr, url, xhr.status);
             if (attr == "searchpattern") {
                 spid = spid + 1;
                 var attr_text = attr + "_text";
@@ -223,7 +225,7 @@ function submit_field(attr, url) {
 //     the new property (on success) or the old property (on failure).
 // 2.) The edit icon should re-appear.
 //
-function reset_field(attr, url, response) {
+inpho.admin.reset_field = function(attr, url, response) {
   // set up strings for use later
   var attr_text = attr + "_text";
   var old_attr = "old_" + attr;

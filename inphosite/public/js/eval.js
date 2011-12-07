@@ -1,13 +1,18 @@
+var inpho = inpho || {
+  eval : {
+  }
+};
+
 var numEvals = 0;
 var evalsEnabled = false; 
 
-function enableEvals() {
+inpho.eval.enableEvals = function() {//enableEvals() {
     evalsEnabled = true;    
     $('.active form:hidden').slideToggle();
     $('.evaltext').html("Thank you for improving the InPhO! Click on the ideas below to reveal the evaluation form.");
-}
+};
 
-function search(elm, id, id2) {
+inpho.eval.search = function(elm, id, id2) {
     if (!($(elm).hasClass('active'))) {
         $("#moreInfo").html("<p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>");
         var src  = '/entity/' + id + '/search/' + id2;
@@ -24,23 +29,23 @@ function search(elm, id, id2) {
         $('.childLink', elm).toggle("slow");
 
     }
-}
+};
 
-function incrEvals() {
+inpho.eval.incrEvals = function(){
     numEvals++;
-}
+};
 
-function submitEvals(elm) {
-   thisFunc(elm, 'relatedness');
-   thisFunc(elm, 'generality');
-   incrEvals();
-}
+inpho.eval.submitEvals = function(elm) {
+   inpho.eval.thisFunc(elm, 'relatedness');
+   inpho.eval.thisFunc(elm, 'generality');
+   inpho.eval.incrEvals();
+};
 
-function flagIdea(elm, id) {
+inpho.eval.flagIdea = function(elm, id) {
      
-}
+};
 
-function updateForm(elm, val, hide, idea, submitOnStop) {
+inpho.eval.updateForm = function(elm, val, hide, idea, submitOnStop) {
     //update text
     switch(val) {
         case 0:
@@ -51,7 +56,7 @@ function updateForm(elm, val, hide, idea, submitOnStop) {
             $(".generality input[name='generality']", elm).attr("disabled","disabled");
             $(".generality input[name='generality']:radio", elm).removeAttr("checked");
 
-            if (submitOnStop) { thisFunc($("form", elm), 'generality'); }
+            if (submitOnStop) { inpho.eval.thisFunc($("form", elm), 'generality'); }
             $( ".reltext", elm ).html( "<em>unrelated</em> to " + idea);
             break;
         case 1:
@@ -79,9 +84,9 @@ function updateForm(elm, val, hide, idea, submitOnStop) {
             $( "input[name='submit']", elm).show();
             break;
     }
-}
+};
 
-function thisFunc(elm, changed) {
+inpho.eval.thisFunc = function(elm, changed) {
     var id   = $("> [name='ante_id']", elm).val();
     var id2  = $("> [name='cons_id']", elm).val();
     var flag = $("> [name='flag']", elm).val();
@@ -140,17 +145,17 @@ function thisFunc(elm, changed) {
     
     if ((generality > -1) && (relatedness > -1)) {
         img.attr("src", "/img/check.gif");
-        incrEvals();    
+        inpho.eval.incrEvals();    
     }
 
     if (numEvals == 10) {
         $("#dialog").dialog({position: [490,380], modal : true, title : 'Thank you!'});
     } 
-}
+};
 
 
 
-function resetEvaluation(elm){
+inpho.eval.resetEvaluation = function(elm){
     var id   = $("> [name='ante_id']", elm).val();
     var id2  = $("> [name='cons_id']", elm).val();
     var img  = $("> .loading", elm.parent());
@@ -171,11 +176,11 @@ function resetEvaluation(elm){
             } });
     img.attr("src", "/img/empty.gif");
     numEvals--;
-}
+};
 
 
 
-function toggleList(selector) {
+inpho.eval.toggleList = function(selector) {
     if ($('.on', selector).length > 0) {
         $('.on', selector).removeClass('on').addClass('off');
     } else {
@@ -184,12 +189,12 @@ function toggleList(selector) {
     $('ol', selector).toggle("slow");
     $('ul', selector).toggle("slow");
     $('p', selector).toggle("slow");
-    }
+};
 
     
     
     
-function initSlider(elm, rel, submitOnStop, idea) {
+inpho.eval.initSlider = function(elm, rel, submitOnStop, idea) {
     var form = elm.parent();
 
     elm.slider({
@@ -198,16 +203,16 @@ function initSlider(elm, rel, submitOnStop, idea) {
         max: 4,
         step: 1,
         change: function( event, ui ) {
-            updateForm(form, ui.value, true, idea, submitOnStop);
+            inpho.eval.updateForm(form, ui.value, true, idea, submitOnStop);
         },
         slide: function( event, ui ) {
-            updateForm(form, ui.value, false, idea, submitOnStop);
+            inpho.eval.updateForm(form, ui.value, false, idea, submitOnStop);
         }
         , stop: function( event, ui ) {   
             // if changed, update val and submit
             if (ui.value != $( "input[name='relatedness']", form).val()) {
                 $( "input[name='relatedness']", form).val(ui.value);
-                if (submitOnStop) thisFunc(form, 'relatedness');
+                if (submitOnStop) inpho.eval.thisFunc(form, 'relatedness');
             }
         }
     });
@@ -221,4 +226,4 @@ function initSlider(elm, rel, submitOnStop, idea) {
     else {
         elm.slider("option", "value", rel);
     }
-}
+};

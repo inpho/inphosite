@@ -81,7 +81,7 @@ while curParent:
 <div id="contentLeft">
 %if not request.environ.get('REMOTE_USER') and (c.entity.nodes or c.entity.instance_of):
 <p class="evaltext">Help improve results by <strong><a href="#"
-onClick="enableEvals($(this).parent().parent())">enabling anonymous 
+onClick="inpho.eval.enableEvals($(this).parent().parent())">enabling anonymous 
 idea evaluations</a></strong> or <strong><a href="${h.url('signin',
 came_from=h.url(controller='idea', action='view', id=c.entity.ID))}">signing
 in</a></strong>! </p>

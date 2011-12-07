@@ -203,8 +203,12 @@ function submit_field(attr, url) {
             if (attr == "searchpattern") {
                 spid = spid + 1;
                 var attr_text = attr + "_text";
-                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field">'+value.split('=')[1]+'</span></li>';
+                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
+                var val = value.split('=')[1]
+                val = val.replace("<", "&lt;")
+                val = val.replace(">", "&gt;")
                 $('#new_searchpattern').before(new_entry);
+                $("#searchpattern"+spid+"_field").html(val);
             }
         }
       }
@@ -270,8 +274,9 @@ function reset_field(attr, url, response) {
     var attr_value = "Add a New Search Pattern";
   }
 
-  var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
+  var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> </span>';
   document.getElementById(attr_field).innerHTML = input_field;
+  $("#current_"+attr).text(attr_value);
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;
 }

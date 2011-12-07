@@ -120,16 +120,16 @@ class AccountController(BaseController):
         identity = request.environ.get('repoze.who.identity')
         if identity is not None:
             came_from = request.params.get('came_from', '')
-            if not came_from:
-                came_from = request.params.get('referer','')
             if request.environ.get('HTTP_REFERER', '').startswith(came_from)\
                 or not came_from:
                 redirect('/account/profile')
             if came_from:
                 redirect(str(came_from))
 
+        c.redirect_in_get = request.GET.get('came_from', None)
         c.failed = request.url == request.environ.get('HTTP_REFERER','')
         c.referer = request.environ.get('HTTP_REFERER','')
+        
         return render('/account/signin.html')
 
     def test(self):

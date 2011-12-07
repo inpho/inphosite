@@ -12,7 +12,7 @@ ${parent.draw()}</%def>
 
 <h1>${c.entity.label}</h1>
 
-<%def name="printList(ideas, attr, statistical=False, alt_title='', tax_class='')">
+<%def name="printList(ideas, attr, statistical=False, alt_title='', tax_class='', evaluation_type='Idea')">
 <% title = alt_title if alt_title else h.titlecase(attr.replace('_', ' ')) %>
 <div id="${attr}">
 %if not ideas:
@@ -34,13 +34,13 @@ Help improve results by <strong><a href="#" onClick="enableEvals($(this).parent(
 %for idea in ideas:
 %if tax_class:
 <div>
-${printEntity(idea[0], group=True)}
+${printEntity(idea[0], group=True, evaluation_type=evaluation_type)}
 %if idea[0] != idea[1]:
-${printEntity(idea[1], cls=tax_class, group=True, srch_id=idea[0].ID)}
+${printEntity(idea[1], cls=tax_class, group=True, srch_id=idea[0].ID, evaluation_type=evaluation_type)}
 %endif
 </div>
 %else:
-${printEntity(idea)}
+${printEntity(idea, evaluation_type=evaluation_type)}
 %endif
 %endfor
 </ol>
@@ -174,9 +174,11 @@ checked\
     <h3>Admin
     <span class="toggle on" onclick="toggleList('#admin')">&nbsp;</span>
     </h3>
+    <ul>
         %for attr in attrs:
         ${printAttr(attr)}
         %endfor
+    </ul>
     </div>
 </%def>
 

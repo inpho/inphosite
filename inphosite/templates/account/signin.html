@@ -14,7 +14,9 @@ ${parent.draw()}</%def>
 %endif
 
 <form method="post" action="/account/dologin">
+  %if c.redirect_in_get is None:
   <input type="hidden" name="came_from" value="${c.referer}" />
+  %endif
   <table class="formbuild">
     <tbody>
       <tr class="field">

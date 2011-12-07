@@ -1,12 +1,10 @@
-var inpho = inpho || {
-  eval : {
-  }
-};
+var inpho = inpho || {};
+inpho.eval = inpho.eval || {};
 
 var numEvals = 0;
 var evalsEnabled = false; 
 
-inpho.eval.enableEvals = function() {//enableEvals() {
+inpho.eval.enableEvals = function() {
     evalsEnabled = true;    
     $('.active form:hidden').slideToggle();
     $('.evaltext').html("Thank you for improving the InPhO! Click on the ideas below to reveal the evaluation form.");

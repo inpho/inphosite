@@ -23,7 +23,7 @@ ${parent.draw()}</%def>
 %else:
 Help improve results by <strong><a href="#" onClick="inpho.eval.enableEvals($(this).parent().parent())">enabling anonymous idea evaluations</a></strong> or <strong><a href="${h.url('signin', came_from=h.url(controller='idea', action='view', id=c.entity.ID))}">signing in</a></strong>! </p>
 %endif
-%endif
+
 %else:
 <h3>${title} <span class="toggle on" onclick="toggleList('#${attr}')">&nbsp;</span> </h3>
 %if statistical:

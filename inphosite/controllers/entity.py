@@ -317,3 +317,19 @@ class EntityController(BaseController):
             Session.commit()
 
         return "OK"
+
+    #DELETE
+    @restrict('DELETE')
+    def delete(self, id=None):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        idea = h.fetch_obj(Entity, id, new_id=True)
+        
+        h.delete_obj(idea)
+
+        # Issue an HTTP success
+        response.status_int = 200
+        return "OK"

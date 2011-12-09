@@ -134,7 +134,9 @@ class EntityController(BaseController):
                     matches = csv.reader(f)
                     for row in matches:
                         c.linklist.append(row)
-                    
+
+            c.linklist.sort(key=lambda x: x[2], reverse=True)
+
         elif c.sep_dir and not sep.published(c.sep_dir):
             c.message = "Invalid sep_dir: " + c.sep_dir
             c.sep_dir = ""

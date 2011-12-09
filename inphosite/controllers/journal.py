@@ -117,16 +117,21 @@ class JournalController(EntityController):
 
         if '_method' in params:
             del params['_method']
-        if 'name' in params:
-            name = params['name']
+        
+        if 'label' in params:
+            label = params['label']
+            del params['label']
+        elif 'name' in params:
+            label = params['name']
             del params['name']
         else:
             abort(400)
+        
         for k in params.keys():
             if k not in valid_params:
                 abort(400)
 
-        journal = Journal(name, **params)
+        journal = Journal(label, **params)
         Session.add(journal)
         Session.flush()
 

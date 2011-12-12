@@ -190,11 +190,11 @@ checked\
   ## In_degree, Out_degree and Entropy (immutable; for Idea)
   <li class="idea">
   %if (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy"):
-      <span id=${attr+"_edit"} class="sep" style="visibility: hidden">
+      <span id="${attr}_edit" class="sep" style="visibility: hidden">
         <img src="/img/pencil.png"/>
       </span>
       <b>${attr}:</b>
-      <span id=${attr+"_field"}>
+      <span id="${attr}_field">
         ${getattr(c.entity, attr)}
       </span>
   ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
@@ -211,62 +211,63 @@ checked\
   ## Searchstring (mutable; for Idea, Thinker)
   ## Wiki (mutable; for Thinker)
   %elif (attr == "sep_dir" or attr == "searchstring" or attr == "wiki"):
-      <span id=${attr+"_edit"} class="sep" onclick=${"edit("+attr+", '"+c.entity.url()+"')"}>
+      <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>${attr}:</b>
       <span id=${attr+"_field"}>
-        <span id=${"current_"+attr} onclick=${"edit("+attr+", '"+c.entity.url()+"')"}>
+        ## TODO: This. Make all id and onclick attributes properly quoted and templated.
+        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
           ${getattr(c.entity, attr)}
         </span>
       </span>
   ## Birth and Death (mutable; for Thinker)
   %elif (attr == "birth" or attr == "death"):
-      <span id=${attr+"_edit"} class="sep" onclick=${"edit("+attr+", '"+c.entity.url()+"')"}>
+      <span id=${attr+"_edit"} class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>${attr}:</b>
-      <span id=${attr+"_field"}>
-        <span id=${"current_"+attr} onclick=${"edit("+attr+", '"+c.entity.url()+"')"}>
+      <span id="${attr}_field">
+        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
           ${getattr(c.entity, attr+"_string")}
         </span>
-        <input type="text" style="visibility: hidden" id=${attr+"_year"} value="${getattr(c.entity, attr+"_year")}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit(${attr+", '"+c.entity.url()+"'"})" />
-        <input type="text" style="visibility: hidden" id=${attr+"_month"} value="${getattr(c.entity, attr+"_month")}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit(${attr+", '"+c.entity.url()+"'"})" />
-        <input type="text" style="visibility: hidden" id=${attr+"_day"} value="${getattr(c.entity, attr+"_day")}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit(${attr+", '"+c.entity.url()+"'"})" />
+        <input type="text" style="visibility: hidden" id="${attr}_year" value="${getattr(c.entity, attr+"_year")}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
+        <input type="text" style="visibility: hidden" id="${attr}_month" value="${getattr(c.entity, attr+"_month")}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
+        <input type="text" style="visibility: hidden" id="${attr}_day" value="${getattr(c.entity, attr+"_day")}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
       </span>
   ## Website (mutable; for Journal)
   %elif (attr == "URL"):
-      <span id=attr+"_edit" class="sep" onclick="edit("+attr"+, '"+c.entity.url()+"')">
+      <span id=attr+"_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>URL:</b>
       <span id="URL_field">
-        <span id="current_"+attr onclick="edit("+attr+", '"+c.entity.url()+"')">
+        <span id="current_"+attr onclick="inpho.admin.edit('${attr}, '${c.entity.url()}')">
           ${c.entity.URL}
         </span>
       </span>
-      <a id="test_"+attr href="${c.entity.URL}" target="_blank">(test)</a>
-      <a id="test_"+attr href="${c.entity.google_url}" target="_blank">(google)</a></dt>
+      <a id="test_${attr}" href="${c.entity.URL}" target="_blank">(test)</a>
+      <a id="test_${attr}" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
   ## Last_accessed, Language and ISSN (mutable; for Journal)
   %elif (attr == "last_accessed" or attr == "language" or attr == "ISSN"):
-      <span id=attr+"_edit" class="sep" onclick="edit("+attr", '"+c.entity.url()+"')">
+      <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}, '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>${attr}:</b>
-      <span id=attr+"_field">
-        <span id="current_"+attr onclick="edit("+attr", '"+c.entity.url()+"')">
+      <span id="${attr}_field">
+        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
           ${getattr(c.entity, attr)}
         </span>
       </span>
   ## Mutable via dropdown menu
   ## Open Access, Active and Student (mutable; for Journal)
   %elif (attr == "openAccess" or attr == "active" or attr == "student"):
-      <span id=attr+"_edit" class="sep" onclick="edit("+attr"+, '"+c.entity.url()+"')">
+      <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
       <b>${attr}:</b>
-      <span id=attr+"_field">
-        <span id="current_"+attr onclick="edit("+attr"+, '"+c.entity.url()+"')">
+      <span id="${attr}_field">
+        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
           %if (attr == "openAcess"):
               %if c.entity.openAccess == 0:
                   Closed
@@ -288,14 +289,14 @@ checked\
           %endif
         </span>
       </span>
-  ## Searchpattern(s) and Abbreviation(s) (mutable; for Idea, Thinker)
+  ## Abbreviation(s) (mutable; for Idea, Thinker)
   %elif (attr == "abbreviation"):
     %for i,attr in enumerate(getattr(c.entity, attr+"s")):
-        <span id=attr+"${i}_edit" class="sep" onclick="edit('"+attr+"${i}', '"+c.entity.url()+"')">
+        <span id="${attr}"+"${i}_edit" class="sep" onclick="inpho.admin.edit('${attr}'+'${i}', '${c.entity.url()}')">
           <img src="/img/pencil.png"/>
         </span>
-        <span id=attr+"${i}_field">
-          <span id="current_"+attr+"${i}" onclick="edit('"+attr+"${i}', '"+c.entity.url()+"')">
+        <span id="${attr}"+"${i}_field">
+          <span id="current_${attr}"+"${i}" onclick="inpho.admin.edit('${attr}'+'${i}', '${c.entity.url()}')">
             ${getattr(c.entity, attr)}
           </span>
         </span>
@@ -303,20 +304,21 @@ checked\
   ## Quer[y|ies] (mutable; for Journal)
   %elif (attr == "queries"):
     %for i,query in enumerate(c.entity.queries):
-        <span id="query${i}_edit" class="sep" onclick="edit('query${i}', '"+c.entity.url()+"')">
+        <span id="query${i}_edit" class="sep" onclick="inpho.admin.edit('query${i}', '${c.entity.url()}')">
           <img src="/img/pencil.png"/>
         </span>
         <span id="query${i}_field">
-          <span id="current_query${i}" onclick="edit('query${i}', '"+c.entity.url()+"')">
+          <span id="current_query${i}" onclick="inpho.admin.edit('query${i}', '${c.entity.url()}')">
             ${query}
           </span>
         </span>
     %endfor
   ## Searchpattern(s) (mutable; for Idea, Thinker)
   %elif (attr == "searchpatterns"):
+    <ul>
     %for i,sp in enumerate(c.entity.searchpatterns):
       <li class="idea" id="searchpattern${i}">
-        <span id="searchpattern${i}_edit" class="sep" onclick="removesp('searchpattern${i}','${c.entity.url(action='searchpattern')}')">
+        <span id="searchpattern${i}_edit" class="sep" onclick="inpho.admin.removesp('searchpattern${i}','${c.entity.url(action='searchpattern')}')">
           <img src="/img/delete.png" width=18 height=18 />
         </span>
         <span id="searchpattern${i}_field">
@@ -326,15 +328,16 @@ checked\
     %endfor
     ## New search pattern
     <li class="idea" id="new_searchpattern">
-      <span id="searchpattern_edit" class="sep" onclick="edit('searchpattern','${c.entity.url(action='searchpattern')}')">
+      <span id="searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
         <img src="/img/pencil.png"/>
       </span>
       <span id="searchpattern_field">
-        <span id="current_searchpattern_edit" class="sep" onclick="edit('searchpattern','${c.entity.url(action='searchpattern')}')">
+        <span id="current_searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
           Add a new searchpattern
         </span>
       </span>
     </li>
+    </ul>
   %endif
   </li>
 </%def>

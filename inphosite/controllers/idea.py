@@ -287,22 +287,6 @@ class IdeaController(EntityController):
         terms = ['sep_dir', 'searchstring']
         super(IdeaController, self).update(id, terms)
 
-    #DELETE
-    @restrict('DELETE')
-    def delete(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
-        idea = h.fetch_obj(Idea, id, new_id=True)
-        
-        h.delete_obj(idea)
-
-        # Issue an HTTP success
-        response.status_int = 200
-        return "OK"
-
     @restrict('POST')
     def create(self):
         if not h.auth.is_logged_in():

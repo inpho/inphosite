@@ -222,7 +222,7 @@ checked\
       <span id=${attr+"_edit"} class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
         <img src="/img/pencil.png"/>
       </span>
-      <b>${attr}:</b>
+      <b>${attr} (YYYY-MM-DD):</b>
       <span id="${attr}_field">
         <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
           ${getattr(c.entity, attr+"_string")}

@@ -1,4 +1,5 @@
 var inpho = inpho || {};
+inpho.admin = inpho.admin || {};
 
 /* Functions for use with by the entity admin lists.
  *
@@ -16,7 +17,7 @@ var inpho = inpho || {};
  */
 
 
-function removesp(id, url) {
+inpho.admin.removesp = function(id, url) {
   var field_id = id + '_field';
   var sp = document.getElementById(field_id).innerHTML.trim();
   var value = "?pattern=" + encodeURIComponent(sp);
@@ -84,7 +85,7 @@ inpho.admin.edit_textbox = function(attr, url) {
     if ((attr_value == 'None') || (attr_value == 'undefined') || !attr_value)
         attr_value = '';
 
-    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
+    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="inpho.admin.reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
     //onblur="reset(\'' + attr +'\', \'' + url + '\', 400)" />';
     textbox = textbox + '<input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
     document.getElementById(attr_field).innerHTML = textbox;

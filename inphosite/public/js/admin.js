@@ -202,7 +202,7 @@ inpho.admin.submit_field = function(attr, url) {
   if (attr != "active" && attr != "openAccess" && attr != "student") {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            inpho.admin.reset_field(attr, url, xhr.status)
+            inpho.admin.reset_field(attr, url, xhr.status);
             if (attr == "searchpattern") {
                 spid = spid + 1;
                 var attr_text = attr + "_text";

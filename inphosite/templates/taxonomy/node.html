@@ -39,7 +39,7 @@ is also an article in the Stanford Encyclopedia of Philosophy.</p>
 
 %if not request.environ.get('REMOTE_USER'):
 <p class="evaltext">Help improve results by <strong><a href="#"
-onClick="enableEvals($(this).parent().parent())">enabling anonymous 
+onClick="inpho.eval.enableEvals($(this).parent().parent())">enabling anonymous 
 idea evaluations</a></strong> or <strong><a href="${h.url('signin',
 came_from=h.url(controller='taxonomy', id=c.node.ID, action='view'))}">signing
 in</a></strong>! </p>

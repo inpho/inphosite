@@ -179,9 +179,9 @@ class IdeaController(EntityController):
         c.entities.extend(siblings) 
 
         if sep_filter:
-            c.entities = [i.idea for i in c.ideas if i.idea.sep_dir]
+            c.entities = [i.idea for i in c.entities if i.idea.sep_dir]
         else:
-            c.entities = [i.idea for i in c.ideas]
+            c.entities = [i.idea for i in c.entities]
 
         if c.idea in c.entities: 
             c.entities.remove(c.idea)

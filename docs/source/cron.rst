@@ -2,7 +2,7 @@ Cron Jobs
 -----------------
 
 
-A number of critical InPhO functions on inpho.cogs are managed by cron through the inpho user account.  The inpho crontab can be edited with ``crontab -e`` or listed with ``crontab -l``. On Mac OS X, the inpho crontab is kept at ``/usr/lib/cron/tabs/inpho`` but should be edited directly.
+A number of critical InPhO functions on inpho.cogs are managed by cron through the inpho user account.  The inpho crontab can be edited with ``crontab -e`` or listed with ``crontab -l``. On Mac OS X, the inpho crontab is kept at ``/usr/lib/cron/tabs/inpho`` but should not be edited directly.
 
 Cron jobs:
 
@@ -29,3 +29,6 @@ Cron jobs:
 
 8. ``/Users/inpho/bin/fuzzymatch``, runs at 07:00 daily
    Syncs the fuzzymatches daily
+
+9. ``/Users/inpho/bin/sitestats``, runs at the top of every hour
+   Updates site statistics

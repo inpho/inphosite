@@ -1,0 +1,18 @@
+SEP Cross-Reference
+Verify that SEP Cross-Reference at http://plato.stanford.edu/~inpho/crossref.php
+still works
+
+Entity JSON
+Verify that https://inpho.cogs.indiana.edu/entity.json returns HTTP 200
+
+Idea JSON
+Verify that https://inpho.cogs.indiana.edu/idea.json returns HTTP 200
+
+Thinker JSON
+Verify that https://inpho.cogs.indiana.edu/thinker.json returns HTTP 200
+
+Journal JSON
+Verify that https://inpho.cogs.indiana.edu/journal.json returns HTTP 200
+
+Taxonomy JSON
+Verify that https://inpho.cogs.indiana.edu/taxonomy.json returns HTTP 200

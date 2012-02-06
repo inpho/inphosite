@@ -1,6 +1,6 @@
 import logging
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, response, session, config, tmpl_context as c
 from pylons.controllers.util import abort, redirect as rd
 
 # import decorators
@@ -35,3 +35,16 @@ class AdminController(BaseController):
 
     def list(self, id = None):
         return rd('/entity/list_new')
+
+    def tests(self):
+        """
+        Displays the InPhO Update checklist
+        """
+        
+        with open(config['test_file']) as f:
+            # Parse TESTCASES file, stick cases into variable c.tests
+            pass
+
+        
+        # Render the test form
+        return render('admin/tests.html')

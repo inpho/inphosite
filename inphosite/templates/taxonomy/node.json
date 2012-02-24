@@ -1,5 +1,5 @@
 <%
-a = {'responseData' : {'result' : c.node.json_struct()},
+a = {'responseData' : {'result' : c.node.json_struct(extended=True)},
     'responseStatus' : 200,
     'responseDetails' : None}
 %>

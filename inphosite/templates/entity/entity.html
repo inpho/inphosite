@@ -311,7 +311,7 @@ checked\
 <%def name="dateControl(attr, relation_id)">
     <form class="dateControl" name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST">
       <fieldset>
-	<legend>Date</legend>
+	<legend>${attr.capitalize()} Date</legend>
 	<select name="month" id="${attr}_month">
 	    <option value="0">Month</option>
 	    <option value="1">January</option>

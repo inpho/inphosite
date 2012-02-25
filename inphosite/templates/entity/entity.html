@@ -184,12 +184,10 @@ checked\
 
 <%def name="printAttr(attr)"> 
 ## Immutable attribute
-# ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
+## ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
 ## In_degree, Out_degree and Entropy (immutable; for Idea)
 <li class="idea">
-  %if (attr == "openAccess" or attr == "active" or attr == "student" or attr == "last_accessed" or attr == "sep_dir" or attr == "language" or attr == "ISSN "or attr == "searchstring" or attr == "wiki" or attr == "birth" or attr == "death" or attr == "URL"):
-  ${textboxControl(attr)}
-  
+  %if (attr == "openAccess" or attr == "active" or attr == "student" or attr == "last_accessed" or attr == "sep_dir" or attr == "language" or attr == "ISSN "or attr == "searchstring" or attr == "wiki" or attr == "URL"):
   <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
     <img src="/img/pencil.png"/>
   </span>
@@ -205,19 +203,6 @@ checked\
       ${getattr(c.entity, attr)}
     </span>
   </span>
-      ## Birth and Death (mutable; for Thinker)
-      %elif (attr == "birth" or attr == "death"):
-      
-      ${getattr(c.entity, attr+"_string")}
-    </span> 
-    <input type="text" style="visibility: hidden" id="${attr}_year" value="${getattr(c.entity, attr+"_year")}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
-    <input type="text" style="visibility: hidden" id="${attr}_month" value="${getattr(c.entity, attr+"_month")}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
-    <input type="text" style="visibility: hidden" id="${attr}_day" value="${getattr(c.entity, attr+"_day")}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
-  </span>
-        %elif (attr == "birth"):
-        ${dateControl(attr, 1)}
-        %elif (attr == "death"):
-        ${dateControl(attr, 2)}
       ## Website (mutable; for Journal)
       %elif (attr == "URL"):
       ${c.entity.URL}
@@ -315,12 +300,16 @@ checked\
       </span>
     </li>
     </ul>
+    %elif (attr == "birth"):
+    ${dateControl(attr, 1)}
+    %elif (attr == "death"):
+    ${dateControl(attr, 2)}
   %endif
   </li>
 </%def>
 
 <%def name="dateControl(attr, relation_id)">
-    <form name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST">
+    <form class="dateControl" name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST">
       <fieldset>
 	<legend>Date</legend>
 	<select name="month" id="${attr}_month">
@@ -382,12 +371,12 @@ checked\
 	  <option value="ce">C.E. (A.D.)</option>
 	</select>
 
-	<label for="is_date_range">Date Range?</label>
+	<label for="is_date_range" class="dateControlLabel">Date Range?</label>
 	<input type="checkbox" name="is_date_range" value="is_date_range" id="${attr}_is_date_range"/>
 	
 	<br />
 	
-	<div id="${attr}_date_range">
+	<div id="${attr}_date_range" class="date_range">
 	  <select name="month_end">
 	    <option value="0">Month</option>
 	    <option value="1">January</option>

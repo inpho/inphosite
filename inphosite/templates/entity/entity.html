@@ -180,111 +180,85 @@ checked\
     </div>
 </%def>
 
-<%def name="printAttr(attr)">
-  ## Immutable attributes
-  ## ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
-  ## In_degree, Out_degree and Entropy (immutable; for Idea)
-  <li class="idea">
-  %if (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy"):
-      <span id="${attr}_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>${attr}:</b>
-      <span id="${attr}_field">
-        ${getattr(c.entity, attr)}
-      </span>
-  ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
-  %elif (attr == "type"):
-        <li class="idea">
-	  <span id="type_edit" class="sep" style="visibility: hidden">
-            <img src="/img/pencil.png"/>
-	  </span>
-	  <b>Type:</b>
-	  <span id="type_field"> ${type(c.entity).__name__} </span>
-	</li>
-  ## Mutable via textbox
-  ## Sep_dir (mutable; for Idea, Thinker, Journal, SOT, Work)
-  ## Searchstring (mutable; for Idea, Thinker)
-  ## Wiki (mutable; for Thinker)
-  %elif (attr == "sep_dir" or attr == "searchstring" or attr == "wiki"):
-      <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>${attr}:</b>
-      <span id=${attr+"_field"}>
-        ## TODO: This. Make all id and onclick attributes properly quoted and templated.
-        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-          ${getattr(c.entity, attr)}
-        </span>
-      </span>
-  ## Birth and Death (mutable; for Thinker)
-  %elif (attr == "birth" or attr == "death"):
-      <span id=${attr+"_edit"} class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>${attr} (YYYY-MM-DD):</b>
-      <span id="${attr}_field">
-        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-          ${getattr(c.entity, attr+"_string")}
-        </span>
-        <input type="text" style="visibility: hidden" id="${attr}_year" value="${getattr(c.entity, attr+"_year")}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
-        <input type="text" style="visibility: hidden" id="${attr}_month" value="${getattr(c.entity, attr+"_month")}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
-        <input type="text" style="visibility: hidden" id="${attr}_day" value="${getattr(c.entity, attr+"_day")}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
-      </span>
-  ## Website (mutable; for Journal)
-  %elif (attr == "URL"):
-      <span id=attr+"_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>URL:</b>
-      <span id="URL_field">
-        <span id="current_"+attr onclick="inpho.admin.edit('${attr}, '${c.entity.url()}')">
-          ${c.entity.URL}
-        </span>
-      </span>
-      <a id="test_${attr}" href="${c.entity.URL}" target="_blank">(test)</a>
-      <a id="test_${attr}" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
-  ## Last_accessed, Language and ISSN (mutable; for Journal)
-  %elif (attr == "last_accessed" or attr == "language" or attr == "ISSN"):
-      <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}, '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>${attr}:</b>
-      <span id="${attr}_field">
-        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-          ${getattr(c.entity, attr)}
-        </span>
-      </span>
-  ## Mutable via dropdown menu
-  ## Open Access, Active and Student (mutable; for Journal)
-  %elif (attr == "openAccess" or attr == "active" or attr == "student"):
-      <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>${attr}:</b>
-      <span id="${attr}_field">
-        <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-          %if (attr == "openAcess"):
-              %if c.entity.openAccess == 0:
-                  Closed
-              %elif c.entity.openAccess == 1:
-                  Open
-              %endif
-          %elif (attr == "active"):
-              %if c.entity.active == 0:
-                  Inactive
-              %elif c.entity.active == 1:
-                  Active
-              %endif
-          %elif (attr == "student"):
-              %if c.entity.student == 0:
-                  Nonstudent
-              %elif c.entity.student == 1:
-                  Student
-              %endif
+
+
+<%def name="printAttr(attr)"> 
+## Immutable attributes
+## ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
+## In_degree, Out_degree and Entropy (immutable; for Idea)
+<li class="idea">
+  %if (attr == "openAccess" or attr == "active" or attr == "student" or attr == "last_accessed" or attr == "sep_dir" or attr == "language" or attr == "ISSN "or attr == "searchstring" or attr == "wiki" or attr == "birth" or attr == "death" or attr == "URL"):
+  <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
+    <img src="/img/pencil.png"/>
+  </span>
+  <b>${attr}:</b>
+  <span id="${attr}_field">
+    <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
+      ## Mutable via textbox
+      ## Sep_dir (mutable; for Idea, Thinker, Journal, SOT, Work)
+      ## Searchstring (mutable; for Idea, Thinker)
+      ## Wiki (mutable; for Thinker)
+      ## Last_accessed, Language and ISSN (mutable; for Journal)
+      %if (attr == "sep_dir" or attr == "searchstring" or attr == "wiki" or attr== "last_accessed" or attr == "language" or attr =="ISSN"): 
+      ${getattr(c.entity, attr)}
+    </span>
+  </span>
+      ## Birth and Death (mutable; for Thinker)
+      %elif (attr == "birth" or attr == "death"):
+      ${getattr(c.entity, attr+"_string")}
+    </span> 
+    <input type="text" style="visibility: hidden" id="${attr}_year" value="${getattr(c.entity, attr+"_year")}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
+    <input type="text" style="visibility: hidden" id="${attr}_month" value="${getattr(c.entity, attr+"_month")}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
+    <input type="text" style="visibility: hidden" id="${attr}_day" value="${getattr(c.entity, attr+"_day")}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) inpho.admin.submit_field(${attr}, ${c.entity.url()})" />
+  </span>
+      ## Website (mutable; for Journal)
+      %elif (attr == "URL"):
+      ${c.entity.URL}
+    </span>
+  </span>
+  <a id="test_${attr}" href="${c.entity.URL}" target="_blank">(test)</a>
+  <a id="test_${attr}" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
+      ## Mutable via dropdown menu
+      ## Open Access, Active and Student (mutable; for Journal)
+      %elif (attr == "openAccess" or attr == "active" or attr == "student"):
+        %if (attr == "openAccess"):
+          %if c.entity.openAccess == 0:
+              Closed
+          %elif c.entity.openAccess == 1:
+                Open
           %endif
-        </span>
+        %elif (attr == "active"):
+          %if c.entity.active == 0:
+              Inactive
+          %elif c.entity.active == 1:
+                Active
+          %endif
+        %elif (attr == "student"):
+          %if c.entity.student == 0:
+              Nonstudent
+          %elif c.entity.student == 1:
+                Student
+          %endif
+        %endif
       </span>
+    </span>
+      %endif
+  %elif (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy" or attr == "type"):
+  <span id="${attr}_edit" class="sep" style="visibility: hidden">
+    <img src="/img/pencil.png"/>
+  </span>
+  <b>${attr}:</b>
+    ## Needs comments
+    %if (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy"):
+    <span id="${attr}_field">
+      ${getattr(c.entity, attr)}
+    </span>
+    ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
+    %elif (attr == "type"):
+    <span id="type_field"> 
+      ${type(c.entity).__name__} 
+    </span>
+    %endif
   ## Abbreviation(s) (mutable; for Idea, Thinker)
   %elif (attr == "abbreviation"):
     %for i,attr in enumerate(getattr(c.entity, attr+"s")):
@@ -323,7 +297,7 @@ checked\
       </li>
     %endfor
     ## New search pattern
-    <li class="idea" id="new_searchpattern">
+   <li class="idea" id="new_searchpattern">
       <span id="searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
         <img src="/img/pencil.png"/>
       </span>

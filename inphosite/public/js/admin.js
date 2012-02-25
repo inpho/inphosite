@@ -85,7 +85,7 @@ inpho.admin.edit_textbox = function(attr, url) {
     if ((attr_value == 'None') || (attr_value == 'undefined') || !attr_value)
         attr_value = '';
 
-    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="inpho.admin.reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
+    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return inpho.admin.process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="inpho.admin.reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
     //onblur="reset(\'' + attr +'\', \'' + url + '\', 400)" />';
     textbox = textbox + '<input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
     document.getElementById(attr_field).innerHTML = textbox;
@@ -119,9 +119,9 @@ inpho.admin.edit_dropdown = function(attr, url) {
   // (with a hidden textbox containing the original value)
   var attr_value = document.getElementById(current_attr).innerHTML.trim();
   if (attr_value == negative)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit_field(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="inpho.admin.submit_field(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
   else if (attr_value == positive)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit_field(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="inpho.admin.submit_field(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
 
   document.getElementById(attr_field).innerHTML = dropdown;
 }
@@ -206,7 +206,7 @@ inpho.admin.submit_field = function(attr, url) {
             if (attr == "searchpattern") {
                 spid = spid + 1;
                 var attr_text = attr + "_text";
-                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
+                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="inpho.admin.removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
                 var val = value.split('=')[1]
                 val = val.replace("<", "&lt;")
                 val = val.replace(">", "&gt;")
@@ -277,7 +277,7 @@ inpho.admin.reset_field = function(attr, url, response) {
     var attr_value = "Add a New Search Pattern";
   }
 
-  var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> </span>';
+  var input_field = '<span class="current" id="current_' + attr + '" onclick="inpho.admin.edit(\'' + attr + '\', \'' + url + '\')"> </span>';
   document.getElementById(attr_field).innerHTML = input_field;
   $("#current_"+attr).text(attr_value);
   //document.getElementById(attr_edit).style.visibility = 'visible';

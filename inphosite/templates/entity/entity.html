@@ -323,7 +323,7 @@ checked\
     <form name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST">
       <fieldset>
 	<legend>Date</legend>
-	<select name="month" id="month">
+	<select name="month" id="${attr}_month">
 	    <option value="0">Month</option>
 	    <option value="1">January</option>
 	    <option value="2">February</option>
@@ -339,7 +339,7 @@ checked\
 	    <option value="12">December</option>
 	</select>
 
-	<select name="day" id="day">
+	<select name="day" id="${attr}_day">
 	  <option value="0">Day</option>
 	  <option>1</option>
 	  <option>2</option>
@@ -374,20 +374,20 @@ checked\
 	  <option class="variable_day">31</option>
 	</select>
 	
-	<input type="text" name="year" size="4" maxlength="4" value="Year" id="year" />
+	<input type="text" name="year" size="4" maxlength="4" value="Year" id="${attr}_year" />
 	
-	<select name="era" id="era">
+	<select name="era" id="${attr}_era">
 	  <option>Era</option>
 	  <option value="bce">B.C.E. (B.C.)</option>
 	  <option value="ce">C.E. (A.D.)</option>
 	</select>
 
 	<label for="is_date_range">Date Range?</label>
-	<input type="checkbox" name="is_date_range" value="is_date_range" id="is_date_range"/>
+	<input type="checkbox" name="is_date_range" value="is_date_range" id="${attr}_is_date_range"/>
 	
 	<br />
 	
-	<div id="date_range">
+	<div id="${attr}_date_range">
 	  <select name="month_end">
 	    <option value="0">Month</option>
 	    <option value="1">January</option>
@@ -438,9 +438,9 @@ checked\
 	    <option>30</option>
 	    <option>31</option>
 	  </select>
-	  <input type="text" name="year_end" size="4" maxlength="4" value="Year" id="year_end" />
+	  <input type="text" name="year_end" size="4" maxlength="4" value="Year" id="${attr}_year_end" />
 	  
-	  <select name="era_end" id="era_end">
+	  <select name="era_end" id="${attr}_era_end">
 	    <option>Era</option>
 	    <option value="bce">B.C.E. (B.C.)</option>
 	    <option value="ce">C.E. (A.D.)</option>
@@ -449,44 +449,44 @@ checked\
 	
 	<hr />
 	
-	<button type="submit" id="submit">Submit</button>
+	<button type="submit" id="${attr}_submit">Submit</button>
 
       </fieldset>
     </form>
     
     <script>
       <!-- script handling form expansion/collapse for date ranges-->
-      $("#is_date_range").click(
+      $("#${attr}_is_date_range").click(
       function() {
-         if ($("#date_range").is(":hidden")) {
-            $("#date_range").slideDown();
+         if ($("#${attr}_date_range").is(":hidden")) {
+            $("#${attr}_date_range").slideDown();
          }   
          else {
-            $("#date_range").slideUp();          
-            var month = $("#month").val();
-            var day = $("#day").val();
-            var year = $("#year").val();
-            var era = $("#era").val();
+            $("#${attr}_date_range").slideUp();          
+            var month = $("#${attr}_month").val();
+            var day = $("#${attr}_day").val();
+            var year = $("#${attr}_year").val();
+            var era = $("#${attr}_era").val();
             $('form')[0].reset();
-            $("#month").val(month);
-            $("#day").val(day);
-            $("#year").val(year);
-            $("#era").val(era);
+            $("#${attr}_month").val(month);
+            $("#${attr}_day").val(day);
+            $("#${attr}_year").val(year);
+            $("#${attr}_era").val(era);
          }
       });
       
       <!-- scripts for auto selecting the year/year_end textboxes  -->
-      $("#year").click(
+      $("#${attr}_year").click(
       function() {
          $(this).select();
       });
-      $("#year_end").click(
+      $("#${attr}_year_end").click(
       function() {
          $(this).select();
       });
 
       /*
-      $("#submit").click(
+      $("#${attr}_submit").click(
       function() {
          $(".variable_day").remove();
       });  
@@ -494,26 +494,26 @@ checked\
 
       <!-- script for validating dates  -->
       $(document).ready(function() {
-         $("#submit").click(
+         $("#${attr}_submit").click(
             function() {
-               if (($("#era").val() == "ce") && ($("#era_end").val() == "bce")) {
+               if (($("#${attr}_era").val() == "ce") && ($("#${attr}_era_end").val() == "bce")) {
                   alert("Please review your beginning and ending eras:\nyou cannot go back in time!");
                }
-               else if (((($("#year").val() !== "Year") && ($("#year").val() !== "")) && ($("#era").val() == "Era")) || ((($("#year_end").val() !== "Year") && ($("#year_end").val() !== "")) && ($("#era_end").val() == "Era"))) {
+               else if (((($("#${attr}_year").val() !== "Year") && ($("#${attr}_year").val() !== "")) && ($("#${attr}_era").val() == "Era")) || ((($("#${attr}_year_end").val() !== "Year") && ($("#${attr}_year_end").val() !== "")) && ($("#${attr}_era_end").val() == "Era"))) {
                        alert("Please specify an era for any given years.")
                }
-               else if (($("#year").val() > $("#year_end").val()) && ($("#era").val() == "ce") && ($("#era_end").val() == "ce")) {
+               else if (($("#${attr}_year").val() > $("#${attr}_year_end").val()) && ($("#${attr}_era").val() == "ce") && ($("#${attr}_era_end").val() == "ce")) {
                        alert("Please review your beginning and ending years:\nyou cannot go back in time!");
                }
-               else if (($("#year").val() < $("#year_end").val()) && ($("#era").val() == "bce") && ($("#era_end").val() == "bce")) {
+               else if (($("#${attr}_year").val() < $("#${attr}_year_end").val()) && ($("#${attr}_era").val() == "bce") && ($("#${attr}_era_end").val() == "bce")) {
                        alert("Please review your beginning and ending years:\nyou cannot go back in time!");
                }
                /* NEEDS TO SUBMIT TO DATABASE RATHER THAN CHANGE VALUE, SINCE YEAR VALUES ARE LIMITED TO FOUR CHARACTERS IN LENGTH
-	       else if (#("#era").val() == "bce") {
-                       $("#year").val(0 - $("#year").val());
+	       else if (#${attr}_("#${attr}_era").val() == "bce") {
+                       $("#${attr}_year").val(0 - $("#${attr}_year").val());
                }
-               else if (#("#era_end").val() == "bce") {
-                       $("#year_end").val(0 - $("#year_end").val());
+               else if (#${attr}_("#${attr}_era_end").val() == "bce") {
+                       $("#${attr}_year_end").val(0 - $("#${attr}_year_end").val());
                }
                */
             });

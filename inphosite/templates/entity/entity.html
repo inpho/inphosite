@@ -309,7 +309,7 @@ checked\
 </%def>
 
 <%def name="dateControl(attr, relation_id)">
-    <form class="dateControl" name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST">
+    <form class="dateControl" name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST" id="${attr}_form">
       <fieldset>
 	<legend>${attr.capitalize()} Date</legend>
 	<select name="month" id="${attr}_month">
@@ -483,26 +483,32 @@ checked\
 
       <!-- script for validating dates  -->
       $(document).ready(function() {
-         $("#${attr}_submit").click(
+         $("#${attr}_form").submit(
             function() {
                if (($("#${attr}_era").val() == "ce") && ($("#${attr}_era_end").val() == "bce")) {
                   alert("Please review your beginning and ending eras:\nyou cannot go back in time!");
+            return false;
                }
                else if (((($("#${attr}_year").val() !== "Year") && ($("#${attr}_year").val() !== "")) && ($("#${attr}_era").val() == "Era")) || ((($("#${attr}_year_end").val() !== "Year") && ($("#${attr}_year_end").val() !== "")) && ($("#${attr}_era_end").val() == "Era"))) {
-                       alert("Please specify an era for any given years.")
+                       alert("Please specify an era for any given years.");
+            return false;
                }
                else if (($("#${attr}_year").val() > $("#${attr}_year_end").val()) && ($("#${attr}_era").val() == "ce") && ($("#${attr}_era_end").val() == "ce")) {
                        alert("Please review your beginning and ending years:\nyou cannot go back in time!");
+            return false;
                }
                else if (($("#${attr}_year").val() < $("#${attr}_year_end").val()) && ($("#${attr}_era").val() == "bce") && ($("#${attr}_era_end").val() == "bce")) {
                        alert("Please review your beginning and ending years:\nyou cannot go back in time!");
+            return false;
                }
                /* NEEDS TO SUBMIT TO DATABASE RATHER THAN CHANGE VALUE, SINCE YEAR VALUES ARE LIMITED TO FOUR CHARACTERS IN LENGTH
 	       else if (#${attr}_("#${attr}_era").val() == "bce") {
                        $("#${attr}_year").val(0 - $("#${attr}_year").val());
+            return false;
                }
                else if (#${attr}_("#${attr}_era_end").val() == "bce") {
                        $("#${attr}_year_end").val(0 - $("#${attr}_year_end").val());
+            return false;
                }
                */
             });

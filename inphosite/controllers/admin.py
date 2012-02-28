@@ -1,5 +1,8 @@
 import logging
 
+from collections import namedtuple
+from time import gmtime, strftime # getting time info
+
 from pylons import request, response, session, config, tmpl_context as c
 from pylons.controllers.util import abort, redirect as rd
 
@@ -43,8 +46,48 @@ class AdminController(BaseController):
         
         with open(config['test_file']) as f:
             # Parse TESTCASES file, stick cases into variable c.tests
+            testcases = []
+            count = 0
+            Test = namedtuple('Test', ['title', 'description'], verbose=False)
+            state = "t"
+            t, d = "", ""
+            # Builds list of namedtuples for each test case
+            for line in f:
+                if state == "t":
+                    t = line
+                    state = "d"
+                elif state == "d":
+                    if line != '\n':
+                        d += line
+                    else:
+                        state = "t"
+                        case = Test(t.rstrip('\n'), d.replace("\n", " "))
+                        testcases.append(case)
+                        count += 1
+                        t = ""
+                        d = ""
+            c.tests = testcases
+            c.testcount = count
+            try:
+                c.checked
+            except AttributeError:
+                c.checked = ""
             pass
 
-        
         # Render the test form
         return render('admin/tests.html')
+
+    def log_tests(self):
+        checks = request.params
+        count = int(request.params['count']) + 1
+        if len(checks) == count:
+            with open('/Users/alefrost/logfile.txt', 'a') as f:
+                f.write('[' + strftime("%a, %d %b %Y %H:%M:%S", gmtime()) + '] ' + h.auth.username(request) + '\n')
+                            # redirect to success.html
+            return 'Your data was successfully submitted.'
+        else:
+            c.checked = []
+            for key, value in checks.iteritems():
+                if key == 'test':
+                    c.checked.append(str(value))
+            return self.tests()

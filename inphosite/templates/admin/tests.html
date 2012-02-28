@@ -1,0 +1,36 @@
+<%inherit file="/base-tree.html"/>
+
+## Header
+<%def name="title()">${parent.title()} - Update Checks - </%def>
+<%def name="head_title()">Update Checks</%def>
+## Sidebar
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+</%def>
+
+<form action="/admin/log_tests" method="POST">
+<% error = "" %>
+<table rules="rows" width="709">
+    <tr><td>CHECK</td><td>DESCRIPTION</td>
+    % for test in c.tests:
+    <tr>
+        % if test.title in c.checked:
+            <td><input type="checkbox" name="test" value="${test.title}" checked="checked"/%> ${test.title}</td>\
+        % else:
+            % if c.checked != "":
+               <% error = '* Please check ALL fields before submitting.' %>
+                <td><input type="checkbox" name="test" value="${test.title}"/%><font color=red>*</font>${test.title}</td>\
+            % else:
+                <td><input type="checkbox" name="test" value="${test.title}"/%> ${test.title}</td>\
+            % endif
+        % endif
+        <td>${test.description}</td>\
+    <tr>
+    % endfor
+</table>
+<input type="submit" value="submit" />
+<font size=2 color=red>${error}</font>
+<% count = c.testcount %> 
+<input type="hidden" name="count" value="${count}" /%>
+</form>

@@ -16,3 +16,19 @@ Verify that https://inpho.cogs.indiana.edu/journal.json returns HTTP 200
 
 Taxonomy JSON
 Verify that https://inpho.cogs.indiana.edu/taxonomy.json returns HTTP 200
+
+Search Box
+Verify autocomplete works. Easy tests: "truth" or "Kant"
+
+OWL
+Verify log-generating script works
+
+Evaluation UI
+Verify user is able to Enable evaluations, choose an item, choose a setting,
+and submit an evaluation.
+
+Evaluation Database
+Verify evaluation submissions append to database
+
+SEP Publishing list
+Verify items are not already in database. Check sep_dir fields.

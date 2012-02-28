@@ -129,11 +129,10 @@ function edit_dropdown(attr, url) {
 // 2) Escape key to exit the field (i.e., call the reset() function)
 // 3) Enter key to submit the field (i.e., call the submit_field() function)
 function process_text(e, attr, url) {
-    if (e.keyCode == 13)
+    if ((e.keyCode == 13) || (e.keyCode == 9)) // Enter and Tab support
         return submit_field(attr, url);
-    if (e.keyCode == 27)
+    if (e.keyCode == 27) // Escape
         return reset_field(attr, url, 400);
-    // TODO: add tab (e.keyCode == 9) support
     if (attr == "URL")
         return toggle_test_url(attr);
 }

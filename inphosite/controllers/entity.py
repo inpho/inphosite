@@ -34,7 +34,7 @@ class EntityController(BaseController):
     _controller = 'entity'
 
     # UPDATE
-    def update(self, id, terms):
+    def update(self, id, terms=None):
         if not h.auth.is_logged_in():
             response.status_int = 401
             return "Unauthorized"
@@ -42,12 +42,21 @@ class EntityController(BaseController):
             response.status_int = 403
             return "Forbidden"
 
+        #if no whitelist is passed in, go with default
+        if terms is None:
+            terms = ['sep_dir', 'searchstring']
+
         entity = h.fetch_obj(self._type, id)
         h.update_obj(entity, terms, request.params)
 
-        # Issue an HTTP success
-        response.status_int = 200
-        return "OK"
+        # Check for redirect
+        if request.params.get('redirect', False):
+            h.redirect(
+                h.url(controller=self._controller, action='view', id=entity.ID))
+        else:
+            # Issue an HTTP success
+            response.status_int = 200
+            return "OK"
 
 
     def list(self, filetype='html'):
@@ -134,7 +143,9 @@ class EntityController(BaseController):
                     matches = csv.reader(f)
                     for row in matches:
                         c.linklist.append(row)
-                    
+
+            c.linklist.sort(key=lambda x: x[2], reverse=True)
+
         elif c.sep_dir and not sep.published(c.sep_dir):
             c.message = "Invalid sep_dir: " + c.sep_dir
             c.sep_dir = ""
@@ -316,4 +327,20 @@ class EntityController(BaseController):
 
             Session.commit()
 
+        return "OK"
+
+    #DELETE
+    @restrict('DELETE')
+    def delete(self, id=None):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        idea = h.fetch_obj(Entity, id, new_id=True)
+        
+        h.delete_obj(idea)
+
+        # Issue an HTTP success
+        response.status_int = 200
         return "OK"

@@ -128,7 +128,7 @@ class IdeaController(EntityController):
         if limit:
             property = property[0:limit-1]
         
-        c.ideas = property
+        c.entities = property
         c.nodes = Session.query(Node).filter(Node.parent_id == None).order_by("name").all()
         return render('%s/%s-list.%s' %(type, type, filetype))
 
@@ -173,18 +173,18 @@ class IdeaController(EntityController):
         siblings = [child for ins in parents
                           for child in ins.children]
 
-        c.ideas = []
-        c.ideas.extend(parents)
-        c.ideas.extend(children)
-        c.ideas.extend(siblings) 
+        c.entities = []
+        c.entities.extend(parents)
+        c.entities.extend(children)
+        c.entities.extend(siblings) 
 
         if sep_filter:
-            c.ideas = [i.idea for i in c.ideas if i.idea.sep_dir]
+            c.entities = [i.idea for i in c.entities if i.idea.sep_dir]
         else:
-            c.ideas = [i.idea for i in c.ideas]
+            c.entities = [i.idea for i in c.entities]
 
-        if c.idea in c.ideas: 
-            c.ideas.remove(c.idea)
+        if c.idea in c.entities: 
+            c.entities.remove(c.idea)
 
         #c.nodes = Session.query(Node).filter_by(parent_id=0).order_by("Name")
         return render('idea/idea-list.' + filetype)
@@ -203,7 +203,7 @@ class IdeaController(EntityController):
         if sep_filter:
             property = [i.idea for i in property if i.idea.sep_dir]
         
-        c.ideas = property
+        c.entities = property
         #c.nodes = Session.query(Node).filter_by(parent_id=0).order_by("Name")
         return render('idea/idea-list.' + filetype)
 
@@ -286,22 +286,6 @@ class IdeaController(EntityController):
     def update(self, id=None):
         terms = ['sep_dir', 'searchstring']
         super(IdeaController, self).update(id, terms)
-
-    #DELETE
-    @restrict('DELETE')
-    def delete(self, id=None):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
-        idea = h.fetch_obj(Idea, id, new_id=True)
-        
-        h.delete_obj(idea)
-
-        # Issue an HTTP success
-        response.status_int = 200
-        return "OK"
 
     @restrict('POST')
     def create(self):

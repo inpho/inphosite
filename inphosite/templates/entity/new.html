@@ -25,7 +25,7 @@ ${parent.draw()}</%def>
 <p>This entry may already have a corresponding InPhO Entity:</p>
 <ul class="unstyled">
 %for entity in c.linklist:
-    <li><a href="${url(controller='entity', action='view', id=entity[0], sep_dir=c.sep_dir)}">${entity[1]}</a> (${entity[2]})</li>
+    <li><a href="${url(controller='entity', action='update', id=entity[0], sep_dir=c.sep_dir, _method='PUT', redirect='true')}">${entity[1]}</a> (${entity[2]})</li>
 %endfor
 </ul>
 <p>&nbsp;</a>

@@ -300,11 +300,27 @@ checked\
       </span>
     </li>
     </ul>
+    <%doc>
+    ## Birth Date(s) (mutable; for Idea, Thinker)
+    %elif (attr == "birth"):
+    <ul>
+      %for i,birth_date in enumerate(c.entity.birth):
+      <li class="idea" id="birth_date${i}">
+        <span id="birth_date${i}_edit" class="sep" onclick="inpho.admin.removesp('birth_date${i}','${c.entity.url(action='date', id2='1')}')">
+          <img src="/img/delete.png" width=18 height=18 />
+        </span>
+        <span id="birth_date${i}_field">
+          ${birth_date}
+        </span>
+      </li>
+      %endfor
+    </ul>
+    </%doc>
     %elif (attr == "birth"):
     ${dateControl(attr, 1)}
     %elif (attr == "death"):
     ${dateControl(attr, 2)}
-  %endif
+    %endif
   </li>
 </%def>
 
@@ -439,7 +455,8 @@ checked\
 	<hr />
 	
 	<button type="submit" id="${attr}_submit">Submit</button>
-
+	<button type="reset" id="${attr}_reset" value="Reset">Reset</button>
+	
       </fieldset>
     </form>
     
@@ -463,7 +480,12 @@ checked\
             $("#${attr}_era").val(era);
          }
       });
-      
+
+      $("#${attr}_reset").click(
+      function() {
+      $("#${attr}_date_range").slideUp();
+      });
+
       <!-- scripts for auto selecting the year/year_end textboxes  -->
       $("#${attr}_year").click(
       function() {

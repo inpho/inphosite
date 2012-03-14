@@ -187,7 +187,7 @@ checked\
 ## ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
 ## In_degree, Out_degree and Entropy (immutable; for Idea)
 <li class="idea">
-  %if (attr == "openAccess" or attr == "active" or attr == "student" or attr == "last_accessed" or attr == "sep_dir" or attr == "language" or attr == "ISSN "or attr == "searchstring" or attr == "wiki" or attr == "URL"):
+  %if (attr in ["openAccess", "active", "student", "last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki", "URL"]):
   <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
     <img src="/img/pencil.png"/>
   </span>

@@ -327,10 +327,22 @@ class EntityController(BaseController):
         c.id2 = 2 # death date processing
         return render('date.html')
 
-    def date(self, id, id2):
+    def _delete_date(self, id, id2):
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+        # get the date object
+        date = self._get_date(id, id2)
+
+        if date in c.entity.dates:
+            c.entity.dates.remove(date)
+
+            Session.commit()
+
+        return "OK"
+
+    def _get_date(self, id, id2):
         """
-        Creates a date object, associated to the id with the relation type of
-        id2.
+        Helper function to create a date object, used in both deletion and
+        creation.
         """
         c.entity = h.fetch_obj(Entity, id, new_id=True)
 
@@ -359,7 +371,6 @@ class EntityController(BaseController):
         if not year and not month and not day:
             abort(400)
         
-        # otherwise add a new date object to the db.
         if not range:
             date = Date(c.entity.ID, id2,
                         year, month, day)
@@ -367,6 +378,17 @@ class EntityController(BaseController):
             date = Date(c.entity.ID, id2, 
                         year, month, day, 
                         year_end, month_end, day_end)
+
+        return date
+        
+
+    @dispatch_on(DELETE='_delete_date')
+    def date(self, id, id2):
+        """
+        Creates a date object, associated to the id with the relation type of
+        id2.
+        """
+        date = self._get_date(id, id2)
 
         try:
             Session.add(date)

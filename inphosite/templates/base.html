@@ -3,8 +3,14 @@
 <head>
 <title>${self.title()}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+## JQUERY
+${h.javascript_link(h.url('/jquery/jquery-1.7.2.min.js'))}
+${h.javascript_link(h.url('/jqueryui/js/jquery-ui-1.8.10.custom.min.js'))}
+${h.stylesheet_link(h.url('/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'))}
+
 ## BOOTSTRAP
 ${h.stylesheet_link(h.url('/bootstrap/css/bootstrap.min.css'))}
+${h.javascript_link(h.url('/bootstrap/js/bootstrap.min.js'))}
 
 ## YUI
 ${h.javascript_link(h.url('/yui/2.8.2r1/yahoo-dom-event/yahoo-dom-event.js'))}
@@ -14,11 +20,6 @@ ${h.javascript_link(h.url('/yui/2.8.2r1/autocomplete/autocomplete-min.js'))}
 ${h.javascript_link(h.url('/yui/2.8.2r1/connection/connection_core-min.js'))}
 ${h.javascript_link(h.url('/yui/2.8.2r1/treeview/treeview-min.js'))}
 ${h.stylesheet_link(h.url('/yui/2.8.2r1/treeview/assets/skins/sam/treeview.css'))}
-
-## JQUERY
-${h.javascript_link(h.url('/jquery/jquery-1.4.2.min.js'))}
-${h.javascript_link(h.url('/jqueryui/js/jquery-ui-1.8.10.custom.min.js'))}
-${h.stylesheet_link(h.url('/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'))}
 
 ## InPhO
 ${h.stylesheet_link(h.url('/css/style.css'))}

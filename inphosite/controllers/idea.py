@@ -260,6 +260,18 @@ class IdeaController(EntityController):
 
         return render('idea/idea.' + filetype)
 
+    def panel(self, id, id2):
+        evaluation = self.evaluation(id, id2)
+        search = self.search(id, id2)
+
+        return evaluation + search
+
+    def evaluation(self, id, id2):
+        c.entity = h.fetch_obj(Idea, id)
+        c.entity2 = h.fetch_obj(Idea, id2)
+
+        return render('idea/eval.html')
+
     def graph(self, id=None, filetype='nwb', limit=False):
         c.sep_filter = request.params.get('sep_filter', False) 
         c.n = int(request.params.get('n', 8))

@@ -21,3 +21,6 @@ body {
 .icon {
     float: right;
 }
+.remove{
+    margin-left: 8px;
+    }

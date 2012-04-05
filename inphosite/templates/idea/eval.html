@@ -1,0 +1,33 @@
+<div class="row">
+  <form class="well form-inline">
+    <fieldset>
+      <div class="input-append">
+        <input type="hidden" name="ante_id" value="${c.entity.ID}" />
+        <span class="add-on">${c.entity.label}</span>
+        <select>
+          <option disabled="disabled">is &#133; to</option>
+          <option>is unrelated to</option>
+          <option>is marginally related to</option>
+          <option>is somewhat related to</option>
+          <option>is related to</option>
+          <option>is highly related to</option>
+        </select>
+      </div>
+  
+      <div class="input-append input-prepend">
+        <span class="add-on"><em>and</em></span>
+        <select>
+          <option disabled="disabled">is &#133; to</option>
+          <option>is more specific than</option>
+          <option>is more general than</option>
+          <option>is as general as</option>
+          <option>is incomparable to</option>
+        </select>
+        <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
+        <span class="add-on">${c.entity2.label}</span>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </fieldset>
+  </form>
+</div>

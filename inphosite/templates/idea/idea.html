@@ -21,6 +21,31 @@ $(document).ready(function() {
     $("#dialog").dialog({position: [490,380], modal : true, title : 'Multiple Results'});
     $('#tabnav').tab();
 });
+
+function removeTab(tab, content) {
+    // remove tab
+    $(tab).remove();
+
+    // check if active, move to home tab if so
+    if ($(content).hasClass('active')) {
+        $('#home-tab').addClass('active');
+        $('#home').addClass('active');
+    }
+    // remove tab content
+    $(content).remove();
+} 
+
+function appendTab(tabNav, id, title, url) {
+    // append new nav header
+    var remove = '<i class="icon-remove remove" onClick="removeTab(\'#'+id+'-tab\', \'#'+id+'\')"></i>';
+    $('#'+tabNav).append('<li id="'+id+'-tab"><a href="#'+id+'" data-toggle="tab">'+title+' '+remove+'</a></li>');    
+
+    // append new tab content
+    // make an AJAX call to grab the panel
+    $.get(url, function(data){
+        $('#'+tabNav+'-content').append('<div class="tab-pane" id="'+id+'">'+data+'</div>');
+    });
+}
 </script>
 
 <h1>${h.titlecase(c.entity.label)}</h1>
@@ -36,7 +61,7 @@ $(document).ready(function() {
 %if len(c.entity.nodes) > 1:
 <em>multiple places</em> in \
 %endif
-the taxonomy. You may either go to the following context-specific taxonomy pages or <a href="#" onClick="$('#dialog').dialog('close')">stay>on this general concept page</a>.</p>
+the taxonomy. You may either go to the following context-specific taxonomy pages or <a href="#" onClick="$('#dialog').dialog('close')">stay on this general concept page</a>.</p>
 
 <ul>
 <!-- Print out paths to the nodes -->
@@ -63,12 +88,13 @@ while curParent:
 
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
-    <li class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
+    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
     %if h.auth.is_admin():
-    <li><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin</a></li>
+    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
     %endif
 </ul>
-<div class="tab-content">
+
+<div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
 <%
 taxonomic = []

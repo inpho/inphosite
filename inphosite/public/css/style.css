@@ -2,7 +2,6 @@ body {
     padding-top: 60px;
     }
 
-.topbar { }
 #logo-container {
     width: 940px; margin:0 auto; zoom: 1; z-index: -1;
 }
@@ -17,9 +16,6 @@ body {
 	}
 #sidebar {
     margin-top: 87px;
-}
-#login {
-    float: right;
 }
 
 .icon {

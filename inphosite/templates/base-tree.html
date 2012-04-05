@@ -19,7 +19,7 @@ def nodeRecursion(i, nodes, root, selected):
 <%def name="sidebar(node=None)">
 <form class="form-stacked" method="get" action="/entity?id=None">
     <input type="hidden" value="True" name="redirect">
-    ${actb.actb("q", "Search InPhO")}
+    ${actb.actb("q")}
 </form>
 ${draw(node)}
 </%def>

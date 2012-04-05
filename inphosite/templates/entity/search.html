@@ -6,25 +6,26 @@
 %endif
 
 <script type="text/javascript">
-function toggleList(selector) {
-    if ($('.on', selector).length > 0) {
-        $('.on', selector).removeClass('on').addClass('off');
-    } else {
-        $('.off', selector).removeClass('off').addClass('on');
-    }
+  function toggleList(selector) {
+  if ($('.on', selector).length > 0) {
+    $('.on', selector).removeClass('on').addClass('off');
+  } else {
+    $('.off', selector).removeClass('off').addClass('on');
+  }
     $('ol', selector).toggle("slow");
     $('p', selector).toggle("slow");
-    }
+  }
 </script>
 
 ${printSEPResults()}
 
 ${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
 
+${printBingResults()}
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
 <div class="result">
-%if not results or results['queries']['request'][0]['totalResults'] == 0:
+%if not results or results['queries']['request'][0]['totalResults'] == '0':
 <h3>${title}</h3>
 <p>No search results.</p>
 %else:
@@ -79,6 +80,31 @@ more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + \
     </ol>
 	    <p style="text-align:right; font-weight:bold"><a target="_blank"
         href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
+
+%endif
+</div>
+</%def>
+
+<%def name="printBingResults()">
+<div class="result">
+%if not c.sep:
+<h3>Bing Web Search</h3>
+<p>Error loading results.</p>
+%elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
+<h3>Bing Web Search</h3>
+<p>No search results.</p>
+%else:
+	<h3>Bing Web Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
+	<ol class="search-results">
+    %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
+	<li>
+			<h4><a href="${item['Url']}" target="_blank">${item['Title'] | n}</a></h4>
+			<p>${item['Description'] | n}</p>
+	</li>
+    %endfor
+    </ol>
+	    <p style="text-align:right; font-weight:bold"><a target="_blank"
+        href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a></p>
 
 %endif
 </div>

@@ -14,9 +14,9 @@
 <%def name="checkbox(attr, label)">
 <label>
     %if getattr(c.entity, attr):
-    <input type="checkbox" name="${attr}" value="${attr}" selected="true" />
+    <input type="checkbox" name="${attr}" id="${attr}_check" value="${attr}" onclick="submit_field('${attr}', '${c.entity.url()}')" checked="true" />
     %else:
-    <input type="checkbox" name="${attr}" value="${attr}" />
+    <input type="checkbox" name="${attr}" id="${attr}_check" value="${attr}" onclick="submit_field('${attr}', '${c.entity.url()}')" />
     %endif
     <span>${label}</span>
 </label>
@@ -32,23 +32,23 @@
     <span id="${attr}_field" onclick="edit('${attr}', '${c.entity.url()}')"
           style="height: 20px; width: 200px; text-overflow: ellipsis; display: block; float: left;"> 
     %endif
-        <span id="current_${attr}">${getattr(c.entity, attr)}</span>
+        <span class="current" id="current_${attr}">${getattr(c.entity, attr)}</span>
     </span>
     %if attr == "URL":
     <span id="URL_test" style="float: right;">
-      <script>
-      function test_URL() {
-          if (document.getElementById('current_URL') != null) {
-              window.open(document.getElementById('current_URL').innerHTML.trim());    
-          } else {
-              window.open(document.getElementById('URL_text').value);
-          }
+      <script type="text/javascript">
+      function test_URL_fn() {
+          if (document.getElementById('current_URL') != null)
+              var url = document.getElementById('current_URL').innerHTML.trim();
+          else 
+              var url = document.getElementById('URL_text').value;
+          window.open($("<div/>").html(url).text());    
       }
       </script>
       %if c.entity.URL:
-      <input type="button" class="btn primary" id="test_URL" onclick="test_URL()" value="Test" />
+      <input type="button" class="btn primary" id="test_URL" onclick="test_URL_fn()" value="Test" />
       %else:
-      <input type="button" class="btn primary" id="test_URL" onclick="test_URL()" value="Test" disabled="true" />
+      <input type="button" class="btn primary" id="test_URL" onclick="test_URL_fn()" value="Test" disabled="true" />
       %endif
       <a class="btn" id="test_URL" href="${c.entity.google_url}" target="_blank">Google</a></dt>
     </span>

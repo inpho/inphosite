@@ -14,6 +14,22 @@
  */
 
 
+function removesp(id, url) {
+  var field_id = id + '_field';
+  var sp = document.getElementById(field_id).innerHTML.trim();
+  var value = "?pattern=" + encodeURIComponent(sp);
+  url = url + value
+  var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            $('#'+id).remove();
+        }
+      }
+  xhr.open('DELETE', url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send();
+}
+
 // When the text of an editable attribute (or the pencil icon next to it) is 
 // clicked, two changes occur:
 // 1.) The edit icon is hidden.
@@ -72,6 +88,7 @@ function edit_textbox(attr, url) {
     document.getElementById(attr_field).innerHTML = textbox;
   }
 
+  document.getElementById(attr + '_text').focus();
 }
 
 function edit_dropdown(attr, url) {
@@ -111,11 +128,10 @@ function edit_dropdown(attr, url) {
 // 2) Escape key to exit the field (i.e., call the reset() function)
 // 3) Enter key to submit the field (i.e., call the submit_field() function)
 function process_text(e, attr, url) {
-    if (e.keyCode == 13)
+    if ((e.keyCode == 13) || (e.keyCode == 9)) // Enter and Tab support
         return submit_field(attr, url);
-    if (e.keyCode == 27)
+    if (e.keyCode == 27) // Escape
         return reset_field(attr, url, 400);
-    // TODO: add tab (e.keyCode == 9) support
     if (attr == "URL")
         return toggle_test_url(attr);
 }
@@ -141,6 +157,7 @@ function toggle_test_url(attr) {
 // If it is successful, the reset() function is called to handle the cosmetic 
 // changes.
 //
+spid=100;
 function submit_field(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
@@ -160,7 +177,14 @@ function submit_field(attr, url) {
       var value = document.getElementById("URL_text").value;
       if (value && (value.substring(0, 4) != "http"))
         value = "http://" + value;
-      var value = attr + "=" + value;
+      var value = attr + "=" + encodeURIComponent(value);
+  }
+  else if (attr == "active" || attr == "openAccess" || attr == "student") {
+      var check = attr + "_check";
+      if (document.getElementById(check).checked)
+        var value = attr + "=1";  
+      else
+        var value = attr + "=0";
   }
   else {
     var attr_text = attr + "_text";
@@ -170,16 +194,27 @@ function submit_field(attr, url) {
     value = "";
   }
   var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4) {
-        reset_field(attr, url, xhr.status)
-    }
+  if (attr != "active" && attr != "openAccess" && attr != "student") {
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            reset_field(attr, url, xhr.status)
+            if (attr == "searchpattern") {
+                spid = spid + 1;
+                var attr_text = attr + "_text";
+                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
+                var val = value.split('=')[1]
+                val = val.replace("<", "&lt;")
+                val = val.replace(">", "&gt;")
+                $('#new_searchpattern').before(new_entry);
+                $("#searchpattern"+spid+"_field").html(val);
+            }
+        }
+      }
   }
   xhr.open('PUT', url, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send(value);
 }
-
 
 // The reset function does the following:
 // 1.) The text input box should go back to a static field displaying either 
@@ -233,9 +268,13 @@ function reset_field(attr, url, response) {
     var attr_value = "Student";
   else if (attr == "student" && attr_value == 1)
     var attr_value = "Nonstudent";
+  else if (attr == "searchpattern") {
+    var attr_value = "Add a New Search Pattern";
+  }
 
-  var input_field = '<span id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> ' + attr_value + ' </span>';
+  var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> </span>';
   document.getElementById(attr_field).innerHTML = input_field;
+  $("#current_"+attr).text(attr_value);
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;
 }

@@ -51,7 +51,7 @@ src="/img/help-browser.png" title="Help"/> What are evaluations?</a></p>
 
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
-  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy"])}
+  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy", "searchpatterns"])}
 %endif
 
 
@@ -59,7 +59,7 @@ ${entity.printList(c.entity.instances, 'instances')}
 ${entity.printList(c.node.children, 'children', alt_title='Subclasses')}
 ${entity.printList(c.entity.links, 'links')}
 ${entity.printList(c.entity.related[:10], 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True)}
+${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True, evaluation_type="Idea-Thinker")}
 ${entity.printList(c.entity.hyponyms[:10], 'hyponyms', statistical=True)}
 ${entity.printList(c.entity.occurrences[:10], 'occurrences', statistical=True)}
 

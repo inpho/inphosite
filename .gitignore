@@ -15,3 +15,6 @@ corpus
 data
 *-graph.txt
 
+.*.swp
+*~
+\#*\#

@@ -21,7 +21,7 @@ def nodeRecursion(i, nodes, root, selected):
     <input type="hidden" value="True" name="redirect">
     ${actb.actb("q")}
 </form>
-${draw(node)}
+${draw(getattr(c, "node", None))}
 </%def>
 
 <%def name="draw(node=None)">

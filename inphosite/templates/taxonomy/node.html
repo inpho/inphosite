@@ -4,6 +4,7 @@
 <%def name="head()">
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
+<script src="/js/tabnav.js" type="text/javascript"></script>
 </%def>
 
 ## Header
@@ -26,7 +27,7 @@ $('#tabnav').tab();
     %endif
 </ul>
 
-<div class="tab-content">
+<div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
         ${entity.printList(c.entity.instances, 'instances')}
         ${entity.printList(c.node.children, 'children', alt_title='Subclasses')}

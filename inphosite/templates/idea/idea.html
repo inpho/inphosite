@@ -4,6 +4,7 @@
 <%def name="head()">
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
+<script src="/js/tabnav.js" type="text/javascript"></script>
 </%def>
 
 ## Header
@@ -17,44 +18,6 @@ $(document).ready(function() {
     $("#dialog").dialog({position: [490,380], modal : true, title : 'Multiple Results'});
     $('#tabnav').tab();
 });
-
-function removeTab(tab, content) {
-    // remove tab
-    $(tab).remove();
-
-    // check if active, move to home tab if so
-    if ($(content).hasClass('active')) {
-        $('#home-tab').addClass('active');
-        $('#home').addClass('active');
-    }
-    // remove tab content
-    $(content).remove();
-} 
-
-function appendTab(tabNav, id, title, url) {
-    // if tab does not exist, append new tab
-    if ($('#'+id).length == 0) {
-        // append new nav header
-        var remove = '<i class="icon-remove remove" onClick="removeTab(\'#'+id+'-tab\', \'#'+id+'\')"></i>';
-        $('#'+tabNav).append('<li id="'+id+'-tab"><a href="#'+id+'" data-toggle="tab">'+title+' '+remove+'</a></li>');    
-    
-        // append temporary loading pane
-        var tempPane = '<div class="tab-pane" id="'+id+'">Loading content... <img src="/img/loading.gif" /></div>'
-        $('#'+tabNav+'-content').append(tempPane);
-    
-        // append new tab content
-        // make an AJAX call to grab the panel
-        $.get(url, function(data){
-            $('#'+id).html(data);
-        });
-    }
-
-    // flip to new tab, regardless of existence
-    $('#'+tabNav+' .active').removeClass('active');
-    $('#'+id+'-tab').addClass('active');
-    $('#'+tabNav+'-content .active').removeClass('active');
-    $('#'+id).addClass('active');
-}
 </script>
 
 <h1>${h.titlecase(c.entity.label)}</h1>

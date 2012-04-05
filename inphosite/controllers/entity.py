@@ -196,6 +196,9 @@ class EntityController(BaseController):
         c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
+    def panel(self, id, id2):
+        return self.search(id, id2)
+
     @staticmethod
     def _search_sep(entity, entity2):
         # Build search string

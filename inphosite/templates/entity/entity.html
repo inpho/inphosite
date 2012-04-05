@@ -24,7 +24,7 @@ ${parent.draw()}</%def>
 <h3>${title} <span class="toggle on" onclick="toggleList('#${attr}')">&nbsp;</span> </h3>
 <ol>
 %for idea in ideas:
-<li><a onClick="appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label)}', '/idea/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}">${h.titlecase(idea.label)}</a></li>
+<li><a onClick="appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label)}', '/idea/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab">${h.titlecase(idea.label)}</a></li>
 %endfor
 </ol>
 %endif

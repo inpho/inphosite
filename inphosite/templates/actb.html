@@ -1,13 +1,15 @@
 <%def name="actb(id, label=None)" >
 <div class="actb">
-%if label:
-<label for="${id}">${label}</label>
-%endif
-    <input type="text" id="${id}" name="${id}"
-    value="${request.params.get('q','')}" />
-    <input type="submit" class="btn" value="Search"/>
-    <div class="actbContainer" id="${id}Container"></div>
+  %if label:
+  <label for="${id}">${label}</label>
+  %endif
+  <form class="form-search">
+    <input class="input-medium search-query" type="text" id="${id}" name="${id}" value="${request.params.get('q','')}" />
+    <button type="submit" class="btn" value="Search">Search</button>
+  </form>
+  <div class="actbContainer" id="${id}Container"></div>
 </div>
+
 <script type="text/javascript">
 YAHOO.example.RemoteCustomRequest = function() {
     // Use an XHRDataSource

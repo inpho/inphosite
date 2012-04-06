@@ -23,89 +23,128 @@ ${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/re
 ${printBingResults()}
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
-<div class="result">
-%if not results or results['queries']['request'][0]['totalResults'] == '0':
-<h3>${title}</h3>
-<p>No search results.</p>
-%else:
-<h3>${title} <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
-<ol class="search-results">
-    %for i in range(min(len(results['items']), 4)):
-    <% r = results['items'][i] %>
-    <li>
-    <h4><a href="${r['link']}" target="_blank">${r['title'] | n}</a></h4>
-    <p>${r['htmlSnippet'] | n}</p>
-    </li>
-    %endfor
-</ol>
-<% 
-img = ''
+<div class="accordion" id="search">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <h3>
+	<a class="accordion-toggle" data-toggle="collapse" data-parent="search" href="#searchResults">
+	  ${title}
+	</a>
+      </h3>
+    </div>
+    <div class="accordion-body collapse" id="searchResults">
+      <div class="accordion-inner">
+	%if not results or results['queries']['request'][0]['totalResults'] == '0':
+	<p>No search results.</p>
+	%else:
+	<ol class="search-results"  style="list-style-type: none;">
+	  %for i in range(min(len(results['items']), 4)):
+	  <% r = results['items'][i] %>
+	  <li>
+	    <h4>
+	      <a href="${r['link']}" target="_blank">${r['title'] | n}</a>
+	    </h4>
+	    <p>${r['htmlSnippet'] | n}</p>
+	  </li>
+	  %endfor
+	</ol>
+<% img = ''
 if icon:
-    img = '<img src="' + icon + '" valign="text-bottom" /> '
+   img = '<img src="' + icon + '" valign="text-bottom" /> '
 %>
-
-%if not results_link:
-## This arm of the 'if' will *not* work with the new Google CSE API.
-<p style="text-align:right; font-weight:bold"><a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a></p>
-%else:
-<% 
-more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + \
-       "&cof=FORID:11"
-%>
-<p style="text-align:right; font-weight:bold"><a target="_blank" href="${more | n}">${img}More results...</a></p>
-%endif
-%endif
+	%if not results_link:
+	## This arm of the 'if' will *not* work with the new Google CSE API.
+	<p style="text-align:right; font-weight:bold">
+	  <a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a>
+	</p>
+	%else:
+	<% more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + "&cof=FORID:11" %>
+	<p style="text-align:right; font-weight:bold">
+	  <a target="_blank" href="${more | n}">${img}More results...</a>
+	</p>
+	%endif
+	%endif
+      </div>
+    </div>
+  </div>
 </div>
 </%def>
 
 
 <%def name="printSEPResults()">
-<div class="result">
-%if not c.sep:
-<h3>SEP Internal Search</h3>
-<p>Error loading results.</p>
-%elif len(c.sep) == 0:
-<h3>SEP Internal Search</h3>
-<p>No search results.</p>
-%else:
-	<h3>SEP Internal Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
-	<ol class="search-results">
-    %for item in c.sep[:4]:
-	<li>
-			<h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
-			<p>${item['LongDescription'] | n}</p>
-	</li>
-    %endfor
-    </ol>
-	    <p style="text-align:right; font-weight:bold"><a target="_blank"
-        href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
-
-%endif
+<div class="accordion" id="SEPSearch">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <h3>
+	<a class="accordion-toggle" data-toggle="collapse" data-parent="#SEPSearch" href="#SEPResults">
+	  SEP Internal Search
+	</a>
+      </h3>
+    </div>
+    <div class="accordion-body collapse" id="SEPResults">
+      <div class="accordion-inner">
+	%if not c.sep:
+	<p>Error loading results.</p>
+	%elif len(c.sep) == 0:
+	<p>No search results.</p>
+	%else:
+	<ol style="list-style-type: none;">
+	  %for item in c.sep[:4]:
+	  <li>
+	    <h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
+	    <p>${item['LongDescription'] | n}</p>
+	  </li>
+	  %endfor
+	</ol>
+	<p style="text-align:right; font-weight:bold"><a target="_blank" href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
+	%endif
+      </div>
+    </div>
+  </div>
 </div>
 </%def>
 
 <%def name="printBingResults()">
-<div class="result">
-%if not c.sep:
-<h3>Bing Web Search</h3>
-<p>Error loading results.</p>
-%elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
-<h3>Bing Web Search</h3>
-<p>No search results.</p>
-%else:
-	<h3>Bing Web Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
-	<ol class="search-results">
-    %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
-	<li>
-			<h4><a href="${item['Url']}" target="_blank">${item['Title'] | n}</a></h4>
-			<p>${item['Description'] | n}</p>
-	</li>
-    %endfor
-    </ol>
-	    <p style="text-align:right; font-weight:bold"><a target="_blank"
-        href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a></p>
-
-%endif
+<div class="accordion" id="bingSearch">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <h3>
+	<a class="accordion-toggle" data-toggle="collapse" data-parent="#bingSearch" href="#bingResults">
+	  Bing Web Search
+	</a>
+      </h3>
+    </div>
+    <div class="accordion-body collapse" id="bingResults">
+      <div class="accordion-inner">
+	%if not c.sep:
+	<p>Error loading results.</p>
+	%elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
+	<p>No search results.</p>
+	%else:
+	<ol style="list-style-type: none;">
+	  %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
+	  <li>
+	    <h4>
+	      <a href="${item['Url']}" target="_blank">${item['Title'] | n}</a>
+	    </h4>
+	    <p>${item['Description'] | n}</p>
+	  </li>
+	  %endfor
+	</ol>
+	<p style="text-align:right; font-weight:bold">
+	  <a target="_blank" href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a>
+	</p>
+	%endif
+      </div>
+    </div>
+  </div>
 </div>
 </%def>
+
+<script>
+  $(".collapse").collapse({
+  toggle: false
+  });
+</script>
+
 

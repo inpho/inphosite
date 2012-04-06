@@ -37,7 +37,7 @@ ${printBingResults()}
 	%if not results or results['queries']['request'][0]['totalResults'] == '0':
 	<p>No search results.</p>
 	%else:
-	<ol class="search-results"  style="list-style-type: none;">
+	<ol class="unstyled">
 	  %for i in range(min(len(results['items']), 4)):
 	  <% r = results['items'][i] %>
 	  <li>
@@ -88,7 +88,7 @@ if icon:
 	%elif len(c.sep) == 0:
 	<p>No search results.</p>
 	%else:
-	<ol style="list-style-type: none;">
+	<ol class="unstyled">
 	  %for item in c.sep[:4]:
 	  <li>
 	    <h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
@@ -121,7 +121,7 @@ if icon:
 	%elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
 	<p>No search results.</p>
 	%else:
-	<ol style="list-style-type: none;">
+	<ol class="unstyled">
 	  %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
 	  <li>
 	    <h4>

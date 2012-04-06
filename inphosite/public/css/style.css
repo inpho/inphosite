@@ -24,3 +24,15 @@ body {
 .remove{
     margin-left: 8px;
     }
+
+.search-results .accordion-toggle {
+    color: #000000;
+    display: inline;
+    padding-left: 0;
+}
+.toggle-icon {
+    margin-top: 5px;
+} 
+.accordion-heading {
+    padding: 12px;
+}

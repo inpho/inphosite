@@ -1,0 +1,29 @@
+<%def name="textbox(attr, value='')">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      <input type="text" name="${attr}" value="${value}" />
+    </div>
+</div>
+</%def>
+
+<%def name="disabled_textbox(attr, value='')">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      <input type="text" name="${attr}" value="${value}" disabled />
+    </div>
+</div>
+</%def>
+
+<%def name="list(attr, values=tuple())">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      %for value in values:
+      <label class="input-large">${value}<i class="pull-right icon-remove"></i></label>
+      %endfor
+      <input type="text" name="${attr}" placeholder="Add new ${attr}&#133;" />
+    </div>
+</div>
+</%def>

@@ -1,5 +1,6 @@
 <%! import urllib %>
 <%inherit file="/base-tree.html" />
+<%namespace name="bootstrap" file="/bootstrap-form.html" />
 
 ## Header
 <%def name="title()">${parent.title()} - Entity - ${c.entity.label}</%def>
@@ -149,89 +150,24 @@ checked\
 
 
 <%def name="printAdminPanel(attrs)">
-    <div id="admin">
-    <h3>Admin
-    <span class="toggle on" onclick="inpho.eval.toggleList('#admin')">&nbsp;</span>
-    </h3>
-    <ul>
-        %for attr in attrs:
-        ${printAttr(attr)}
-        %endfor
-    </ul>
-    </div>
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Admin</legend>
+    %for attr in attrs:
+    ${printAttr(attr)}
+    %endfor
+  </fieldset>
+</form>
 </%def>
-
-
 
 <%def name="printAttr(attr)"> 
 ## Immutable attribute
 ## ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
 ## In_degree, Out_degree and Entropy (immutable; for Idea)
-<li class="idea">
   %if (attr in ["openAccess", "active", "student", "last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki", "URL"]):
-  <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-    <img src="/img/pencil.png"/>
-  </span>
-  <b>${attr}:</b>
-  <span id="${attr}_field">
-    <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
-      ## Mutable via textbox
-      ## Sep_dir (mutable; for Idea, Thinker, Journal, SOT, Work)
-      ## Searchstring (mutable; for Idea, Thinker)
-      ## Wiki (mutable; for Thinker)
-      ## Last_accessed, Language and ISSN (mutable; for Journal)
-      %if (attr == "sep_dir" or attr == "searchstring" or attr == "wiki" or attr== "last_accessed" or attr == "language" or attr =="ISSN"): 
-      ${getattr(c.entity, attr)}
-    </span>
-  </span>
-      ## Website (mutable; for Journal)
-      %elif (attr == "URL"):
-      ${c.entity.URL}
-    </span>
-  </span>
-  <a id="test_${attr}" href="${c.entity.URL}" target="_blank">(test)</a>
-  <a id="test_${attr}" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
-      ## Mutable via dropdown menu
-      ## Open Access, Active and Student (mutable; for Journal)
-      %elif (attr == "openAccess" or attr == "active" or attr == "student"):
-        %if (attr == "openAccess"):
-          %if c.entity.openAccess == 0:
-              Closed
-          %elif c.entity.openAccess == 1:
-                Open
-          %endif
-        %elif (attr == "active"):
-          %if c.entity.active == 0:
-              Inactive
-          %elif c.entity.active == 1:
-                Active
-          %endif
-        %elif (attr == "student"):
-          %if c.entity.student == 0:
-              Nonstudent
-          %elif c.entity.student == 1:
-                Student
-          %endif
-        %endif
-      </span>
-    </span>
-      %endif
-  %elif (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy" or attr == "type"):
-  <span id="${attr}_edit" class="sep" style="visibility: hidden">
-    <img src="/img/pencil.png"/>
-  </span>
-  <b>${attr}:</b>
-    ## Needs comments
-    %if (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy"):
-    <span id="${attr}_field">
-      ${getattr(c.entity, attr)}
-    </span>
-    ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
-    %elif (attr == "type"):
-    <span id="type_field"> 
-      ${type(c.entity).__name__} 
-    </span>
-    %endif
+  ${bootstrap.textbox(attr, getattr(c.entity, attr, ''))}
+  %elif (attr in ["ID", "label", "in_degree", "out_degree", "entropy", "type"]):
+  ${bootstrap.disabled_textbox(attr, getattr(c.entity, attr, ''))}
   ## Abbreviation(s) (mutable; for Idea, Thinker)
   %elif (attr == "abbreviation"):
     %for i,attr in enumerate(getattr(c.entity, attr+"s")):
@@ -258,29 +194,7 @@ checked\
     %endfor
   ## Searchpattern(s) (mutable; for Idea, Thinker)
   %elif (attr == "searchpatterns"):
-    <ul>
-    %for i,sp in enumerate(c.entity.searchpatterns):
-      <li class="idea" id="searchpattern${i}">
-        <span id="searchpattern${i}_edit" class="sep" onclick="inpho.admin.removesp('searchpattern${i}','${c.entity.url(action='searchpattern')}')">
-          <img src="/img/delete.png" width=18 height=18 />
-        </span>
-        <span id="searchpattern${i}_field">
-            ${sp}
-        </span>
-      </li>
-    %endfor
-    ## New search pattern
-   <li class="idea" id="new_searchpattern">
-      <span id="searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <span id="searchpattern_field">
-        <span id="current_searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
-          Add a new searchpattern
-        </span>
-      </span>
-    </li>
-    </ul>
+  ${bootstrap.list(attr, c.entity.searchpatterns)}
     <%doc>
     ## Birth Date(s) (mutable; for Idea, Thinker)
     %elif (attr == "birth"):
@@ -302,7 +216,6 @@ checked\
     %elif (attr == "death"):
     ${dateControl(attr, 2)}
     %endif
-  </li>
 </%def>
 
 <%def name="dateControl(attr, relation_id)">

@@ -1,33 +1,30 @@
-<div class="row">
+<div class="row" id="i${c.entity2.ID}-eval">
   <form class="well form-inline">
     <fieldset>
-      <div class="input-append">
-        <input type="hidden" name="ante_id" value="${c.entity.ID}" />
-        <span class="add-on">${c.entity.label}</span>
-        <select>
-          <option disabled="disabled">is &#133; to</option>
-          <option>is unrelated to</option>
-          <option>is marginally related to</option>
-          <option>is somewhat related to</option>
-          <option>is related to</option>
-          <option>is highly related to</option>
-        </select>
-      </div>
+      <input type="hidden" name="ante_id" value="${c.entity.ID}" />
+      <strong>${c.entity.label}</strong>
+      <select class="span2">
+        <option disabled ${'selected' if c.relatedness == -1 else ''}>is &#133; to</option>
+        <option value="0" ${'selected' if c.relatedness == 0 else ''}>is unrelated to</option>
+        <option value="1" ${'selected' if c.relatedness == 1 else ''}>is marginally related to</option>
+        <option value="2" ${'selected' if c.relatedness == 2 else ''}>is somewhat related to</option>
+        <option value="3" ${'selected' if c.relatedness == 3 else ''}>is related to</option>
+        <option value="4" ${'selected' if c.relatedness == 4 else ''}>is highly related to</option>
+      </select>
+
+      and
+
+      <select class="span2">
+        <option disabled ${'selected' if c.generality == -1 else ''}>is &#133; to</option>
+        <option value="0" ${'selected' if c.generality == 0 else ''}>is more specific than</option>
+        <option value="1" ${'selected' if c.generality == 1 else ''}>is more general than</option>
+        <option value="2" ${'selected' if c.generality == 2 else ''}>is as general as</option>
+        <option value="3" ${'selected' if c.generality == 3 else ''}>is incomparable to</option>
+      </select>
+      <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
+      <strong> ${c.entity2.label}</strong>
   
-      <div class="input-append input-prepend">
-        <span class="add-on"><em>and</em></span>
-        <select>
-          <option disabled="disabled">is &#133; to</option>
-          <option>is more specific than</option>
-          <option>is more general than</option>
-          <option>is as general as</option>
-          <option>is incomparable to</option>
-        </select>
-        <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
-        <span class="add-on">${c.entity2.label}</span>
-      </div>
-  
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" onClick="submitEvaluation('i${c.entity2.ID}-eval)'">Submit</button>
     </fieldset>
   </form>
 </div>

@@ -5,6 +5,7 @@
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
 <script src="/js/tabnav.js" type="text/javascript"></script>
+<script src="/js/entity.js" type="text/javascript"></script>
 </%def>
 
 ## Header
@@ -80,10 +81,10 @@ if c.entity.instance_of:
 
 ##${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
 ##${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
-${entity.printList(c.entity.related[:10], 'related', alt_title='Related Terms', statistical=True)}
-${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True, evaluation_type='Thinker-Idea')}
-${entity.printList(c.entity.hyponyms[:10], 'hyponyms', statistical=True)}
-${entity.printList(c.entity.occurrences[:10], 'occurrences', statistical=True)}
+${entity.printList('related', 'Related Terms')}
+${entity.printList('related_thinkers')}
+${entity.printList('hyponyms')}
+${entity.printList('occurrences')}
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

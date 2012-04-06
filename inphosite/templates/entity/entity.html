@@ -12,22 +12,19 @@ ${parent.draw()}</%def>
 
 <h1>${c.entity.label}</h1>
 
-<%def name="printList(ideas, attr, statistical=False, alt_title='', tax_class='', evaluation_type='Idea')">
+<%def name="printList(attr, alt_title='', limit=10)">
 <% title = alt_title if alt_title else h.titlecase(attr.replace('_', ' ')) %>
-<div id="${attr}">
-%if not ideas:
-<h3 class="empty">${title}</h3>
-%if tax_class:
-<p class="bottom evaltext">${h.titlecase(c.entity.label)} is not <em>yet</em> classified in the taxonomy. 
-%endif
-%else:
-<h3>${title} <span class="toggle on" onclick="toggleList('#${attr}')">&nbsp;</span> </h3>
-<ol>
-%for idea in ideas:
-<li><a onClick="inpho.tabnav.appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label)}', '/entity/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab">${h.titlecase(idea.label)}</a></li>
+<div id="${attr}" data-source="/idea/${c.entity.ID}/${attr}.json">
+<h3>${title}</h3>
+<ol class="unstyled">
+%for idea in getattr(c.entity, attr)[:limit]:
+<li><a onClick="inpho.tabnav.appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label)}', '/idea/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab">${h.titlecase(idea.label)}</a></li>
 %endfor
-</ol>
+## TODO: Investigate this to make dynamically loaded queries use "len"
+%if len(getattr(c.entity, attr)[:]) > limit:
+<li class="more"><a onClick="inpho.entity.showMore('${attr}', ${c.entity.ID}, ${limit}, ${limit})">Show more&#133;</a></li>
 %endif
+</ol>
 </div> <!-- ${attr} -->
 
 </%def>

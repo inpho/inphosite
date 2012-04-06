@@ -70,9 +70,6 @@ class IdeaController(EntityController):
             # if only 1 result, go ahead and view that idea
             if redirect and idea_q.count() == 1:
                 h.redirect(h.url(controller='idea', action='view', id=idea_q.first().ID,filetype=filetype))
-            else:
-                c.entities = idea_q.limit(limit)
-                return render('idea/idea-list.' + filetype)
         
         #TODO: Error handling - we shouldn't have multiple results
         if request.params.get('sep'):
@@ -83,9 +80,6 @@ class IdeaController(EntityController):
                 h.redirect(h.url(controller='idea', action='view', id=idea_q.first().ID,filetype=filetype))
             elif idea_q.count() == 0:
                 h.redirect(h.url(controller='entity', action='list', filetype=filetype, sep=request.params['sep'], redirect=redirect))
-            else:
-                c.entities = idea_q.limit(limit)
-                return render('idea/idea-list.' + filetype)
         
         all_param = request.params.get('all', False)
         node_param = request.params.get('nodes', True)
@@ -107,7 +101,9 @@ class IdeaController(EntityController):
         elif instance_param:
             idea_q = instance_q
 
+        c.total = idea_q.count()
         c.entities = idea_q.limit(limit)
+
         return render('idea/idea-list.' + filetype)
 
 
@@ -120,13 +116,17 @@ class IdeaController(EntityController):
     def _list_property(self, property, id, filetype='html', limit=False, sep_filter=False, type='idea'):
         c.idea = h.fetch_obj(Idea, id)
          
-        limit = request.params.get('limit', limit)
+        limit = int(request.params.get('limit', limit))
+        start = int(request.params.get('start', 0))
         sep_filter = request.params.get('sep_filter', sep_filter)
         property = getattr(c.idea, property)
         if sep_filter:
             property = property.filter(Entity.sep_dir != '')
+
+        c.total = property.count()
+         
         if limit:
-            property = property[0:limit-1]
+            property = property[start:start+limit]
         
         c.entities = property
         c.nodes = Session.query(Node).filter(Node.parent_id == None).order_by("name").all()
@@ -269,6 +269,22 @@ class IdeaController(EntityController):
     def evaluation(self, id, id2):
         c.entity = h.fetch_obj(Idea, id)
         c.entity2 = h.fetch_obj(Idea, id2)
+       
+        # retrieve evaluation for pair
+        identity = request.environ.get('repoze.who.identity')
+        if identity:
+            c.uid = identity['user'].ID
+
+            eval_q = Session.query(IdeaEvaluation.generality, 
+                                   IdeaEvaluation.relatedness)
+            eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
+
+            # use the user's evaluation if present, otherwise a null eval
+            c.generality, c.relatedness = eval_q.first() or (-1, -1)
+
+        else:
+            c.uid = None
+            c.generality, c.relatedness = (-1, -1)
 
         return render('idea/eval.html')
 

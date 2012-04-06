@@ -5,6 +5,7 @@
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
 <script src="/js/tabnav.js" type="text/javascript"></script>
+<script src="/js/entity.js" type="text/javascript"></script>
 </%def>
 
 ## Header
@@ -29,13 +30,13 @@ $('#tabnav').tab();
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
-        ${entity.printList(c.entity.instances, 'instances')}
-        ${entity.printList(c.node.children, 'children', alt_title='Subclasses')}
-        ${entity.printList(c.entity.links, 'links')}
-        ${entity.printList(c.entity.related[:10], 'related', alt_title='Related Terms', statistical=True)}
-        ${entity.printList(c.entity.related_thinkers[:10], 'related_thinkers', statistical=True, evaluation_type="Idea-Thinker")}
-        ${entity.printList(c.entity.hyponyms[:10], 'hyponyms', statistical=True)}
-        ${entity.printList(c.entity.occurrences[:10], 'occurrences', statistical=True)}
+        ${entity.printList('instances')}
+        ##${entity.printList('children', 'Subclasses')}
+        ${entity.printList('links')}
+        ${entity.printList('related', 'Related Terms')}
+        ${entity.printList('related_thinkers')}
+        ${entity.printList('hyponyms')}
+        ${entity.printList('occurrences')}
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

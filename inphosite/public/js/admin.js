@@ -1,3 +1,6 @@
+var inpho = inpho || {};
+inpho.admin = inpho.admin || {};
+
 /* Functions for use with by the entity admin lists.
  *
  * With the exception of the birthday and deathday attributes for Thinkers, 
@@ -14,7 +17,7 @@
  */
 
 
-function removesp(id, url) {
+inpho.admin.removesp = function(id, url) {
   var field_id = id + '_field';
   var sp = document.getElementById(field_id).innerHTML.trim();
   var value = "?pattern=" + encodeURIComponent(sp);
@@ -35,21 +38,21 @@ function removesp(id, url) {
 // 1.) The edit icon is hidden.
 // 2.) The field displaying the property is changed from a static text field 
 //     to a text input box or dropdown menu.
-function edit(attr, url) {
+inpho.admin.edit = function(attr, url) {
   if (attr == "sep_dir" || attr == "searchstring" || attr == "wiki" || 
       attr == "birth" || attr == "death" || attr == "URL" || 
       attr == "last_accessed" || attr == "language" || attr == "ISSN" ||
       attr == "label")
-    edit_textbox(attr, url);
+    inpho.admin.edit_textbox(attr, url);
   else if (attr == "openAccess" || attr == "active" || attr == "student")
-    edit_dropdown(attr, url);
+    inpho.admin.edit_dropdown(attr, url);
   else
       alert('Field not implemented: ' + attr);
 }
 
-function edit_textbox(attr, url) {
-  // set up strings for use later & hide edit icon
-  var current_attr = "current_" + attr;
+inpho.admin.edit_textbox = function(attr, url) {
+  // set up strings for use later & hide edit icon 
+ var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
   var attr_text = attr + "_text";
   //var attr_edit = attr + "_edit";
@@ -82,7 +85,7 @@ function edit_textbox(attr, url) {
     if ((attr_value == 'None') || (attr_value == 'undefined') || !attr_value)
         attr_value = '';
 
-    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
+    var textbox = '<input class="xlarge" type="text" id="' + attr + '_text" value="' + attr_value + '" onkeyup="return inpho.admin.process_text(event, \'' + attr + '\', \'' + url + '\')"  onblur="inpho.admin.reset_field(\'' + attr + '\', \'' + url + '\', 400)" />'; 
     //onblur="reset(\'' + attr +'\', \'' + url + '\', 400)" />';
     textbox = textbox + '<input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
     document.getElementById(attr_field).innerHTML = textbox;
@@ -91,7 +94,7 @@ function edit_textbox(attr, url) {
   document.getElementById(attr + '_text').focus();
 }
 
-function edit_dropdown(attr, url) {
+inpho.admin.edit_dropdown = function(attr, url) {
   // set up strings for use later & hide edit icon
   var current_attr = "current_" + attr;
   var attr_field = attr + "_field";
@@ -115,9 +118,9 @@ function edit_dropdown(attr, url) {
   // (with a hidden textbox containing the original value)
   var attr_value = document.getElementById(current_attr).innerHTML.trim();
   if (attr_value == negative)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit_field(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="inpho.admin.submit_field(\'' + attr + '\', \'' + url + '\')"> <option selected="selected" value="0"> ' + negative + ' </option> <option value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
   else if (attr_value == positive)
-    var dropdown = '<select id="' + attr + '_text" onclick="submit_field(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
+    var dropdown = '<select id="' + attr + '_text" onclick="inpho.admin.submit_field(\'' + attr + '\', \'' + url + '\')"> <option value="0"> ' + negative + ' </option> <option selected="selected" value="1"> ' + positive + ' </option> </select> <input id="old_' + attr + '" style="visibility: hidden" value="' + attr_value + '">';
 
   document.getElementById(attr_field).innerHTML = dropdown;
 }
@@ -129,14 +132,14 @@ function edit_dropdown(attr, url) {
 // 3) Enter key to submit the field (i.e., call the submit_field() function)
 function process_text(e, attr, url) {
     if ((e.keyCode == 13) || (e.keyCode == 9)) // Enter and Tab support
-        return submit_field(attr, url);
+        return inpho.admin.submit_field(attr, url);
     if (e.keyCode == 27) // Escape
-        return reset_field(attr, url, 400);
+        return inpho.admin.reset_field(attr, url, 400);
     if (attr == "URL")
-        return toggle_test_url(attr);
+        return inpho.admin.toggle_test_url(attr);
 }
 
-function toggle_test_url(attr) {
+inpho.admin.toggle_test_url = function(attr) {
         var test_attr = "test_" + attr;
         var attr_text = attr + "_text";
         //alert(document.getElementById(attr_text).value);
@@ -158,7 +161,7 @@ function toggle_test_url(attr) {
 // changes.
 //
 spid=100;
-function submit_field(attr, url) {
+inpho.admin.submit_field = function(attr, url) {
   // get value of attr
   // dates must PUT three values: the day, month, and year
   if (attr == "birth" || attr == "death") {
@@ -197,11 +200,11 @@ function submit_field(attr, url) {
   if (attr != "active" && attr != "openAccess" && attr != "student") {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            reset_field(attr, url, xhr.status)
+            inpho.admin.reset_field(attr, url, xhr.status);
             if (attr == "searchpattern") {
                 spid = spid + 1;
                 var attr_text = attr + "_text";
-                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
+                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="inpho.admin.removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
                 var val = value.split('=')[1]
                 val = val.replace("<", "&lt;")
                 val = val.replace(">", "&gt;")
@@ -221,7 +224,7 @@ function submit_field(attr, url) {
 //     the new property (on success) or the old property (on failure).
 // 2.) The edit icon should re-appear.
 //
-function reset_field(attr, url, response) {
+inpho.admin.reset_field = function(attr, url, response) {
   // set up strings for use later
   var attr_text = attr + "_text";
   var old_attr = "old_" + attr;
@@ -272,7 +275,7 @@ function reset_field(attr, url, response) {
     var attr_value = "Add a New Search Pattern";
   }
 
-  var input_field = '<span class="current" id="current_' + attr + '" onclick="edit(\'' + attr + '\', \'' + url + '\')"> </span>';
+  var input_field = '<span class="current" id="current_' + attr + '" onclick="inpho.admin.edit(\'' + attr + '\', \'' + url + '\')"> </span>';
   document.getElementById(attr_field).innerHTML = input_field;
   $("#current_"+attr).text(attr_value);
   //document.getElementById(attr_edit).style.visibility = 'visible';

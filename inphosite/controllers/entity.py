@@ -14,6 +14,7 @@ from inpho import config
 import inpho.model as model
 from inpho.model import Session
 from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought, Thinker
+from inpho.model import Date
 import inpho.corpus.sep as sep
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
@@ -26,6 +27,7 @@ import simplejson
 
 from xml.etree.ElementTree import parse
 from xml.etree import ElementTree as ET
+from sqlalchemy.exc import IntegrityError
 
 log = logging.getLogger(__name__)
 
@@ -329,6 +331,84 @@ class EntityController(BaseController):
             c.entity.searchpatterns.append(unicode(pattern))
 
             Session.commit()
+
+        return "OK"
+
+    def date_form(self, id):
+        c.id = id
+        c.id2 = 2 # death date processing
+        return render('date.html')
+
+    def _delete_date(self, id, id2):
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+        # get the date object
+        date = self._get_date(id, id2)
+
+        if date in c.entity.dates:
+            c.entity.dates.remove(date)
+
+            Session.commit()
+
+        return "OK"
+
+    def _get_date(self, id, id2):
+        """
+        Helper function to create a date object, used in both deletion and
+        creation.
+        """
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+
+        # process form fields
+        month = int(request.params.get('month', 0))
+        day = int(request.params.get('day', 0))
+        year = int(request.params.get('year', 0))
+        era = request.params.get('era', None)
+
+        # process range fields
+        range = request.params.get('is_date_range', False)
+        if range: 
+            month_end = int(request.params.get('month_end', 0))
+            day_end = int(request.params.get('day_end', 0))
+            year_end = int(request.params.get('year_end', 0))
+            era_end = request.params.get('era_end', None)
+
+        # process era markers:
+        if year and era == 'bce':
+            year *= -1
+        if range and year_end and era_end == 'bce':
+            year_end *= -1
+
+        # data integrity checks, raise a bad request if failed.
+        # TODO: Make data integrity checks
+        if not year and not month and not day:
+            abort(400)
+        
+        if not range:
+            date = Date(c.entity.ID, id2,
+                        year, month, day)
+        else:
+            date = Date(c.entity.ID, id2, 
+                        year, month, day, 
+                        year_end, month_end, day_end)
+
+        return date
+        
+
+    @dispatch_on(DELETE='_delete_date')
+    def date(self, id, id2):
+        """
+        Creates a date object, associated to the id with the relation type of
+        id2.
+        """
+        date = self._get_date(id, id2)
+
+        try:
+            Session.add(date)
+            Session.commit()
+        except IntegrityError:
+            # skip over data integrity errors, since if the date is already in
+            # the db, things are proceeding as intended.
+            pass
 
         return "OK"
 

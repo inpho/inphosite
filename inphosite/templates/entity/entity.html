@@ -38,22 +38,21 @@ c.entID += 1
 
 gen, rel = c.evaluations[cons.ID] 
 
-search = "search(this, %d, %d)" % (c.entity.ID, cons.ID)
+search = "inpho.eval.search(this, %d, %d)" % (c.entity.ID, cons.ID)
 
 if c.uid:
-    onchange_rel = "onChange=\"thisFunc($(this).parent().parent(), 'relatedness')\""
-    onchange_gen = "onChange=\"thisFunc($(this).parent().parent(), 'generality')\""
+   onchange_rel = "onChange=\"thisFunc($(this).parent().parent(), 'relatedness')\""
+   onchange_gen = "onChange=\"thisFunc($(this).parent().parent(), 'generality')\""
 else:
-    onchange_rel = ''
-    onchange_gen = ''
-    
+   onchange_rel = ''
+   onchange_gen = ''
 %>
 
     %if group:
     <% srch_id = srch_id or cons.ID %>
-    <li onClick="search($(this).parent().get(0), ${srch_id}, ${c.entity.ID})" class="idea ${cls}" id="${c.entID}">\
+    <li onClick="inpho.eval.search($(this).parent().get(0), ${srch_id}, ${c.entity.ID})" class="idea ${cls}" id="${c.entID}">\
     %else:
-    <li onClick="search(this, ${c.entity.ID}, ${cons.ID})" class="idea ${cls}" id="${c.entID}">\
+    <li onClick="inpho.eval.search(this, ${c.entity.ID}, ${cons.ID})" class="idea ${cls}" id="${c.entID}">\
     %endif
     %if cons not in c.entity.nodes and cons != c.entity:
     <a href="${cons.url()}" class="sep">
@@ -63,7 +62,7 @@ else:
     ## handles previously evaluated entity
     %if (rel > -1) and (gen > -1):
     <img class='loading' src="/img/check.gif" />
-    <script>incrEvals();</script>
+    <script>inpho.eval.incrEvals();</script>
     %else:
     <img class='loading' src="/img/empty.gif" />
     %endif
@@ -95,7 +94,7 @@ else:
     <div id="slider${cons.ID}" class="slider"></div>
     <script>
     //$(alert($("#${c.entID} form")));
-    $(initSlider($("#${c.entID} form .slider"), ${rel}, ${'true' if c.uid else 'false'}, "${cons.label}"));
+    $(inpho.eval.initSlider($("#${c.entID} form .slider"), ${rel}, ${'true' if c.uid else 'false'}, "${cons.label}"));
     </script>
     <div><small>unrelated</small><small style="float: right;">highly related</small></div>
     <input type="hidden" class="relatedness" name="relatedness" id="rel${cons.ID}" value="${rel}" />
@@ -138,7 +137,7 @@ checked\
     <input name="reset" type="button" value="Reset" onClick="resetEvaluation($(this).parent())" />
 %else:
     ## anonymous evaluation
-    <input name="submit" type="button" value="Submit" onClick="submitEvals($(this).parent())" style="display: none;" />
+    <input name="submit" type="button" value="Submit" onClick="inpho.eval.submitEvals($(this).parent())" style="display: none;" />
 %endif
 </form>
 
@@ -152,7 +151,7 @@ checked\
 <%def name="printAdminPanel(attrs)">
     <div id="admin">
     <h3>Admin
-    <span class="toggle on" onclick="toggleList('#admin')">&nbsp;</span>
+    <span class="toggle on" onclick="inpho.eval.toggleList('#admin')">&nbsp;</span>
     </h3>
     <ul>
         %for attr in attrs:
@@ -163,277 +162,106 @@ checked\
 </%def>
 
 
-<%def name="printAttr(attr)">
-  ## Immutable attributes
-  ## ID (immutable; for Idea, Thinker, Journal, SOT, Work)
-  %if (attr == "id"):
-    <li class="idea">
-      <span id="id_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>ID:</b>
-      <span id="id_field"> ${c.entity.ID} </span>
-    </li>
-  ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
-  %elif (attr == "type"):
-    <li class="idea">
-      <span id="type_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Type:</b>
-      <span id="type_field"> ${type(c.entity).__name__} </span>
-    </li>
-  ## Label (immutable; for Idea, Thinker, Journal, SOT, Work)
-  %elif (attr == "label"):
-    <li class="idea">
-      <span id="label_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Label:</b>
-      <span id="label_field"> ${c.entity.label} </span>
-    </li>
-  ## In-degree (immutable; for Idea)
-  %elif (attr == "in-degree"):
-    <li class="idea">
-      <span id="in-degree_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>In-degree:</b>
-      <span id="in-degree_field"> ${c.entity.in_degree} </span>
-    </li>
-  ## Out-degree (immutable; for Idea)
-  %elif (attr == "out-degree"):
-    <li class="idea">
-      <span id="out-degree_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Out-degree:</b>
-      <span id="out-degree_field"> ${c.entity.in_degree} </span>
-    </li>
-  ## Entropy (immutable; for Idea)
-  %elif (attr == "entropy"):
-    <li class="idea">
-      <span id="entropy_edit" class="sep" style="visibility: hidden">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Entropy:</b>
-      <span id="entropy_field"> ${c.entity.entropy} </span>
-    </li>
 
-  ## Mutable via textbox
-  ## Sep_dir (mutable; for Idea, Thinker, Journal, SOT, Work)
-  %elif (attr == "sep_dir"):
-    <li class="idea">
-      <span id="sep_dir_edit" class="sep" onclick="edit('sep_dir', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Sep_dir:</b>
-      <span id="sep_dir_field">
-        <span id="current_sep_dir" onclick="edit('sep_dir', '${c.entity.url()}')">
-          ${c.entity.sep_dir}
-        </span>
-      </span>
-    </li>
-  ## Searchstring (mutable; for Idea, Thinker)
-  %elif (attr == "searchstring"):
-    <li class="idea">
-      <span id="searchstring_edit" class="sep" onclick="edit('searchstring', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Searchstring:</b>
-      <span id="searchstring_field">
-        <span id="current_searchstring" onclick="edit('searchstring', '${c.entity.url()}')">
-          ${c.entity.searchstring | h}
-        </span>
-      </span>
-    </li>
-  ## Wiki (mutable; for Thinker)
-  %elif (attr == "wiki"):
-    <li class="idea">
-      <span id="wiki_edit" class="sep" onclick="edit('wiki', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Wiki:</b>
-      <span id="wiki_field">
-        <span id="current_wiki" onclick="edit('wiki', '${c.entity.url()}')">
-          ${c.entity.wiki}
-        </span>
-      </span>
-    </li>
-  ## Birthday (mutable; for Thinker)
-  %elif (attr == "birthday"):
-    <li class="idea">
-      <span id="birth_edit" class="sep" onclick="edit('birth', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Birthday (YYYY-MM-DD):</b>
-      <span id="birth_field">
-        <span id="current_birth" onclick="edit('birth', '${c.entity.url()}')">
-          ${c.entity.birth_string}
-        </span>
-        <input type="text" style="visibility: hidden" id="birth_year" value="${c.entity.birth_year}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
-        <input type="text" style="visibility: hidden" id="birth_month" value="${c.entity.birth_month}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
-        <input type="text" style="visibility: hidden" id="birth_day" value="${c.entity.birth_day}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit('birth', '${c.entity.url()}')">
-      </span>
-    </li>
-  ## Deathday (mutable; for Thinker)
-  %elif (attr == "deathday"):
-    <li class="idea">
-      <span id="death_edit" class="sep" onclick="edit('death', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Deathday (YYYY-MM-DD):</b>
-      <span id="death_field">
-        <span id="current_death" onclick="edit('death', '${c.entity.url()}')">
-          ${c.entity.death_string}
-        </span>
-        <input type="text" style="visibility: hidden" id="death_year" value="${c.entity.death_year}" size="5" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
-        <input type="text" style="visibility: hidden" id="death_month" value="${c.entity.death_month}" size="8" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
-        <input type="text" style="visibility: hidden" id="death_day" value="${c.entity.death_day}" size="2" onKeyDown="Javascript: if (event.keyCode == 13) submit('death', '${c.entity.url()}')">
-      </span>
-    </li>
-  ## Website (mutable; for Journal)
-  %elif (attr == "URL"):
-    <li class="idea">
-      <span id="URL_edit" class="sep" onclick="edit('URL', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>URL:</b>
-      <span id="URL_field">
-        <span id="current_URL" onclick="edit('URL', '${c.entity.url()}')">
-          ${c.entity.URL}
-        </span>
-      </span>
-      <a id="test_URL" href="${c.entity.URL}" target="_blank">(test)</a>
-      <a id="test_URL" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
-    </li>
-  ## Last_accessed (mutable; for Journal)
-  %elif (attr == "last_accessed"):
-    <li class="idea">
-      <span id="last_accessed_edit" class="sep" onclick="edit('last_accessed', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Last Accessed:</b>
-      <span id="last_accessed_field">
-        <span id="current_last_accessed" onclick="edit('last_accessed', '${c.entity.url()}')">
-          ${c.entity.last_accessed}
-        </span>
-      </span>
-    </li>
-  ## Language (mutable; for Journal)
-  %elif (attr == "language"):
-    <li class="idea">
-      <span id="language_edit" class="sep" onclick="edit('language', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Language:</b>
-      <span id="language_field">
-        <span id="current_language" onclick="edit('language', '${c.entity.url()}')">
-          ${c.entity.language}
-        </span>
-      </span>
-    </li>
-  ## ISSN (mutable; for Journal)
-  %elif (attr == "ISSN"):
-    <li class="idea">
-      <span id="ISSN_edit" class="sep" onclick="edit('ISSN', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>ISSN:</b>
-      <span id="ISSN_field">
-        <span id="current_ISSN" onclick="edit('ISSN', '${c.entity.url()}')">
-          ${c.entity.ISSN}
-        </span>
-      </span>
-    </li>
-
-  ## Mutable via dropdown menu
-  ## Open Access (mutable; for Journal)
-  %elif (attr == "openAccess"):
-    <li class="idea">
-      <span id="openAccess_edit" class="sep" onclick="edit('openAccess', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>OpenAccess:</b>
-      <span id="openAccess_field">
-        <span id="current_openAccess" onclick="edit('openAccess', '${c.entity.url()}')">
+<%def name="printAttr(attr)"> 
+## Immutable attribute
+## ID and Label (immutable; for Idea, Thinker, Journal, SOT, Work)
+## In_degree, Out_degree and Entropy (immutable; for Idea)
+<li class="idea">
+  %if (attr in ["openAccess", "active", "student", "last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki", "URL"]):
+  <span id="${attr}_edit" class="sep" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
+    <img src="/img/pencil.png"/>
+  </span>
+  <b>${attr}:</b>
+  <span id="${attr}_field">
+    <span id="current_${attr}" onclick="inpho.admin.edit('${attr}', '${c.entity.url()}')">
+      ## Mutable via textbox
+      ## Sep_dir (mutable; for Idea, Thinker, Journal, SOT, Work)
+      ## Searchstring (mutable; for Idea, Thinker)
+      ## Wiki (mutable; for Thinker)
+      ## Last_accessed, Language and ISSN (mutable; for Journal)
+      %if (attr == "sep_dir" or attr == "searchstring" or attr == "wiki" or attr== "last_accessed" or attr == "language" or attr =="ISSN"): 
+      ${getattr(c.entity, attr)}
+    </span>
+  </span>
+      ## Website (mutable; for Journal)
+      %elif (attr == "URL"):
+      ${c.entity.URL}
+    </span>
+  </span>
+  <a id="test_${attr}" href="${c.entity.URL}" target="_blank">(test)</a>
+  <a id="test_${attr}" href="${c.entity.google_url}" target="_blank">(google)</a></dt>
+      ## Mutable via dropdown menu
+      ## Open Access, Active and Student (mutable; for Journal)
+      %elif (attr == "openAccess" or attr == "active" or attr == "student"):
+        %if (attr == "openAccess"):
           %if c.entity.openAccess == 0:
-            Closed
+              Closed
           %elif c.entity.openAccess == 1:
-            Open
+                Open
           %endif
-        </span>
-      </span>
-    </li>
-  ## Active (mutable; for Journal)
-  %elif (attr == "active"):
-    <li class="idea">
-      <span id="active_edit" class="sep" onclick="edit('active', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Active:</b>
-      <span id="active_field">
-        <span id="current_active" onclick="edit('active', '${c.entity.url()}')">
+        %elif (attr == "active"):
           %if c.entity.active == 0:
-            Inactive
+              Inactive
           %elif c.entity.active == 1:
-            Active
+                Active
           %endif
-        </span>
-      </span>
-    </li>
-  ## Student (mutable; for Journal)
-  %elif (attr == "student"):
-    <li class="idea">
-      <span id="student_edit" class="sep" onclick="edit('student', '${c.entity.url()}')">
-        <img src="/img/pencil.png"/>
-      </span>
-      <b>Student:</b>
-      <span id="student_field">
-        <span id="current_student" onclick="edit('student', '${c.entity.url()}')">
+        %elif (attr == "student"):
           %if c.entity.student == 0:
-            Nonstudent
+              Nonstudent
           %elif c.entity.student == 1:
-            Student
+                Student
           %endif
-        </span>
+        %endif
       </span>
-    </li>
-
-
-  ## Abbreviation(s) (mutable; for Journal)
-  %elif (attr == "abbreviations"):
-    %for i,abbreviation in enumerate(c.entity.abbreviations):
-      <li class="idea">
-        <span id="abbreviation${i}_edit" class="sep" onclick="edit('abbreviation${i}', '${c.entity.url()}')">
+    </span>
+      %endif
+  %elif (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy" or attr == "type"):
+  <span id="${attr}_edit" class="sep" style="visibility: hidden">
+    <img src="/img/pencil.png"/>
+  </span>
+  <b>${attr}:</b>
+    ## Needs comments
+    %if (attr == "ID" or attr == "label" or attr == "in_degree" or attr == "out_degree" or attr == "entropy"):
+    <span id="${attr}_field">
+      ${getattr(c.entity, attr)}
+    </span>
+    ## Type (immutable; for Idea, Thinker, Journal, SOT, Work)
+    %elif (attr == "type"):
+    <span id="type_field"> 
+      ${type(c.entity).__name__} 
+    </span>
+    %endif
+  ## Abbreviation(s) (mutable; for Idea, Thinker)
+  %elif (attr == "abbreviation"):
+    %for i,attr in enumerate(getattr(c.entity, attr+"s")):
+        <span id="${attr}"+"${i}_edit" class="sep" onclick="inpho.admin.edit('${attr}'+'${i}', '${c.entity.url()}')">
           <img src="/img/pencil.png"/>
         </span>
-        <span id="abbreviation${i}_field">
-          <span id="current_abbreviation${i}" onclick="edit('searchpattern${i}', '${c.entity.url()}')">
-            ${abbreviation}
+        <span id="${attr}"+"${i}_field">
+          <span id="current_${attr}"+"${i}" onclick="inpho.admin.edit('${attr}'+'${i}', '${c.entity.url()}')">
+            ${getattr(c.entity, attr)}
           </span>
         </span>
-      </li>
     %endfor
   ## Quer[y|ies] (mutable; for Journal)
   %elif (attr == "queries"):
     %for i,query in enumerate(c.entity.queries):
-      <li class="idea">
-        <span id="query${i}_edit" class="sep" onclick="edit('query${i}', '${c.entity.url()}')">
+        <span id="query${i}_edit" class="sep" onclick="inpho.admin.edit('query${i}', '${c.entity.url()}')">
           <img src="/img/pencil.png"/>
         </span>
         <span id="query${i}_field">
-          <span id="current_query${i}" onclick="edit('query${i}', '${c.entity.url()}')">
+          <span id="current_query${i}" onclick="inpho.admin.edit('query${i}', '${c.entity.url()}')">
             ${query}
           </span>
         </span>
-      </li>
     %endfor
   ## Searchpattern(s) (mutable; for Idea, Thinker)
   %elif (attr == "searchpatterns"):
+    <ul>
     %for i,sp in enumerate(c.entity.searchpatterns):
       <li class="idea" id="searchpattern${i}">
-        <span id="searchpattern${i}_edit" class="sep" onclick="removesp('searchpattern${i}','${c.entity.url(action='searchpattern')}')">
+        <span id="searchpattern${i}_edit" class="sep" onclick="inpho.admin.removesp('searchpattern${i}','${c.entity.url(action='searchpattern')}')">
           <img src="/img/delete.png" width=18 height=18 />
         </span>
         <span id="searchpattern${i}_field">
@@ -442,15 +270,253 @@ checked\
       </li>
     %endfor
     ## New search pattern
-    <li class="idea" id="new_searchpattern">
-      <span id="searchpattern_edit" class="sep" onclick="edit('searchpattern','${c.entity.url(action='searchpattern')}')">
+   <li class="idea" id="new_searchpattern">
+      <span id="searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
         <img src="/img/pencil.png"/>
       </span>
       <span id="searchpattern_field">
-        <span id="current_searchpattern_edit" class="sep" onclick="edit('searchpattern','${c.entity.url(action='searchpattern')}')">
+        <span id="current_searchpattern_edit" class="sep" onclick="inpho.admin.edit('searchpattern','${c.entity.url(action='searchpattern')}')">
           Add a new searchpattern
         </span>
       </span>
     </li>
-  %endif
+    </ul>
+    <%doc>
+    ## Birth Date(s) (mutable; for Idea, Thinker)
+    %elif (attr == "birth"):
+    <ul>
+      %for i,birth_date in enumerate(c.entity.birth):
+      <li class="idea" id="birth_date${i}">
+        <span id="birth_date${i}_edit" class="sep" onclick="inpho.admin.removesp('birth_date${i}','${c.entity.url(action='date', id2='1')}')">
+          <img src="/img/delete.png" width=18 height=18 />
+        </span>
+        <span id="birth_date${i}_field">
+          ${birth_date}
+        </span>
+      </li>
+      %endfor
+    </ul>
+    </%doc>
+    %elif (attr == "birth"):
+    ${dateControl(attr, 1)}
+    %elif (attr == "death"):
+    ${dateControl(attr, 2)}
+    %endif
+  </li>
 </%def>
+
+<%def name="dateControl(attr, relation_id)">
+    <form class="dateControl" name="date" action="/entity/${c.entity.ID}/date/${relation_id}" method="POST" id="${attr}_form">
+      <fieldset>
+	<legend>${attr.capitalize()} Date</legend>
+	<select name="month" id="${attr}_month">
+	    <option value="0">Month</option>
+	    <option value="1">January</option>
+	    <option value="2">February</option>
+	    <option value="3">March</option>
+	    <option value="4">April</option>
+	    <option value="5">May</option>
+	    <option value="6">June</option>
+	    <option value="7">July</option>
+	    <option value="8">August</option>
+	    <option value="9">September</option>
+	    <option value="10">October</option>
+	    <option value="11">November</option>
+	    <option value="12">December</option>
+	</select>
+
+	<select name="day" id="${attr}_day">
+	  <option value="0">Day</option>
+	  <option>1</option>
+	  <option>2</option>
+	  <option>3</option>
+	  <option>4</option>
+	  <option>5</option>
+	  <option>6</option>
+	  <option>7</option>
+	  <option>8</option>
+	  <option>9</option>
+	  <option>10</option>
+	  <option>11</option>
+	  <option>12</option>
+	  <option>13</option>
+	  <option>14</option>
+	  <option>15</option>
+	  <option>16</option>
+	  <option>17</option>
+	  <option>18</option>
+	  <option>19</option>
+	  <option>20</option>
+	  <option>21</option>
+	  <option>22</option>
+	  <option>23</option>
+	  <option>24</option>
+	  <option>25</option>
+	  <option>26</option>
+	  <option>27</option>
+	  <option>28</option>
+	  <option class="variable_day">29</option>
+	  <option class="variable_day">30</option>
+	  <option class="variable_day">31</option>
+	</select>
+	
+	<input type="text" name="year" size="4" maxlength="4" value="Year" id="${attr}_year" />
+	
+	<select name="era" id="${attr}_era">
+	  <option>Era</option>
+	  <option value="bce">B.C.E. (B.C.)</option>
+	  <option value="ce">C.E. (A.D.)</option>
+	</select>
+
+	<label for="is_date_range" class="dateControlLabel">Date Range?</label>
+	<input type="checkbox" name="is_date_range" value="is_date_range" id="${attr}_is_date_range"/>
+	
+	<br />
+	
+	<div id="${attr}_date_range" class="date_range">
+	  <select name="month_end">
+	    <option value="0">Month</option>
+	    <option value="1">January</option>
+	    <option value="2">February</option>
+	    <option value="3">March</option>
+	    <option value="4">April</option>
+	    <option value="5">May</option>
+	    <option value="6">June</option>
+	    <option value="7">July</option>
+	    <option value="8">August</option>
+	    <option value="9">September</option>
+	    <option value="10">October</option>
+	    <option value="11">November</option>
+	    <option value="12">December</option>
+	  </select>
+	  
+	  <select name="day_end">
+	    <option value="0">Day</option>
+	    <option>1</option>
+	    <option>2</option>
+	    <option>3</option>
+	    <option>4</option>
+	    <option>5</option>
+	    <option>6</option>
+	    <option>7</option>
+	    <option>8</option>
+	    <option>9</option>
+	    <option>10</option>
+	    <option>11</option>
+	    <option>12</option>
+	    <option>13</option>
+	    <option>14</option>
+	    <option>15</option>
+	    <option>16</option>
+	    <option>17</option>
+	    <option>18</option>
+	    <option>19</option>
+	    <option>20</option>
+	    <option>21</option>
+	    <option>22</option>
+	    <option>23</option>
+	    <option>24</option>
+	    <option>25</option>
+	    <option>26</option>
+	    <option>27</option>
+	    <option>28</option>
+	    <option>29</option>
+	    <option>30</option>
+	    <option>31</option>
+	  </select>
+	  <input type="text" name="year_end" size="4" maxlength="4" value="Year" id="${attr}_year_end" />
+	  
+	  <select name="era_end" id="${attr}_era_end">
+	    <option>Era</option>
+	    <option value="bce">B.C.E. (B.C.)</option>
+	    <option value="ce">C.E. (A.D.)</option>
+	  </select>
+	</div>
+	
+	<hr />
+	
+	<button type="submit" id="${attr}_submit">Submit</button>
+	<button type="reset" id="${attr}_reset" value="Reset">Reset</button>
+	
+      </fieldset>
+    </form>
+    
+    <script>
+      <!-- script handling form expansion/collapse for date ranges-->
+      $("#${attr}_is_date_range").click(
+      function() {
+         if ($("#${attr}_date_range").is(":hidden")) {
+            $("#${attr}_date_range").slideDown();
+         }   
+         else {
+            $("#${attr}_date_range").slideUp();          
+            var month = $("#${attr}_month").val();
+            var day = $("#${attr}_day").val();
+            var year = $("#${attr}_year").val();
+            var era = $("#${attr}_era").val();
+            $('form')[0].reset();
+            $("#${attr}_month").val(month);
+            $("#${attr}_day").val(day);
+            $("#${attr}_year").val(year);
+            $("#${attr}_era").val(era);
+         }
+      });
+
+      $("#${attr}_reset").click(
+      function() {
+      $("#${attr}_date_range").slideUp();
+      });
+
+      <!-- scripts for auto selecting the year/year_end textboxes  -->
+      $("#${attr}_year").click(
+      function() {
+         $(this).select();
+      });
+      $("#${attr}_year_end").click(
+      function() {
+         $(this).select();
+      });
+
+      /*
+      $("#${attr}_submit").click(
+      function() {
+         $(".variable_day").remove();
+      });  
+      */
+
+      <!-- script for validating dates  -->
+      $(document).ready(function() {
+         $("#${attr}_form").submit(
+            function() {
+               if (($("#${attr}_era").val() == "ce") && ($("#${attr}_era_end").val() == "bce")) {
+                  alert("Please review your beginning and ending eras:\nyou cannot go back in time!");
+            return false;
+               }
+               else if (((($("#${attr}_year").val() !== "Year") && ($("#${attr}_year").val() !== "")) && ($("#${attr}_era").val() == "Era")) || ((($("#${attr}_year_end").val() !== "Year") && ($("#${attr}_year_end").val() !== "")) && ($("#${attr}_era_end").val() == "Era"))) {
+                       alert("Please specify an era for any given years.");
+            return false;
+               }
+               else if (($("#${attr}_year").val() > $("#${attr}_year_end").val()) && ($("#${attr}_era").val() == "ce") && ($("#${attr}_era_end").val() == "ce")) {
+                       alert("Please review your beginning and ending years:\nyou cannot go back in time!");
+            return false;
+               }
+               else if (($("#${attr}_year").val() < $("#${attr}_year_end").val()) && ($("#${attr}_era").val() == "bce") && ($("#${attr}_era_end").val() == "bce")) {
+                       alert("Please review your beginning and ending years:\nyou cannot go back in time!");
+            return false;
+               }
+               /* NEEDS TO SUBMIT TO DATABASE RATHER THAN CHANGE VALUE, SINCE YEAR VALUES ARE LIMITED TO FOUR CHARACTERS IN LENGTH
+	       else if (#${attr}_("#${attr}_era").val() == "bce") {
+                       $("#${attr}_year").val(0 - $("#${attr}_year").val());
+            return false;
+               }
+               else if (#${attr}_("#${attr}_era_end").val() == "bce") {
+                       $("#${attr}_year_end").val(0 - $("#${attr}_year_end").val());
+            return false;
+               }
+               */
+            });
+         });
+    </script>
+
+</%def>
+

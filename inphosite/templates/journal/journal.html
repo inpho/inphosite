@@ -27,10 +27,13 @@ ${parent.draw()}</%def>
 function srch(id) {
     var src  = '/entity/' + id + '/search';
     $.get(src, function(data){
-          $("#moreInfo").html(data);
+          $("#home").html(data);
         });
 }
-$(document).ready(srch(${c.entity.ID}));
+$(document).ready(function () {
+    srch(${c.entity.ID}); 
+    $('#tabnav').tab();
+});
 </script>
 
 %if c.entity.last_accessed < 2419200: 
@@ -42,51 +45,21 @@ $(document).ready(srch(${c.entity.ID}));
 
 <h1>${c.entity.label}</h1>
 
+<ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
+    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
+    %if h.auth.is_admin():
+    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
+    %endif
+</ul>
+
+<div class="tab-content" id="tabnav-content">
+    <div class="tab-pane active" id="home">
+    <p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>
+    </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
-  ${entity.printAdminPanel(['URL', 'language', 'ISSN', 'abbrs', 'queries', 'openAccess', 'student', 'active'])}
-%else:
-  <dl>
-    %if c.entity.URL:
-    <dt><a href="${c.entity.URL}">Web Site</a></dt>
-    <br />
-    %endif
-
-    %if c.entity.language:
-    <dt>Language:</dt>
-    <dd>${c.entity.language}</dd>
-	<br />
-    %endif
-
-    %if c.entity.ISSN:
-    <dt>ISSN:</dt>
-    <dd>${c.entity.ISSN}</dd>
-	<br />
-    %endif
-    
-    %if c.entity.abbrs:
-    <dt>Abbreviations:</dt>
-    %for abbr in c.entity.abbrs:
-    <dd>${abbr}</dd>
-    %endfor
-	<br />
-    %endif
-    
-    %if c.entity.openAccess or c.entity.student or not c.entity.active:
-    <dt>Extra:</dt>
-    %if c.entity.openAccess:
-    <dd>Open Access</dd>
-    %endif
-    %if c.entity.student:
-    <dd>Student Journal</dd>
-    %endif
-    %if not c.entity.active:
-    <dd>Inactive</dd>
-    %endif
-    %endif
-  </dl>
+    <div class="tab-pane" id="admin">
+      ${entity.printAdminPanel(['URL', 'language', 'ISSN', 'abbrs', 'queries', 'openAccess', 'student', 'active'])}
+    </div>
 %endif
-
-<div id="moreInfo">
-    <p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>
-</div>
+</div> <!-- tab-content -->

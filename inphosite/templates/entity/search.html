@@ -35,9 +35,9 @@ ${printBingResults()}
 <%def name="printResults(title, results, results_link=None, icon=None)">
 <div class="accordion search-results" id="search">
   <div class="accordion-group">
-    <div class="accordion-heading">
+    <div class="accordion-heading accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#search" href="#searchResults" style="display: block;">
       <h3>
-	<a class="accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="search" href="#searchResults">
+	<a style="color: black;" href="#searchResults">
 	  ${title}
 	  <i class="icon-plus pull-right toggle-icon"></i>
 	</a>
@@ -85,9 +85,9 @@ if icon:
 <%def name="printSEPResults()">
 <div class="accordion search-results" id="SEPSearch">
   <div class="accordion-group">
-    <div class="accordion-heading">
+    <div class="accordion-heading accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#SEPSearch" href="#SEPResults" style="display: block;">
       <h3>
-	<a class="accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#SEPSearch" href="#SEPResults">
+	<a style="color: black;" href="#SEPResults">
 	    SEP Internal Search
 	  <i class="icon-plus pull-right toggle-icon"></i>
 	</a>
@@ -119,9 +119,9 @@ if icon:
 <%def name="printBingResults()">
 <div class="accordion search-results" id="bingSearch">
   <div class="accordion-group">
-    <div class="accordion-heading">
+    <div class="accordion-heading accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#bingSearch" href="#bingResults" style="display: block;">
       <h3>
-	<a class="accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#bingSearch" href="#bingResults">
+	<a style="color: black;" href="#bingResults">
 	  Bing Web Search
 	  <i class="icon-plus pull-right toggle-icon"></i>
 	</a>

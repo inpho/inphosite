@@ -1,9 +1,13 @@
 import logging
 
-from pylons import request, response, session, tmpl_context as c, url
+from pylons import request, response, session, config, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
 from inphosite.lib.base import BaseController, render
+
+import os.path
+
+import json
 
 log = logging.getLogger(__name__)
 
@@ -18,6 +22,8 @@ class PageController(BaseController):
         return render('about.html')
 
     def papers(self):
+        with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
+            c.papers = json.load(publications)
         return render('papers.html')
 
     def owl(self):

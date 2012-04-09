@@ -1,8 +1,11 @@
-<div class="row" id="i${c.entity2.ID}-eval">
-  <form class="well form-inline">
+<div class="alert alert-block alert-info" id="i${c.entity2.ID}-eval">
+  <a class="close" data-dismiss="alert">×</a>
+  <h4 class="alert-heading">Help improve the InPhO!</h4>
+  <form class="form-inline eval">
     <fieldset>
       <input type="hidden" name="ante_id" value="${c.entity.ID}" />
-      <strong>${c.entity.label}</strong>
+      ${c.entity.label}
+
       <select class="span2">
         <option disabled ${'selected' if c.relatedness == -1 else ''}>is &#133; to</option>
         <option value="0" ${'selected' if c.relatedness == 0 else ''}>is unrelated to</option>
@@ -22,9 +25,10 @@
         <option value="3" ${'selected' if c.generality == 3 else ''}>is incomparable to</option>
       </select>
       <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
-      <strong> ${c.entity2.label}</strong>
-  
-      <button type="submit" class="btn btn-primary" onClick="submitEvaluation('i${c.entity2.ID}-eval)'">Submit</button>
+      ${c.entity2.label}
+    </fieldset>
+    <fieldset>
+      <button type="submit" class="btn" onClick="submitEvaluation('i${c.entity2.ID}-eval)'">Submit</button>
     </fieldset>
   </form>
 </div>

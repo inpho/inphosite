@@ -25,6 +25,10 @@ body {
     margin-left: 8px;
     }
 
+.eval {
+    margin-bottom: 0;
+    }
+
 .search-results .accordion-toggle {
     color: #000000;
     display: inline;
@@ -33,6 +37,6 @@ body {
 .toggle-icon {
     margin-top: 5px;
 } 
-.accordion-heading {
+.search-results .accordion-heading {
     padding: 12px;
 }

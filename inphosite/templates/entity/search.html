@@ -26,138 +26,122 @@ function toggleIcon(selector) {
 }
 </script>
 
-${printSEPResults()}
+<script>
 
-${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
+  $(function () {
+  $('#searchTabs a:first').tab('show')
+  })
+  
+</script>
 
-${printBingResults()}
+<ul class="nav nav-tabs" id="searchTabs">
+  <li>
+    <a href="#SEP" data-toggle="tab">
+      SEP Internal Search
+    </a>
+  </li>
+  <li>
+    <a href="#noesis" data-toggle="tab">
+      Noesis
+    </a>
+  </li>
+  <li>
+    <a href="#bing" data-toggle="tab">
+      Bing Web Search
+    </a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="SEP">
+    ${printSEPResults()}
+  </div>
+  <div class="tab-pane" id="noesis">
+    ${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
+  </div>
+  <div class="tab-pane" id="bing">
+    ${printBingResults()}
+  </div>
+</div>
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
-<div class="accordion search-results" id="search">
-  <div class="accordion-group">
-    <div class="accordion-heading accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#search" href="#searchResults" style="display: block;">
-      <h3>
-	<a style="color: black;" href="#searchResults">
-	  ${title}
-	  <i class="icon-plus pull-right toggle-icon"></i>
-	</a>
-      </h3>
-    </div>
-    <div class="accordion-body collapse" id="searchResults">
-      <div class="accordion-inner">
-	%if not results or results['queries']['request'][0]['totalResults'] == '0':
-	<p>No search results.</p>
-	%else:
-	<ol class="unstyled">
-	  %for i in range(min(len(results['items']), 4)):
-	  <% r = results['items'][i] %>
-	  <li>
-	    <h4>
-	      <a href="${r['link']}" target="_blank">${r['title'] | n}</a>
-	    </h4>
-	    <p>${r['htmlSnippet'] | n}</p>
-	  </li>
-	  %endfor
-	</ol>
+<div class="search-results" id="search">
+  %if not results or results['queries']['request'][0]['totalResults'] == '0':
+  <p>No search results.</p>
+  %else:
+  <ol class="unstyled">
+    %for i in range(min(len(results['items']), 4)):
+    <% r = results['items'][i] %>
+    <li>
+      <h4>
+	<a href="${r['link']}" target="_blank">${r['title'] | n}</a>
+      </h4>
+      <p>${r['htmlSnippet'] | n}</p>
+    </li>
+    %endfor
+  </ol>
 <% img = ''
 if icon:
    img = '<img src="' + icon + '" valign="text-bottom" /> '
 %>
-	%if not results_link:
-	## This arm of the 'if' will *not* work with the new Google CSE API.
-	<p style="text-align:right; font-weight:bold">
-	  <a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a>
-	</p>
-	%else:
-	<% more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + "&cof=FORID:11" %>
-	<p style="text-align:right; font-weight:bold">
-	  <a target="_blank" href="${more | n}">${img}More results...</a>
-	</p>
-	%endif
-	%endif
-      </div>
-    </div>
-  </div>
+%if not results_link:
+## This arm of the 'if' will *not* work with the new Google CSE API.
+  <p style="text-align:right; font-weight:bold">
+    <a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a>
+  </p>
+  %else:
+  <% more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + "&cof=FORID:11" %>
+  <p style="text-align:right; font-weight:bold">
+    <a target="_blank" href="${more | n}">${img}More results...</a>
+  </p>
+  %endif
+  %endif
 </div>
 </%def>
 
 
 <%def name="printSEPResults()">
-<div class="accordion search-results" id="SEPSearch">
-  <div class="accordion-group">
-    <div class="accordion-heading accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#SEPSearch" href="#SEPResults" style="display: block;">
-      <h3>
-	<a style="color: black;" href="#SEPResults">
-	    SEP Internal Search
-	  <i class="icon-plus pull-right toggle-icon"></i>
-	</a>
-      </h3>
-    </div>
-    <div class="accordion-body collapse" id="SEPResults">
-      <div class="accordion-inner">
-	%if not c.sep:
-	<p>Error loading results.</p>
-	%elif len(c.sep) == 0:
-	<p>No search results.</p>
-	%else:
-	<ol class="unstyled">
-	  %for item in c.sep[:4]:
-	  <li>
-	    <h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
-	    <p>${item['LongDescription'] | n}</p>
-	  </li>
-	  %endfor
-	</ol>
-	<p style="text-align:right; font-weight:bold"><a target="_blank" href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
-	%endif
-      </div>
-    </div>
-  </div>
+<div class="search-results" id="SEPSearch">
+  %if not c.sep:
+  <p>Error loading results.</p>
+  %elif len(c.sep) == 0:
+  <p>No search results.</p>
+  %else:
+  <ol class="unstyled">
+    %for item in c.sep[:4]:
+    <li>
+      <h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
+      <p>${item['LongDescription'] | n}</p>
+    </li>
+    %endfor
+  </ol>
+  <p style="text-align:right; font-weight:bold"><a target="_blank" href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
+  %endif
 </div>
 </%def>
 
 <%def name="printBingResults()">
-<div class="accordion search-results" id="bingSearch">
-  <div class="accordion-group">
-    <div class="accordion-heading accordion-toggle" onClick="toggleIcon(this)" data-toggle="collapse" data-parent="#bingSearch" href="#bingResults" style="display: block;">
-      <h3>
-	<a style="color: black;" href="#bingResults">
-	  Bing Web Search
-	  <i class="icon-plus pull-right toggle-icon"></i>
-	</a>
-      </h3>
-    </div>
-    <div class="accordion-body collapse" id="bingResults">
-      <div class="accordion-inner">
-	%if not c.sep:
-	<p>Error loading results.</p>
-	%elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
-	<p>No search results.</p>
-	%else:
-	<ol class="unstyled">
-	  %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
-	  <li>
-	    <h4>
-	      <a href="${item['Url']}" target="_blank">${item['Title'] | n}</a>
-	    </h4>
-	    <p>${item['Description'] | n}</p>
-	  </li>
-	  %endfor
-	</ol>
-	<p style="text-align:right; font-weight:bold">
-	  <a target="_blank" href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a>
-	</p>
-	%endif
-      </div>
-    </div>
-  </div>
+<div class="search-results" id="bingSearch">
+  %if not c.sep:
+  <p>Error loading results.</p>
+  %elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
+  <p>No search results.</p>
+  %else:
+  <ol class="unstyled">
+    %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
+    <li>
+      <h4>
+	<a href="${item['Url']}" target="_blank">${item['Title'] | n}</a>
+      </h4>
+      <p>${item['Description'] | n}</p>
+    </li>
+    %endfor
+  </ol>
+  <p style="text-align:right; font-weight:bold">
+    <a target="_blank" href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a>
+  </p>
+  %endif
 </div>
 </%def>
-
-<script>
-  $(".collapse").collapse({
-  toggle: false
-  });
-</script>
 
 

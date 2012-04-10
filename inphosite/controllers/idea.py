@@ -122,8 +122,15 @@ class IdeaController(EntityController):
         property = getattr(c.idea, property)
         if sep_filter:
             property = property.filter(Entity.sep_dir != '')
-
-        c.total = property.count()
+        
+        # TODO: Fix hacky workaround for the AppenderQuery vs. Relationship
+        # property issue - upgrading SQLAlchemy may fix this by allowing us to
+        # use len() in a smart way.
+        try:
+            c.total = property.count()
+        except TypeError:
+            c.total = len(property)
+            
          
         if limit:
             property = property[start:start+limit]

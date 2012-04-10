@@ -43,6 +43,10 @@ body {
 
 
 /* TERM LIST STYLES */
+.terms {
+    float: left;    
+    margin-right: 70px;
+}
 .terms li {
     padding-left: 2em;
     text-indent: -2em;

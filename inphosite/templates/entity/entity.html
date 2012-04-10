@@ -16,7 +16,7 @@ ${parent.draw()}</%def>
 <%def name="printList(attr, alt_title='', limit=10)">
 %if getattr(c.entity, attr)[:limit]:
 <% title = alt_title if alt_title else h.titlecase(attr.replace('_', ' ')) %>
-<div class="terms" id="${attr}" data-source="/idea/${c.entity.ID}/${attr}.json">
+<div class="terms span3" id="${attr}" data-source="/idea/${c.entity.ID}/${attr}.json">
 <h3>${title}</h3>
 <ol class="unstyled">
 %for idea in getattr(c.entity, attr)[:limit]:

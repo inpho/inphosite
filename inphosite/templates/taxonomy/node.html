@@ -31,13 +31,13 @@ $('#tabnav').tab();
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
       <ol class="thumbnails unstyled">
-	<li>${entity.printList('instances')}</li>
+	<li class="span3" style="margin-right: 70px;">${entity.printList('instances')}</li>
         ##${entity.printList('children', 'Subclasses')}  
-	<li>${entity.printList('links')}</li>
-        <li>${entity.printList('related', 'Related Terms')}</li>
-        <li>${entity.printList('related_thinkers')}</li>
-        <li>${entity.printList('hyponyms')}</li>
-        <li>${entity.printList('occurrences')}</li>
+	<li class="span3" style="margin-right: 70px;">${entity.printList('links')}</li>
+        <li class="span3" style="margin-right: 70px;">${entity.printList('related', 'Related Terms')}</li>
+        <li class="span3" style="margin-right: 70px;">${entity.printList('related_thinkers')}</li>
+        <li class="span3" style="margin-right: 70px;">${entity.printList('hyponyms')}</li>
+        <li class="span3" style="margin-right: 70px;">${entity.printList('occurrences')}</li>
       </ol>
     </div>
 ## If user is authorised, show admin panel

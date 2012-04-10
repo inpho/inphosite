@@ -40,3 +40,10 @@ body {
 .search-results .accordion-heading {
     padding: 12px;
 }
+
+
+/* TERM LIST STYLES */
+.terms li {
+    padding-left: 2em;
+    text-indent: -2em;
+    }

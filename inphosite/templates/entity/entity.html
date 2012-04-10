@@ -16,17 +16,17 @@ ${parent.draw()}</%def>
 <%def name="printList(attr, alt_title='', limit=10)">
 %if getattr(c.entity, attr)[:limit]:
 <% title = alt_title if alt_title else h.titlecase(attr.replace('_', ' ')) %>
-<div id="${attr}" data-source="/idea/${c.entity.ID}/${attr}.json">
-  <h3>${title}</h3>
-  <ol class="unstyled">
-    %for idea in getattr(c.entity, attr)[:limit]:
-    <li><a onClick="inpho.tabnav.appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label)}', '/idea/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab">${h.titlecase(idea.label)}</a></li>
-    %endfor
-    ## TODO: Investigate this to make dynamically loaded queries use "len"
-    %if len(getattr(c.entity, attr)[:]) > limit:
-    <li class="more"><a onClick="inpho.entity.showMore('${attr}', ${c.entity.ID}, ${limit}, ${limit})">Show more&#133; (${len(getattr(c.entity, attr)[:]) - limit})</a></li>
-    %endif
-  </ol>
+<div class="terms" id="${attr}" data-source="/idea/${c.entity.ID}/${attr}.json">
+<h3>${title}</h3>
+<ol class="unstyled">
+%for idea in getattr(c.entity, attr)[:limit]:
+<li><a onClick="inpho.tabnav.appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label)}', '/idea/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab">${h.titlecase(idea.label)}</a></li>
+%endfor
+## TODO: Investigate this to make dynamically loaded queries use "len"
+%if len(getattr(c.entity, attr)[:]) > limit:
+<li class="more"><a onClick="inpho.entity.showMore('${attr}', ${c.entity.ID}, ${limit}, ${limit})">Show more&#133; (${len(getattr(c.entity, attr)[:]) - limit})</a></li>
+%endif
+</ol>
 </div> <!-- ${attr} -->
 %endif
 </%def>

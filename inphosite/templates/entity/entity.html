@@ -23,7 +23,7 @@ ${parent.draw()}</%def>
 %endfor
 ## TODO: Investigate this to make dynamically loaded queries use "len"
 %if len(getattr(c.entity, attr)[:]) > limit:
-<li class="more"><a onClick="inpho.entity.showMore('${attr}', ${c.entity.ID}, ${limit}, ${limit})">Show more&#133;</a></li>
+<li class="more"><a onClick="inpho.entity.showMore('${attr}', ${c.entity.ID}, ${limit}, ${limit})">Show more&#133; (${len(getattr(c.entity, attr)[:]) - limit})</a></li>
 %endif
 </ol>
 </div> <!-- ${attr} -->

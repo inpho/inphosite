@@ -20,6 +20,7 @@ inpho.entity.showMore = function (attr, id, n, start) {
         if (data.responseData.total > (start + n)) {
             var onClick =  "inpho.entity.showMore('"+attr+"', " + id + ", " + n + ", " + (start + n) + ")";
             $('#' + attr + ' ol .more a').attr('onClick', onClick);
+            $('#' + attr + ' ol .more a').text('Show more… (' + (data.responseData.total - start - n) + ')');
         } else {
             $('#' + attr + ' ol .more').remove();
         }

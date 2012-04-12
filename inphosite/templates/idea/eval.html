@@ -6,7 +6,7 @@
       <input type="hidden" name="ante_id" value="${c.entity.ID}" />
       ${c.entity.label}
 
-      <select class="span2">
+      <select class="span2" id="relatednessSelect">
         <option disabled ${'selected' if c.relatedness == -1 else ''}>is &#133; to</option>
         <option value="0" ${'selected' if c.relatedness == 0 else ''}>is unrelated to</option>
         <option value="1" ${'selected' if c.relatedness == 1 else ''}>is marginally related to</option>
@@ -17,7 +17,7 @@
 
       and
 
-      <select class="span2">
+      <select class="span2" id="generalitySelect">
         <option disabled ${'selected' if c.generality == -1 else ''}>is &#133; to</option>
         <option value="0" ${'selected' if c.generality == 0 else ''}>is more specific than</option>
         <option value="1" ${'selected' if c.generality == 1 else ''}>is more general than</option>

@@ -7,7 +7,8 @@ ${parent.sidebar()}
 ${parent.draw()}</%def>
 <div class="yui-gd">
   <div id="content">
-    <h2>Publications</h2>
+    <h2>Papers</h2>
+    <hr />
 
     <%
        publications = c.papers['publications']
@@ -20,6 +21,7 @@ ${parent.draw()}</%def>
        publicationTitle = publication['title']
        publicationDate = publication['publication_date']
        publicationFulltext = publication['fulltext']
+       publicationSummary = publication['summary']
     %>
     <div class="accordion" id="${publicationId}">
       <div class="accordion-group" style="border: none;">
@@ -34,7 +36,9 @@ ${parent.draw()}</%def>
 	    </span>
 	  </h3>
 	  <p class="summary">
-	    <strong>${publicationDate}</strong> &mdash; ${publication['summary']} 
+	    %if publicationSummary:
+	    <strong>${publicationDate}</strong> &mdash; ${publicationSummary}
+	    %endif
 	    <br />
 	    <a class="accordion-toggle" data-toggle="collapse" onClick="toggleAbstract($(this).attr('data-parent'))" data-parent="#${publicationId}" href="#${publication['id']}Abstract" style="display: inline;">
 	      <strong>&laquo;show abstract&raquo;</strong>
@@ -55,15 +59,24 @@ ${parent.draw()}</%def>
     </div>
     %endfor
 
-    <h2>Articles</h2>
-    <div class="article" id="APA2007">
-      <h3>InPhO: The Indiana Philosophy Ontology</h3>
+    <div id="APA2007">
+      <h3>
+	InPhO: The Indiana Philosophy Ontology
+	<span class="fullpaper" style="float:right;">
+	  <a href="http://www.apaonline.org/documents/publications/v07n1_Computers.pdf"> 
+	    Full paper 
+	    <img src="/img/pdf_icon.gif"/>
+	  </a>
+	</span>
+      </h3>
       <p class="citation">Cameron Buckner, Mathias Niepert, Colin Allen. <em>InPhO: The Indiana Philosophy Ontology</em>.
 	APA Newsletter on Philosophy and Computers, Volume 7, Number 1, pages 26-28, 2007.
-	[<a href="http://www.apaonline.org/documents/publications/v07n1_Computers.pdf">article</a>]</p> 
+	[<a href="http://www.apaonline.org/documents/publications/v07n1_Computers.pdf">full paper</a>]</p> 
     </div>
   </div>
 </div>
+
+<br />
 
 <script>
   $(".collapse").collapse({

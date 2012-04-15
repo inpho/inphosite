@@ -1,12 +1,13 @@
 <div class="alert alert-block alert-info" id="i${c.entity2.ID}-eval">
   <a class="close" data-dismiss="alert">×</a>
   <h4 class="alert-heading">Help improve the InPhO!</h4>
+  <br />
   <form class="form-inline eval">
     <fieldset>
       <input type="hidden" name="ante_id" value="${c.entity.ID}" />
       ${c.entity.label}
 
-      <select class="span2">
+      <select class="span2" id="relatednessSelect">
         <option disabled ${'selected' if c.relatedness == -1 else ''}>is &#133; to</option>
         <option value="0" ${'selected' if c.relatedness == 0 else ''}>is unrelated to</option>
         <option value="1" ${'selected' if c.relatedness == 1 else ''}>is marginally related to</option>
@@ -17,7 +18,7 @@
 
       and
 
-      <select class="span2">
+      <select class="span2" id="generalitySelect">
         <option disabled ${'selected' if c.generality == -1 else ''}>is &#133; to</option>
         <option value="0" ${'selected' if c.generality == 0 else ''}>is more specific than</option>
         <option value="1" ${'selected' if c.generality == 1 else ''}>is more general than</option>
@@ -27,8 +28,8 @@
       <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
       ${c.entity2.label}
     </fieldset>
-    <fieldset>
-      <button type="submit" class="btn" onClick="submitEvaluation('i${c.entity2.ID}-eval)'">Submit</button>
-    </fieldset>
+    <hr />
+    <button type="submit" class="btn btn-primary" onClick="submitEvaluation('i${c.entity2.ID}-eval)'">Submit</button>
+    <button type="reset" class="btn">Reset</button>
   </form>
 </div>

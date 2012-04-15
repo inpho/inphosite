@@ -85,12 +85,16 @@ inpho.eval.updateForm = function(elm, val, hide, idea, submitOnStop) {
 };
 
 inpho.eval.thisFunc = function(elm, changed) {
+    // antecedent term
     var id   = $("> [name='ante_id']", elm).val();
+    // consequent term
     var id2  = $("> [name='cons_id']", elm).val();
-    var flag = $("> [name='flag']", elm).val();
+    // loading image
     var img  = $("> .loading", elm.parent());
-    var generality  = $("> div input[name='generality']:checked", elm).val();
-    var relatedness = $("> input[name='relatedness']", elm).val();
+    // submitted generality value
+    var generality  = $("#generalitySelect", elm).val();
+    // submitted relatedness value
+    var relatedness = $("#relatednessSelect", elm).val();
     if (id == null || id2 == null) {
         return false;    
     }

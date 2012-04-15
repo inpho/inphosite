@@ -38,9 +38,9 @@ ${parent.draw()}</%def>
 	  <p class="summary">
 	    %if publicationSummary:
 	    <strong>${publicationDate}</strong> &mdash; ${publicationSummary}
-	    %endif
 	    <br />
-	    <a class="accordion-toggle" data-toggle="collapse" onClick="toggleAbstract($(this).attr('data-parent'))" data-parent="#${publicationId}" href="#${publication['id']}Abstract" style="display: inline;">
+	    %endif
+	    <a class="toggle-abstract accordion-toggle" data-toggle="collapse" onClick="toggleAbstract($(this).attr('data-parent'))" data-parent="#${publicationId}" href="#${publication['id']}Abstract" style="display: inline;">
 	      <strong>&laquo;show abstract&raquo;</strong>
 	    </a> 
 	  </p>

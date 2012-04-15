@@ -33,6 +33,10 @@ body {
     margin-bottom: 0;
     }
 
+.toggle-abstract {
+    padding: 0px !important;
+}
+
 .search-results .accordion-toggle {
     color: #000000;
     display: inline;

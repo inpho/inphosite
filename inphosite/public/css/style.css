@@ -2,6 +2,10 @@ body {
     padding-top: 60px;
     }
 
+.footer {
+    padding-top: 50px;    
+    padding-bottom: 100px;
+}
 #logo-container {
     width: 940px; margin:0 auto; zoom: 1; z-index: -1;
 }

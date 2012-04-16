@@ -6,12 +6,15 @@ body {
     padding-top: 50px;    
     padding-bottom: 100px;
 }
+.brand {
+    margin-left: -10px !important;    
+}
 #logo-container {
     width: 940px; margin:0 auto; zoom: 1; z-index: -1;
 }
 #logo {
         /* float: left; */
-        position: fixed;
+        position: absolute;
         top: 0;
         margin-top: 0px;
         z-index: 100000;

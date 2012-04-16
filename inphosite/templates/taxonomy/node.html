@@ -22,9 +22,9 @@ $('#tabnav').tab();
 %endif
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
-    <li class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
+    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
     %if h.auth.is_admin():
-    <li><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin</a></li>
+    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin</a></li>
     %endif
 </ul>
 

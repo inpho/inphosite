@@ -44,7 +44,7 @@ YAHOO.example.RemoteCustomRequest = function() {
     oAC.itemSelectEvent.subscribe(function(sType, aArgs) { 
         var oData = aArgs[2]; // object literal of selected item's result data 
         // Redirect to the entity 
-        var thisurl = "http://" + window.location.host + oData.url;
+        var thisurl = "https://" + window.location.host + oData.url;
         window.location = thisurl; 
     });
     oAC.resultTypeList = false; 

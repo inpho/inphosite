@@ -218,6 +218,7 @@ class EntityController(BaseController):
 
         # Get results and parse the XML
         results = multi_get([url])[0][1]
+        json = None
         if results:
             tree = ET.ElementTree(ET.fromstring(results))
             root = tree.getroot()

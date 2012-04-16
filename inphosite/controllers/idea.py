@@ -276,22 +276,29 @@ class IdeaController(EntityController):
     def evaluation(self, id, id2):
         c.entity = h.fetch_obj(Idea, id)
         c.entity2 = h.fetch_obj(Idea, id2)
-       
+
+        c.edit = True
         # retrieve evaluation for pair
-        identity = request.environ.get('repoze.who.identity')
-        if identity:
-            c.uid = identity['user'].ID
+        c.identity = request.environ.get('repoze.who.identity')
+        if c.identity:
+            c.uid = c.identity['user'].ID
 
             eval_q = Session.query(IdeaEvaluation.generality, 
                                    IdeaEvaluation.relatedness)
             eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
 
             # use the user's evaluation if present, otherwise a null eval
-            c.generality, c.relatedness = eval_q.first() or (-1, -1)
+            c.generality, c.relatedness = eval_q.first() or\
+                (request.params.get('generality', -1), 
+                 request.params.get('relatedness', -1))
 
         else:
             c.uid = None
-            c.generality, c.relatedness = (-1, -1)
+            c.generality = int(request.params.get('generality', -1))
+            c.relatedness = int(request.params.get('relatedness', -1))
+
+        if c.generality != -1 and c.relatedness != -1:
+            c.edit = request.params.get('edit', False)
 
         return render('idea/eval.html')
 

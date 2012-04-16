@@ -271,11 +271,18 @@ class IdeaController(EntityController):
         evaluation = self.evaluation(id, id2)
         search = self.search(id, id2)
 
+        # just in case evaluation gave a 501
+        response.status_int = 200
         return evaluation + search
 
     def evaluation(self, id, id2):
         c.entity = h.fetch_obj(Idea, id)
-        c.entity2 = h.fetch_obj(Idea, id2)
+        c.entity2 = h.fetch_obj(Entity, id2)
+        if not isinstance(c.entity2, Idea):
+            # no evaluation implemented
+            response.status_int = 501
+
+            return ''
 
         c.edit = True
         # retrieve evaluation for pair

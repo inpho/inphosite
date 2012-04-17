@@ -66,7 +66,7 @@ function toggleIcon(selector) {
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
 <div class="search-results" id="search">
-  %if not results or results['queries']['request'][0]['totalResults'] == '0':
+  %if not results or results['searchInformation']['totalResults'] == '0':
   <p>No search results.</p>
   %else:
   <ol class="unstyled">

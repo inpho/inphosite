@@ -77,3 +77,13 @@ inpho.eval.get_thanks_form = function(elt) {
         $(elt).prepend(data);
     });
 };
+
+inpho.eval.validate = function(elt) {
+    if ($(elt + " #relatednessSelect").val() == '0' ||
+        $(elt + " #relatednessSelect").val() == '-1') {
+        $(elt + " #generalitySelect").val('-1');
+        $(elt + " #generalitySelect").attr('disabled', 'disabled');
+    } else {
+        $(elt + " #generalitySelect").attr('disabled', false);
+    }
+}

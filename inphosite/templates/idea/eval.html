@@ -7,9 +7,9 @@
     <fieldset>
       <input type="hidden" name="ante_id" value="${c.entity.ID}" />
       <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
-      <strong>Complete the sentences:</strong>
+      <strong>Complete the sentence:</strong>
         ${h.titlecase(c.entity.label)}
-        <select class="span2" id="relatednessSelect">
+        <select class="span2" id="relatednessSelect" onchange="inpho.eval.validate('#i${c.entity2.ID}')">
           <option value="-1" disabled ${'selected' if c.relatedness == -1 else ''}>is &#133; to</option>
           <option value="0" ${'selected' if c.relatedness == 0 else ''}>is unrelated to</option>
           <option value="1" ${'selected' if c.relatedness == 1 else ''}>is marginally related to</option>
@@ -19,7 +19,7 @@
         </select>
       <nobr>
         and
-        <select class="span2" id="generalitySelect">
+        <select class="span2" id="generalitySelect" disabled>
           <option value="-1" disabled ${'selected' if c.generality == -1 else ''}>is &#133; to</option>
           <option value="0" ${'selected' if c.generality == 0 else ''}>is more specific than</option>
           <option value="1" ${'selected' if c.generality == 1 else ''}>is more general than</option>

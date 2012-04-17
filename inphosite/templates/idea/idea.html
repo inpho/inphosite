@@ -81,10 +81,10 @@ if c.entity.instance_of:
 
 ##${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
 ##${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
-${entity.printList('related', 'Related Terms')}
-${entity.printList('related_thinkers')}
-${entity.printList('hyponyms')}
-${entity.printList('occurrences')}
+${entity.printList('related', 'Related Terms', statistical=True)}
+${entity.printList('related_thinkers', statistical=True)}
+${entity.printList('hyponyms', statistical=True)}
+${entity.printList('occurrences', statistical=True)}
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

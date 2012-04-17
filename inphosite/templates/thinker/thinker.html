@@ -71,8 +71,8 @@
       ${entity.printList('influenced_by')}
       ${entity.printList('students')}
       ${entity.printList('teachers')}
-      ${entity.printList('related', 'Related Thinkers')}
-      ${entity.printList('related_ideas', 'Related Terms')}
+      ${entity.printList('related', 'Related Thinkers', statistical=True)}
+      ${entity.printList('related_ideas', 'Related Terms', statistical=True)}
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

@@ -33,10 +33,10 @@ $('#tabnav').tab();
     	${entity.printList('instances')}
         ##${entity.printList('children', 'Subclasses')}  
     	${entity.printList('links')}
-        ${entity.printList('related', 'Related Terms')}</li>
-        ${entity.printList('related_thinkers')}
-        ${entity.printList('hyponyms')}
-        ${entity.printList('occurrences')}
+        ${entity.printList('related', 'Related Terms', statistical=True)}
+        ${entity.printList('related_thinkers', statistical=True)}
+        ${entity.printList('hyponyms', statistical=True)}
+        ${entity.printList('occurrences', statistical=True)}
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

@@ -27,7 +27,7 @@ ${parent.draw()}</%def>
 function srch(id) {
     var src  = '/entity/' + id + '/search';
     $.get(src, function(data){
-          $("#home").html(data);
+          $("#searches").html(data);
         });
 }
 $(document).ready(function () {
@@ -35,13 +35,6 @@ $(document).ready(function () {
     $('#tabnav').tab();
 });
 </script>
-
-%if c.entity.last_accessed < 2419200: 
-<div class="alert-message warning">
-  <a class="close" href="#">×</a>
-    <p><strong>Broken Journal URL!</strong> Journal URL unreachable since ${c.entity.last_accessed_str}</p>
-</div>
-%endif
 
 <h1>${c.entity.label}</h1>
 
@@ -54,7 +47,52 @@ $(document).ready(function () {
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
-    <p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>
+      %if h.auth.is_admin() and c.entity.URL and c.entity.last_accessed < 2419200: 
+      <div class="alert-message alert-warning">
+        <a class="close" href="#">×</a>
+        <strong>Broken Journal URL!</strong> Journal URL unreachable since ${c.entity.last_accessed_str}
+      </div>
+      %endif
+
+
+ <dl class="dl-horizontal">
+    %if c.entity.URL:
+    <dt>Web Site</dt>
+    <dd><a href="${c.entity.URL}">${c.entity.label}</a></dd>
+    %endif
+
+    %if c.entity.language:
+    <dt>Language:</dt>
+    <dd>${c.entity.language}</dd>
+    %endif
+
+    %if c.entity.ISSN:
+    <dt>ISSN:</dt>
+    <dd>${c.entity.ISSN}</dd>
+    %endif
+    
+    %if c.entity.abbrs:
+    <dt>Abbreviations:</dt>
+    %for abbr in c.entity.abbrs:
+    <dd>${abbr}</dd>
+    %endfor
+    %endif
+    
+    %if c.entity.openAccess or c.entity.student or not c.entity.active:
+    <dt>Extra:</dt>
+    %if c.entity.openAccess:
+    <dd>Open Access</dd>
+    %endif
+    %if c.entity.student:
+    <dd>Student Journal</dd>
+    %endif
+    %if not c.entity.active:
+    <dd>Inactive</dd>
+    %endif
+    %endif
+  </dl>
+
+      <div id="searches">Loading search results ...<img src='/img/loading.gif' /></div>
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

@@ -60,6 +60,12 @@
         <li><a href="/papers/">Papers</a></li>
 
         <li class="divider-vertical"></li>
+        
+        %if h.auth.is_admin():
+        <li><a href="/admin">Admin</a></li>
+        
+        <li class="divider-vertical"></li>
+        %endif
 
         % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
         <li><a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a></li>

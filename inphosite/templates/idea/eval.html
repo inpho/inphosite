@@ -18,7 +18,7 @@
           <option value="4" ${'selected' if c.relatedness == 4 else ''}>is highly related to</option>
         </select>
       <nobr>
-        and
+        <span class="and">and</span>
         <select class="span2" id="generalitySelect" disabled>
           <option value="-1" disabled ${'selected' if c.generality == -1 else ''}>is &#133; to</option>
           <option value="0" ${'selected' if c.generality == 0 else ''}>is more specific than</option>

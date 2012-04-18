@@ -45,6 +45,10 @@ inpho.eval.reset = function(elt) {
     // submitted relatedness value
     $(formElm + " #relatednessSelect").val('-1');
     
+    $(elt + " #generalitySelect").attr('disabled', 'disabled');
+    $(elt + " .and").show();
+    $(elt + " #generalitySelect").show();
+    
     inpho.eval.submit(elt);
 };
 
@@ -85,5 +89,14 @@ inpho.eval.validate = function(elt) {
         $(elt + " #generalitySelect").attr('disabled', 'disabled');
     } else {
         $(elt + " #generalitySelect").attr('disabled', false);
+    }
+    
+    if ($(elt + " #relatednessSelect").val() == '0') {
+        $(elt + " #generalitySelect").hide();
+        $(elt + " .and").hide();
+    } else {
+        $(elt + " #generalitySelect").show();
+        $(elt + " .and").show();
+        
     }
 }

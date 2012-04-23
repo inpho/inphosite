@@ -23,7 +23,8 @@ var autocomplete = $('#q').typeahead()
                 self.data('active', true);
 
                 //Do data request. Insert your own API logic here.
-                $.getJSON("http://localhost:8088/entity.json",{
+                var url = window.location.protocol + "//" + window.location.host + "/entity.json";
+                $.getJSON(url,{
                     q: $(this).val()
                 }, function(data) {
 

@@ -3,7 +3,7 @@
 // The following will allow remote autocompletes *without* modifying any officially released core code. 
 // If others find ways to improve this, please share.
 
-var autocomplete = $('#q').typeahead()
+var autocomplete = $('#q').typeahead({sorter: function(items) { return items; }})
     .on('keyup', function(ev){
 
         ev.stopPropagation();

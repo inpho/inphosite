@@ -63,7 +63,6 @@ class EntityController(BaseController):
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
-        entity_q = entity_q.limit(request.params.get('limit', None))
         #TODO: Remove the following line when Nodes are eliminated
         entity_q = entity_q.filter(Entity.typeID != 2)
         
@@ -71,6 +70,8 @@ class EntityController(BaseController):
         c.nodes = c.nodes.order_by("name").all()
 
         c.query = request.params.get('q', '')
+        c.query = c.query.strip()
+
         c.sep = request.params.get('sep', '')
 
         if request.params.get('sep_filter', False):
@@ -83,10 +84,13 @@ class EntityController(BaseController):
             o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
         
+        # limit must be the last thing applied to the query
+        entity_q = entity_q.limit(request.params.get('limit', None))
+        c.entities = entity_q.all()
+        
         if filetype=='json':
             response.content_type = 'application/json'
-        
-        c.entities = entity_q.all()
+       
         if request.params.get('redirect', False) and len(c.entities) == 1: 
             h.redirect(h.url(controller=self._controller, action='view', 
                              filetype=filetype, id=c.entities[0].ID), 

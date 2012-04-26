@@ -51,36 +51,27 @@
 <div class="navbar navbar-fixed-top" id="header">
   <div class="navbar-inner">
     <div class="container">
+      <ul class="nav">
+          <li><a class="brand" href="/">InPhO</a></li>
+      </ul>
       <ul class="nav pull-right" style="margin-left: 300px;">
-        <li>
-	  <a href="/about/">
-	    About
-	  </a>
-	</li>
-        <li>
-	  <a href="/docs/">
-	    API
-	  </a>
-	</li>
-        <li>
-	  <a href="/papers/">
-	    Papers
-	  </a>
-	</li>
-        <li class="divider-vertical">
-	</li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/docs/">API</a></li>
+        <li><a href="/papers/">Papers</a></li>
+
+        <li class="divider-vertical"></li>
+        
+        %if h.auth.is_admin():
+        <li><a href="/admin">Admin</a></li>
+        
+        <li class="divider-vertical"></li>
+        %endif
+
         % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
-        <li>
-	  <a href="${h.url(controller='account', action='profile')}">
-	    ${h.auth.username(request)}
-	  </a>
-	</li>
+        <li><a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a></li>
         %else:
-        <li>
-	  <a href="${h.url('signin')}">
-	    Sign In
-	  </a>
-	</li>
+        <li><a href="${h.url('register')}">Register</a></li>
+        <li><a href="${h.url('signin')}">Sign In</a></li>
         %endif
       </ul> 
     </div>
@@ -88,9 +79,7 @@
 </div>
 <div id="logo-container">
   <div id="logo">
-    <a href="/">
-      <img src="/img/logo.gif">
-    </a>
+    <a href="/"><img src="/img/logo.gif"></a>
   </div>
 </div>
 </%def>

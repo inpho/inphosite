@@ -41,5 +41,6 @@ inpho.tabnav.switchTab = function(tabNav, id) {
     $('#'+id+'-tab').addClass('active');
     $('#'+tabNav+'-content .active').removeClass('active');
     $('#'+id).addClass('active');
+    window.scrollTo(0, 0);
 }
 

@@ -1,7 +1,5 @@
 <%
-a = {'responseData' : {'result' : c.thinker.json_struct(c.sep_filter)},
+a = {'responseData' : {'result' : c.entity.json_struct(c.sep_filter)},
     'responseStatus' : 200,
     'responseDetails' : None}
-%>
-
-${h.json(a) | n}
+%>${h.json(a) | n}

@@ -4,28 +4,6 @@
 <p>Search for <em>${c.entity2.label}</em> in the context of <em>${c.entity.label}</em>:</p>
 %endif
 
-<script type="text/javascript">
-  function toggleList(selector) {
-  if ($('.on', selector).length > 0) {
-    $('.on', selector).removeClass('on').addClass('off');
-  } else {
-    $('.off', selector).removeClass('off').addClass('on');
-  }
-    $('ol', selector).toggle("slow");
-    $('p', selector).toggle("slow");
-  }
-function toggleIcon(selector) {
-    var icon = $('.toggle-icon', selector);
-    if (icon.hasClass('icon-plus')) {
-        icon.removeClass('icon-plus');
-        icon.addClass('icon-minus');
-    } else {
-        icon.removeClass('icon-minus');
-        icon.addClass('icon-plus');
-    }
-}
-</script>
-
 <script>
 
   $(function () {

@@ -27,7 +27,7 @@ inpho.admin.submit_field = function(attr, url) {
   if (attr == "URL") {
       if (value && (value.substring(0, 4) != "http"))
         value = "http://" + value;
-      var value = attr + "=" + encodeURIComponent(value);
+      var value = encodeURIComponent(value);
   }
   else if (attr == "active" || attr == "openAccess" || attr == "student") {
       if (document.getElementById(attr).checked)

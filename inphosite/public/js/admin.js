@@ -3,16 +3,14 @@ inpho = inpho || {};
 inpho.admin = inpho.admin || {};
 
 inpho.admin.process_text = function(e, attr, url) {
-    if ((e.keyCode == 13) || (e.keyCode == 9)) // Enter and Tab support
+    if ((e.keyCode == 13) || (e.keyCode == 9)) { // Enter and Tab support
         return inpho.admin.submit_field(attr, url);
+    }
     if (e.keyCode == 27) { // Escape 
         return inpho.admin.reset_field(attr, url, 400);
     }
-    if (attr == "URL")
-        return inpho.admin.toggle_test_url(attr);
 }
 
-spid=100;
 inpho.admin.submit_field = function(attr, url) {
   var value = document.getElementById(attr).value;
   if (attr == "URL") {
@@ -35,24 +33,40 @@ inpho.admin.submit_field = function(attr, url) {
   if (attr != "active" && attr != "openAccess" && attr != "student") {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            inpho.admin.reset_field(attr, url, xhr.status);
-            if (attr == "searchpattern") {
-                spid = spid + 1;
-                var attr_text = attr + "_text";
-                var new_entry = '<li class="idea" id="searchpattern'+spid+'"><span id="searchpattern'+spid+'_edit" class="sep" onclick="inpho.admin.removesp(\'searchpattern'+spid+'\',\''+url+'\')"><img src="/img/delete.png" width=18 height=18 /></span><span id="searchpattern'+spid+'_field"></span></li>';
-                var val = value.split('=')[1]
+            if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries") {
+                var val = value;
                 val = val.replace("<", "&lt;")
                 val = val.replace(">", "&gt;")
-                $('#new_searchpattern').before(new_entry);
-                $("#searchpattern"+spid+"_field").html(val);
+                var new_entry = '<label class="input-large">' + val +
+                    '<i class="pull-right icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i></label>';
+                $('#searchpatterns').before(new_entry);
+                $('#searchpatterns').val('');
             }
         }
       }
   }
   xhr.open('PUT', url, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send(attr + "=" + value);
+  if (attr == "searchpatterns")
+    xhr.send("pattern=" + value);
+  else
+    xhr.send(attr + "=" + value);
 }
+
+inpho.admin.remove = function(elt, attr, url) {   
+  var value = "?pattern=" + encodeURIComponent($(elt).text());
+  url = url + value
+  var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            $(elt).remove();
+        }
+      }
+  xhr.open('DELETE', url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send(); 
+}
+
 
 // The reset function does the following:
 // 1.) The text input box should go back to a static field displaying either 

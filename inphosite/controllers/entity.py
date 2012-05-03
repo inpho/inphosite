@@ -308,7 +308,7 @@ class EntityController(BaseController):
             c.entity2 = h.fetch_obj(Entity, new_id=True)
             redirect(c.entity.url(filetype, action="graph"), code=303)
 
-    def _delete_search_pattern(self, id):
+    def _delete_searchpatterns(self, id):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
 
         # add a new search pattern
@@ -323,12 +323,12 @@ class EntityController(BaseController):
 
         return "OK"
 
-    @dispatch_on(DELETE='_delete_search_pattern')
-    def searchpattern(self, id):
+    @dispatch_on(DELETE='_delete_searchpatterns')
+    def searchpatterns(self, id):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
 
         # add a new search pattern
-        pattern = request.params.get('searchpattern', None)
+        pattern = request.params.get('pattern', None)
         if pattern is None:
             abort(400)
         

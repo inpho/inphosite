@@ -141,3 +141,64 @@ class JournalController(EntityController):
                                                  action='view', id=journal.ID)
         return "Moved temporarily"
     
+    def _delete_abbrs(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+
+        if pattern in c.entity.abbrs:
+            c.entity.abbrs.remove(pattern)
+
+            Session.commit()
+
+        return "OK"
+
+    @dispatch_on(DELETE='_delete_abbrs')
+    def abbrs(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+        
+        if pattern not in c.entity.abbrs:
+            c.entity.abbrs.append(unicode(pattern))
+
+            Session.commit()
+
+        return "OK"
+    
+    def _delete_queries(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+
+        if pattern in c.entity.queries:
+            c.entity.queries.remove(pattern)
+
+            Session.commit()
+
+        return "OK"
+
+    @dispatch_on(DELETE='_delete_queries')
+    def queries(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+        
+        if pattern not in c.entity.queries:
+            c.entity.queries.append(unicode(pattern))
+
+            Session.commit()
+
+        return "OK"

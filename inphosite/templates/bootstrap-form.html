@@ -44,9 +44,9 @@
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       %for value in values:
-      <label class="input-large">${value}<i class="pull-right icon-remove"></i></label>
+      <label class="input-large">${value}<i class="pull-right icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')"></i></label>
       %endfor
-      <input type="text" id="{attr}" name="${attr}" placeholder="Add new ${attr}&#133;" />
+      <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onblur="return inpho.admin.process_text(this, '${attr}', '${url}')"/>
     </div>
 </div>
 </%def>

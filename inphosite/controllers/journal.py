@@ -76,8 +76,8 @@ class JournalController(EntityController):
                 journal.URL = unquote(URL)
             journal.check_url()
             Session.commit()
-        else:
-            super(JournalController, self).update(id, terms)
+        
+        super(JournalController, self).update(id, terms)
 
     @restrict('GET')
     def url(self, id=None, url=None):

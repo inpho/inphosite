@@ -1,8 +1,19 @@
-<%def name="textbox(attr, value='')">
+<%def name="textbox(attr, url, value='')">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
-      <input type="text" name="${attr}" value="${value}" />
+      <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+    </div>
+</div>
+</%def>
+
+<%def name="url_textbox(attr, url, value='', search='')">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+      <a class="btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
+      <a class="btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
     </div>
 </div>
 </%def>
@@ -11,19 +22,31 @@
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
-      <input type="text" name="${attr}" value="${value}" disabled />
+      ${value}
+      <input type="hidden" id="{attr}" name="${attr}" value="${value}" disabled />
     </div>
 </div>
 </%def>
 
-<%def name="list(attr, values=tuple())">
+<%def name="checkbox(attr, url, label, checked=False)">
+<div class="control-group">
+    <div class="controls">
+    <label class="checkbox" for="${attr}">
+      <input type="checkbox" id="${attr}" name="${attr}" ${'checked' if checked else ''} onchange="return inpho.admin.submit_field('${attr}', '${url}')"/>
+      ${label}
+    </label>
+    </div>
+</div>
+</%def>
+
+<%def name="list(attr, url, values=tuple())">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       %for value in values:
       <label class="input-large">${value}<i class="pull-right icon-remove"></i></label>
       %endfor
-      <input type="text" name="${attr}" placeholder="Add new ${attr}&#133;" />
+      <input type="text" id="{attr}" name="${attr}" placeholder="Add new ${attr}&#133;" />
     </div>
 </div>
 </%def>

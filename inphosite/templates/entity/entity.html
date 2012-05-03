@@ -155,23 +155,33 @@ checked\
 
 
 <%def name="printAdminPanel(attrs)">
-<form class="form-horizontal">
+<form class="form-horizontal" method="GET" action="${c.entity.url()}">
   <fieldset>
     <legend>Admin</legend>
     %for attr in attrs:
     ${printAttr(attr)}
     %endfor
   </fieldset>
+  <fieldset>
+    <input type="hidden" name="_method" value="PUT" />
+    <input type="hidden" name="redirect" value="1" />
+    <input type="submit" value="Submit" />
+    <input type="reset" value="Reset" />
+  </fieldset>
 </form>
 </%def>
 
 <%def name="printAttr(attr)"> 
-  %if (attr in ["openAccess", "active", "student", "last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki", "URL"]):
-  ${bootstrap.textbox(attr, getattr(c.entity, attr, ''))}
+  %if (attr in ["last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki"]):
+  ${bootstrap.textbox(attr, c.entity.url(), getattr(c.entity, attr, ''))}
+  %elif attr == "URL":
+  ${bootstrap.url_textbox(attr, c.entity.url(), getattr(c.entity, attr, ''), c.entity.google_url)}
   %elif (attr in ["ID", "label", "in_degree", "out_degree", "entropy", "type"]):
   ${bootstrap.disabled_textbox(attr, getattr(c.entity, attr, ''))}
+  %elif attr in ["openAccess", "active", "student"]:
+  ${bootstrap.checkbox(attr, c.entity.url(), h.titlecase(attr), getattr(c.entity, attr, False))}
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
-  ${bootstrap.list(attr, c.entity.searchpatterns)}
+  ${bootstrap.list(attr, c.entity.url(), c.entity.searchpatterns)}
     <%doc>
     ## Birth Date(s) (mutable; for Idea, Thinker)
     %elif (attr == "birth"):
@@ -188,11 +198,11 @@ checked\
       %endfor
     </ul>
     </%doc>
-    %elif (attr == "birth"):
-    ${dateControl(attr, 1)}
-    %elif (attr == "death"):
-    ${dateControl(attr, 2)}
-    %endif
+  %elif (attr == "birth"):
+  ${dateControl(attr, 1)}
+  %elif (attr == "death"):
+  ${dateControl(attr, 2)}
+  %endif
 </%def>
 
 <%def name="dateControl(attr, relation_id)">

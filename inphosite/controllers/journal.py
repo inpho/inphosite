@@ -148,7 +148,9 @@ class JournalController(EntityController):
         pattern = request.params.get('pattern', None)
         if pattern is None:
             abort(400)
-
+   
+        # rudimentary input sanitization
+        pattern = pattern.strip() 
         if pattern in c.entity.abbrs:
             c.entity.abbrs.remove(pattern)
 
@@ -164,7 +166,9 @@ class JournalController(EntityController):
         pattern = request.params.get('pattern', None)
         if pattern is None:
             abort(400)
-        
+
+        # rudimentary input sanitization
+        pattern = pattern.strip() 
         if pattern not in c.entity.abbrs:
             c.entity.abbrs.append(unicode(pattern))
 
@@ -180,6 +184,8 @@ class JournalController(EntityController):
         if pattern is None:
             abort(400)
 
+        # rudimentary input sanitization
+        pattern = pattern.strip() 
         if pattern in c.entity.queries:
             c.entity.queries.remove(pattern)
 
@@ -195,7 +201,8 @@ class JournalController(EntityController):
         pattern = request.params.get('pattern', None)
         if pattern is None:
             abort(400)
-        
+
+        pattern = unicode(pattern) 
         if pattern not in c.entity.queries:
             c.entity.queries.append(unicode(pattern))
 

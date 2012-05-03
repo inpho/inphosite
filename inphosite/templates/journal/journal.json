@@ -1,5 +1,5 @@
 <%
-a = {'responseData' : {'result' : c.journal.json_struct()},
+a = {'responseData' : {'result' : c.entity.json_struct()},
     'responseStatus' : 200,
     'responseDetails' : None}
 %>

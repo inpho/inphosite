@@ -2,7 +2,10 @@
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
-      <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+      <div class="input-append">
+        <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      </div>
     </div>
 </div>
 </%def>
@@ -11,9 +14,12 @@
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
-      <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
-      <a class="btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
-      <a class="btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
+      <div class="input-append">
+        <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+        <a class="add-on btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
+        <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      </div>
     </div>
 </div>
 </%def>
@@ -44,9 +50,12 @@
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       %for value in values:
-      <label class="input-large">${value}<i class="pull-right icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')"></i></label>
+      <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')"></i> ${value} </label>
       %endfor
-      <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onkeyup="inpho.admin.process_text(event, '${attr}', '${url}'); return false;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" />
+      <div class="input-append">
+        <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onkeyup="inpho.admin.process_text(event, '${attr}', '${url}'); return false;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" />
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      </div>
     </div>
 </div>
 </%def>

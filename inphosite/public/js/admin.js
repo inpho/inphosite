@@ -8,13 +8,21 @@ inpho.admin.process_text = function(e, attr, url) {
         if ($('#'+attr).val() != '')
             inpho.admin.submit_field(attr, url);
         return false;
-    }
-    if (e.keyCode == 27) { // Escape 
-        return inpho.admin.reset_field(attr, url, 400);
+    } else if (e.keyCode == 27) { // Escape 
+        return inpho.admin.reset_field(attr, url);
+    } else {
+        var status_icon = $('.input-status', $('#'+attr).parent());
+        status_icon.removeClass('icon-ok');
+        status_icon.removeClass('icon-warning-sign');
+        status_icon.removeClass('icon-loading');
+        status_icon.parents('.control-group').removeClass('success');
+        status_icon.parents('.control-group').removeClass('error');
+        status_icon.addClass('icon-share-alt');
     }
 }
 
 inpho.admin.submit_field = function(attr, url) {
+  var status_icon = $('.input-status', $('#' + attr).parent());
   var value = document.getElementById(attr).value;
   if (attr == "URL") {
       if (value && (value.substring(0, 4) != "http"))
@@ -36,21 +44,33 @@ inpho.admin.submit_field = function(attr, url) {
   if (attr != "active" && attr != "openAccess" && attr != "student") {
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries") {
-                var val = value;
-                val = val.replace("<", "&lt;")
-                val = val.replace(">", "&gt;")
-                var new_entry = '<label class="input-large">' + val +
-                    '<i class="pull-right icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i></label>';
-                $('#searchpatterns').before(new_entry);
-                $('#searchpatterns').val('');
+            if (xhr.status < 400) {
+              status_icon.removeClass('icon-loading');
+              status_icon.addClass('icon-ok');
+              status_icon.parents('.control-group').addClass('success');
+              if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries") {
+                  var val = value;
+                  val = val.replace("<", "&lt;")
+                  val = val.replace(">", "&gt;")
+                  var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i>' + val + '</label>';
+                  $('#'+attr).before(new_entry);
+                  $('#'+attr).val('');
+              }
+            } else {
+              status_icon.removeClass('icon-loading');
+              status_icon.parents('.control-group').addClass('error');
+              status_icon.addClass('icon-warning-sign');
             }
         }
       }
   }
   xhr.open('PUT', url, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  if (attr == "searchpatterns")
+  $('#'+attr+' .input-status').removeClass('icon-*');
+  
+  status_icon.removeClass('icon-share-alt');
+  status_icon.addClass('icon-loading');
+  if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries")
     xhr.send("pattern=" + value);
   else
     xhr.send(attr + "=" + value);
@@ -76,30 +96,16 @@ inpho.admin.remove = function(elt, attr, url) {
 //     the new property (on success) or the old property (on failure).
 // 2.) The edit icon should re-appear.
 //
-inpho.admin.reset_field = function(attr, url, response) {
+inpho.admin.reset_field = function(attr, url) {
   if (response == 200)
     var attr_value = document.getElementById(attr).value;
   // PUT was not successful:
   else
     var attr_value = document.getElementById(attr).value;
+  
+  if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries")
+    $('#'+attr).val('');
 
-  if (attr == "openAccess" && attr_value == 0)
-    var attr_value = "Closed";
-  else if (attr == "openAccess" && attr_value == 1)
-    var attr_value = "Open";
-  else if (attr == "active" && attr_value == 0)
-    var attr_value = "Inactive";
-  else if (attr == "active" && attr_value == 1)
-    var attr_value = "Active";
-  else if (attr == "student" && attr_value == 0)
-    var attr_value = "Student";
-  else if (attr == "student" && attr_value == 1)
-    var attr_value = "Nonstudent";
-  else if (attr == "searchpattern") {
-    var attr_value = "Add a New Search Pattern";
-  }
-
-  alert("reset field?");
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;
 }

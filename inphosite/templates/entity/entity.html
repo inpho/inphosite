@@ -43,12 +43,12 @@ ${parent.draw()}</%def>
     ${printAttr(attr)}
     %endfor
   </fieldset>
-  <fieldset>
+<!-- <fieldset>
     <input type="hidden" name="_method" value="PUT" />
     <input type="hidden" name="redirect" value="1" />
     <input type="button" value="Submit" onclick="$('#admin-form').submit()" />
     <input type="reset" value="Reset" />
-  </fieldset>
+  </fieldset> -->
 </form>
 </%def>
 
@@ -57,12 +57,12 @@ ${parent.draw()}</%def>
   ${bootstrap.textbox(attr, c.entity.url(), getattr(c.entity, attr, ''))}
   %elif attr == "URL":
   ${bootstrap.url_textbox(attr, c.entity.url(), getattr(c.entity, attr, ''), c.entity.google_url)}
-  %elif (attr in ["ID", "label", "in_degree", "out_degree", "entropy", "type"]):
+  %elif (attr in ["ID", "label", "in_degree", "out_degree", "entropy"]):
   ${bootstrap.disabled_textbox(attr, getattr(c.entity, attr, ''))}
   %elif attr in ["openAccess", "active", "student"]:
   ${bootstrap.checkbox(attr, c.entity.url(), h.titlecase(attr), getattr(c.entity, attr, False))}
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
-  ${bootstrap.list(attr, c.entity.url(action=attr), c.entity.searchpatterns)}
+  ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
     <%doc>
     ## Birth Date(s) (mutable; for Idea, Thinker)
     %elif (attr == "birth"):

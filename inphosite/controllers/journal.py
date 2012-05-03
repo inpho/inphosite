@@ -7,7 +7,7 @@ from pylons.controllers.util import abort, redirect
 
 # import decorators
 from pylons.decorators import validate
-from inphosite.lib.rest import restrict
+from inphosite.lib.rest import restrict, dispatch_on
 
 # import inphosite information
 from inphosite.lib.base import BaseController, render

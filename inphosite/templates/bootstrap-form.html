@@ -46,7 +46,7 @@
       %for value in values:
       <label class="input-large">${value}<i class="pull-right icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')"></i></label>
       %endfor
-      <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onblur="return inpho.admin.process_text(this, '${attr}', '${url}')"/>
+      <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onkeyup="inpho.admin.process_text(event, '${attr}', '${url}'); return false;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" />
     </div>
 </div>
 </%def>

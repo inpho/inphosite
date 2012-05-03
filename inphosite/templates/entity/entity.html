@@ -36,7 +36,7 @@ ${parent.draw()}</%def>
 </%def>
 
 <%def name="printAdminPanel(attrs)">
-<form class="form-horizontal" method="GET" action="${c.entity.url()}">
+<form class="form-horizontal" method="GET" action="${c.entity.url()}" id="admin-form">
   <fieldset>
     <legend>Admin</legend>
     %for attr in attrs:
@@ -46,7 +46,7 @@ ${parent.draw()}</%def>
   <fieldset>
     <input type="hidden" name="_method" value="PUT" />
     <input type="hidden" name="redirect" value="1" />
-    <input type="submit" value="Submit" />
+    <input type="button" value="Submit" onclick="$('#admin-form').submit()" />
     <input type="reset" value="Reset" />
   </fieldset>
 </form>

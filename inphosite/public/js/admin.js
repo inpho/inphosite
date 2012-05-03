@@ -4,7 +4,10 @@ inpho.admin = inpho.admin || {};
 
 inpho.admin.process_text = function(e, attr, url) {
     if ((e.keyCode == 13) || (e.keyCode == 9)) { // Enter and Tab support
-        return inpho.admin.submit_field(attr, url);
+        e.preventDefault();
+        if ($('#'+attr).val() != '')
+            inpho.admin.submit_field(attr, url);
+        return false;
     }
     if (e.keyCode == 27) { // Escape 
         return inpho.admin.reset_field(attr, url, 400);

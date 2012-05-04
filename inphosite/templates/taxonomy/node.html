@@ -13,7 +13,21 @@
 <%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
 
 <script type="text/javascript">
-$('#tabnav').tab();
+$(document).ready(function() {
+    $('#tabnav').tab();
+    if (window.location.hash != "") {
+        if (window.location.hash.substring(1,2) == 'i') {
+            var id = window.location.hash.substring(2);
+            $.getJSON('/idea/'+id+'.json',
+              function(data) {
+                  var title = data.responseData.result.label;
+                  inpho.tabnav.appendTab('tabnav', 'i' + id, title, '/idea/${c.entity.ID}/panel/' + id);
+                });
+        }
+        inpho.tabnav.switchTab('tabnav', window.location.hash.substring(1));  
+        $('body').scrollTop(0);
+    }
+});
 </script>
 
 <h1>${h.titlecase(c.entity.label)}</h1>

@@ -21,7 +21,7 @@ ${parent.draw()}</%def>
 	<div class="accordion-inner" style="border: none; padding: 0px;">
 	  <ul>
 	    %for journal in c.broken:
-	    <li><a href="${journal.url()}">${journal.label}</a></li>
+	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
 	    %endfor
 	  </ul>
 	</div>
@@ -41,7 +41,7 @@ ${parent.draw()}</%def>
 	<div class="accordion-inner" style="border: none; padding: 0px;">
 	  <ul>
 	    %for journal in c.missing:
-	    <li><a href="${journal.url()}">${journal.label}</a></li>
+	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
 	    %endfor
 	  </ul>
 	</div>
@@ -61,7 +61,7 @@ ${parent.draw()}</%def>
 	<div class="accordion-inner" style="border: none; padding: 0px;">
 	  <ul>
 	    %for journal in c.blank:
-	    <li><a href="${journal.url()}">${journal.label}</a></li>
+	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
 	    %endfor
 	  </ul>
 	</div>
@@ -81,7 +81,7 @@ ${parent.draw()}</%def>
 	<div class="accordion-inner" style="border: none; padding: 0px;">
 	  <ul>
 	    %for journal in c.inactive:
-	    <li><a href="${journal.url()}">${journal.label}</a></li>
+	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
 	    %endfor
 	  </ul>
 	</div>

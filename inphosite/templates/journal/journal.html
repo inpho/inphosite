@@ -33,6 +33,10 @@ function srch(id) {
 $(document).ready(function () {
     srch(${c.entity.ID}); 
     $('#tabnav').tab();
+    if (window.location.hash != "") {
+        inpho.tabnav.switchTab('tabnav', window.location.hash.substring(1));  
+        $('body').scrollTop(0);
+    }
 });
 </script>
 

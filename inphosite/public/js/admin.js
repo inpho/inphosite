@@ -3,9 +3,10 @@ inpho = inpho || {};
 inpho.admin = inpho.admin || {};
 
 inpho.admin.process_text = function(e, attr, url) {
+    var status_icon = $('.input-status', $('#'+attr).parent());
     if ((e.keyCode == 13) || (e.keyCode == 9)) { // Enter and Tab support
         e.preventDefault();
-        if ($('#'+attr).val() != '')
+        if (status_icon.hasClass('icon-share-alt'))
             inpho.admin.submit_field(attr, url);
         return false;
     } else if (e.keyCode == 27) { // Escape 
@@ -15,8 +16,8 @@ inpho.admin.process_text = function(e, attr, url) {
         status_icon.removeClass('icon-ok');
         status_icon.removeClass('icon-warning-sign');
         status_icon.removeClass('icon-loading');
-        status_icon.parents('.control-group').removeClass('success');
-        status_icon.parents('.control-group').removeClass('error');
+        $('#'+attr).parents('.control-group').removeClass('success');
+        $('#'+attr).parents('.control-group').removeClass('error');
         status_icon.addClass('icon-share-alt');
     }
 }
@@ -31,9 +32,9 @@ inpho.admin.submit_field = function(attr, url) {
   }
   else if (attr == "active" || attr == "openAccess" || attr == "student") {
       if (document.getElementById(attr).checked)
-        var value = attr + "=1";  
+        value = "1";  
       else
-        var value = attr + "=0";
+        value = "0";
   }
   
   if (value == "None" || value == "undefined") {
@@ -41,32 +42,32 @@ inpho.admin.submit_field = function(attr, url) {
   }
   
   var xhr = new XMLHttpRequest();
-  if (attr != "active" && attr != "openAccess" && attr != "student") {
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status < 400) {
-              status_icon.removeClass('icon-loading');
-              status_icon.addClass('icon-ok');
-              status_icon.parents('.control-group').addClass('success');
-              if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries") {
-                  var val = value;
-                  val = val.replace("<", "&lt;")
-                  val = val.replace(">", "&gt;")
-                  var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i>' + val + '</label>';
-                  $('#'+attr).before(new_entry);
-                  $('#'+attr).val('');
-              }
-            } else {
-              status_icon.removeClass('icon-loading');
-              status_icon.parents('.control-group').addClass('error');
-              status_icon.addClass('icon-warning-sign');
-            }
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+        if (xhr.status < 400) {
+          status_icon.removeClass('icon-loading');
+          status_icon.addClass('icon-ok');
+          $('#'+attr).parents('.control-group').addClass('success');
+          if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries") {
+              var val = value;
+              val = val.replace("<", "&lt;")
+              val = val.replace(">", "&gt;")
+              var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i>' + val + '</label>';
+              $('#'+attr).before(new_entry);
+              $('#'+attr).val('');
+          }
+        } else {
+          status_icon.removeClass('icon-loading');
+          $('#'+attr).parents('.control-group').addClass('error');
+          status_icon.addClass('icon-warning-sign');
         }
-      }
+    }
   }
   xhr.open('PUT', url, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   $('#'+attr+' .input-status').removeClass('icon-*');
+  $('#'+attr).parents('.control-group').removeClass('error');
+  $('#'+attr).parents('.control-group').removeClass('success');
   
   status_icon.removeClass('icon-share-alt');
   status_icon.addClass('icon-loading');

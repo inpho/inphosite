@@ -36,12 +36,10 @@
 
 <%def name="checkbox(attr, url, label, checked=False)">
 <div class="control-group">
-    <div class="controls">
-    <label class="checkbox" for="${attr}">
+    <label class="controls checkbox" for="${attr}">
       <input type="checkbox" id="${attr}" name="${attr}" ${'checked' if checked else ''} onchange="return inpho.admin.submit_field('${attr}', '${url}')"/>
       ${label}
     </label>
-    </div>
 </div>
 </%def>
 

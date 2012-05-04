@@ -18,7 +18,7 @@ Taxonomy JSON
 Verify that https://inpho.cogs.indiana.edu/taxonomy.json returns HTTP 200
 
 Search Box
-Verify autocomplete works. Easy tests: "truth" or "Kant"
+Verify autocomplete works. Easy test: "time"
 
 OWL
 Verify log-generating script works

@@ -1,7 +1,13 @@
 import logging
 
+import unittest2
+#can this be put somewhere else? I feel like there's a file for these
+#import sys
+#sys.path.insert(0, '~/workspace/testcases')
+#import autotest
+
 from collections import namedtuple
-from time import gmtime, strftime # getting time info
+from time import gmtime, strftime
 
 from pylons import request, response, session, config, tmpl_context as c
 from pylons.controllers.util import abort, redirect as rd
@@ -71,6 +77,10 @@ class AdminController(BaseController):
             try:
                 c.checked
             except AttributeError:
+                # Run autotest here and save autotest.passed
+                # in c.checked instead of ""
+                #suite = autotest.unittest2.TestLoader().loadTestsFromTestCase(autotest.Auto>
+                #autotest.unittest2.TextTestRunner(verbosity=2).run(suite)
                 c.checked = ""
             pass
 

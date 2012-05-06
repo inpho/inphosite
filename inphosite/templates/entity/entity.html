@@ -53,11 +53,11 @@ ${parent.draw()}</%def>
 </%def>
 
 <%def name="printAttr(attr)"> 
-  %if (attr in ["last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki"]):
+  %if (attr in ["label", "last_accessed", "sep_dir", "language", "ISSN", "searchstring", "wiki"]):
   ${bootstrap.textbox(attr, c.entity.url(), getattr(c.entity, attr, ''))}
   %elif attr == "URL":
   ${bootstrap.url_textbox(attr, c.entity.url(), getattr(c.entity, attr, ''), c.entity.google_url)}
-  %elif (attr in ["ID", "label", "in_degree", "out_degree", "entropy"]):
+  %elif (attr in ["ID", "in_degree", "out_degree", "entropy"]):
   ${bootstrap.disabled_textbox(attr, getattr(c.entity, attr, ''))}
   %elif attr in ["openAccess", "active", "student"]:
   ${bootstrap.checkbox(attr, c.entity.url(), h.titlecase(attr), getattr(c.entity, attr, False))}

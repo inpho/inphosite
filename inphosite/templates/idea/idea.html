@@ -101,7 +101,7 @@ ${entity.printList('occurrences', statistical=True)}
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
     <div class="tab-pane" id="admin">
-        ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy", "searchpatterns"])}
+        ${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy", "searchpatterns"])}
     </div>
 %endif
 </div> <!-- tab-content -->

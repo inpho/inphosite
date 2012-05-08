@@ -94,7 +94,7 @@ class AdminController(BaseController):
             with open('/Users/alefrost/logfile.txt', 'a') as f:
                 f.write('[' + strftime("%a, %d %b %Y %H:%M:%S", gmtime()) + '] ' + h.auth.username(request) + '\n')
                             # redirect to success.html
-            return 'Your data was successfully submitted.'
+            return render('admin/success.html')
         else:
             c.checked = []
             for key, value in checks.iteritems():

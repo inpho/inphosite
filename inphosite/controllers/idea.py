@@ -304,7 +304,7 @@ class IdeaController(EntityController):
             c.generality = int(request.params.get('generality', -1))
             c.relatedness = int(request.params.get('relatedness', -1))
 
-        if c.generality != -1 and c.relatedness != -1:
+        if c.relatedness != -1:
             c.edit = request.params.get('edit', False)
 
         return render('idea/eval.html')

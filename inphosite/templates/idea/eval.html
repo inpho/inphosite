@@ -54,13 +54,14 @@
       ${'related to' if c.relatedness == 3 else ''}
       ${'highly related to' if c.relatedness == 4 else ''}
 
+      %if c.generality != -1:
       and
 
       ${'more specific than' if c.generality == 0 else ''}
       ${'more general than' if c.generality == 1 else ''}
       ${'as general as' if c.generality == 2 else ''}
       ${'incomparable to' if c.generality == 3 else ''}
-      
+      %endif
       <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
       <strong>${c.entity2.label}</strong>.
     </fieldset>

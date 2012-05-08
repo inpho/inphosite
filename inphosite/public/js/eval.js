@@ -14,7 +14,7 @@ inpho.eval.submit = function(elt) {
    
     // url to post generality value
     var url_gen = '/idea/' + id + '/generality/' + id2;
-            var url_rel = '/idea/' + id + '/relatedness/' + id2;
+    var url_rel = '/idea/' + id + '/relatedness/' + id2;
     // submit generality value
     $.post(url_gen,
            { degree : generality },
@@ -24,9 +24,7 @@ inpho.eval.submit = function(elt) {
                       { degree : relatedness },
                       function(data){
                           // display thanks form
-                          if (generality != '-1' && relatedness != '-1') {
-                               inpho.eval.get_thanks_form(elt);
-                          }
+                          inpho.eval.get_thanks_form(elt);
                       } 
                );
            } );
@@ -92,6 +90,7 @@ inpho.eval.validate = function(elt) {
     }
     
     if ($(elt + " #relatednessSelect").val() == '0') {
+        $(elt + " #generalitySelect").val('-1');
         $(elt + " #generalitySelect").hide();
         $(elt + " .and").hide();
     } else {

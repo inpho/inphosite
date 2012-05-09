@@ -8,7 +8,7 @@ def nodeRecursion(i, nodes, root, selected):
     n=""
     for node in nodes:
         # configure next node, select currentnode
-        n += "var tmpNode%s = new YAHOO.widget.TextNode({label : '%s', href: '%s', selected: %s, highlightState:%s }, %s);\n" % (i, node.name, h.url(controller="taxonomy", action="view", id=node.ID), str(selected==node.ID).lower(), 1 if selected==node.ID else 0, str(root))
+        n += "var tmpNode%s = new YAHOO.widget.TextNode({label : '%s', href: '%s', selected: %s, highlightState:%s, className: %s}, %s);\n" % (i, node.name, h.url(controller="taxonomy", action="view", id=node.ID), str(selected==node.ID).lower(), 1 if selected==node.ID else 0, '"yuitree-hl"' if selected==node.ID else 'null', str(root))
         if node.children:
             sorted_children = node.children
             sorted_children.sort(key=operator.attrgetter('name'))

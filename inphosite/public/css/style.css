@@ -21,8 +21,12 @@ body {
 		height:147px;
         width: 262px;
 	}
+
 #sidebar {
     margin-top: 87px;
+}
+.yuitree-hl, .yuitree-hl .ygtvcontent a {
+    background-color: #C0E0E0 !important;    
 }
 
 .icon {

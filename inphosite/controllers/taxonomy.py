@@ -46,6 +46,41 @@ class TaxonomyController(EntityController):
         #    return render('idea/idea.html')
         #else:
         #    return render('taxonomy/node.%s' % filetype)
-    
+   
+    def list(self, filetype='html'):
+        c.nodes = Session.query(Node).all()
+        
+        entity_q = Session.query(Node)
+        entity_q = entity_q.limit(request.params.get('limit', None))
+        
+        c.query = request.params.get('q', '')
+        c.sep = request.params.get('sep', '')
+
+        if request.params.get('sep_filter', False):
+            entity_q = entity_q.filter(Entity.sep_dir != '')
+        
+        if c.sep:
+            entity_q = entity_q.filter(Entity.sep_dir == c.sep) 
+
+        if c.query:
+            o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
+            entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
+        
+        if filetype=='json':
+            response.content_type = 'application/json'
+        response.headers['Access-Control-Allow-Origin'] = '*' 
+
+        c.entities = entity_q.all()
+        if request.params.get('redirect', False) and len(c.entities) == 1: 
+            h.redirect(h.url(controller=self._controller, action='view', 
+                             filetype=filetype, id=c.entities[0].ID), 
+                       code=302)
+        else:
+            return render('{type}/{type}-list.'.format(type=self._controller) 
+                          + filetype)
+
+
+        
+
     def graph(self, id=None, filetype='josn'):
         abort(404)

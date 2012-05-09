@@ -24,164 +24,213 @@ levels.insert(0, blank)
 
 
 <div id="content">
-<h1>Edit Profile</h1>
+  <form class="form-horizontal" method="post" action="/account/submit_changes">
+    <fieldset>
+      <legend>Edit Profile</legend>
 
-<form method="post" action="/account/submit_changes">
-  <table class="formbuild">
-    <tbody>
-      ## Username
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          Username:
-        </td>
-        <td class="field" valign="top">${c.user.username}</td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Full Name
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="fullname">Full Name:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" value="${c.user.fullname}" name="fullname">
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Email
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="email">E-mail:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" value="${c.user.email}" name="email">
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Confirm Email
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="confirm_email">Confirm E-mail:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" value="${c.user.email}" name="confirm_email">
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Password
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="password">Password:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="password" name="password">
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Confirm Password
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="confirm_password">Confirm Password:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="password" name="confirm_password">
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-<%doc>
- TODO: enable area editing
-      ## First Area
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="first_area">First Area:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="first_area">
-            %for i,option in options:
-            %if i == c.user.first_area_id:
-            <option value="${i}" selected="selected">${option}</option>
-            %else:
-            <option value="${i}">${option}</option>
-            %endif
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Level of Expertise
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="first_area_level">Level of expertise:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="first_area_level">
-            %for i,level in levels:
-            %if i == c.user.first_area_level:
-            <option value="${i}" selected="selected">${level}</option>
-            %else:
-            <option value="${i}">${level}</option>
-            %endif
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Second Area
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="second_area">Second Area:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="second_area">
-            %for i,option in options:
-            %if i == c.user.second_area_id:
-            <option value="${i}" selected="selected">${option}</option>
-            %else:
-            <option value="${i}">${option}</option>
-            %endif
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Level of Expertise
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="second_area_level">Level of expertise:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="second_area_level">
-            %for i,level in levels:
-            %if i == c.user.second_area_level:
-            <option value="${i}" selected="selected">${level}</option>
-            %else:
-            <option value="${i}">${level}</option>
-            %endif
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-</%doc>
-      ## Submit button
-      <tr>
-        <td></td>
-        <td colspan="2">
-          <input type="submit" value="Edit" name="submit">
-        </td>
-      </tr>
+      <div class="control-group">
+	<label class="control-label" for="fullname">Full Name</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="fullname" name="fullname" placeholder="${c.user.fullname}">
+	</div>
+      </div>
 
-    </tbody>
-  </table>
-</form>
+      <div class="control-group">
+	<label class="control-label" for="email">Email</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="email" name="email" placeholder="${c.user.email}">
+	</div>
+      </div>
 
+      <div class="control-group">
+	<label class="control-label" for="confirm_email">Confirm Email</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="confirm_email" name="confirm_email" placeholder="${c.user.email}">
+	</div>
+      </div>
+
+      
+      <div class="control-group">
+	<label class="control-label" for="password">Password</label>
+	
+	<div class="controls">
+	  <input type="password" class="input-large" id="password" name="password">
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="confirm_password">Confirm Password</label>
+	
+	<div class="controls">
+	  <input type="password" class="input-large" id="confirm_password" name="confirm_password">
+	</div>
+      </div>
+
+      <div class="form-actions">
+	<button type="submit" value="Edit" name="submit" class="btn btn-primary">Edit</button>
+	<button type="reset" class="btn">Reset</button>
+      </div>
+    </fieldset>
+
+    <!--
+	<table class="formbuild">
+	  <tbody>
+	    ## Username
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		Username:
+              </td>
+              <td class="field" valign="top">${c.user.username}</td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Full Name
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="fullname">Full Name:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" value="${c.user.fullname}" name="fullname">
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Email
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="email">E-mail:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" value="${c.user.email}" name="email">
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Confirm Email
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="confirm_email">Confirm E-mail:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" value="${c.user.email}" name="confirm_email">
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Password
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="password">Password:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="password" name="password">
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Confirm Password
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="confirm_password">Confirm Password:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="password" name="confirm_password">
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    <%doc>
+	    TODO: enable area editing
+	    ## First Area
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="first_area">First Area:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="first_area">
+		  %for i,option in options:
+		  %if i == c.user.first_area_id:
+		  <option value="${i}" selected="selected">${option}</option>
+		  %else:
+		  <option value="${i}">${option}</option>
+		  %endif
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Level of Expertise
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="first_area_level">Level of expertise:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="first_area_level">
+		  %for i,level in levels:
+		  %if i == c.user.first_area_level:
+		  <option value="${i}" selected="selected">${level}</option>
+		  %else:
+		  <option value="${i}">${level}</option>
+		  %endif
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Second Area
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="second_area">Second Area:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="second_area">
+		  %for i,option in options:
+		  %if i == c.user.second_area_id:
+		  <option value="${i}" selected="selected">${option}</option>
+		  %else:
+		  <option value="${i}">${option}</option>
+		  %endif
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Level of Expertise
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="second_area_level">Level of expertise:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="second_area_level">
+		  %for i,level in levels:
+		  %if i == c.user.second_area_level:
+		  <option value="${i}" selected="selected">${level}</option>
+		  %else:
+		  <option value="${i}">${level}</option>
+		  %endif
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    </%doc>
+	    ## Submit button
+	    <tr>
+	      <td></td>
+	      <td colspan="2">
+		<input type="submit" value="Edit" name="submit">
+	      </td>
+	    </tr>
+	  </tbody>
+	</table>
+	-->
+
+  </form>
 </div>

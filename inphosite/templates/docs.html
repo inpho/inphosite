@@ -316,309 +316,414 @@ ul.auto-toc {
 </style>
 <div id="content">
   <div class="section" id="a-restful-inpho-api">
-<h1><a class="toc-backref" href="#id1">A RESTful InPhO API</a><a class="headerlink" href="#a-restful-inpho-api" title="Permalink to this headline">¶</a></h1>
-<p>InPhO maintains an open-access application platform interface (API) to
-facilitate collaboration with digital humanities and semantic web programmers.
-This API is built upon the principles of REpresentational State Transfer (REST),
-a paradigm of web service development which leverages the ubiquotus HTTP
-protocol to provide a common interface for object manipulation.</p>
-<p>Every idea, thinker and journal in the InPhO knowledge base may be retrieved in
-both a human-readable HTML page and a machine-readable JSON object. Entities may
-be manipulated through the four basic HTTP Request Methods: POST (create), GET
-(retrieve/list), PUT (update), DELETE. Authentication is handled through HTTP
-Basic Authentication over a secure SSL connection. Due to the stateless nature
-of a RESTful web service, each request is completely self-contained, eliminating
-the need for session scoping.</p>
-<p>A detailed technical specification is below:</p>
-<div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Table of Contents</p>
-<ul class="simple">
-<li><a class="reference internal" href="#a-restful-inpho-api" id="id1">A RESTful InPhO API</a><ul>
-<li><a class="reference internal" href="#api-structure" id="id2">API Structure</a></li>
-<li><a class="reference internal" href="#response-codes" id="id3">Response Codes</a></li>
-<li><a class="reference internal" href="#permissions" id="id4">Permissions</a></li>
-<li><a class="reference internal" href="#request-parameters" id="id5">Request Parameters</a><ul>
-<li><a class="reference internal" href="#get-parameters" id="id6">GET Parameters</a></li>
-<li><a class="reference internal" href="#post-put-parameters" id="id7">POST/PUT Parameters</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#quick-start" id="id8">Quick Start</a></li>
-<li><a class="reference internal" href="#development" id="id9">Development</a></li>
-<li><a class="reference internal" href="#testing" id="id10">Testing</a></li>
-<li><a class="reference internal" href="#more-rest-resources" id="id11">More REST Resources</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="api-structure">
-<h2><a class="toc-backref" href="#id2">API Structure</a><a class="headerlink" href="#api-structure" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="docutils">
-<colgroup>
-<col width="53%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">URI</th>
-<th class="head">GET</th>
-<th class="head">PUT</th>
-<th class="head">POST</th>
-<th class="head">DELETE</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>/entity</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/entity/{id}</td>
-<td>view</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>create</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}</td>
-<td>view</td>
-<td>update</td>
-<td>&#8211;</td>
-<td>delete</td>
-</tr>
-<tr><td>/idea/{id}/graph</td>
-<td>view</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}/{relation}</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}/{relation}/{id2}</td>
-<td>&#8211;</td>
-<td>update</td>
-<td>create</td>
-<td>delete</td>
-</tr>
-<tr><td>/thinker</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>create</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/thinker/{id}</td>
-<td>view</td>
-<td>update</td>
-<td>&#8211;</td>
-<td>delete</td>
-</tr>
-<tr><td>/thinker/{id}/graph</td>
-<td>view</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/thinker/{id}/{relation}/{id2}</td>
-<td>&#8211;</td>
-<td>update</td>
-<td>create</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/journal</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>create</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/journal/{id}</td>
-<td>view</td>
-<td>update</td>
-<td>&#8211;</td>
-<td>delete</td>
-</tr>
-<tr><td>/school_of_thought</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/school_of_thought/{id}</td>
-<td>view</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/work</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/work/{id}</td>
-<td>view</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/taxonomy</td>
-<td>list</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/taxonomy/{id}</td>
-<td>view</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-</tbody>
-</table>
-<p>Adding a file extension will return the appropriate format for GET requests. Currently implemented:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="53%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">URI</th>
-<th class="head">default</th>
-<th class="head">html</th>
-<th class="head">json</th>
-<th class="head">xml</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>/entity</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/entity/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}/graph</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}/{relation}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/idea/{id}/{relation}/{id2}</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/thinker</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/thinker/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/thinker/{id}/graph</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/thinker/{id}/{relation}/{id2}</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/journal</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/journal/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/taxonomy</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/taxonomy/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/school_of_thought</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/school_of_thought/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/work</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-<tr><td>/work/{id}</td>
-<td>html</td>
-<td>y</td>
-<td>y</td>
-<td>&#8211;</td>
-</tr>
-</tbody>
-</table>
+    <h1>
+      <a class="toc-backref" href="#id1">
+	A RESTful InPhO API
+      </a>
+      <a class="headerlink" href="#a-restful-inpho-api" title="Permalink to this headline">
+	¶
+      </a>
+    </h1>
+    <p>
+      InPhO maintains an open-access application platform interface (API) to
+      facilitate collaboration with digital humanities and semantic web programmers.
+      This API is built upon the principles of REpresentational State Transfer (REST),
+      a paradigm of web service development which leverages the ubiquotus HTTP
+      protocol to provide a common interface for object manipulation.
+    </p>
+    <p>
+      Every idea, thinker and journal in the InPhO knowledge base may be retrieved in
+      both a human-readable HTML page and a machine-readable JSON object. Entities may
+      be manipulated through the four basic HTTP Request Methods: POST (create), GET
+      (retrieve/list), PUT (update), DELETE. Authentication is handled through HTTP
+      Basic Authentication over a secure SSL connection. Due to the stateless nature
+      of a RESTful web service, each request is completely self-contained, eliminating
+      the need for session scoping.
+    </p>
+    <p>
+      A detailed technical specification is below:
+    </p>
+    <div class="contents topic" id="table-of-contents">
+      <p class="topic-title first">
+	Table of Contents
+      </p>
+      <ul class="simple">
+	<li>
+	  <a class="reference internal" href="#a-restful-inpho-api" id="id1">
+	    A RESTful InPhO API
+	  </a>
+	  <ul>
+	    <li>
+	      <a class="reference internal" href="#api-structure" id="id2">
+		API Structure
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#response-codes" id="id3">
+		Response Codes
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#permissions" id="id4">
+		Permissions
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#request-parameters" id="id5">
+		Request Parameters
+	      </a>
+	      <ul>
+		<li>
+		  <a class="reference internal" href="#get-parameters" id="id6">
+		    GET Parameters
+		  </a>
+		</li>
+		<li>
+		  <a class="reference internal" href="#post-put-parameters" id="id7">
+		    POST/PUT Parameters
+		  </a>
+		</li>
+	      </ul>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#quick-start" id="id8">
+		Quick Start
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#development" id="id9">
+		Development
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#testing" id="id10">
+		Testing
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#more-rest-resources" id="id11">
+		More REST Resources
+	      </a>
+	    </li>
+	  </ul>
+	</li>
+      </ul>
+    </div>
+
+    <div class="section" id="api-structure">
+      <h2>
+	<a class="toc-backref" href="#id2">
+	  API Structure
+	</a>
+	<a class="headerlink" href="#api-structure" title="Permalink to this headline">
+	  ¶
+	</a>
+      </h2>
+      <table class="table table-striped table-condensed">
+	<colgroup>
+	  <col width="53%" />
+	  <col width="12%" />
+	  <col width="12%" />
+	  <col width="12%" />
+	  <col width="12%" />
+	</colgroup>
+	<thead valign="bottom">
+	  <tr><th class="head">URI</th>
+	    <th class="head">GET</th>
+	    <th class="head">PUT</th>
+	    <th class="head">POST</th>
+	    <th class="head">DELETE</th>
+	  </tr>
+	</thead>
+	<tbody valign="top">
+	  <tr>
+	    <td>/entity</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/entity/{id}</td>
+	    <td>view</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>create</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr><td>/idea/{id}</td>
+	    <td>view</td>
+	    <td>update</td>
+	    <td>&#8211;</td>
+	    <td>delete</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}/graph</td>
+	    <td>view</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}/{relation}</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}/{relation}/{id2}</td>
+	    <td>&#8211;</td>
+	    <td>update</td>
+	    <td>create</td>
+	    <td>delete</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>create</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker/{id}</td>
+	    <td>view</td>
+	    <td>update</td>
+	    <td>&#8211;</td>
+	    <td>delete</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker/{id}/graph</td>
+	    <td>view</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker/{id}/{relation}/{id2}</td>
+	    <td>&#8211;</td>
+	    <td>update</td>
+	    <td>create</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/journal</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>create</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/journal/{id}</td>
+	    <td>view</td>
+	    <td>update</td>
+	    <td>&#8211;</td>
+	    <td>delete</td>
+	  </tr>
+	  <tr>
+	    <td>/school_of_thought</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/school_of_thought/{id}</td>
+	    <td>view</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/work</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/work/{id}</td>
+	    <td>view</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/taxonomy</td>
+	    <td>list</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/taxonomy/{id}</td>
+	    <td>view</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	</tbody>
+      </table>
+      <p>
+	Adding a file extension will return the appropriate format for GET requests. Currently implemented:
+      </p>
+      <table class="table table-condensed table-striped">
+	<colgroup>
+	  <col width="53%" />
+	  <col width="12%" />
+	  <col width="12%" />
+	  <col width="12%" />
+	  <col width="12%" />
+	</colgroup>
+	<thead valign="bottom">
+	  <tr>
+	    <th class="head">URI</th>
+	    <th class="head">default</th>
+	    <th class="head">html</th>
+	    <th class="head">json</th>
+	    <th class="head">xml</th>
+	  </tr>
+	</thead>
+	<tbody valign="top">
+	  <tr>
+	    <td>/entity</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/entity/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}/graph</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}/{relation}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/idea/{id}/{relation}/{id2}</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker/{id}/graph</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/thinker/{id}/{relation}/{id2}</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/journal</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/journal/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/taxonomy</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/taxonomy/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/school_of_thought</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr>
+	    <td>/school_of_thought/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr><td>/work</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	  <tr><td>/work/{id}</td>
+	    <td>html</td>
+	    <td>y</td>
+	    <td>y</td>
+	    <td>&#8211;</td>
+	  </tr>
+	</tbody>
+      </table>
 <dl class="docutils">
 <dt>Thinker-Thinker {relation}s</dt>
 <dd>has_influenced, influenced_by, teacher_of, student_of</dd>
@@ -657,7 +762,7 @@ Valid request, but there are conflicts (ex. creating a journal with an ISSN that
 <h2><a class="toc-backref" href="#id4">Permissions</a><a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h2>
 <p>There are five levels of authentication - from most restrictive to least restrictive, each role has the privileges of
 all lesser roles:</p>
-<table border="1" class="docutils">
+<table class="table table-condensed table-striped">
 <colgroup>
 <col width="29%" />
 <col width="71%" />
@@ -685,7 +790,7 @@ all lesser roles:</p>
 <h2><a class="toc-backref" href="#id5">Request Parameters</a><a class="headerlink" href="#request-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="get-parameters">
 <h3><a class="toc-backref" href="#id6">GET Parameters</a><a class="headerlink" href="#get-parameters" title="Permalink to this headline">¶</a></h3>
-<table class="docutils option-list" frame="void" rules="none">
+<table class="table table-condensed table-striped">
 <col class="option" />
 <col class="description" />
 <dl class="docutils">
@@ -741,7 +846,7 @@ parameter <cite>_method=PUT</cite> which will be translated to the appropriate r
 <h2><a class="toc-backref" href="#id9">Development</a><a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
 <p>Developers may use any language to code against the API, provided they use the HTTP protocol.
 These are some reccommended url libraries for common development languages:</p>
-<table border="1" class="docutils">
+<table class="table table-condensed table-striped">
 <colgroup>
 <col width="10%" />
 <col width="90%" />

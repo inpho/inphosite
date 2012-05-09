@@ -1,170 +1,111 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<title>${self.title()}</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-##${h.stylesheet_link('http://yui.yahooapis.com/combo?2.8.1/build/reset-fonts-grids/reset-fonts-grids.css&2.8.1/build/autocomplete/assets/skins/sam/autocomplete.css&2.8.1/build/treeview/assets/skins/sam/treeview.css')}
-${h.stylesheet_link(h.url('/yui/2.8.2r1/reset-fonts-grids/reset-fonts-grids.css'))}
-${h.stylesheet_link(h.url('/yui/2.8.2r1/autocomplete/assets/skins/sam/autocomplete.css'))}
-${h.stylesheet_link(h.url('/yui/2.8.2r1/treeview/assets/skins/sam/treeview.css'))}
-${h.stylesheet_link(h.url('/css/NewSite.css'))}
-${h.stylesheet_link(h.url('/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'))}
+  <head>
+    <title>${self.title()}</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    ## JQUERY
+    ${h.javascript_link(h.url('/jquery/jquery-1.7.2.min.js'))}
+    ${h.javascript_link(h.url('/jqueryui/js/jquery-ui-1.8.10.custom.min.js'))}
+    ${h.stylesheet_link(h.url('/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'))}
+    
+    ## BOOTSTRAP
+    ${h.stylesheet_link(h.url('/bootstrap/css/bootstrap.min.css'))}
+    ${h.javascript_link(h.url('/bootstrap/js/bootstrap.min.js'))}
+    
+    ## YUI
+    ${h.javascript_link(h.url('/yui/2.8.2r1/yahoo-dom-event/yahoo-dom-event.js'))}
+    ${h.javascript_link(h.url('/yui/2.8.2r1/animation/animation-min.js'))}
+    ${h.javascript_link(h.url('/yui/2.8.2r1/datasource/datasource-min.js'))}
+    ${h.javascript_link(h.url('/yui/2.8.2r1/autocomplete/autocomplete-min.js'))}
+    ${h.javascript_link(h.url('/yui/2.8.2r1/connection/connection_core-min.js'))}
+    ${h.javascript_link(h.url('/yui/2.8.2r1/treeview/treeview-min.js'))}
+    ${h.stylesheet_link(h.url('/yui/2.8.2r1/treeview/assets/skins/sam/treeview.css'))}
+    
+    ## InPhO
+    ${h.stylesheet_link(h.url('/css/style.css'))}
+    ${self.head()}
+  </head>
 
-<!--  <link
-  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
-  rel="stylesheet" type="text/css"/> -->
-
-${h.javascript_link(h.url('/yui/2.8.2r1/yahoo-dom-event/yahoo-dom-event.js'))}
-${h.javascript_link(h.url('/yui/2.8.2r1/animation/animation-min.js'))}
-${h.javascript_link(h.url('/yui/2.8.2r1/datasource/datasource-min.js'))}
-${h.javascript_link(h.url('/yui/2.8.2r1/autocomplete/autocomplete-min.js'))}
-${h.javascript_link(h.url('/yui/2.8.2r1/connection/connection_core-min.js'))}
-${h.javascript_link(h.url('/yui/2.8.2r1/treeview/treeview-min.js'))}
-##${h.javascript_link('http://yui.yahooapis.com/combo?2.8.1/build/yahoo-dom-event/yahoo-dom-event.js&2.8.1/build/animation/animation-min.js&2.8.1/build/datasource/datasource-min.js&2.8.1/build/autocomplete/autocomplete-min.js&2.8.1/build/connection/connection_core-min.js&2.8.1/build/treeview/treeview-min.js')}
-${h.javascript_link(h.url('/jquery/jquery-1.4.2.min.js'))}
-${h.javascript_link(h.url('/jqueryui/js/jquery-ui-1.8.10.custom.min.js'))}
-##${h.javascript_link(h.url('/jquery/jquery-ui-1.8.2.custom.min.js'))}
-${self.yui()}
-##${h.stylesheet_link(h.url('/css/min.css'))}
-${self.head()}
-</head>
-
-<body class="yui-skin-sam">
-<div id="container">
-    <div id="header">${self.header()}</div>
-    <div id="sidebar">${self.sidebar()}
-<div id="sidebarFooter"></div>
+  <body class="yui-skin-sam">
+    ${self.header()}
+    <div class="container" id="container">
+      <div class="row">
+        <div class="span4" id="sidebar">${self.sidebar()}</div>
+        <div class="span8" id="content">${next.body()}</div>
+      </div>
+      ${self.footer()}
     </div>
-    <div id="main">
-        ${next.body()}
-        <div id="footer">${self.footer()}</div>
-    </div><!-- body -->
-    <!--<div id="ft"></div> footer -->
-    <div style="clear:both; padding-left:400px;">&nbsp;</div>
-</div><!-- doc -->
-</body>
+  </body>
 </html>
 
 <%def name="title()">InPhO</%def>
+
 <%def name="head_title()">InPhO</%def>
-<%def name="yui()"></%def>
+
 <%def name="head()"></%def>
+
 <%def name="sidebar()"></%def>
 
-
-
 <%def name="header()">
-<div id="comments">Comments and feedback welcome! <a href="mailto:inpho@indiana.edu">inpho@indiana.edu</a></div>
+<div class="navbar navbar-fixed-top" id="header">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+          <li><a class="brand" href="/">InPhO</a></li>
+      </ul>
+      <ul class="nav pull-right" style="margin-left: 300px;">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/docs/">API</a></li>
+        <li><a href="/owl/">OWL</a></li>
+        <li><a href="/papers/">Papers</a></li>
 
-<div id="login">
-    %if h.auth.is_admin():
-    <a href="/admin">Admin Panel</a> ::
-    %endif
-    ## check if user is logged in or signing out
-    % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
-    <a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a> :: <a href="${h.url(controller='account', action='signout')}">Sign Out</a>
-    %else:
-    <a href="${h.url('register')}">Register</a> :: <a href="${h.url('signin')}">Sign In</a>
-    %endif
+        <li class="divider-vertical"></li>
+        
+        %if h.auth.is_admin():
+        <li><a href="/admin">Admin</a></li>
+        
+        <li class="divider-vertical"></li>
+        %endif
+
+        % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
+        <li><a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a></li>
+        %else:
+        <li><a href="${h.url('register')}">Register</a></li>
+        <li><a href="${h.url('signin')}">Sign In</a></li>
+        %endif
+      </ul> 
+    </div>
+  </div>
 </div>
-<div id="home" onclick="window.location=(window.location.protocol+'//'+window.location.host+'/')">&nbsp;</div>
-<div id="title">${next.head_title()}</div>
-
-<div id="nav">
-    <div class="buttons"><a href="/about/">About</a></div>
-    <div class="buttons"><a href="/docs/">API</a></div>
-    <div class="buttons"><a href="/owl/">OWL</a></div>
-    <div class="buttons"><a href="/papers/">Articles & Papers</a></div>
-    <br /><br />
-    <div class="subButtons"><a href="/work">Works</a></div>
-    <div class="subButtons"><a href="/school_of_thought">Schools of Thought</a></div>
-    <div class="subButtons"><a href="/journal">Journals</a></div>
-    <div class="subButtons"><a href="/thinker">Thinkers</a></div>
-    <div class="subButtons"><a href="/idea">Ideas</a></div>
+<div id="logo-container">
+  <div id="logo">
+    <a href="/"><img src="/img/logo.gif"></a>
+  </div>
 </div>
 </%def>
-
-<%def name="menu()">
-<div id="menu" class="yuimenubar yuimenubarnav"></div>
-<script type="text/javascript">
-YAHOO.util.Event.onDOMReady(function () {
-
-    var aItemData = [
-
-        { text: "Articles &amp; Papers", submenu: {  id: "papermenu", itemdata: [
-
-                { text: "2007", submenu: { id: "2007papermenu", itemdata: [
-                        "JCDL", 
-                        "APA Newsletter" 
-                    ] } 
-                },
-                { text: "2008", submenu: { id: "2008papermenu", itemdata: [
-                        "FLAIRS", 
-                        "The World is not Flat",
-                        "Synthese"
-                    ] } 
-                }
-
-            ] }
-        
-        },
-        
-        { text: "Tools", submenu: { id: "toolmenu", itemdata: [
-
-                [ 
-                    { text: "Taxonomy Browser"},
-                    { text: "Thinker Browser"}
-                ],
-                
-                [
-                    { text: "Download Taxonomy" },
-                    { text: "API" },
-                    { text: "Digital Humanities Initiative" }
-                ]
-        
-            ] }
-        },
-
-        { text: "About" }
-
-    ];
-
-
-    // Instantiate a MenuBar, passing in the id of the element to be created
-
-    var oMenuBar = new YAHOO.widget.MenuBar("menu");
-    
-
-    // Add items to the MenuBar instance
-    
-    oMenuBar.addItems(aItemData);
-
-
-    // Render the MenuBar instance
-    
-    oMenuBar.render();
-    
-});
-</script>
-
-</%def>
-
-
 
 <%def name="footer()">
-<div class="yui-b">
-    <div id="footerLeft"><a href="http://www.iub.edu" title="Indiana University"><img src="/img/iub_white.gif" alt="Indiana University Bloomington" style="border: 0px; margin-right:4px;"/></a>
-    <a href="http://www.cogs.indiana.edu">Cognitive Science Program</a> | 
-    819 Eigenmann Hall, 1910 E. 10th St.  Bloomington, IN 47406-7512 | 
-    <a href="http://www.indiana.edu/comments/copyright.shtml">Copyright</a> &copy; 2008  The Trustees of <a href="http://www.indiana.edu/">Indiana University</a>  |
-    <a href="http://www.indiana.edu/comments/complaint.shtml">Copyright Complaints</a> |
-    <a href="/privacy/">Privacy Policy</a>
-    </div>
-    
-    <div id="footerCenter">
-
-    </div>
-    
-    <div id="footerRight"><a href="http://www.neh.gov/odh/" title="Office of Digital Humanities"><img src="/img/ODH.jpg" alt="Office of Digital Humanities" style="border: 0px" /></a>Any views, findings, conclusions or recommendations expressed in this website do not necessarily represent those of the National Endowment for the Humanities.</div>
-	</div> 
+<footer class="footer">
+  <hr />
+  <p>
+    <a href="http://www.iub.edu" title="Indiana University" class="pull-left">
+      <img src="/img/iub_white.gif" alt="Indiana University Bloomington" style="border: 0px; margin-right: 10px;"/>
+    </a>
+    <a href="http://www.cogs.indiana.edu">Cognitive Science Program</a> | 819 Eigenmann Hall, 1910 E. 10th St.  Bloomington, IN 47406-7512
+    <br /> 
+    <a href="http://www.indiana.edu/comments/copyright.shtml">Copyright</a> &copy; 2012 The Trustees of <a href="http://www.indiana.edu/">Indiana University</a>
+     | <a href="http://www.indiana.edu/comments/complaint.shtml">Copyright Complaints</a> | <a href="/privacy/">Privacy Policy</a>
+    <br />
+    Developed using open-source technologies and distributed on <a href="http://github.com/inpho/">GitHub</a>.
+  </p>
+  <hr />
+  <p style="margin-bottom: 25px;">
+    <a href="http://www.neh.gov/odh/" title="Office of Digital Humanities" class="pull-right">
+      <img src="/img/ODH.jpg" alt="Office of Digital Humanities" style="border: 0px; margin-left: 10px;" />
+    </a>
+    Funded through several generous grants by the <a href="http://www.neh.gov/odh/">National Endowment of the Humanities, Office of Digital Humanities</a>. 
+    Any views, findings, conclusions or recommendations expressed in this website do not necessarily represent those of the NEH.
+  </p>
+</footer>
 </%def>

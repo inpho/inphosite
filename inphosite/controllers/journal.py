@@ -7,7 +7,7 @@ from pylons.controllers.util import abort, redirect
 
 # import decorators
 from pylons.decorators import validate
-from inphosite.lib.rest import restrict
+from inphosite.lib.rest import restrict, dispatch_on
 
 # import inphosite information
 from inphosite.lib.base import BaseController, render
@@ -76,8 +76,8 @@ class JournalController(EntityController):
                 journal.URL = unquote(URL)
             journal.check_url()
             Session.commit()
-        else:
-            super(JournalController, self).update(id, terms)
+        
+        super(JournalController, self).update(id, terms)
 
     @restrict('GET')
     def url(self, id=None, url=None):
@@ -141,3 +141,71 @@ class JournalController(EntityController):
                                                  action='view', id=journal.ID)
         return "Moved temporarily"
     
+    def _delete_abbrs(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+   
+        # rudimentary input sanitization
+        pattern = pattern.strip() 
+        if pattern in c.entity.abbrs:
+            c.entity.abbrs.remove(pattern)
+
+            Session.commit()
+
+        return "OK"
+
+    @dispatch_on(DELETE='_delete_abbrs')
+    def abbrs(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+
+        # rudimentary input sanitization
+        pattern = pattern.strip() 
+        if pattern not in c.entity.abbrs:
+            c.entity.abbrs.append(unicode(pattern))
+
+            Session.commit()
+
+        return "OK"
+    
+    def _delete_queries(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+
+        # rudimentary input sanitization
+        pattern = pattern.strip() 
+        if pattern in c.entity.queries:
+            c.entity.queries.remove(pattern)
+
+            Session.commit()
+
+        return "OK"
+
+    @dispatch_on(DELETE='_delete_queries')
+    def queries(self, id):
+        c.entity = h.fetch_obj(Journal, id, new_id=True)
+
+        # add a new search pattern
+        pattern = request.params.get('pattern', None)
+        if pattern is None:
+            abort(400)
+
+        pattern = unicode(pattern) 
+        if pattern not in c.entity.queries:
+            c.entity.queries.append(unicode(pattern))
+
+            Session.commit()
+
+        return "OK"

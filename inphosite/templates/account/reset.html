@@ -6,33 +6,40 @@ ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 <div id="content">
-<h1>Reset Password</h1>
+  <h1>Reset Password</h1>
 
+  <p>Please enter either a usernmae or email address to have a new password sent
+    to you</p>
+  
+  <br />
 
-<p>Please enter either a usernmae or email address to have a new password sent
-to you</p>
+  <form class="form-inline" method="post" action="/account/reset_submit">
+    <input type="text" class="input-medium" placeholder="Username or Email">
+    
+    <button type="submit" class="btn" value="Reset" name="submit">Reset</button>
 
-<form method="post" action="/account/reset_submit">
-  <table class="formbuild">
-    <tbody>
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="login">Username or Email:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" name="login">
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td colspan="2">
-          <input type="submit" value="Reset" name="sumbit">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</form>
-
+    <!--
+	<table class="formbuild">
+	  <tbody>
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="login">Username or Email:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" name="login">
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    <tr>
+              <td></td>
+              <td colspan="2">
+		<input type="submit" value="Reset" name="sumbit">
+              </td>
+	    </tr>
+	  </tbody>
+	</table>
+	-->
+    
+  </form>
 </div>

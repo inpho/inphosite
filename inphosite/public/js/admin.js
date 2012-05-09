@@ -26,7 +26,9 @@ inpho.admin.submit_field = function(attr, url) {
   var status_icon = $('.input-status', $('#' + attr).parent());
   var value = document.getElementById(attr).value;
   if (attr == "URL") {
-      if (value && (value.substring(0, 4) != "http"))
+      if (value 
+          && (value.substring(0, 4) != "http")
+          && (value.substring(0, 4).toLowerCase() != "none"))
         value = "http://" + value;
       var value = encodeURIComponent(value);
   }

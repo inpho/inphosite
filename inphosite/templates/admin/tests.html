@@ -2,7 +2,7 @@
 
 ## Header
 <%def name="title()">${parent.title()} - Update Checks - </%def>
-<%def name="head_title()">Website Update Checklists</%def>
+<%def name="head_title()">Website Update Checklist</%def>
 ## Sidebar
 <%def name="sidebar()">
 ${parent.sidebar()}
@@ -19,7 +19,7 @@ ${parent.sidebar()}
             <td><input type="checkbox" name="test" value="${test.title}" checked="checked"/%> ${test.title}</td>\
         % else:
             % if c.checked != "":
-               <% error = '* Please check ALL fields before submitting.' %>
+               <% error = '* Requires checking manually.' %>
                 <td><input type="checkbox" name="test" value="${test.title}"/%><font color=red>*</font>${test.title}</td>\
             % else:
                 <td><input type="checkbox" name="test" value="${test.title}"/%> ${test.title}</td>\

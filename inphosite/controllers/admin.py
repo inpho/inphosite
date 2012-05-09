@@ -1,10 +1,6 @@
 import logging
 
 import unittest2
-#can this be put somewhere else? I feel like there's a file for these
-#import sys
-#sys.path.insert(0, '~/workspace/testcases')
-#import autotest
 
 from collections import namedtuple
 from time import gmtime, strftime
@@ -20,6 +16,7 @@ from inphosite.lib.rest import restrict, dispatch_on
 # import inphosite information
 from inphosite.lib.base import BaseController, render
 
+import inpho.tests
 from inpho.corpus.sep import get_title, get_titles, new_entries
 import inpho.model as model
 from inpho.model import *
@@ -49,41 +46,64 @@ class AdminController(BaseController):
         """
         Displays the InPhO Update checklist
         """
+        # set up test suite for running tests
+        tests = unittest2.defaultTestLoader.getTestCaseNames(inpho.tests.Autotest)
+        result = unittest2.TestResult()
+        past_fails = 0
+        checked = []
+        first_run = True
+
+        # set up string parsing for docstring
+        testcases = []
+        count = len(tests)
+        Test_info = namedtuple('title', ['title', 'description'], verbose=False)
         
-        with open(config['test_file']) as f:
-            # Parse TESTCASES file, stick cases into variable c.tests
-            testcases = []
-            count = 0
-            Test = namedtuple('Test', ['title', 'description'], verbose=False)
+        # Parse docstring, stick cases into variable c.tests
+        for test in tests:
+            testname = 'inpho.tests.Autotest.' + test
+            # puts docstring in variable doc
+            exec ('doc = ' + testname + '.__doc__')
+
+            # Begin docstring parsing
             state = "t"
             t, d = "", ""
+            # eliminate beginning junk in string
+            doc = doc[8:]
             # Builds list of namedtuples for each test case
-            for line in f:
+            for char in doc:
                 if state == "t":
-                    t = line
-                    state = "d"
-                elif state == "d":
-                    if line != '\n':
-                        d += line
+                    if char == '\n':
+                        state = "space"
+                        continue
                     else:
-                        state = "t"
-                        case = Test(t.rstrip('\n'), d.replace("\n", " "))
+                        t += char
+                elif state == "space":
+                    if char != " ":
+                        d += char
+                        state = "d"
+                elif state == "d":
+                    if char != '\n':
+                        d += char
+                    else:
+                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "))
                         testcases.append(case)
-                        count += 1
-                        t = ""
-                        d = ""
-            c.tests = testcases
-            c.testcount = count
             try:
                 c.checked
+                first_run = False
             except AttributeError:
-                # Run autotest here and save autotest.passed
-                # in c.checked instead of ""
-                #suite = autotest.unittest2.TestLoader().loadTestsFromTestCase(autotest.Auto>
-                #autotest.unittest2.TextTestRunner(verbosity=2).run(suite)
-                c.checked = ""
-            pass
+                # ERROR: it adds all things, even if they fail
+                suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
+                suite.run(result)
+                current_fails = len(result.errors) + len(result.failures)
+                if past_fails == current_fails:
+                    checked.append(t)
+                else:
+                    past_fails = current_fails
 
+        if first_run:
+            c.checked = checked
+        c.tests = testcases
+        c.testcount = count
         # Render the test form
         return render('admin/tests.html')
 

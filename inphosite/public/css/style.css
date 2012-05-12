@@ -1,0 +1,76 @@
+body {
+    padding-top: 60px;
+    }
+
+.footer {
+    padding-top: 50px;    
+    padding-bottom: 100px;
+}
+.brand {
+    margin-left: -10px !important;    
+}
+#logo-container {
+    width: 940px; margin:0 auto; zoom: 1; z-index: -1;
+}
+#logo {
+        /* float: left; */
+        position: absolute;
+        top: 0;
+        margin-top: 0px;
+        z-index: 100000;
+		height:147px;
+        width: 262px;
+	}
+#sidebar {
+    margin-top: 87px;
+}
+
+.icon {
+    float: right;
+}
+.remove{
+    margin-left: 8px;
+    }
+
+.eval {
+    margin-bottom: 0;
+    }
+
+.toggle-abstract {
+    padding: 0px !important;
+}
+
+.search-results .accordion-toggle {
+    color: #000000;
+    display: inline;
+    padding-left: 0;
+}
+.toggle-icon {
+    margin-top: 5px;
+} 
+.search-results .accordion-heading {
+    padding: 12px;
+}
+
+
+/* TERM LIST STYLES */
+.terms {
+    float: left;    
+    margin-right: 70px;
+}
+.terms li {
+    padding-left: 2em;
+    text-indent: -2em;
+    }
+
+.icon-loading {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("../img/loading.gif");
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  *margin-right: .3em;
+}

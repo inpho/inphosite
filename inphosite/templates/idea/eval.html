@@ -1,0 +1,77 @@
+%if c.edit:
+<div class="alert alert-block alert-info" id="i${c.entity2.ID}-eval">
+  <a class="close" data-dismiss="alert">×</a>
+  <h4 class="alert-heading">Help improve the InPhO!</h4>
+  <br />
+  <form class="form-inline eval">
+    <fieldset>
+      <input type="hidden" name="ante_id" value="${c.entity.ID}" />
+      <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
+      <strong>Complete the sentence:</strong>
+        ${h.titlecase(c.entity.label)}
+        <select class="span2" id="relatednessSelect" onchange="inpho.eval.validate('#i${c.entity2.ID}')">
+          <option value="-1" disabled ${'selected' if c.relatedness == -1 else ''}>is &#133; to</option>
+          <option value="0" ${'selected' if c.relatedness == 0 else ''}>is unrelated to</option>
+          <option value="1" ${'selected' if c.relatedness == 1 else ''}>is marginally related to</option>
+          <option value="2" ${'selected' if c.relatedness == 2 else ''}>is somewhat related to</option>
+          <option value="3" ${'selected' if c.relatedness == 3 else ''}>is related to</option>
+          <option value="4" ${'selected' if c.relatedness == 4 else ''}>is highly related to</option>
+        </select>
+      <nobr>
+        <span class="and">and</span>
+        <select class="span2" id="generalitySelect" disabled>
+          <option value="-1" disabled ${'selected' if c.generality == -1 else ''}>is &#133; to</option>
+          <option value="0" ${'selected' if c.generality == 0 else ''}>is more specific than</option>
+          <option value="1" ${'selected' if c.generality == 1 else ''}>is more general than</option>
+          <option value="2" ${'selected' if c.generality == 2 else ''}>is as general as</option>
+          <option value="3" ${'selected' if c.generality == 3 else ''}>is incomparable to</option>
+        </select>
+        ${h.titlecase(c.entity2.label)}.
+      </nobr>
+    </fieldset>
+    <br />
+    <fieldset>
+    <button type="button" class="btn btn-primary" onClick="inpho.eval.submit('#i${c.entity2.ID}')">Submit</button>
+    <button type="button" class="btn" onClick="inpho.eval.reset('#i${c.entity2.ID}')">Reset</button>
+    </fieldset>
+  </form>
+</div>
+
+
+
+%else:
+<div class="alert alert-block alert-success" id="i${c.entity2.ID}-eval">
+  <a class="close" data-dismiss="alert">×</a>
+  <h4 class="alert-heading">Thank you!</h4>
+  <br />
+  <form class="form-inline eval">
+    <fieldset>
+      <input type="hidden" name="ante_id" value="${c.entity.ID}" />
+      You evaluated <strong>${c.entity.label}</strong> as 
+      ${'unrelated to' if c.relatedness == 0 else ''}
+      ${'marginally related to' if c.relatedness == 1 else ''}
+      ${'somewhat related to' if c.relatedness == 2 else ''}
+      ${'related to' if c.relatedness == 3 else ''}
+      ${'highly related to' if c.relatedness == 4 else ''}
+
+      %if c.generality != -1:
+      and
+
+      ${'more specific than' if c.generality == 0 else ''}
+      ${'more general than' if c.generality == 1 else ''}
+      ${'as general as' if c.generality == 2 else ''}
+      ${'incomparable to' if c.generality == 3 else ''}
+      %endif
+      <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
+      <strong>${c.entity2.label}</strong>.
+    </fieldset>
+    %if c.identity:
+    <br />
+    <fieldset>
+    <button type="reset" class="btn" onClick="inpho.eval.get_edit_form('#i${c.entity2.ID}')"><i class="icon-pencil"> </i> Edit Evaluation</button>
+    </fieldset>
+    %endif
+  </form>
+</div>
+
+%endif

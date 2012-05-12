@@ -1,0 +1,59 @@
+<%def name="textbox(attr, url, value='')">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      <div class="input-append">
+        <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      </div>
+    </div>
+</div>
+</%def>
+
+<%def name="url_textbox(attr, url, value='', search='')">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      <div class="input-append">
+        <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+        <a class="add-on btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
+        <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      </div>
+    </div>
+</div>
+</%def>
+
+<%def name="disabled_textbox(attr, value='')">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      ${value}
+      <input type="hidden" id="{attr}" name="${attr}" value="${value}" disabled />
+    </div>
+</div>
+</%def>
+
+<%def name="checkbox(attr, url, label, checked=False)">
+<div class="control-group">
+    <label class="controls checkbox" for="${attr}">
+      <input type="checkbox" id="${attr}" name="${attr}" ${'checked' if checked else ''} onchange="return inpho.admin.submit_field('${attr}', '${url}')"/>
+      ${label}
+    </label>
+</div>
+</%def>
+
+<%def name="list(attr, url, values=tuple())">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      %for value in values:
+      <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')"></i> ${value} </label>
+      %endfor
+      <div class="input-append">
+        <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onkeyup="inpho.admin.process_text(event, '${attr}', '${url}'); return false;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" />
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      </div>
+    </div>
+</div>
+</%def>

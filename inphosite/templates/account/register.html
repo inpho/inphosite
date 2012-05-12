@@ -24,130 +24,219 @@ levels.insert(0, blank)
 
 
 <div id="content">
-<h1>Register</h1>
+  <form class="form-horizontal" method="post" action="/account/submit">
+    <fieldset>
+      <legend>Register</legend>
 
-<form method="post" action="/account/submit">
-  <table class="formbuild">
-    <tbody>
-      ## Name
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="fullname">Full Name:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" name="fullname">
-        </td>
-        <td valign="top" rowspan="2">
-        </td>
-      </tr>
-      ## Username
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="username">Username:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" name="username">
-        </td>
-        <td valign="top" rowspan="2">
-        </td>
-      </tr>
-      ## Email
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="email">E-mail:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" name="email">
-        </td>
-        <td valign="top" rowspan="2">
-        </td>
-      </tr>
-      ## Confirm Email
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="confirm_email">Confirm E-mail:</label>
-        </td>
-        <td class="field" valign="top">
-          <input type="text" name="confirm_email">
-        </td>
-        <td valign="top" rowspan="2">
-        </td>
-      </tr>
-      ## First Area
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="first_area">First Area:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="first_area">
-            %for i,option in options:
-            <option value="${i}">${option}</option>
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Level of Expertise
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span class="required">*</span>
-          <label for="first_area_level">Level of expertise:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="first_area_level">
-            %for i,level in levels:
-            <option value="${i}">${level}</option>
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2">
-        </td>
-      </tr>
-      ## Second Area
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="second_area">Second Area:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="second_area">
-            %for i,option in options:
-            <option value="${i}">${option}</option>
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2"></td>
-      </tr>
-      ## Level of Expertise
-      <tr class="field">
-        <td class="label" valign="top" height="10">
-          <span style="visibility: hidden">*</span>
-          <label for="second_area_level">Level of expertise:</label>
-        </td>
-        <td class="field" valign="top">
-          <select name="second_area_level">
-            %for i,level in levels:
-            <option value="${i}">${level}</option>
-            %endfor
-          </select>
-        </td>
-        <td valign="top" rowspan="2">
-        </td>
-      </tr>
-      ## Submit button
-      <tr>
-        <td></td>
-        <td colspan="2">
-          <input type="submit" value="Register" name="submit">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</form>
+      <div class="control-group">
+	<label class="control-label" for="fullname">Full Name</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="fullname" name="fullname">
+	</div>
+      </div>
 
+      <div class="control-group">
+	<label class="control-label" for="username">Username</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="username" name="username">
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="email">Email</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="email" name="email">
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="confirm_email">Confirm Email</label>
+	
+	<div class="controls">
+	  <input type="text" class="input-large" id="confirm_email" name="confirm_email">
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="first_area" >First Area</label>
+	
+	<div class="controls">
+	  <select id="first_area" name="first_area">
+	    %for i,option in options:
+	    <option value="${i}">${option}</option>
+	    %endfor
+	  </select>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="first_area_level" >Level of Expertise</label>
+	
+	<div class="controls">
+	  <select id="first_area_level" name="first_area_level">
+	    %for i,level in levels:
+	    <option value="${i}">${level}</option>
+	    %endfor
+	  </select>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="second_area" >Second Area</label>
+	
+	<div class="controls">
+	  <select id="second_area" name="second_area">
+	    %for i,option in options:
+	    <option value="${i}">${option}</option>
+	    %endfor
+	  </select>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label" for="second_area_level" >Level of Expertise</label>
+	
+	<div class="controls">
+	  <select id="second_area_level" name="second_area_level">
+	    %for i,level in levels:
+	    <option value="${i}">${level}</option>
+	    %endfor
+	  </select>
+	</div>
+      </div>
+
+      <div class="form-actions">
+	<button type="submit" value="Register" name="submit" class="btn btn-primary">Register</button>
+	<button type="reset" class="btn">Reset</button>
+      </div>
+    </fieldset>
+
+    <!--
+	<table class="formbuild">
+	  <tbody>
+	    ## Name
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="fullname">Full Name:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" name="fullname">
+              </td>
+              <td valign="top" rowspan="2">
+              </td>
+	    </tr>
+	    ## Username
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="username">Username:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" name="username">
+              </td>
+              <td valign="top" rowspan="2">
+              </td>
+	    </tr>
+	    ## Email
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="email">E-mail:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" name="email">
+              </td>
+              <td valign="top" rowspan="2">
+              </td>
+	    </tr>
+	    ## Confirm Email
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="confirm_email">Confirm E-mail:</label>
+              </td>
+              <td class="field" valign="top">
+		<input type="text" name="confirm_email">
+              </td>
+              <td valign="top" rowspan="2">
+              </td>
+	    </tr>
+	    ## First Area
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="first_area">First Area:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="first_area">
+		  %for i,option in options:
+		  <option value="${i}">${option}</option>
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Level of Expertise
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span class="required">*</span>
+		<label for="first_area_level">Level of expertise:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="first_area_level">
+		  %for i,level in levels:
+		  <option value="${i}">${level}</option>
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2">
+              </td>
+	    </tr>
+	    ## Second Area
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="second_area">Second Area:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="second_area">
+		  %for i,option in options:
+		  <option value="${i}">${option}</option>
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2"></td>
+	    </tr>
+	    ## Level of Expertise
+	    <tr class="field">
+              <td class="label" valign="top" height="10">
+		<span style="visibility: hidden">*</span>
+		<label for="second_area_level">Level of expertise:</label>
+              </td>
+              <td class="field" valign="top">
+		<select name="second_area_level">
+		  %for i,level in levels:
+		  <option value="${i}">${level}</option>
+		  %endfor
+		</select>
+              </td>
+              <td valign="top" rowspan="2">
+              </td>
+	    </tr>
+	    ## Submit button
+	    <tr>
+              <td></td>
+              <td colspan="2">
+		<input type="submit" value="Register" name="submit">
+              </td>
+	    </tr>
+	  </tbody>
+	</table>
+	-->
+
+  </form>  
 </div>

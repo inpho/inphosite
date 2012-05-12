@@ -1,65 +1,14 @@
-<%def name="yui()">
-##${h.stylesheet_link(h.url('/yui/2.8.2r1/autocomplete/assets/skins/sam/autocomplete.css'))}
-##${h.javascript_link(h.url('/yui/2.8.2r1/animation/animation-min.js'))}
-##${h.javascript_link(h.url('/yui/2.8.2r1/connection/connection-min.js'))}
-##${h.javascript_link(h.url('/yui/2.8.2r1/datasource/datasource-min.js'))}
-##${h.javascript_link(h.url('/yui/2.8.2r1/autocomplete/autocomplete-min.js'))}
-</%def>
-
 <%def name="actb(id, label=None)" >
-<style type="text/css">
-</style>
-
-%if label:
-<label for="${id}">${label}</label><br />
-%endif
-<div class="actb" style="margin-bottom:20px;">
-    <input type="text" id="${id}" name="${id}"
-    value="${request.params.get('q','')}" style="width:80%;" />
-    <input type="submit" value="Search" style="float: right;" />
-    <div class="actbContainer" id="${id}Container"></div>
+<div class="actb">
+  %if label:
+  <label for="${id}">${label}</label>
+  %endif
+  <form class="form-search" autocomplete="off">
+    <% q = request.params.get('q','') %>
+    <input class="input-medium search-query" type="text" id="${id}" name="${id}" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
+    <button type="submit" class="btn" value="Search">Search</button>
+  </form>
 </div>
-<script type="text/javascript">
-YAHOO.example.RemoteCustomRequest = function() {
-    // Use an XHRDataSource
-    var oDS = new YAHOO.util.XHRDataSource('${h.url(controller='entity', id=None, action='list', filetype='json')}');
-    // Set the responseType
-    oDS.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
-    // Define the schema of the JSON results
-    oDS.responseSchema = {
-        resultsList : "responseData.results",
-        fields : ["label","url","type"]
-    };
-
-    // Instantiate the AutoComplete
-    var oAC = new YAHOO.widget.AutoComplete("${id}", "${id}Container", oDS);
-    // Throttle requests sent
-//    oAC.queryDelay = .5;
-    // Type fill
-    //oAC.typeAhead = true;
-    // The webservice needs additional parameters
-    oAC.generateRequest = function(sQuery) {
-        return "?limit=10&q=" + sQuery ;
-    };
-    oAC.itemSelectEvent.subscribe(function(sType, aArgs) { 
-        var oData = aArgs[2]; // object literal of selected item's result data 
-        // Redirect to the entity 
-        var thisurl = "http://" + window.location.host + oData.url;
-        window.location = thisurl; 
-    });
-    oAC.resultTypeList = false; 
-    oAC.formatResult = function(oResultData, sQuery, sResultMatch) {
-        var markup = [sResultMatch, " <span class='type'>", oResultData.type,
-        "</span>"];
-        return (markup.join(""));
-        };
-    return {
-        oDS: oDS,
-        oAC: oAC
-    };
-}();
-
-
-</script>
+<script src="/js/actb.js"></script>
 </%def>
 

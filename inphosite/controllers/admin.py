@@ -39,9 +39,32 @@ class AdminController(BaseController):
         if not h.auth.is_admin():
             abort(403)
 
+    @restrict('POST')
+    def _do_test(self):
+        test = request.params.get('test', None)
+        if test is None:
+            abort(400)
+        
+        success = False
+        suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
+        suite.run(result)
+        current_fails = len(result.errors) + len(result.failures)
+        if current_fails == 0:
+            success = True
+        else:
+            message = "Test Failed"
+
+        if success:
+            response.status = 200
+            return "OK"
+        else:
+            response.status = 500
+            return message
+
     def list(self, id = None):
         return rd('/entity/list_new')
-
+    
+    @dispatch_on(POST='_do_test')
     def tests(self):
         """
         Displays the InPhO Update checklist
@@ -92,14 +115,14 @@ class AdminController(BaseController):
                 first_run = False
             except AttributeError:
                 # ERROR: it adds all things, even if they fail
-                suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
-                suite.run(result)
-                current_fails = len(result.errors) + len(result.failures)
-                if past_fails == current_fails:
-                    checked.append(t)
-                else:
-                    past_fails = current_fails
-
+#                suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
+#                suite.run(result)
+#                current_fails = len(result.errors) + len(result.failures)
+#                if past_fails == current_fails:
+#                    checked.append(t)
+#                else:
+#                    past_fails = current_fails
+                c.checked=[]
         if first_run:
             c.checked = checked
         c.tests = testcases

@@ -15,7 +15,7 @@ function verify(){
 
 <%def name="sidebar()">
 ${parent.sidebar()}
-${h.form(h.url(controller='entity', action='admin', id=None), method='get')}
+${h.form(h.url(controller='entity', action='list', id=None), method='get')}
 ${h.hidden('redirect','True')}
 <strong>InPhO Admin Interface</strong><br /><br />
 ${actb.actb("q", "Search to add/edit:")}

@@ -47,7 +47,7 @@ class TaxonomyController(EntityController):
         #else:
         #    return render('taxonomy/node.%s' % filetype)
    
-    def list(self, filetype='json'):
+    def list(self, filetype='html'):
         c.nodes = Session.query(Node).all()
         
         entity_q = Session.query(Node)
@@ -69,6 +69,7 @@ class TaxonomyController(EntityController):
         if filetype=='json':
             response.content_type = 'application/json'
         response.headers['Access-Control-Allow-Origin'] = '*' 
+
         c.entities = entity_q.all()
         if request.params.get('redirect', False) and len(c.entities) == 1: 
             h.redirect(h.url(controller=self._controller, action='view', 

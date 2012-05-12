@@ -14,6 +14,7 @@ from inpho import config
 import inpho.model as model
 from inpho.model import Session
 from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought, Thinker
+from inpho.model import Date
 import inpho.corpus.sep as sep
 import inphosite.lib.helpers as h
 from sqlalchemy import or_
@@ -26,6 +27,7 @@ import simplejson
 
 from xml.etree.ElementTree import parse
 from xml.etree import ElementTree as ET
+from sqlalchemy.exc import IntegrityError
 
 log = logging.getLogger(__name__)
 
@@ -61,7 +63,6 @@ class EntityController(BaseController):
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
-        entity_q = entity_q.limit(request.params.get('limit', None))
         #TODO: Remove the following line when Nodes are eliminated
         entity_q = entity_q.filter(Entity.typeID != 2)
         
@@ -69,6 +70,8 @@ class EntityController(BaseController):
         c.nodes = c.nodes.order_by("name").all()
 
         c.query = request.params.get('q', '')
+        c.query = c.query.strip()
+
         c.sep = request.params.get('sep', '')
 
         if request.params.get('sep_filter', False):
@@ -81,10 +84,13 @@ class EntityController(BaseController):
             o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
         
+        # limit must be the last thing applied to the query
+        entity_q = entity_q.limit(request.params.get('limit', None))
+        c.entities = entity_q.all()
+        
         if filetype=='json':
             response.content_type = 'application/json'
-        
-        c.entities = entity_q.all()
+       
         if request.params.get('redirect', False) and len(c.entities) == 1: 
             h.redirect(h.url(controller=self._controller, action='view', 
                              filetype=filetype, id=c.entities[0].ID), 
@@ -196,6 +202,9 @@ class EntityController(BaseController):
         c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
+    def panel(self, id, id2):
+        return self.search(id, id2)
+
     @staticmethod
     def _search_sep(entity, entity2):
         # Build search string
@@ -213,6 +222,7 @@ class EntityController(BaseController):
 
         # Get results and parse the XML
         results = multi_get([url])[0][1]
+        json = None
         if results:
             tree = ET.ElementTree(ET.fromstring(results))
             root = tree.getroot()
@@ -298,7 +308,7 @@ class EntityController(BaseController):
             c.entity2 = h.fetch_obj(Entity, new_id=True)
             redirect(c.entity.url(filetype, action="graph"), code=303)
 
-    def _delete_search_pattern(self, id):
+    def _delete_searchpatterns(self, id):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
 
         # add a new search pattern
@@ -313,12 +323,12 @@ class EntityController(BaseController):
 
         return "OK"
 
-    @dispatch_on(DELETE='_delete_search_pattern')
-    def searchpattern(self, id):
+    @dispatch_on(DELETE='_delete_searchpatterns')
+    def searchpatterns(self, id):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
 
         # add a new search pattern
-        pattern = request.params.get('searchpattern', None)
+        pattern = request.params.get('pattern', None)
         if pattern is None:
             abort(400)
         
@@ -326,6 +336,84 @@ class EntityController(BaseController):
             c.entity.searchpatterns.append(unicode(pattern))
 
             Session.commit()
+
+        return "OK"
+
+    def date_form(self, id):
+        c.id = id
+        c.id2 = 2 # death date processing
+        return render('date.html')
+
+    def _delete_date(self, id, id2):
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+        # get the date object
+        date = self._get_date(id, id2)
+
+        if date in c.entity.dates:
+            c.entity.dates.remove(date)
+
+            Session.commit()
+
+        return "OK"
+
+    def _get_date(self, id, id2):
+        """
+        Helper function to create a date object, used in both deletion and
+        creation.
+        """
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+
+        # process form fields
+        month = int(request.params.get('month', 0))
+        day = int(request.params.get('day', 0))
+        year = int(request.params.get('year', 0))
+        era = request.params.get('era', None)
+
+        # process range fields
+        range = request.params.get('is_date_range', False)
+        if range: 
+            month_end = int(request.params.get('month_end', 0))
+            day_end = int(request.params.get('day_end', 0))
+            year_end = int(request.params.get('year_end', 0))
+            era_end = request.params.get('era_end', None)
+
+        # process era markers:
+        if year and era == 'bce':
+            year *= -1
+        if range and year_end and era_end == 'bce':
+            year_end *= -1
+
+        # data integrity checks, raise a bad request if failed.
+        # TODO: Make data integrity checks
+        if not year and not month and not day:
+            abort(400)
+        
+        if not range:
+            date = Date(c.entity.ID, id2,
+                        year, month, day)
+        else:
+            date = Date(c.entity.ID, id2, 
+                        year, month, day, 
+                        year_end, month_end, day_end)
+
+        return date
+        
+
+    @dispatch_on(DELETE='_delete_date')
+    def date(self, id, id2):
+        """
+        Creates a date object, associated to the id with the relation type of
+        id2.
+        """
+        date = self._get_date(id, id2)
+
+        try:
+            Session.add(date)
+            Session.commit()
+        except IntegrityError:
+            # skip over data integrity errors, since if the date is already in
+            # the db, things are proceeding as intended.
+            pass
 
         return "OK"
 

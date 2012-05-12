@@ -1,182 +1,85 @@
 <%! import urllib %>
 <%inherit file="/base-tree.html" />
 <%namespace name="entity" file="/entity/entity.html" />
+<%def name="head()">
+<script src="/js/eval.js" type="text/javascript"></script>
+<script src="/js/admin.js" type="text/javascript"></script>
+<script src="/js/tabnav.js" type="text/javascript"></script>
+<script src="/js/entity.js" type="text/javascript"></script>
+</%def>
 
 ## Header
 <%def name="title()">Thinker - ${c.entity.label}</%def>
 <%def name="head_title()">${c.entity.label}</%def>
-## Sidebar
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
-
 
 ## Body
-<div class="yui-gd">
-<script src="/js/admin.js" type="text/javascript"></script>
-<script type="text/javascript">
-function srch(elm, id, id2) {
-    if (!($(elm).hasClass('active'))) {
-        $("#moreInfo").html("<p>Loading search results ...</p><p><img src='/img/loading.gif' /></p>");
-        var src  = '/entity/' + id + '/search/' + id2;
-        $.get(src, function(data){
-                $("#moreInfo").html(data);
-            });
-        $('.active').removeClass('active');
-        $(elm).addClass('active');
-    }
-}
-</script>
-
-
-<div id="content">
-<h1>${c.entity.label}</h1>
+<h1>${h.titlecase(c.entity.label)}</h1>
 %if c.entity.sep_dir:
-<p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/"
-target="_blank">
-<img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a>
-also has an article in the Stanford Encyclopedia of Philosophy.</p>
+<p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/" target="_blank"><img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
-<p><a href="#moreInfo" onClick="showInfo()">Biographical information</a></p>
-</div>
+%if c.entity.wiki:
+<p><a href="http://wikipedia.org/wiki/${c.entity.wiki}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
+%endif
 
 
-<div id="contentLeft">
-<script src="/js/eval.js" type="text/javascript"></script>
+<ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
+    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
+    %if h.auth.is_admin():
+    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
+    %endif
+</ul>
 
 
 
+<div class="tab-content" id="tabnav-content">
+    <div class="tab-pane active" id="home">
+      <dl class="dl-horizontal">
+          %if c.entity.birth_sd():
+          <dt>Birth Date:</dt>
+          <dd>
+          ${c.entity.birth_sd()}
+          </dd>
+          %endif
+          
+          %if c.entity.death_sd():
+          <dt>Death Date:</dt>
+          <dd>
+          ${c.entity.death_sd()}
+          </dd>
+          %endif
+      
+          %if len(c.entity.nationalities):
+          <dt>Nationality/ethnicity:</dt>
+          %for nationality in c.entity.nationalities:
+          <dd>${nationality.name}</dd>
+          %endfor
+          %endif
+      
+          %if len(c.entity.professions):
+          <dt>Profession:</dt>
+          %for profession in c.entity.professions:
+          <dd>${profession.name}</dd>
+          %endfor
+          %endif
+      
+          %if len(c.entity.aliases):
+          <dt>Alias:</dt>
+          %for alias in c.entity.aliases:
+          <dd>${alias}</dd>
+          %endfor
+          %endif
+      </dl>
+      ${entity.printList('influenced')}
+      ${entity.printList('influenced_by')}
+      ${entity.printList('students')}
+      ${entity.printList('teachers')}
+      ${entity.printList('related', 'Related Thinkers', statistical=True)}
+      ${entity.printList('related_ideas', 'Related Terms', statistical=True)}
+    </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
-  ${entity.printAdminPanel(["id", "type", "label", "sep_dir", "searchstring", "wiki", "birthday", "deathday", "searchpatterns"])}
+    <div class="tab-pane" id="admin">
+${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "wiki", "searchpatterns", "birth", "death"])}
+    </div>
 %endif
-
-
-<div id="influencedBy">
-%if not c.entity.influenced_by:
-<h3 class="empty">Influenced By</h3>
-%else:
-<h3>Influenced By
-<span class="toggle on" onclick="toggleList('#influencedBy')">&nbsp;</span>
-</h3>
-<ul>
-    %for thinker in c.entity.influenced_by:
-    ${printEntity(thinker)}
-    %endfor
-</ul>
-%endif
-</div>
-
-
-<div id="students">
-%if not c.entity.students:
-<h3 class="empty">Students</h3>
-%else:
-<h3>Students
-<span class="toggle on" onclick="toggleList('#students')">&nbsp;</span>
-</h3>
-<ul>
-    %for thinker in c.entity.students:
-    ${printEntity(thinker)}
-    %endfor
-</ul>
-%endif
-</div>
-
-<div id="influenced">
-%if not c.entity.influenced:
-<h3 class="empty">Influenced</h3>
-%else:
-<h3>Influenced
-<span class="toggle on" onclick="toggleList('#influenced')">&nbsp;</span>
-</h3>
-<ul>
-    %for thinker in c.entity.influenced:
-    ${printEntity(thinker)}
-    %endfor
-</ul>
-%endif
-</div>
-
-<div id="related">
-%if not c.entity.related_ideas.first():
-<h3 class="empty">Related Terms</h3>
-%else:
-<h3>Related Terms
-<span class="toggle on" onclick="toggleList('#related')">&nbsp;</span>
-</h3>
-<p class="bottom">Generated by <i>statistical measures</i></p>
-<ol>
-%for idea in c.entity.related_ideas[0:9]:
-${printEntity(idea)}
-%endfor
-</ol>
-%endif
-</div> <!-- related -->
-
-<%def name="printEntity(entity)">
-    <li onClick="srch(this, ${c.entity.ID}, ${entity.ID})" class="idea">\
-    <a href="${entity.url()}" class="sep">
-    <img src="/img/inpho.png" /></a>\
-    %if entity.sep_dir:
-    <a href="http://plato.stanford.edu/entries/${entity.sep_dir}/" class="icons">
-    <img src="/img/sepmanicon.png" /></a>\
-    %endif
-    <a href="#moreInfo">${entity.label}</a>\
-    </li>
-</%def>
-</div> <!-- contentLeft -->
-
-<div id="moreInfo">
-<dl>
-    %if c.entity.birth_sd():
-    <dt>Birth Date:</dt>
-    <dd>
-    ${c.entity.birth_sd()}
-    </dd>
-	<br />
-    %endif
-    
-    %if c.entity.death_sd():
-    <dt>Death Date:</dt>
-    <dd>
-    ${c.entity.death_sd()}
-    </dd>
-	<br />
-    %endif
-
-    %if len(c.entity.nationalities):
-    <dt>Nationality/ethnicity:</dt>
-    %for nationality in c.entity.nationalities:
-    <dd>${nationality.name}</dd>
-    %endfor
-	<br />
-    %endif
-
-    %if len(c.entity.professions):
-    <dt>Profession:</dt>
-    %for profession in c.entity.professions:
-    <dd>${profession.name}</dd>
-    %endfor
-	<br />
-    %endif
-
-    %if len(c.entity.aliases):
-    <dt>Alias:</dt>
-    %for alias in c.entity.aliases:
-    <dd>${alias}</dd></dl>
-    %endfor
-	<br />
-    %endif
-</div>
-
-<script type="text/javascript">
-var info = $('#moreInfo').html();
-function showInfo() {
-    $("#moreInfo").html(info);
-}
-</script>
-
-
-</div>
+</div> <!-- tab-content -->

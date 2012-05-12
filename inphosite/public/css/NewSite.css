@@ -362,6 +362,20 @@ li p {
     padding-bottom: 6px;
     }
 
+
+.date_range {
+display: none;
+}
+form.dateControl {
+    display: block;
+    width: 550px;
+}
+
+.dateControlLabel {
+    display: inline !important;
+    float: none !important;
+}
+
 .answer {
     padding-top: 6px;
     display: none;

@@ -1,112 +1,125 @@
-
 %if c.entity2 is None:
 <p>Search for <em>${c.entity.label}</em>:</p>
 %else:
 <p>Search for <em>${c.entity2.label}</em> in the context of <em>${c.entity.label}</em>:</p>
 %endif
 
-<script type="text/javascript">
-  function toggleList(selector) {
-  if ($('.on', selector).length > 0) {
-    $('.on', selector).removeClass('on').addClass('off');
-  } else {
-    $('.off', selector).removeClass('off').addClass('on');
-  }
-    $('ol', selector).toggle("slow");
-    $('p', selector).toggle("slow");
-  }
+<script>
+
+  $(function () {
+  $('#searchTabs a:first').tab('show')
+  })
+  
 </script>
 
-${printSEPResults()}
+<ul class="nav nav-tabs" id="searchTabs">
+  <li class="active">
+    <a href="#SEP" data-toggle="tab">
+      SEP Internal Search
+    </a>
+  </li>
+  <li>
+    <a href="#noesis" data-toggle="tab">
+      Noesis
+    </a>
+  </li>
+  <li>
+    <a href="#bing" data-toggle="tab">
+      Bing Web Search
+    </a>
+  </li>
+</ul>
 
-${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
-
-${printBingResults()}
+<div class="tab-content">
+  <div class="tab-pane active" id="SEP">
+    ${printSEPResults()}
+  </div>
+  <div class="tab-pane" id="noesis">
+    ${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
+  </div>
+  <div class="tab-pane" id="bing">
+    ${printBingResults()}
+  </div>
+</div>
 
 <%def name="printResults(title, results, results_link=None, icon=None)">
-<div class="result">
-%if not results or results['queries']['request'][0]['totalResults'] == '0':
-<h3>${title}</h3>
-<p>No search results.</p>
-%else:
-<h3>${title} <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
-<ol class="search-results">
+<div class="search-results" id="search">
+  %if not results or results['searchInformation']['totalResults'] == '0':
+  <p>No search results.</p>
+  %else:
+  <ol class="unstyled">
     %for i in range(min(len(results['items']), 4)):
     <% r = results['items'][i] %>
     <li>
-    <h4><a href="${r['link']}" target="_blank">${r['title'] | n}</a></h4>
-    <p>${r['htmlSnippet'] | n}</p>
+      <h4>
+	<a href="${r['link']}" target="_blank">${r['title'] | n}</a>
+      </h4>
+      <p>${r['htmlSnippet'] | n}</p>
     </li>
     %endfor
-</ol>
-<% 
-img = ''
+  </ol>
+<% img = ''
 if icon:
-    img = '<img src="' + icon + '" valign="text-bottom" /> '
+   img = '<img src="' + icon + '" valign="text-bottom" /> '
 %>
-
 %if not results_link:
 ## This arm of the 'if' will *not* work with the new Google CSE API.
-<p style="text-align:right; font-weight:bold"><a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a></p>
-%else:
-<% 
-more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + \
-       "&cof=FORID:11"
-%>
-<p style="text-align:right; font-weight:bold"><a target="_blank" href="${more | n}">${img}More results...</a></p>
-%endif
-%endif
+  <p style="text-align:right; font-weight:bold">
+    <a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a>
+  </p>
+  %else:
+  <% more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + "&cof=FORID:11" %>
+  <p style="text-align:right; font-weight:bold">
+    <a target="_blank" href="${more | n}">${img}More results...</a>
+  </p>
+  %endif
+  %endif
 </div>
 </%def>
 
 
 <%def name="printSEPResults()">
-<div class="result">
-%if not c.sep:
-<h3>SEP Internal Search</h3>
-<p>Error loading results.</p>
-%elif len(c.sep) == 0:
-<h3>SEP Internal Search</h3>
-<p>No search results.</p>
-%else:
-	<h3>SEP Internal Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
-	<ol class="search-results">
+<div class="search-results" id="SEPSearch">
+  %if not c.sep:
+  <p>Error loading results.</p>
+  %elif len(c.sep) == 0:
+  <p>No search results.</p>
+  %else:
+  <ol class="unstyled">
     %for item in c.sep[:4]:
-	<li>
-			<h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
-			<p>${item['LongDescription'] | n}</p>
-	</li>
+    <li>
+      <h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
+      <p>${item['LongDescription'] | n}</p>
+    </li>
     %endfor
-    </ol>
-	    <p style="text-align:right; font-weight:bold"><a target="_blank"
-        href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
-
-%endif
+  </ol>
+  <p style="text-align:right; font-weight:bold"><a target="_blank" href="http://plato.stanford.edu/search/searcher.py?query=${c.sep_searchstr}">More results...</a></p>
+  %endif
 </div>
 </%def>
 
 <%def name="printBingResults()">
-<div class="result">
-%if not c.sep:
-<h3>Bing Web Search</h3>
-<p>Error loading results.</p>
-%elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
-<h3>Bing Web Search</h3>
-<p>No search results.</p>
-%else:
-	<h3>Bing Web Search <span class="toggle on" onclick="toggleList($(this).parent().parent())">&nbsp;</span></h3>
-	<ol class="search-results">
+<div class="search-results" id="bingSearch">
+  %if not c.sep:
+  <p>Error loading results.</p>
+  %elif len(c.bing['SearchResponse']['Web']['Results']) == 0:
+  <p>No search results.</p>
+  %else:
+  <ol class="unstyled">
     %for item in c.bing['SearchResponse']['Web']['Results'][:4]:
-	<li>
-			<h4><a href="${item['Url']}" target="_blank">${item['Title'] | n}</a></h4>
-			<p>${item['Description'] | n}</p>
-	</li>
+    <li>
+      <h4>
+	<a href="${item['Url']}" target="_blank">${item['Title'] | n}</a>
+      </h4>
+      <p>${item['Description'] | n}</p>
+    </li>
     %endfor
-    </ol>
-	    <p style="text-align:right; font-weight:bold"><a target="_blank"
-        href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a></p>
-
-%endif
+  </ol>
+  <p style="text-align:right; font-weight:bold">
+    <a target="_blank" href="http://www.bing.com/search?q=${c.bing_searchstr}">More results...</a>
+  </p>
+  %endif
 </div>
 </%def>
+
 

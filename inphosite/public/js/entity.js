@@ -11,7 +11,22 @@ inpho.entity.showMore = function (attr, id, n, start) {
         // append each item to the list
         for (i in data.responseData.results) {
             var idea = data.responseData.results[i];
-            var item = '<li><a onClick="inpho.tabnav.appendTab(\'tabnav\', \'i'+ idea.ID +'\', \''+ idea.label + '\', \'/idea/' + idea.ID + '/panel/' + id + '\')" href="#i'+ idea.ID + '" data-toggle="tab">' + idea.label + '</a></li>';
+            var item = '<li>'
+              + ' <a onClick="inpho.tabnav.appendTab(\'tabnav\', \'i'+ idea.ID +'\', \''+ idea.label + '\', \'/idea/' + idea.ID + '/panel/' + id + '\')" href="#i'+ idea.ID + '" data-toggle="tab" class="tablink"><i class="icon-search"></i></a> ';
+
+            // SEP link
+            if (idea.sep_dir != undefined && idea.sep_dir != '')
+              item += '<a href="http://plato.stanford.edu/entries/' + idea.sep_dir + '"><img src="/img/sepmanicon.png" class="pull-right" /></a>';
+            else item += '<img src="/img/empty.gif" class="pull-right" width="16" />';
+
+            // Wiki link
+            if (idea.wiki != undefined && idea.wiki != '')
+              item += '<a href="http://wikipedia.org/wiki/' + idea.wiki + '"><img src="/img/wikiicon.png" class="pull-right" /></a>';
+            else item += '<img src="/img/empty.gif" class="pull-right" width="16" />';
+
+
+            item += '<a href="' + idea.url + '">' + idea.label + '</a>';
+            item += '</li>';
             $('#' + attr + ' ol .more').before(item);
         }
 

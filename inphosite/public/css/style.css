@@ -78,3 +78,7 @@ body {
   background-repeat: no-repeat;
   *margin-right: .3em;
 }
+
+.terms .tablink {
+    margin-left: -18px;
+}

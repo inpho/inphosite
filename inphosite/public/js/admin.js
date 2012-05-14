@@ -2,6 +2,18 @@
 inpho = inpho || {};
 inpho.admin = inpho.admin || {};
 
+
+// *** TEXT FIELD PROCESSING *** //
+// For our text fields, we use several events to change a status icon
+// corresponding to each control:
+// * keydown captures enter and tab to submit the field without submitting the
+//   default html form.
+// * keyup caputres enter again and fires a change event for all non-tab chars
+// * change ensures that the status reflects the current state of the database.
+//   if a newly input character causes this to go out of sync, the status icon
+//   changes to a submit icon. If later changes cause it to go back in sync, the
+//   status icon changes back to the checkmark.
+
 // inpho.admin.process_keydown
 // For use with the onkeydown handler to intercept enter and tab keypresses
 // and trigger form submission.
@@ -32,27 +44,38 @@ inpho.admin.process_keyup = function(e) {
         return false;
     } else if (e.keyCode == 27) { // Escape 
         return inpho.admin.reset_field(attr, url);
-    } else if (e.keyCode != 9) {
-        // change the status_icon for all keystrokes, other than tab
-        var status_icon = $('.input-status', $(this).parent());
-        status_icon.removeClass('icon-ok');
-        status_icon.removeClass('icon-warning-sign');
-        status_icon.removeClass('icon-loading');
-        $(this).parents('.control-group').removeClass('success');
-        $(this).parents('.control-group').removeClass('error');
-        status_icon.addClass('icon-share-alt');
+    } else if (e.keycode != 9) {
+        $(this).change();  
     }
 }
 // bind keyup to .admin-text on document.ready()
-$(function() { $('.admin-text').bind('keydown', inpho.admin.process_keyup) });
+$(function() { $('.admin-text').bind('keyup', inpho.admin.process_keyup) });
+
+inpho.admin.process_change = function(e) {
+    /*alert('during change: ' + $(this).val()
+            + '\ndefault: ' + this.defaultValue);*/
+
+    var status_icon = $('.input-status', $(this).parent());
+    if ($(this).val() != this.defaultValue) {
+        status_icon.removeClass('icon-*');
+        $(this).parents('.control-group').removeClass('success');
+        $(this).parents('.control-group').removeClass('error');
+        status_icon.addClass('icon-share-alt');
+    } else {
+        status_icon.removeClass('icon-loading');
+        status_icon.removeClass('icon-warning-sign');
+        status_icon.removeClass('icon-share-alt');
+        status_icon.addClass('icon-ok');
+    }
+}
+$(function() { $('.admin-text').bind('change', inpho.admin.process_change) });
 
 
 inpho.admin.submit_field = function(attr, url) {
   var status_icon = $('.input-status', $('#' + attr).parent());
   var value = document.getElementById(attr).value;
   if (attr == "URL") {
-      if (value 
-          && (value.substring(0, 4) != "http")
+      if (value && (value.substring(0, 4) != "http")
           && (value.substring(0, 4).toLowerCase() != "none"))
         value = "http://" + value;
       var value = encodeURIComponent(value);
@@ -62,10 +85,6 @@ inpho.admin.submit_field = function(attr, url) {
         value = "1";  
       else
         value = "0";
-  }
-  
-  if (value == "None" || value == "undefined") {
-    value = "";
   }
   
   var xhr = new XMLHttpRequest();
@@ -82,6 +101,9 @@ inpho.admin.submit_field = function(attr, url) {
               var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i>' + val + '</label>';
               $('#'+attr).before(new_entry);
               $('#'+attr).val('');
+          } else {
+              // change the default value to the newly submitted value
+              $('#'+attr)[0].defaultValue = value;  
           }
         } else {
           status_icon.removeClass('icon-loading');

@@ -44,9 +44,12 @@ class AdminController(BaseController):
         test = request.params.get('test', None)
         if test is None:
             abort(400)
-        
+
+        testname = 'inpho.tests.Autotest.' + test 
         success = False
+       # current_fails=0
         suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
+        result = unittest2.TestResult()
         suite.run(result)
         current_fails = len(result.errors) + len(result.failures)
         if current_fails == 0:
@@ -56,7 +59,7 @@ class AdminController(BaseController):
 
         if success:
             response.status = 200
-            return "OK"
+            return test
         else:
             response.status = 500
             return message
@@ -108,7 +111,7 @@ class AdminController(BaseController):
                     if char != '\n':
                         d += char
                     else:
-                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "))
+                        case = Test_info(test, d.replace("\n", " "))
                         testcases.append(case)
             try:
                 c.checked

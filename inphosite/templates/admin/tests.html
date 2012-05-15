@@ -4,28 +4,9 @@
 <%def name="title()">${parent.title()} - Update Checks - </%def>
 <%def name="head_title()">Website Update Checklist</%def>
 ## Sidebar
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-</%def>
-<script type="text/javascript">
-$(':checkbox').each(
-function(index, elt) {
-    $.post('/admin/log_tests',
-    {'test' : $(elt).attr('id')})
-    .success(function(data) {
-        //handle success
-        alert('success');
-        })
-    .failure( function(data){
-        // handle failure
-        alert('failure');
-        })
-})
-</script>
+<%def name="sidebar()">${parent.sidebar()}<br/></%def>
 
-
-<form action="/admin/log_tests" method="POST">
+<form action="/admin/log_tests" method="GET">
 <% error = "" %>
 <table rules="rows" width="709">
     <tr><td></td><td>CHECK</td><td>DESCRIPTION</td>
@@ -52,3 +33,14 @@ function(index, elt) {
 <input type="hidden" name="count" value="${count}" /%>
 </form>
 
+<script>
+$(document).ready(function(){
+    $(':checkbox').each(
+    function(index, elt){
+        $.post("/admin/tests",{'test' : $(elt).attr('value')})
+        .success(function() { $(elt).attr('checked', "checked"); })
+        .error(function() { alert($(elt).attr('value') + " failed!"); })
+        })
+    });
+
+</script>

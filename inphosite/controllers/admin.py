@@ -47,7 +47,6 @@ class AdminController(BaseController):
 
         testname = 'inpho.tests.Autotest.' + test 
         success = False
-       # current_fails=0
         suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
         result = unittest2.TestResult()
         suite.run(result)
@@ -72,10 +71,7 @@ class AdminController(BaseController):
         """
         Displays the InPhO Update checklist
         """
-        # set up test suite for running tests
         tests = unittest2.defaultTestLoader.getTestCaseNames(inpho.tests.Autotest)
-        result = unittest2.TestResult()
-        past_fails = 0
         checked = []
         first_run = True
 
@@ -87,15 +83,12 @@ class AdminController(BaseController):
         # Parse docstring, stick cases into variable c.tests
         for test in tests:
             testname = 'inpho.tests.Autotest.' + test
-            # puts docstring in variable doc
             exec ('doc = ' + testname + '.__doc__')
 
-            # Begin docstring parsing
             state = "t"
             t, d = "", ""
             # eliminate beginning junk in string
             doc = doc[8:]
-            # Builds list of namedtuples for each test case
             for char in doc:
                 if state == "t":
                     if char == '\n':
@@ -117,20 +110,11 @@ class AdminController(BaseController):
                 c.checked
                 first_run = False
             except AttributeError:
-                # ERROR: it adds all things, even if they fail
-#                suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
-#                suite.run(result)
-#                current_fails = len(result.errors) + len(result.failures)
-#                if past_fails == current_fails:
-#                    checked.append(t)
-#                else:
-#                    past_fails = current_fails
                 c.checked=[]
         if first_run:
             c.checked = checked
         c.tests = testcases
         c.testcount = count
-        # Render the test form
         return render('admin/tests.html')
 
     def log_tests(self):
@@ -139,7 +123,6 @@ class AdminController(BaseController):
         if len(checks) == count:
             with open('/Users/alefrost/logfile.txt', 'a') as f:
                 f.write('[' + strftime("%a, %d %b %Y %H:%M:%S", gmtime()) + '] ' + h.auth.username(request) + '\n')
-                            # redirect to success.html
             return render('admin/success.html')
         else:
             c.checked = []

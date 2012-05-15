@@ -65,18 +65,18 @@ class JournalController(EntityController):
 
     #UPDATE
     def update(self, id=None):
-        terms = ['label', 'sep_dir', 'URL', 'last_accessed', 'language', 'openAccess', 'active', 'student', 'ISSN']
+        terms = ['label', 'sep_dir', 'last_accessed', 'language', 'openAccess', 'active', 'student', 'ISSN']
 
         URL = request.params.get('URL', None)
         if URL is not None:
             journal = h.fetch_obj(Journal, id)
             if URL == 'none' or URL == 'None':
-               journal.URL = None
+                journal.URL = None
             else:
                 journal.URL = unquote(URL)
-            journal.check_url()
+                journal.check_url()
             Session.commit()
-        
+
         super(JournalController, self).update(id, terms)
 
     @restrict('GET')

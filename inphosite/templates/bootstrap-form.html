@@ -1,3 +1,4 @@
+<%! import time %>
 <%def name="textbox(attr, url, value='')">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
@@ -10,7 +11,7 @@
 </div>
 </%def>
 
-<%def name="url_textbox(attr, url, value='', search='')">
+<%def name="url_textbox(attr, url, value='', search='', access_attr='last_accessed')">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
@@ -18,6 +19,8 @@
         <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value}" data-url="${url}" />
         <a class="add-on btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
         <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
+        <input type="hidden" id="${access_attr}" value="${time.time()}" />
+        <a class="add-on btn" id="manual_${attr}" onclick="return inpho.admin.submit_field('${access_attr}', '${url}')">Override</a>
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
       </div>
     </div>

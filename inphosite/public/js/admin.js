@@ -57,7 +57,9 @@ inpho.admin.process_change = function(e) {
 
   var status_icon = $('.input-status', $(this).parent());
   if ($(this).val() != this.defaultValue) {
-    status_icon.removeClass('icon-*');
+    status_icon.removeClass('icon-ok');
+    status_icon.removeClass('icon-loading');
+    status_icon.removeClass('icon-warning-sign');
     $(this).parents('.control-group').removeClass('success');
     $(this).parents('.control-group').removeClass('error');
     status_icon.addClass('icon-share-alt');
@@ -91,6 +93,7 @@ inpho.admin.submit_field = function(attr, url) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
       if (xhr.status < 400) {
+        status_icon.removeClass('icon-share-alt');
         status_icon.removeClass('icon-loading');
         status_icon.addClass('icon-ok');
         $('#'+attr).parents('.control-group').addClass('success');
@@ -114,12 +117,12 @@ inpho.admin.submit_field = function(attr, url) {
   }
   xhr.open('PUT', url, true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  $('#'+attr+' .input-status').removeClass('icon-*');
+  
   $('#'+attr).parents('.control-group').removeClass('error');
   $('#'+attr).parents('.control-group').removeClass('success');
-
   status_icon.removeClass('icon-warning-sign');
   status_icon.removeClass('icon-share-alt');
+  status_icon.removeClass('icon-ok');
   status_icon.addClass('icon-loading');
   if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries")
     xhr.send("pattern=" + value);
@@ -130,15 +133,8 @@ inpho.admin.submit_field = function(attr, url) {
 inpho.admin.remove = function(elt, attr, url) {
   var value = "?pattern=" + encodeURIComponent($(elt).text());
   url = url + value
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4) {
-      $(elt).remove();
-    }
-  }
-  xhr.open('DELETE', url, true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send();
+  $.ajax({ type: 'DELETE', url: url,
+           success: function() {$(elt).remove()} });
 }
 
 

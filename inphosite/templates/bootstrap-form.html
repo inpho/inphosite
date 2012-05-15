@@ -1,11 +1,14 @@
 <%! import time %>
-<%def name="textbox(attr, url, value='')">
+<%def name="textbox(attr, url, value='', search='')">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       <div class="input-append">
         <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value}" data-url="${url}" />
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+        %if search:
+        <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank"><i class="icon-search"></i></a>
+        %endif
       </div>
     </div>
 </div>
@@ -17,11 +20,10 @@
     <div class="controls">
       <div class="input-append">
         <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value}" data-url="${url}" />
+        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
         <a class="add-on btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
-        <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
         <input type="hidden" id="${access_attr}" value="${time.time()}" />
         <a class="add-on btn" id="manual_${attr}" onclick="return inpho.admin.submit_field('${access_attr}', '${url}')">Override</a>
-        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
       </div>
     </div>
 </div>

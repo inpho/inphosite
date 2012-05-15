@@ -134,7 +134,7 @@ inpho.admin.remove = function(elt, attr, url) {
   var value = "?pattern=" + encodeURIComponent($(elt).text());
   url = url + value
   $.ajax({ type: 'DELETE', url: url,
-           success: function() {$(elt).remove()} });
+           success: function() { $(elt).remove()} });
 }
 
 

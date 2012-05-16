@@ -56,7 +56,7 @@
       <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')" data-url="${url}"></i> ${value} </label>
       %endfor
       <div class="input-append">
-        <input class="admin-text" type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" data-url="${url}" />
+        <input class="admin-text" type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" data-url="${url}" />
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
       </div>
     </div>

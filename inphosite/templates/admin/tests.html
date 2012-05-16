@@ -12,18 +12,13 @@
     <tr><td></td><td>CHECK</td><td>DESCRIPTION</td>
     % for test in c.tests:
     <tr>
-        <td>status-icon</td>
+        <td><i class="icon-loading" id="${test.fn_name}"></i></td>
         % if test.title in c.checked:
-            <td><input type="checkbox" name="test" value="${test.title}" id="hello" checked="checked"/%> ${test.title}</td>\
+            <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}" checked="checked"/%> ${test.title}</td>\
         % else:
-            % if c.checked != "":
-               <% error = '* Requires checking manually.' %>
-                <td><input type="checkbox" name="test" value="${test.title}" id="star"/%><font color=red>*</font>${test.title}</td>\
-            % else:
-                <td><input type="checkbox" name="test" value="${test.title}" id="notchecked"/%> ${test.title}</td>\
-            % endif
+            <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}"/%> ${test.title}</td>\
         % endif
-        <td>${test.description}</td>\
+        <td>${test.description}</td>
     <tr>
     % endfor
 </table>
@@ -37,9 +32,16 @@
 $(document).ready(function(){
     $(':checkbox').each(
     function(index, elt){
-        $.post("/admin/tests",{'test' : $(elt).attr('value')})
-        .success(function() { $(elt).attr('checked', "checked"); })
-        .error(function() { alert($(elt).attr('value') + " failed!"); })
+        $.post("/admin/tests",{'test' : $(elt).attr('alt')})
+        .success(function() {
+            $("#"+$(elt).attr('alt')).removeClass('icon-loading');
+            $("#"+$(elt).attr('alt')).addClass('icon-ok');
+            $(elt).attr('checked', "checked");
+            })
+        .error(function() { 
+            $("#"+$(elt).attr('alt')).removeClass('icon-loading');
+            $("#"+$(elt).attr('alt')).addClass('icon-warning-sign');
+            })
         })
     });
 

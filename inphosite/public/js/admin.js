@@ -101,7 +101,7 @@ inpho.admin.submit_field = function(attr, url) {
           var val = value;
           val = val.replace("<", "&lt;")
           val = val.replace(">", "&gt;")
-          var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')"></i>' + val + '</label>';
+          var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, \'' + attr + '\', \'' + url + '\')" data-url="' + url + '"></i> ' + val + ' </label>';
           $('#'+attr).before(new_entry);
           $('#'+attr).val('');
         } else {

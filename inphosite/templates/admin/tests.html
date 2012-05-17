@@ -8,8 +8,8 @@
 
 <form action="/admin/log_tests" method="GET">
 <% error = "" %>
-<table rules="rows" width="709">
-    <tr><td></td><td>CHECK</td><td>DESCRIPTION</td>
+<table border="1" width="709">
+    <tr><th></th><th>TEST</th><th>DESCRIPTION</th><th>CHECK MANUALLY</th>
     % for test in c.tests:
     <tr>
         <td><i class="icon-loading" id="${test.fn_name}"></i></td>
@@ -19,6 +19,7 @@
             <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}"/%> ${test.title}</td>\
         % endif
         <td>${test.description}</td>
+        <td><a href="${test.link}">Click Here</a></td>
     <tr>
     % endfor
 </table>

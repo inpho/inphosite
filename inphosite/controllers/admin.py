@@ -78,7 +78,7 @@ class AdminController(BaseController):
         # set up string parsing for docstring
         testcases = []
         count = len(tests)
-        Test_info = namedtuple('title', ['title', 'description', 'fn_name'], verbose=False)
+        Test_info = namedtuple('title', ['title', 'description', 'fn_name', 'link'], verbose=False)
         
         # Parse docstring, stick cases into variable c.tests
         for test in tests:
@@ -86,7 +86,7 @@ class AdminController(BaseController):
             exec ('doc = ' + testname + '.__doc__')
 
             state = "t"
-            t, d = "", ""
+            t, d, l = "", "", ""
             # eliminate beginning junk in string
             doc = doc[9:]
             for char in doc:
@@ -104,7 +104,13 @@ class AdminController(BaseController):
                     if char != '\n':
                         d += char
                     else:
-                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test)
+                        state = "link"
+                        continue
+                elif state == "link":
+                    if char != '\n':
+                        l += char
+                    else:
+                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test, l)
                         testcases.append(case)
             try:
                 c.checked

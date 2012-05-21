@@ -42,12 +42,13 @@ class AdminController(BaseController):
     @restrict('POST')
     def _do_test(self):
         test = request.params.get('test', None)
+        server = str(request.params.get('server', None))
+        success = False
         if test is None:
             abort(400)
-
-        testname = 'inpho.tests.Autotest.' + test 
-        success = False
-        suite = unittest2.defaultTestLoader.loadTestsFromName(testname)
+        
+        suite = unittest2.TestSuite()
+        suite.addTest(inpho.tests.Autotest(test, server))
         result = unittest2.TestResult()
         suite.run(result)
         current_fails = len(result.errors) + len(result.failures)
@@ -110,7 +111,7 @@ class AdminController(BaseController):
                     if char != '\n':
                         l += char
                     else:
-                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test, l)
+                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test, l.strip(" "))
                         testcases.append(case)
             try:
                 c.checked

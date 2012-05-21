@@ -33,7 +33,7 @@
 $(document).ready(function(){
     $(':checkbox').each(
     function(index, elt){
-        $.post("/admin/tests",{'test' : $(elt).attr('alt')})
+        $.post("/admin/tests",{'test' : $(elt).attr('alt'), 'server': location.host })
         .success(function() {
             $("#"+$(elt).attr('alt')).removeClass('icon-loading');
             $("#"+$(elt).attr('alt')).addClass('icon-ok');

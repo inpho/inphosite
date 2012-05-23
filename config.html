@@ -34,6 +34,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="controllers.html" title="controllers Documentation"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -50,14 +53,70 @@
             
   <div class="section" id="config-documentation">
 <h1>config Documentation<a class="headerlink" href="#config-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="environment">
-<h2>environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.config.environment">
+<span id="environment"></span><h2>environment<a class="headerlink" href="#module-inphosite.config.environment" title="Permalink to this headline">¶</a></h2>
+<p>Pylons environment configuration</p>
+<dl class="function">
+<dt id="inphosite.config.environment.load_environment">
+<tt class="descclassname">inphosite.config.environment.</tt><tt class="descname">load_environment</tt><big>(</big><em>global_conf</em>, <em>app_conf</em><big>)</big><a class="reference internal" href="_modules/inphosite/config/environment.html#load_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.config.environment.load_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the Pylons environment via the <tt class="docutils literal"><span class="pre">pylons.config</span></tt>
+object</p>
+</dd></dl>
+
 </div>
-<div class="section" id="middleware">
-<h2>middleware<a class="headerlink" href="#middleware" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.config.middleware">
+<span id="middleware"></span><h2>middleware<a class="headerlink" href="#module-inphosite.config.middleware" title="Permalink to this headline">¶</a></h2>
+<p>Pylons middleware initialization</p>
+<dl class="function">
+<dt id="inphosite.config.middleware.make_app">
+<tt class="descclassname">inphosite.config.middleware.</tt><tt class="descname">make_app</tt><big>(</big><em>global_conf</em>, <em>full_stack=True</em>, <em>static_files=True</em>, <em>**app_conf</em><big>)</big><a class="reference internal" href="_modules/inphosite/config/middleware.html#make_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.config.middleware.make_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Pylons WSGI application and return it</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">global_conf</span></tt></dt>
+<dd>The inherited configuration for this application. Normally from
+the [DEFAULT] section of the Paste ini file.</dd>
+<dt><tt class="docutils literal"><span class="pre">full_stack</span></tt></dt>
+<dd>Whether this application provides a full WSGI stack (by default,
+meaning it handles its own exceptions and errors). Disable
+full_stack when this application is &#8220;managed&#8221; by another WSGI
+middleware.</dd>
+<dt><tt class="docutils literal"><span class="pre">static_files</span></tt></dt>
+<dd>Whether this application serves its own static files; disable
+when another web server is responsible for serving them.</dd>
+<dt><tt class="docutils literal"><span class="pre">app_conf</span></tt></dt>
+<dd>The application&#8217;s local configuration. Normally specified in
+the [app:&lt;name&gt;] section of the Paste ini file (where &lt;name&gt;
+defaults to main).</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="routing">
-<h2>routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.config.middleware">
+<span id="routing"></span><h2>routing<a class="headerlink" href="#module-inphosite.config.middleware" title="Permalink to this headline">¶</a></h2>
+<p>Pylons middleware initialization</p>
+<dl class="function">
+<dt>
+<tt class="descclassname">inphosite.config.middleware.</tt><tt class="descname">make_app</tt><big>(</big><em>global_conf</em>, <em>full_stack=True</em>, <em>static_files=True</em>, <em>**app_conf</em><big>)</big><a class="reference internal" href="_modules/inphosite/config/middleware.html#make_app"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create a Pylons WSGI application and return it</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">global_conf</span></tt></dt>
+<dd>The inherited configuration for this application. Normally from
+the [DEFAULT] section of the Paste ini file.</dd>
+<dt><tt class="docutils literal"><span class="pre">full_stack</span></tt></dt>
+<dd>Whether this application provides a full WSGI stack (by default,
+meaning it handles its own exceptions and errors). Disable
+full_stack when this application is &#8220;managed&#8221; by another WSGI
+middleware.</dd>
+<dt><tt class="docutils literal"><span class="pre">static_files</span></tt></dt>
+<dd>Whether this application serves its own static files; disable
+when another web server is responsible for serving them.</dd>
+<dt><tt class="docutils literal"><span class="pre">app_conf</span></tt></dt>
+<dd>The application&#8217;s local configuration. Normally specified in
+the [app:&lt;name&gt;] section of the Paste ini file (where &lt;name&gt;
+defaults to main).</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
@@ -70,9 +129,9 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">config Documentation</a><ul>
-<li><a class="reference internal" href="#environment">environment</a></li>
-<li><a class="reference internal" href="#middleware">middleware</a></li>
-<li><a class="reference internal" href="#routing">routing</a></li>
+<li><a class="reference internal" href="#module-inphosite.config.environment">environment</a></li>
+<li><a class="reference internal" href="#module-inphosite.config.middleware">middleware</a></li>
+<li><a class="reference internal" href="#module-inphosite.config.middleware">routing</a></li>
 </ul>
 </li>
 </ul>
@@ -111,6 +170,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="controllers.html" title="controllers Documentation"
              >next</a> |</li>

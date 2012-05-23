@@ -4,6 +4,6 @@ module Documentation
 websetup
 --------
 
-.. automodule: inphosite.websetup
+.. automodule:: inphosite.websetup
    :members:
    :undoc-members:

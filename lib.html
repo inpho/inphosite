@@ -34,6 +34,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="module.html" title="module Documentation"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -50,26 +53,218 @@
             
   <div class="section" id="lib-documentation">
 <h1>lib Documentation<a class="headerlink" href="#lib-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="app-globals">
-<h2>app_globals<a class="headerlink" href="#app-globals" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.app_globals">
+<span id="app-globals"></span><h2>app_globals<a class="headerlink" href="#module-inphosite.lib.app_globals" title="Permalink to this headline">¶</a></h2>
+<p>The application&#8217;s Globals object
+<a class="reference external" href="http://stackoverflow.com/questions/3458344/turbomail-3-with-pylons-1-0-mailnotenabledexception">http://stackoverflow.com/questions/3458344/turbomail-3-with-pylons-1-0-mailnotenabledexception</a></p>
+<dl class="class">
+<dt id="inphosite.lib.app_globals.Globals">
+<em class="property">class </em><tt class="descclassname">inphosite.lib.app_globals.</tt><tt class="descname">Globals</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/app_globals.html#Globals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.app_globals.Globals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Globals acts as a container for objects available throughout the
+life of the application</p>
+</dd></dl>
+
 </div>
 <div class="section" id="auth">
 <h2>auth<a class="headerlink" href="#auth" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="base">
-<h2>base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.base">
+<span id="base"></span><h2>base<a class="headerlink" href="#module-inphosite.lib.base" title="Permalink to this headline">¶</a></h2>
+<p>The base Controller API</p>
+<p>Provides the BaseController class for subclassing.</p>
+<dl class="class">
+<dt id="inphosite.lib.base.BaseController">
+<em class="property">class </em><tt class="descclassname">inphosite.lib.base.</tt><tt class="descname">BaseController</tt><a class="reference internal" href="_modules/inphosite/lib/base.html#BaseController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.base.BaseController" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="helpers">
-<h2>helpers<a class="headerlink" href="#helpers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.helpers">
+<span id="helpers"></span><h2>helpers<a class="headerlink" href="#module-inphosite.lib.helpers" title="Permalink to this headline">¶</a></h2>
+<p>Helper functions</p>
+<p>Consists of functions to typically be used within templates, but also
+available to Controllers. This module is available to templates as &#8216;h&#8217;.</p>
+<dl class="class">
+<dt id="inphosite.lib.helpers.ExtJsonEncoder">
+<em class="property">class </em><tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">ExtJsonEncoder</tt><big>(</big><em>skipkeys=False</em>, <em>ensure_ascii=True</em>, <em>check_circular=True</em>, <em>allow_nan=True</em>, <em>sort_keys=False</em>, <em>indent=None</em>, <em>separators=None</em>, <em>encoding='utf-8'</em>, <em>default=None</em>, <em>use_decimal=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#ExtJsonEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.ExtJsonEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends <tt class="docutils literal"><span class="pre">simplejson.JSONEncoder</span></tt> by allowing it to encode any
+arbitrary generator, iterator, closure or functor.</p>
+<dl class="method">
+<dt id="inphosite.lib.helpers.ExtJsonEncoder.default">
+<tt class="descname">default</tt><big>(</big><em>c</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#ExtJsonEncoder.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.ExtJsonEncoder.default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.bc">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">bc</tt><big>(</big><em>year=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#bc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.bc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.delete_obj">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">delete_obj</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#delete_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.delete_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes any arbitrary object from the SQLAlchemy Session and cascades deletes to evaluations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj</strong> &#8211; object to delete</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.fetch_obj">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">fetch_obj</tt><big>(</big><em>type</em>, <em>id</em>, <em>error=404</em>, <em>new_id=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#fetch_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.fetch_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches the object with the given id from the collection of type type. If
+the object does not exist, throw an HTTP error (default: 404 Not Found).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>type</strong> (class in <tt class="xref py py-mod docutils literal"><span class="pre">inpho.model</span></tt>) &#8211; object type</li>
+<li><strong>id</strong> (<em>integer or None</em>) &#8211; object id</li>
+<li><strong>error</strong> &#8211; HTTP error code.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><em>type</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.get_user">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">get_user</tt><big>(</big><em>login</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#get_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.get_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the User object from the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">inpho.model.User</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.json">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">json</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for <tt class="docutils literal"><span class="pre">ExtJsonEncoder.encode()</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.now">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">now</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#now"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple helper function to return current date/time</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.rst">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">rst</tt><big>(</big><em>rst</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#rst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.rst" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.titlecase">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">titlecase</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#titlecase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.titlecase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.helpers.update_obj">
+<tt class="descclassname">inphosite.lib.helpers.</tt><tt class="descname">update_obj</tt><big>(</big><em>obj</em>, <em>attributes</em>, <em>params</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/helpers.html#update_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.helpers.update_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates any arbitrary object. Takes a list of attributes and a dictionary of update
+parameters. Checks if each key is in the list of approved attributes and then attempts
+to set it. If the object does not have that key, throw an HTTP 400 Bad Request</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>obj</strong> &#8211; object to update</li>
+<li><strong>attributes</strong> &#8211; list of approved attributes</li>
+<li><strong>params</strong> &#8211; dictionary of update parameters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="jweight">
-<h2>jweight<a class="headerlink" href="#jweight" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.jweight">
+<span id="jweight"></span><h2>jweight<a class="headerlink" href="#module-inphosite.lib.jweight" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="inphosite.lib.jweight.create_tuple">
+<tt class="descclassname">inphosite.lib.jweight.</tt><tt class="descname">create_tuple</tt><big>(</big><em>edge</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/jweight.html#create_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.jweight.create_tuple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.jweight.form_tuples">
+<tt class="descclassname">inphosite.lib.jweight.</tt><tt class="descname">form_tuples</tt><big>(</big><em>edges</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/jweight.html#form_tuples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.jweight.form_tuples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="multi-get">
-<h2>multi_get<a class="headerlink" href="#multi-get" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.multi_get">
+<span id="multi-get"></span><h2>multi_get<a class="headerlink" href="#module-inphosite.lib.multi_get" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.lib.multi_get.URLThread">
+<em class="property">class </em><tt class="descclassname">inphosite.lib.multi_get.</tt><tt class="descname">URLThread</tt><big>(</big><em>url</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/multi_get.html#URLThread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.multi_get.URLThread" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.lib.multi_get.URLThread.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/lib/multi_get.html#URLThread.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.multi_get.URLThread.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.multi_get.multi_get">
+<tt class="descclassname">inphosite.lib.multi_get.</tt><tt class="descname">multi_get</tt><big>(</big><em>uris</em>, <em>timeout=2.5</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/multi_get.html#multi_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.multi_get.multi_get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="rest">
-<h2>rest<a class="headerlink" href="#rest" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.rest">
+<span id="rest"></span><h2>rest<a class="headerlink" href="#module-inphosite.lib.rest" title="Permalink to this headline">¶</a></h2>
+<p>REST decorators</p>
+<dl class="function">
+<dt id="inphosite.lib.rest.dispatch_on">
+<tt class="descclassname">inphosite.lib.rest.</tt><tt class="descname">dispatch_on</tt><big>(</big><em>**method_map</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/rest.html#dispatch_on"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.rest.dispatch_on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatches to alternate controller methods based on HTTP method</p>
+<p>Multiple keyword arguments should be passed, with the keyword
+corresponding to the HTTP method to dispatch on (DELETE, POST, GET,
+etc.) and the value being the function to call. The value should be
+a string indicating the name of the function to dispatch to.</p>
+<p>Example:</p>
+<div class="highlight-python"><pre>from pylons.decorators import rest
+
+class SomeController(BaseController):
+
+    @rest.dispatch_on(POST='create_comment')
+    def comment(self):
+        # Do something with the comment
+
+    def create_comment(self, id):
+        # Do something if its a post to comment</pre>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.rest.restrict">
+<tt class="descclassname">inphosite.lib.rest.</tt><tt class="descname">restrict</tt><big>(</big><em>*methods</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/rest.html#restrict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.rest.restrict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restricts access to the function depending on HTTP method</p>
+<p>Example:</p>
+<div class="highlight-python"><pre>from pylons.decorators import rest
+
+class SomeController(BaseController):
+
+    @rest.restrict('GET')
+    def comment(self, id):</pre>
+</div>
+</dd></dl>
+
 </div>
 </div>
 
@@ -82,13 +277,13 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">lib Documentation</a><ul>
-<li><a class="reference internal" href="#app-globals">app_globals</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.app_globals">app_globals</a></li>
 <li><a class="reference internal" href="#auth">auth</a></li>
-<li><a class="reference internal" href="#base">base</a></li>
-<li><a class="reference internal" href="#helpers">helpers</a></li>
-<li><a class="reference internal" href="#jweight">jweight</a></li>
-<li><a class="reference internal" href="#multi-get">multi_get</a></li>
-<li><a class="reference internal" href="#rest">rest</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.base">base</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.helpers">helpers</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.jweight">jweight</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.multi_get">multi_get</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.rest">rest</a></li>
 </ul>
 </li>
 </ul>
@@ -127,6 +322,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="module.html" title="module Documentation"
              >next</a> |</li>

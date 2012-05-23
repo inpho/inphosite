@@ -15,6 +15,10 @@ corpus
 data
 *-graph.txt
 
+_templates
+_static
+_build
+
 .*.swp
 *~
 \#*\#

@@ -53,38 +53,687 @@
             
   <div class="section" id="controllers-documentation">
 <h1>controllers Documentation<a class="headerlink" href="#controllers-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="account">
-<h2>account<a class="headerlink" href="#account" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.account">
+<span id="account"></span><h2>account<a class="headerlink" href="#module-inphosite.controllers.account" title="Permalink to this headline">¶</a></h2>
+<p>AccountController</p>
+<p>Responsible for delegating requests regarding user signin, signout and register.
+Delegated to by <tt class="docutils literal"><span class="pre">config.routing</span></tt>&#8216;s mapper. Also contains validation for
+Usernamesand the Registration form.</p>
+<dl class="class">
+<dt id="inphosite.controllers.account.AccountController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.account.</tt><tt class="descname">AccountController</tt><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for handling user account activities.</p>
+<p>Dispatches the registration page, signin/signout and should eventually
+have more functionality for administrative tasks, like listing and deleting
+users. Also will handle updating of user information, such as SEP subject
+areas.</p>
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.edit">
+<tt class="descname">edit</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.edit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.edit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the registration form.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.profile">
+<tt class="descname">profile</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.profile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.register">
+<tt class="descname">register</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the registration form.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the registration form.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.reset_result">
+<tt class="descname">reset_result</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.reset_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.reset_result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.reset_submit">
+<tt class="descname">reset_submit</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.reset_submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.reset_submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action to process the Reset Form.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.result">
+<tt class="descname">result</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Target of redirect from submit. Simply returns a &#8220;Registration
+Successful!&#8221; page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.signin">
+<tt class="descname">signin</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.signin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.signin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.signout">
+<tt class="descname">signout</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.signout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.signout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action to sign the user out. The actual signout happens when the
+middleware captures the request, so this function just displays a
+confirmation pageFor <tt class="docutils literal"><span class="pre">cookie</span></tt> authentication this
+function&#8217;s routing must be added to the <tt class="docutils literal"><span class="pre">authkit.cookie.signoutpath</span></tt>
+directive.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.submit">
+<tt class="descname">submit</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function validates the submitted registration form and creates a
+new user. Restricted to <tt class="docutils literal"><span class="pre">POST</span></tt> requests. If successful, redirects to 
+the result action to prevent resubmission.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.submit_changes">
+<tt class="descname">submit_changes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.submit_changes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.submit_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function validates the submitted profile edit form and commits the 
+changes. Restricted to <tt class="docutils literal"><span class="pre">POST</span></tt> requests. If successful, redirects to 
+the result action to prevent resubmission.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.account.AccountController.test">
+<tt class="descname">test</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#AccountController.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.AccountController.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="inphosite.controllers.account.EditForm">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.account.</tt><tt class="descname">EditForm</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#EditForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.EditForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validator for the registration form rendered by 
+<tt class="docutils literal"><span class="pre">AccountController.register()``and</span> <span class="pre">accepted</span> <span class="pre">by</span> 
+<span class="pre">``AccountController.submit()</span></tt></p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+<dl class="attribute">
+<dt id="inphosite.controllers.account.EditForm.confirm_password">
+<tt class="descname">confirm_password</tt><a class="headerlink" href="#inphosite.controllers.account.EditForm.confirm_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>first_area = v.Int()
+first_area_level = v.Int()
+second_area = v.Int()
+second_area_level = v.Int()</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="inphosite.controllers.account.LoginExistsValidator">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.account.</tt><tt class="descname">LoginExistsValidator</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#LoginExistsValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.LoginExistsValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that a username does not exist or contain spaces.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="inphosite.controllers.account.RegisterForm">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.account.</tt><tt class="descname">RegisterForm</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#RegisterForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.RegisterForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validator for the registration form rendered by 
+<tt class="docutils literal"><span class="pre">AccountController.register()``and</span> <span class="pre">accepted</span> <span class="pre">by</span> 
+<span class="pre">``AccountController.submit()</span></tt></p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="inphosite.controllers.account.ResetForm">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.account.</tt><tt class="descname">ResetForm</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#ResetForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.ResetForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validator for the reset form rendered by 
+<tt class="docutils literal"><span class="pre">AccountController.reset()``and</span> <span class="pre">accepted</span> <span class="pre">by</span> 
+<span class="pre">``AccountController.reset_submit()</span></tt></p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badDictType</span></tt>:</dt>
+<dd>The input must be dict-like (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">missingValue</span></tt>:</dt>
+<dd>Missing value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+<dt><tt class="docutils literal"><span class="pre">notExpected</span></tt>:</dt>
+<dd>The input field <tt class="docutils literal"><span class="pre">%(name)s</span></tt> was not expected.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="inphosite.controllers.account.UsernameValidator">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.account.</tt><tt class="descname">UsernameValidator</tt><big>(</big><em>*args</em>, <em>**kw</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/account.html#UsernameValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.account.UsernameValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that a username does not exist or contain spaces.</p>
+<p><strong>Messages</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">badType</span></tt>:</dt>
+<dd>The input must be a string (not a <tt class="docutils literal"><span class="pre">%(type)s</span></tt>: <tt class="docutils literal"><span class="pre">%(value)r</span></tt>)</dd>
+<dt><tt class="docutils literal"><span class="pre">empty</span></tt>:</dt>
+<dd>Please enter a value</dd>
+<dt><tt class="docutils literal"><span class="pre">noneType</span></tt>:</dt>
+<dd>The input must be a string (not None)</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="admin">
-<h2>admin<a class="headerlink" href="#admin" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.admin">
+<span id="admin"></span><h2>admin<a class="headerlink" href="#module-inphosite.controllers.admin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.admin.AdminController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.admin.</tt><tt class="descname">AdminController</tt><a class="reference internal" href="_modules/inphosite/controllers/admin.html#AdminController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.admin.AdminController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.admin.AdminController.list">
+<tt class="descname">list</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/admin.html#AdminController.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.admin.AdminController.list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="entity">
-<h2>entity<a class="headerlink" href="#entity" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.entity">
+<span id="entity"></span><h2>entity<a class="headerlink" href="#module-inphosite.controllers.entity" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.entity.EntityController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.entity.</tt><tt class="descname">EntityController</tt><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.create">
+<tt class="descname">create</tt><big>(</big><em>entity_type=None</em>, <em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.date">
+<tt class="descname">date</tt><big>(</big><em>id</em>, <em>id2</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a date object, associated to the id with the relation type of
+id2.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.date_form">
+<tt class="descname">date_form</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.date_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.date_form" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.delete">
+<tt class="descname">delete</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.graph">
+<tt class="descname">graph</tt><big>(</big><em>id=None</em>, <em>id2=None</em>, <em>filetype='json'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.list">
+<tt class="descname">list</tt><big>(</big><em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.list_new">
+<tt class="descname">list_new</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.list_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.list_new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.new">
+<tt class="descname">new</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form for creating a new entry</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.panel">
+<tt class="descname">panel</tt><big>(</big><em>id</em>, <em>id2</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.panel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.panel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.search">
+<tt class="descname">search</tt><big>(</big><em>id</em>, <em>id2=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.search" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.searchpatterns">
+<tt class="descname">searchpatterns</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.searchpatterns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.searchpatterns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.update">
+<tt class="descname">update</tt><big>(</big><em>id</em>, <em>terms=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.entity.EntityController.view">
+<tt class="descname">view</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/entity.html#EntityController.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.entity.EntityController.view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="error">
-<h2>error<a class="headerlink" href="#error" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.error">
+<span id="error"></span><h2>error<a class="headerlink" href="#module-inphosite.controllers.error" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.error.ErrorController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.error.</tt><tt class="descname">ErrorController</tt><a class="reference internal" href="_modules/inphosite/controllers/error.html#ErrorController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.error.ErrorController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates error documents as and when they are required.</p>
+<p>The ErrorDocuments middleware forwards to ErrorController when error
+related status codes are returned from the application.</p>
+<p>This behaviour can be altered by changing the parameters to the
+ErrorDocuments middleware in your config/middleware.py file.</p>
+<dl class="method">
+<dt id="inphosite.controllers.error.ErrorController.document">
+<tt class="descname">document</tt><big>(</big><em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/error.html#ErrorController.document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.error.ErrorController.document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.error.ErrorController.img">
+<tt class="descname">img</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/error.html#ErrorController.img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.error.ErrorController.img" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serve Pylons&#8217; stock images</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.error.ErrorController.style">
+<tt class="descname">style</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/error.html#ErrorController.style"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.error.ErrorController.style" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serve Pylons&#8217; stock stylesheets</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="idea">
-<h2>idea<a class="headerlink" href="#idea" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.idea">
+<span id="idea"></span><h2>idea<a class="headerlink" href="#module-inphosite.controllers.idea" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.idea.IdeaController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.idea.</tt><tt class="descname">IdeaController</tt><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.classes">
+<tt class="descname">classes</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=False</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.classes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.crossref">
+<tt class="descname">crossref</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.crossref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.crossref" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.evaluate">
+<tt class="descname">evaluate</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.evaluated">
+<tt class="descname">evaluated</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.evaluated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.evaluated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.evaluation">
+<tt class="descname">evaluation</tt><big>(</big><em>id</em>, <em>id2</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.evaluation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.evaluation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.first_order">
+<tt class="descname">first_order</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=False</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.first_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.first_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.generality">
+<tt class="descname">generality</tt><big>(</big><em>id=None</em>, <em>id2=None</em>, <em>degree=1</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.generality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.generality" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.graph">
+<tt class="descname">graph</tt><big>(</big><em>id=None</em>, <em>filetype='nwb'</em>, <em>limit=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.graph_all">
+<tt class="descname">graph_all</tt><big>(</big><em>filetype='html'</em>, <em>limit=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.graph_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.graph_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.hyponyms">
+<tt class="descname">hyponyms</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.hyponyms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.hyponyms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.instances">
+<tt class="descname">instances</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=False</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.instances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.links">
+<tt class="descname">links</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=False</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.list">
+<tt class="descname">list</tt><big>(</big><em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.occurrences">
+<tt class="descname">occurrences</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.occurrences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.occurrences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.panel">
+<tt class="descname">panel</tt><big>(</big><em>id</em>, <em>id2</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.panel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.panel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.related">
+<tt class="descname">related</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.related"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.related" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.related_thinkers">
+<tt class="descname">related_thinkers</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.related_thinkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.related_thinkers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.relatedness">
+<tt class="descname">relatedness</tt><big>(</big><em>id=None</em>, <em>id2=None</em>, <em>degree=1</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.relatedness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.relatedness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.thinker_occurrences">
+<tt class="descname">thinker_occurrences</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.thinker_occurrences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.thinker_occurrences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.update">
+<tt class="descname">update</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.idea.IdeaController.view">
+<tt class="descname">view</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/idea.html#IdeaController.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.idea.IdeaController.view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="journal">
-<h2>journal<a class="headerlink" href="#journal" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.journal">
+<span id="journal"></span><h2>journal<a class="headerlink" href="#module-inphosite.controllers.journal" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.journal.JournalController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.journal.</tt><tt class="descname">JournalController</tt><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.abbrs">
+<tt class="descname">abbrs</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.abbrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.abbrs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.delete">
+<tt class="descname">delete</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.graph">
+<tt class="descname">graph</tt><big>(</big><em>id=None</em>, <em>filetype='json'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.list_stale_url">
+<tt class="descname">list_stale_url</tt><big>(</big><em>filetype='html'</em>, <em>redirect=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.list_stale_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.list_stale_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.queries">
+<tt class="descname">queries</tt><big>(</big><em>id</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.queries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.queries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.update">
+<tt class="descname">update</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.journal.JournalController.url">
+<tt class="descname">url</tt><big>(</big><em>id=None</em>, <em>url=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/journal.html#JournalController.url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.journal.JournalController.url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="page">
-<h2>page<a class="headerlink" href="#page" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.page">
+<span id="page"></span><h2>page<a class="headerlink" href="#module-inphosite.controllers.page" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.page.PageController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.page.</tt><tt class="descname">PageController</tt><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.page.PageController.about">
+<tt class="descname">about</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.about"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.about" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.amt_taxonomy">
+<tt class="descname">amt_taxonomy</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.amt_taxonomy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.amt_taxonomy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.docs">
+<tt class="descname">docs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.docs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.docs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.graph">
+<tt class="descname">graph</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.index">
+<tt class="descname">index</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.json">
+<tt class="descname">json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.owl">
+<tt class="descname">owl</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.owl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.owl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.papers">
+<tt class="descname">papers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.papers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.papers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.page.PageController.privacy">
+<tt class="descname">privacy</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/page.html#PageController.privacy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.page.PageController.privacy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="school-of-thought">
-<h2>school_of_thought<a class="headerlink" href="#school-of-thought" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.school_of_thought">
+<span id="school-of-thought"></span><h2>school_of_thought<a class="headerlink" href="#module-inphosite.controllers.school_of_thought" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.school_of_thought.SchoolOfThoughtController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.school_of_thought.</tt><tt class="descname">SchoolOfThoughtController</tt><a class="reference internal" href="_modules/inphosite/controllers/school_of_thought.html#SchoolOfThoughtController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.school_of_thought.SchoolOfThoughtController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.school_of_thought.SchoolOfThoughtController.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/school_of_thought.html#SchoolOfThoughtController.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.school_of_thought.SchoolOfThoughtController.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.school_of_thought.SchoolOfThoughtController.edit">
+<tt class="descname">edit</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/school_of_thought.html#SchoolOfThoughtController.edit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.school_of_thought.SchoolOfThoughtController.edit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.school_of_thought.SchoolOfThoughtController.update">
+<tt class="descname">update</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/school_of_thought.html#SchoolOfThoughtController.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.school_of_thought.SchoolOfThoughtController.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="taxonomy">
-<h2>taxonomy<a class="headerlink" href="#taxonomy" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.taxonomy">
+<span id="taxonomy"></span><h2>taxonomy<a class="headerlink" href="#module-inphosite.controllers.taxonomy" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.taxonomy.TaxonomyController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.taxonomy.</tt><tt class="descname">TaxonomyController</tt><a class="reference internal" href="_modules/inphosite/controllers/taxonomy.html#TaxonomyController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.taxonomy.TaxonomyController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.taxonomy.TaxonomyController.graph">
+<tt class="descname">graph</tt><big>(</big><em>id=None</em>, <em>filetype='josn'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/taxonomy.html#TaxonomyController.graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.taxonomy.TaxonomyController.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.taxonomy.TaxonomyController.list">
+<tt class="descname">list</tt><big>(</big><em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/taxonomy.html#TaxonomyController.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.taxonomy.TaxonomyController.list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.taxonomy.TaxonomyController.view">
+<tt class="descname">view</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/taxonomy.html#TaxonomyController.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.taxonomy.TaxonomyController.view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="thinker">
-<h2>thinker<a class="headerlink" href="#thinker" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.thinker">
+<span id="thinker"></span><h2>thinker<a class="headerlink" href="#module-inphosite.controllers.thinker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.thinker.ThinkerController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.thinker.</tt><tt class="descname">ThinkerController</tt><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.binary">
+<tt class="descname">binary</tt><big>(</big><em>type</em>, <em>id</em>, <em>id2</em>, <em>degree=1</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.binary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.edit">
+<tt class="descname">edit</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.edit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.edit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.graph">
+<tt class="descname">graph</tt><big>(</big><em>id</em>, <em>filetype='html'</em>, <em>limit=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.hyponyms">
+<tt class="descname">hyponyms</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.hyponyms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.hyponyms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.idea_occurrences">
+<tt class="descname">idea_occurrences</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.idea_occurrences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.idea_occurrences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.influenced">
+<tt class="descname">influenced</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.influenced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.influenced" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.occurrences">
+<tt class="descname">occurrences</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.occurrences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.occurrences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.related">
+<tt class="descname">related</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.related"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.related" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.related_ideas">
+<tt class="descname">related_ideas</tt><big>(</big><em>id=None</em>, <em>filetype='html'</em>, <em>limit=20</em>, <em>sep_filter=False</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.related_ideas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.related_ideas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.teacher_of">
+<tt class="descname">teacher_of</tt><big>(</big><em>id=None</em>, <em>id2=None</em>, <em>degree=1</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.teacher_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.teacher_of" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.unary">
+<tt class="descname">unary</tt><big>(</big><em>type</em>, <em>id</em>, <em>id2=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.unary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.unary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.thinker.ThinkerController.update">
+<tt class="descname">update</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/thinker.html#ThinkerController.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.thinker.ThinkerController.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="work">
-<h2>work<a class="headerlink" href="#work" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.controllers.work">
+<span id="work"></span><h2>work<a class="headerlink" href="#module-inphosite.controllers.work" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.controllers.work.WorkController">
+<em class="property">class </em><tt class="descclassname">inphosite.controllers.work.</tt><tt class="descname">WorkController</tt><a class="reference internal" href="_modules/inphosite/controllers/work.html#WorkController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.work.WorkController" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.controllers.work.WorkController.create">
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/work.html#WorkController.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.work.WorkController.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.work.WorkController.edit">
+<tt class="descname">edit</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/work.html#WorkController.edit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.work.WorkController.edit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.controllers.work.WorkController.update">
+<tt class="descname">update</tt><big>(</big><em>id=None</em><big>)</big><a class="reference internal" href="_modules/inphosite/controllers/work.html#WorkController.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.controllers.work.WorkController.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -97,17 +746,17 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">controllers Documentation</a><ul>
-<li><a class="reference internal" href="#account">account</a></li>
-<li><a class="reference internal" href="#admin">admin</a></li>
-<li><a class="reference internal" href="#entity">entity</a></li>
-<li><a class="reference internal" href="#error">error</a></li>
-<li><a class="reference internal" href="#idea">idea</a></li>
-<li><a class="reference internal" href="#journal">journal</a></li>
-<li><a class="reference internal" href="#page">page</a></li>
-<li><a class="reference internal" href="#school-of-thought">school_of_thought</a></li>
-<li><a class="reference internal" href="#taxonomy">taxonomy</a></li>
-<li><a class="reference internal" href="#thinker">thinker</a></li>
-<li><a class="reference internal" href="#work">work</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.account">account</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.admin">admin</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.entity">entity</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.error">error</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.idea">idea</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.journal">journal</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.page">page</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.school_of_thought">school_of_thought</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.taxonomy">taxonomy</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.thinker">thinker</a></li>
+<li><a class="reference internal" href="#module-inphosite.controllers.work">work</a></li>
 </ul>
 </li>
 </ul>

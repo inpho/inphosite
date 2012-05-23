@@ -65,8 +65,71 @@ life of the application</p>
 </dd></dl>
 
 </div>
-<div class="section" id="auth">
-<h2>auth<a class="headerlink" href="#auth" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-inphosite.lib.auth">
+<span id="auth"></span><h2>auth<a class="headerlink" href="#module-inphosite.lib.auth" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="inphosite.lib.auth.UserModelPlugin">
+<em class="property">class </em><tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">UserModelPlugin</tt><a class="reference internal" href="_modules/inphosite/lib/auth.html#UserModelPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.UserModelPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="inphosite.lib.auth.UserModelPlugin.add_metadata">
+<tt class="descname">add_metadata</tt><big>(</big><em>environ</em>, <em>identity</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#UserModelPlugin.add_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.UserModelPlugin.add_metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="inphosite.lib.auth.UserModelPlugin.authenticate">
+<tt class="descname">authenticate</tt><big>(</big><em>environ</em>, <em>identity</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#UserModelPlugin.authenticate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.UserModelPlugin.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return username or None.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.authorize">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">authorize</tt><big>(</big><em>permission</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#authorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.authorize" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a decorator which can be used to decorate a Pylons controller action.
+It takes the permission to check as the only argument and can be used with
+all types of permission objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.custom_request_classifier">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">custom_request_classifier</tt><big>(</big><em>environ</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#custom_request_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.custom_request_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns one of the classifiers &#8216;app&#8217;, &#8216;browser&#8217; or any
+standard classifiers returned by
+repoze.who.classifiers:default_request_classifier</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.encrypt">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">encrypt</tt><big>(</big><em>password</em>, <em>secret=''</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#encrypt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encryption function for use on passwords</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.is_admin">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">is_admin</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#is_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.is_admin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.is_logged_in">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">is_logged_in</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#is_logged_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.is_logged_in" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.uid">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">uid</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#uid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.uid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.user_exists">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">user_exists</tt><big>(</big><em>username</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#user_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.user_exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="inphosite.lib.auth.username">
+<tt class="descclassname">inphosite.lib.auth.</tt><tt class="descname">username</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/inphosite/lib/auth.html#username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#inphosite.lib.auth.username" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-inphosite.lib.base">
 <span id="base"></span><h2>base<a class="headerlink" href="#module-inphosite.lib.base" title="Permalink to this headline">¶</a></h2>
@@ -278,7 +341,7 @@ class SomeController(BaseController):
   <ul>
 <li><a class="reference internal" href="#">lib Documentation</a><ul>
 <li><a class="reference internal" href="#module-inphosite.lib.app_globals">app_globals</a></li>
-<li><a class="reference internal" href="#auth">auth</a></li>
+<li><a class="reference internal" href="#module-inphosite.lib.auth">auth</a></li>
 <li><a class="reference internal" href="#module-inphosite.lib.base">base</a></li>
 <li><a class="reference internal" href="#module-inphosite.lib.helpers">helpers</a></li>
 <li><a class="reference internal" href="#module-inphosite.lib.jweight">jweight</a></li>

@@ -1,0 +1,111 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Cron Jobs &mdash; InPhO v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="InPhO v1.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">InPhO v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cron-jobs">
+<h1>Cron Jobs<a class="headerlink" href="#cron-jobs" title="Permalink to this headline">¶</a></h1>
+<p>A number of critical InPhO functions on inpho.cogs are managed by cron through the inpho user account.  The inpho crontab can be edited with <tt class="docutils literal"><span class="pre">crontab</span> <span class="pre">-e</span></tt> or listed with <tt class="docutils literal"><span class="pre">crontab</span> <span class="pre">-l</span></tt>. On Mac OS X, the inpho crontab is kept at <tt class="docutils literal"><span class="pre">/usr/lib/cron/tabs/inpho</span></tt> but should not be edited directly.</p>
+<p>Cron jobs:</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/do_mirror</span></tt>, runs at 03:30 each day
+Creates a full mirror of the SEP on inpho.cogs.</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/data_mining</span></tt>, runs at 04:00 daily
+Calculates association weights across SEP corpus.</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/mniepert/dlv/asp-cron.sh</span></tt>, runs at 03:00 daily
+Runs answer set program to repopulate taxonomy based on current data.</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/mniepert/cron.sh</span></tt>, runs hourly
+Updates local list of published entries on SEP.</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/owl-cron.sh</span></tt>, runs at 01:00 on the first of every month
+Creates the OWL archive and updates the corresponding web page</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/backupsep.py</span></tt>, runs at 05:00 every Sunday morning
+Creates a weekly tar archive of the SEP entries so that we can rerun stats at a later date if required.</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/checkurl.sh</span></tt>, runs at midnight every Friday
+Checks URLs in journals database.</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/fuzzymatch</span></tt>, runs at 07:00 daily
+Syncs the fuzzymatches daily</li>
+<li><tt class="docutils literal"><span class="pre">/Users/inpho/bin/sitestats</span></tt>, runs at the top of every hour
+Updates site statistics</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/cron.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">InPhO v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Indiana University.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

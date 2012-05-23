@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Developing inphosite &mdash; InPhO v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="InPhO v1.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">InPhO v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="developing-inphosite">
+<h1>Developing inphosite<a class="headerlink" href="#developing-inphosite" title="Permalink to this headline">¶</a></h1>
+<p>The inphosite module contains all materials pertaining to the Indiana Philsophy
+Ontology (InPhO) Project&#8217;s online presence, including the API.</p>
+<p>For work pretaining to dynamic ontology, we have started work on the <a class="reference external" href="http://github.com/inpho/codex">CodEx
+(Coding Expertise) project</a>. The scripts
+directory of the inphosite project contains temporary code relating to dynamic
+ontology construction, evaluation and maintainence tasks for the InPhO. We hope
+to separate this code and the data model out from the web framework in the
+upcoming months.</p>
+<div class="section" id="github">
+<h2>GitHub<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h2>
+<p>The inphosite code is hosted on GitHub at <cite>http://github.com/inpho/inphosite</cite>.
+GitHub offers many collaborative tools, and makes independent work incredibly
+easy to merge. For a summary of Git&#8217;s advantages as a version control system,
+see <a class="reference external" href="http://whygitisbetterthanx.com/">Why Git is Better than X</a>.</p>
+</div>
+<div class="section" id="install-inphosite">
+<h2>Install inphosite<a class="headerlink" href="#install-inphosite" title="Permalink to this headline">¶</a></h2>
+<p>To begin working with the inphosite code:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you have not yet done so, please <a class="reference internal" href="#copy-the-database">Copy the Database</a> before begining!</p>
+</div>
+<ol class="arabic">
+<li><p class="first"><a class="reference external" href="https://github.com/signup/free">Create a GitHub account</a></p>
+</li>
+<li><p class="first">Set up Git:
+<a class="reference external" href="http://help.github.com/linux-set-up-git/">Linux</a>,
+<a class="reference external" href="http://help.github.com/mac-set-up-git/">Mac OS X</a>,
+<a class="reference external" href="http://help.github.com/win-set-up-git/">Windows</a></p>
+</li>
+<li><p class="first">Fork the inphosite project, <a class="reference external" href="http://help.github.com/fork-a-repo/">using these instructions</a>.</p>
+</li>
+<li><p class="first">Enter the git repository directory:</p>
+<div class="highlight-python"><pre>cd inphosite</pre>
+</div>
+</li>
+<li><p class="first">A convenience script has been created which automates the install of the
+virtual environment, nltk, inphosite and creates a development.ini:</p>
+<div class="highlight-python"><pre>./setup.sh</pre>
+</div>
+<p>If this does not work see <a class="reference internal" href="#manual-installation">Manual Installation</a> and return to these
+instructions.</p>
+</li>
+<li><p class="first">In development.ini:</p>
+<ul>
+<li><p class="first">Modify the <tt class="docutils literal"><span class="pre">sqlalchemy.url</span></tt> directive to contain the proper username,
+password, and database name for your copy of the InPhO.</p>
+</li>
+<li><p class="first">Modify the <tt class="docutils literal"><span class="pre">host</span></tt> directive if you wish to enable external access. Be well
+aware that external access with the debugger enabled is a gargantuan
+security flaw if the paste server is started with root privileges.</p>
+</li>
+<li><p class="first">Modify the <tt class="docutils literal"><span class="pre">port</span></tt> directive to an open port on your machine. Otherwise
+you will receive an error on starting paster:</p>
+<div class="highlight-python"><pre>socket.error: [Errno 48] Address already in use</pre>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Activate the sandbox environment:</p>
+<div class="highlight-python"><pre>source sandbox/bin/activate</pre>
+</div>
+</li>
+<li><p class="first">Use the <tt class="docutils literal"><span class="pre">websetup.py</span></tt> to finish initializing the database:</p>
+<div class="highlight-python"><pre>paster setup-app development.ini</pre>
+</div>
+</li>
+<li><p class="first">You are now ready to go! You can start a paster server from the command:</p>
+<div class="highlight-python"><pre>paster serve --reload development.ini</pre>
+</div>
+<p>Or interact with the environment directly using the paster shell:</p>
+<div class="highlight-python"><pre>paster shell development.ini</pre>
+</div>
+</li>
+</ol>
+<div class="section" id="manual-installation">
+<h3>Manual Installation<a class="headerlink" href="#manual-installation" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Create a <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">Python virtual environment</a>:</p>
+<div class="highlight-python"><pre>easy_install virtualenv
+virtualenv --no-site-packages sandbox</pre>
+</div>
+</li>
+<li><p class="first">Enter the sandbox environment:</p>
+<div class="highlight-python"><pre>source sandbox/bin/activate</pre>
+</div>
+</li>
+<li><p class="first">Configure the project for development, which will also download the
+appropriate dependencies:</p>
+<div class="highlight-python"><pre>python setup.py develop</pre>
+</div>
+</li>
+<li><p class="first">Setup the development.ini file by first copying over template.ini:</p>
+<div class="highlight-python"><pre>cp template.ini development.ini</pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="copy-the-database">
+<h3>Copy the Database<a class="headerlink" href="#copy-the-database" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently the database is only open to internal InPhO development. In coming
+months we hope to eliminate this step, instead building the data set
+automatically. If you wish to have a copy of our database, let us know and
+we will send a link to a sanitized version of the db.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will need to install <a class="reference external" href="http://dev.mysql.com/downloads/mysql/5.1.html">MySQL Community Server 5.1</a> before proceeding.</p>
+</div>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">ssh</span></tt> into <tt class="docutils literal"><span class="pre">inpho.cogs.indiana.edu</span></tt> and export the database:</p>
+<div class="highlight-python"><pre>mysqldump seponto -u inpho -p &gt; FILENAME</pre>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">scp</span></tt> the backup file to your personal machine:</p>
+<div class="highlight-python"><pre>scp FILENAME user@host:~/sql/</pre>
+</div>
+</li>
+<li><p class="first">back on your personal machine, create the database inpho:</p>
+<div class="highlight-python"><pre>mysql -u root -p    #You will be prompted for password
+mysql&gt; CREATE DATABASE inpho;
+Query OK, 1 row affected (0.00 sec)
+mysql&gt; USE inpho;
+Database changed
+mysql&gt; exit
+Bye</pre>
+</div>
+</li>
+<li><p class="first">Restore the database:</p>
+<div class="highlight-python"><pre>mysql --database inpho -u root -p &lt; FILENAME</pre>
+</div>
+</li>
+<li><p class="first">Create new users for inpho database:</p>
+<div class="highlight-python"><pre>mysql -u root -p    #You will be prompted for password
+mysql&gt; CREATE USER 'inpho'@'localhost' IDENTIFIED BY 'password';
+mysql&gt; GRANT ALL PRIVILEGES ON inpho.* TO 'inpho'@'localhost'
+    -&gt;     WITH GRANT OPTION;
+mysql&gt; CREATE USER 'inpho'@'%' IDENTIFIED BY 'password';
+mysql&gt; GRANT ALL PRIVILEGES ON inpho.* TO 'inpho'@'%'</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The second account is only necessary if you wish to allow database
+connections from other machines. Very important if you set your
+development.ini&#8217;s <tt class="docutils literal"><span class="pre">host</span></tt> directive to <tt class="docutils literal"><span class="pre">0.0.0.0</span></tt>!</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="devlopment-practices">
+<h2>Devlopment practices<a class="headerlink" href="#devlopment-practices" title="Permalink to this headline">¶</a></h2>
+<p>Bugs reports are stored on the <a class="reference external" href="http://inphodev.cogs.indiana.edu:8000">InPhOdev Trac</a>. Please coordinate through this
+system. To request a non-anonymous account, please contact us at
+<a class="reference external" href="mailto:inpho&#37;&#52;&#48;indiana&#46;edu">inpho<span>&#64;</span>indiana<span>&#46;</span>edu</a>.</p>
+<p>GitHub makes it incredibly easily to collaborate through the fork and pull
+request model of devlopment. Each fork gives you a free sandbox to create your
+own InPhO, and the pull requests foster quick and easy code review.</p>
+<p>After creating changes that you wish to submit to the inphosite project,
+<a class="reference external" href="http://help.github.com/pull-requests/">submit a pull request</a>.</p>
+<div class="section" id="style-guidelines">
+<h3>Style Guidelines<a class="headerlink" href="#style-guidelines" title="Permalink to this headline">¶</a></h3>
+<p>Here are some general code guidelines for the InPhO. If you notice existing code
+which does not follow these guidelines, feel free to patch.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8: Style Guide for Python Code</a> &#8211; When in doubt, default to
+this.</li>
+<li><strong>Indentation</strong>: 4 spaces. <strong>No tabs.</strong> Only way to maintain a consistent look,
+and is the Python standard practice.</li>
+<li><strong>Docstrings</strong>: Put them everywhere. Triple quote. Inline comments may start
+with <tt class="docutils literal"><span class="pre">#</span></tt> Default to <a class="reference external" href="http://www.python.org/dev/peps/pep-0257/">PEP 257: Docstring
+Conventions</a></li>
+<li><strong>Line width</strong>: Prefer to keep limited to 80 characters. Sometimes this
+doesn&#8217;t make sense, but make use of automatic linewrapping in your text
+editor of choice. Use parens to group expressions and break after operators.
+See <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a> for details.</li>
+<li><strong>Newline character</strong>: Use Unix-style line returns, not Windows CRLF. We
+deploy to a Unix environment, and the core team deals in a Unix environment.
+Git has settings to <a class="reference external" href="http://help.github.com/dealing-with-lineendings/">autocorrect line endings</a>.</li>
+<li><strong>Capitalization</strong>: Function names are NEVER to be capitalized. Use
+underscore_notation. Class names should be capitalized in PascalCase. Again,
+see <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a> for details.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Developing inphosite</a><ul>
+<li><a class="reference internal" href="#github">GitHub</a></li>
+<li><a class="reference internal" href="#install-inphosite">Install inphosite</a><ul>
+<li><a class="reference internal" href="#manual-installation">Manual Installation</a></li>
+<li><a class="reference internal" href="#copy-the-database">Copy the Database</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#devlopment-practices">Devlopment practices</a><ul>
+<li><a class="reference internal" href="#style-guidelines">Style Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/install.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">InPhO v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Indiana University.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+  </body>
+</html>

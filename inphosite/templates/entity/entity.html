@@ -51,7 +51,7 @@ ${parent.draw()}</%def>
 </%def>
 
 <%def name="printAdminPanel(attrs)">
-<form class="form-horizontal" method="GET" action="${c.entity.url()}" id="admin-form">
+<div class="form-horizontal" id="admin-form">
   <fieldset>
     <legend>Admin</legend>
     %for attr in attrs:
@@ -64,7 +64,7 @@ ${parent.draw()}</%def>
     <input type="button" value="Submit" onclick="$('#admin-form').submit()" />
     <input type="reset" value="Reset" />
   </fieldset> -->
-</form>
+</div>
 </%def>
 
 <%def name="printAttr(attr)"> 
@@ -83,9 +83,9 @@ ${parent.draw()}</%def>
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
   ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
   %elif attr == "birth":
-  ${bootstrap.date_list('birth_dates', c.entity.url(action=date, id2=1), getattr(c.entity, 'birth_dates', tuple()))}
+  ${bootstrap.date_list('birth_dates', c.entity.url(action='date', id2=1), getattr(c.entity, 'birth_dates', tuple()))}
   %elif attr == "death":
-  ${bootstrap.date_list('death_dates', c.entity.url(action=date, id2=2), getattr(c.entity, 'death_dates', tuple()))}
+  ${bootstrap.date_list('death_dates', c.entity.url(action='date', id2=2), getattr(c.entity, 'death_dates', tuple()))}
 
     <%doc>
     ## Birth Date(s) (mutable; for Idea, Thinker)
@@ -115,79 +115,6 @@ ${parent.draw()}</%def>
   <fieldset>
     <legend>${attr.capitalize()} Date</legend>
     <br />
-    <select class="input-medium" name="month" id="${attr}_month">
-      <option value="0">Month</option>
-      <option value="1">January</option>
-      <option value="2">February</option>
-      <option value="3">March</option>
-      <option value="4">April</option>
-      <option value="5">May</option>
-      <option value="6">June</option>
-      <option value="7">July</option>
-      <option value="8">August</option>
-      <option value="9">September</option>
-      <option value="10">October</option>
-      <option value="11">November</option>
-      <option value="12">December</option>
-    </select>
-    
-    <select class="span1" name="day" id="${attr}_day">
-      <option value="0">Day</option>
-    %for i in range(31):
-    <option>${i}</option>
-    %endfor
-    </select>
-
-    <input class="input-small" type="text" name="year" size="4" maxlength="4" placeholder="Year" id="${attr}_year" />
-    
-    <select class="input-medium" name="era" id="${attr}_era">
-      <option>Era</option>
-      <option value="bce">B.C.E. (B.C.)</option>
-      <option value="ce">C.E. (A.D.)</option>
-    </select>
-
-    <label class="checkbox pull-right">
-      <input class="checkbox" type="checkbox" name="is_date_range" value="is_date_range" id="${attr}_is_date_range" />
-      Date Range?
-    </label>
-
-    <br />
-    
-    <div id="${attr}_date_range" class="date_range" style="display: none; margin-top: 10px;">
-      <select class="input-medium" name="month_end">
-	<option value="0">Month</option>
-	<option value="1">January</option>
-	<option value="2">February</option>
-	<option value="3">March</option>
-	<option value="4">April</option>
-	<option value="5">May</option>
-	<option value="6">June</option>
-	<option value="7">July</option>
-	<option value="8">August</option>
-	<option value="9">September</option>
-	<option value="10">October</option>
-	<option value="11">November</option>
-	<option value="12">December</option>
-      </select>
-      
-      <select class="span1" name="day_end">
-	<option value="0">Day</option>
-    %for i in range(31):
-    <option>${i}</option>
-    %endfor
-      </select>
-      
-      <input class="input-small" type="text" name="year_end" size="4" maxlength="4" value="Year" id="${attr}_year_end" />
-      
-      <select class="input-medium" name="era_end" id="${attr}_era_end">
-	<option>Era</option>
-	<option value="bce">B.C.E. (B.C.)</option>
-	<option value="ce">C.E. (A.D.)</option>
-      </select>
-    </div>
-    
-    <br />
-
     <button class="btn btn-primary" type="submit" id="${attr}_submit">Submit</button>
     <button class="btn" type="reset" id="${attr}_reset" value="Reset">Reset</button>
   </fieldset>
@@ -196,41 +123,30 @@ ${parent.draw()}</%def>
 <hr />
 
 <script>
-  <!-- script handling form expansion/collapse for date ranges-->
+  // script handling form expansion/collapse for date ranges
   $("#${attr}_is_date_range").click(
   function() {
-  if ($("#${attr}_date_range").is(":hidden")) {
-  $("#${attr}_date_range").slideDown();
-  }   
-  else {
-  $("#${attr}_date_range").slideUp();          
-  var month = $("#${attr}_month").val();
-  var day = $("#${attr}_day").val();
-  var year = $("#${attr}_year").val();
-  var era = $("#${attr}_era").val();
-  $('form')[0].reset();
-  $("#${attr}_month").val(month);
-  $("#${attr}_day").val(day);
-  $("#${attr}_year").val(year);
-  $("#${attr}_era").val(era);
-  }
+    if ($("#${attr}_date_range").is(":hidden")) {
+      $("#${attr}_date_range").slideDown();
+    } else {
+      $("#${attr}_date_range").slideUp();          
+      var month = $("#${attr}_month").val();
+      var day = $("#${attr}_day").val();
+      var year = $("#${attr}_year").val();
+      var era = $("#${attr}_era").val();
+  
+      $('form')[0].reset();
+      $("#${attr}_month").val(month);
+      $("#${attr}_day").val(day);
+      $("#${attr}_year").val(year);
+      $("#${attr}_era").val(era);
+    }
   });
 
   $("#${attr}_reset").click(
-  function() {
-  $("#${attr}_date_range").slideUp();
+    function() {
+      $("#${attr}_date_range").slideUp();
   });
-
-  <!-- scripts for auto selecting the year/year_end textboxes  -->
-  $("#${attr}_year").click(
-  function() {
-  $(this).select();
-  });
-  $("#${attr}_year_end").click(
-  function() {
-  $(this).select();
-  });
-
   /*
   $("#${attr}_submit").click(
   function() {
@@ -238,7 +154,7 @@ ${parent.draw()}</%def>
   });  
   */
 
-  <!-- script for validating dates  -->
+  // script for validating dates
   $(document).ready(function() {
   $("#${attr}_form").submit(
   function() {
@@ -273,5 +189,3 @@ ${parent.draw()}</%def>
 				       </script>
 
 </%def>
-
-

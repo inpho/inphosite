@@ -69,16 +69,53 @@
 <%doc>
 For use with the inpho.model.Date objects.
 </%doc>
+<form class="date-control" id="${attr}_form">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)} Date</label>
     <div class="controls">
       %for value in values:
-      <label data-value="${repr(value)}"><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')" data-url="${url}"></i> ${str(value)}</label>
+      <label data-value="${repr(value)}"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, '${url}')" data-url="${url}"></i> ${str(value)}</label>
       %endfor
       <div class="input-append">
-        <input class="admin-text" type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" data-url="${url}" />
-        <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+        ${date_picker(attr)}
+        <span class="add-on"><i class="icon-share-alt input-status" onclick="return inpho.admin.submit_form('${attr}_form', '${url}')"></i></span>
+        ## <label class="checkbox pull-right">
+        ##   <input class="checkbox" type="checkbox" name="is_date_range" value="is_date_range" id="${attr}_is_date_range" />
+        ##   Date Range?</label>
+        ## ${date_picker(attr, True)}
       </div>
     </div>
 </div>
+</form>
+</%def>
+
+<%def name="date_picker(attr, date_range=False)">
+<% date_range = '_range' if date_range else '' %>
+<select class="input-small" name="month${date_range}" id="${attr}_month">
+  <option value="0">Month</option>
+  <option value="1">January</option>
+  <option value="2">February</option>
+  <option value="3">March</option>
+  <option value="4">April</option>
+  <option value="5">May</option>
+  <option value="6">June</option>
+  <option value="7">July</option>
+  <option value="8">August</option>
+  <option value="9">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
+</select>
+<select class="span1" name="day${date_range}" id="${attr}_day">
+  <option value="0">Day</option>
+  %for i in range(1,32):
+  <option>${i}</option>
+  %endfor
+</select>
+<input class="span1" type="text" name="year${date_range}" size="4" maxlength="4" placeholder="Year" id="${attr}_year" />
+<select class="span1" name="era${date_range}" id="${attr}_era">
+  <option>Era</option>
+  <option value="bce">B.C.E.</option>
+  <option value="ce">C.E.</option>
+</select>
 </%def>

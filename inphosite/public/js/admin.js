@@ -130,8 +130,74 @@ inpho.admin.submit_field = function(attr, url) {
     xhr.send(attr + "=" + value);
 }
 
+inpho.admin.submit_form = function(form, url) {
+  var status_icon = $('.input-status', $('#' + form));
+  $('#'+form).removeClass('error');
+  $('#'+form).removeClass('success');
+  status_icon.removeClass('icon-warning-sign');
+  status_icon.removeClass('icon-share-alt');
+  status_icon.addClass('icon-loading');
+  
+  var data = $("#"+form).serialize();
+  $.post(url, data,
+    function() {
+        status_icon.removeClass('icon-share-alt');
+        status_icon.removeClass('icon-loading');
+        status_icon.addClass('icon-ok');
+        $('#'+form).addClass('success');
+        
+        var new_entry = '<label data-value="' + inpho.admin.build_date_string(form) + '"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, \'' + url + '\')" data-url="' + url + '"></i> ' + inpho.admin.build_date_obj(form).toLocaleDateString() + ' </label>';
+        $('.input-append', $('#'+form)).before(new_entry);
+        $('select', $('#'+form)).val('0');
+
+    }
+  );
+}
+
+inpho.admin.build_date_string = function(form) {
+  var f = $('#'+form);
+  var day = $('[name=day]', f).val();
+  if (day.length == 1) day = '0' + day;
+  var month = $('[name=month]', f).val(); 
+  if (month.length == 1) month = '0' + month;
+  
+  var era = $('[name=era]', f).val();
+  var year = $('[name=year]', f).val(); 
+  if (era == 'ce') year = (Number(year)-1).toString();
+  if (year.length != 4) year = '0' + year;
+  if (year.length != 4) year = '0' + year;
+  if (year.length != 4) year = '0' + year;
+  if (year.length != 4) year = '0' + year;
+  
+  var str = year + month + day;
+
+  if (era ==  'bce') str = '-' + str;
+
+  return str;
+}
+
+inpho.admin.build_date_obj = function(form) {
+  var f = $('#'+form);
+  var day = $('[name=day]', f).val();
+  var month = $('[name=month]', f).val(); 
+  var year = $('[name=year]', f).val(); 
+  var era = $('[name=era]', f).val();
+
+  if (era ==  'bce') year = year * -1;
+
+  var d = new Date(year, month, day);
+  return d;
+}
+
 inpho.admin.remove = function(elt, attr, url) {
   var value = "?pattern=" + encodeURIComponent($(elt).text());
+  url = url + value
+  $.ajax({ type: 'DELETE', url: url,
+           success: function() { $(elt).remove()} });
+}
+
+inpho.admin.remove_date = function(elt, url) {
+  var value = "?string=" + $(elt).attr('data-value');
   url = url + value
   $.ajax({ type: 'DELETE', url: url,
            success: function() { $(elt).remove()} });

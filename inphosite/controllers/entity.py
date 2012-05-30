@@ -350,10 +350,12 @@ class EntityController(BaseController):
         date = self._get_date(id, id2)
 
         if date in c.entity.dates:
-            c.entity.dates.remove(date)
-
+            idx = c.entity.dates.index(date)
+            Session.delete(c.entity.dates[idx])
             Session.commit()
 
+        else:
+            raise Exception
         return "OK"
 
     def _get_date(self, id, id2):
@@ -362,6 +364,11 @@ class EntityController(BaseController):
         creation.
         """
         c.entity = h.fetch_obj(Entity, id, new_id=True)
+        id2 = int(id2)
+
+        string = request.params.get('string', None)
+        if string is not None:
+            return Date.convert_from_iso(c.entity.ID, id2, string)
 
         # process form fields
         month = int(request.params.get('month', 0))

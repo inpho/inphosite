@@ -339,11 +339,6 @@ class EntityController(BaseController):
 
         return "OK"
 
-    def date_form(self, id):
-        c.id = id
-        c.id2 = 2 # death date processing
-        return render('date.html')
-
     def _delete_date(self, id, id2):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
         # get the date object

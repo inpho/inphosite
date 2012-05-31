@@ -1,0 +1,2 @@
+#!/bin/bash
+git-hooks run "$0" "$@"

@@ -131,28 +131,64 @@ inpho.admin.submit_field = function(attr, url) {
 }
 
 inpho.admin.submit_form = function(form, url) {
-  var status_icon = $('.input-status', $('#' + form));
-  $('#'+form).removeClass('error');
-  $('#'+form).removeClass('success');
+  var form_elt = $('#'+form);
+  form_elt = $('.control-group', form_elt);
+  var status_icon = $('.input-status', form_elt);
+  form_elt.removeClass('error');
+  form_elt.removeClass('warning');
+  form_elt.removeClass('success');
   status_icon.removeClass('icon-warning-sign');
   status_icon.removeClass('icon-share-alt');
   status_icon.addClass('icon-loading');
+  $('.help-inline', form_elt).remove();
   
   var data = $("#"+form).serialize();
-  $.post(url, data,
-    function() {
+  $.post(url, data)
+   .success(function() {
         status_icon.removeClass('icon-share-alt');
         status_icon.removeClass('icon-loading');
         status_icon.addClass('icon-ok');
-        $('#'+form).addClass('success');
+        form_elt.addClass('success');
         
-        var new_entry = '<label data-value="' + inpho.admin.build_date_string(form) + '"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, \'' + url + '\')" data-url="' + url + '"></i> ' + inpho.admin.build_date_obj(form).toLocaleDateString() + ' </label>';
-        $('.input-append', $('#'+form)).before(new_entry);
-        $('select', $('#'+form)).val('0');
-
+        var new_entry = '<label data-value="' + inpho.admin.build_date_string(form) + '"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, \'' + url + '\')" data-url="' + url + '"></i> ' + inpho.admin.build_date_pretty_string(form) + ' </label>';
+        $('.input-append', form_elt).before(new_entry);
+        $('select', form_elt).val('0');
+        $('input', form_elt).val('');
+        
+        status_icon.removeClass('icon-ok');
+        status_icon.addClass('icon-share-alt');
     }
-  );
+  )
+  .error(function(jqXHR, textStatus, errorThrown) {
+        status_icon.removeClass('icon-share-alt');
+        status_icon.removeClass('icon-loading');
+        status_icon.addClass('icon-warning-sign');
+
+        if (jqXHR.status == 500) {
+          form_elt.addClass('error');
+          var warning = '<span class="help-inline">' + errorThrown + '</span>';
+          $('.input-append', form_elt).after(warning);
+        } else {
+          form_elt.addClass('warning');
+          var response = $.parseJSON(jqXHR.responseText);
+          var warning = '<span class="help-inline">' + response.responseDetails + '</span>';
+          $('.input-append', form_elt).after(warning);
+        }
+    });
 }
+
+inpho.admin.change_date = function(form) {
+  var form_elt = $('#'+form);
+  form_elt = $('.control-group', form_elt);
+  var status_icon = $('.input-status', form_elt);
+  form_elt.removeClass('error');
+  form_elt.removeClass('warning');
+  form_elt.removeClass('success');
+  status_icon.removeClass('icon-warning-sign');
+  status_icon.removeClass('icon-loading');
+  status_icon.addClass('icon-share-alt');
+  $('.help-inline', form_elt).remove();
+  }
 
 inpho.admin.build_date_string = function(form) {
   var f = $('#'+form);
@@ -172,6 +208,34 @@ inpho.admin.build_date_string = function(form) {
   var str = year + month + day;
 
   if (era ==  'bce') str = '-' + str;
+
+  return str;
+}
+
+var months = {
+  '1' : 'January',
+  '2' : 'February',
+  '3' : 'March',
+  '4' : 'April',
+  '5' : 'May',
+  '6' : 'June',
+  '7' : 'July',
+  '8' : 'August',
+  '9' : 'September',
+  '10' : 'October',
+  '11' : 'November',
+  '12' : 'December'
+};
+
+inpho.admin.build_date_pretty_string = function(form) {
+  var f = $('#'+form);
+  var day = $('[name=day]', f).val();
+  var month = $('[name=month]', f).val(); 
+  var era = $('[name=era]', f).val();
+  var year = $('[name=year]', f).val(); 
+  if (era == 'ce') year = (Number(year)-1).toString();
+  
+  var str = months[month] + " " + day + ", " + year;
 
   return str;
 }

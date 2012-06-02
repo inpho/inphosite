@@ -83,9 +83,9 @@ ${parent.draw()}</%def>
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
   ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
   %elif attr == "birth":
-  ${bootstrap.date_list('birth_dates', c.entity.url(action='date', id2=1), getattr(c.entity, 'birth_dates', tuple()))}
+  ${bootstrap.date_list('birth_dates', c.entity.url(action='date', id2=1, filetype='json'), getattr(c.entity, 'birth_dates', tuple()))}
   %elif attr == "death":
-  ${bootstrap.date_list('death_dates', c.entity.url(action='date', id2=2), getattr(c.entity, 'death_dates', tuple()))}
+  ${bootstrap.date_list('death_dates', c.entity.url(action='date', id2=2, filetype='json'), getattr(c.entity, 'death_dates', tuple()))}
 
     <%doc>
     ## Birth Date(s) (mutable; for Idea, Thinker)

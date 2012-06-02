@@ -5,12 +5,18 @@ available to Controllers. This module is available to templates as 'h'.
 """
 # Import helpers as desired, or define your own, ie:
 #from webhelpers.html.tags import checkbox, password
-from pylons import url
+from pylons import url, request
 from webhelpers.html.tags import *
 #from formbuild.helpers import field
 #from formbuild import start_with_layout as form_start, end_with_layout as form_end
 from pylons.controllers.util import abort, redirect
 import re
+
+def parse_int_param(field):
+    try: 
+        return request.params.get(field, 0)
+    except:
+        abort(400, "Invalid %s." % field)
 
 
 def titlecase(s):

@@ -31,6 +31,9 @@ from sqlalchemy.exc import IntegrityError
 
 log = logging.getLogger(__name__)
 
+class DateException(Exception):
+    pass
+
 class EntityController(BaseController):
     _type = Entity
     _controller = 'entity'
@@ -348,9 +351,7 @@ class EntityController(BaseController):
             idx = c.entity.dates.index(date)
             Session.delete(c.entity.dates[idx])
             Session.commit()
-
-        else:
-            raise Exception
+        
         return "OK"
 
     def _get_date(self, id, id2):
@@ -366,17 +367,17 @@ class EntityController(BaseController):
             return Date.convert_from_iso(c.entity.ID, id2, string)
 
         # process form fields
-        month = int(request.params.get('month', 0))
-        day = int(request.params.get('day', 0))
-        year = int(request.params.get('year', 0))
+        month = h.parse_int_param('month')
+        day = h.parse_int_param('day')
+        year = h.parse_int_param('year')
         era = request.params.get('era', None)
 
         # process range fields
         range = request.params.get('is_date_range', False)
         if range: 
-            month_end = int(request.params.get('month_end', 0))
-            day_end = int(request.params.get('day_end', 0))
-            year_end = int(request.params.get('year_end', 0))
+            month_end = h.parse_int_param('month_end')
+            day_end = h.parse_int_param('day_end')
+            year_end = h.parse_int_param('year_end')
             era_end = request.params.get('era_end', None)
 
         # process era markers:
@@ -387,8 +388,13 @@ class EntityController(BaseController):
 
         # data integrity checks, raise a bad request if failed.
         # TODO: Make data integrity checks
-        if not year and not month and not day:
-            abort(400)
+        if not year:
+            raise DateException("You must specify a year.")
+        if year and not month and day:
+            raise DateException("You must specify a month.")
+
+        if range and (year > year_end):
+            raise DateException("Start year must be before end year.")
         
         if not range:
             date = Date(c.entity.ID, id2,
@@ -402,12 +408,18 @@ class EntityController(BaseController):
         
 
     @dispatch_on(DELETE='_delete_date')
-    def date(self, id, id2):
+    def date(self, id, id2, filetype='json'):
         """
         Creates a date object, associated to the id with the relation type of
         id2.
         """
-        date = self._get_date(id, id2)
+        try:
+            date = self._get_date(id, id2)
+        except DateException as e:
+            # TODO: Cleanup this workaround for the Pylons abort function not
+            # passing along error messages properly to the error controller.
+            response.status = 400
+            return str(e)
 
         try:
             Session.add(date)

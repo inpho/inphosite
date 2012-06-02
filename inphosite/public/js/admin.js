@@ -21,7 +21,8 @@ inpho.admin.process_keydown = function(e) {
   var status_icon = $('.input-status', $(this).parent());
   if ((e.keyCode == 13) || (e.keyCode == 9)) { // Enter and Tab support
     // submit the form
-    if (status_icon.hasClass('icon-share-alt'))
+    if (status_icon.hasClass('icon-share-alt') && 
+         !$(this).hasClass('admin-date') )
       inpho.admin.submit_field(this.id, $(this).attr('data-url'));
 
     // do not use the browser-submit if enter is pressed

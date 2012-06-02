@@ -112,7 +112,7 @@ For use with the inpho.model.Date objects.
   <option>${i}</option>
   %endfor
 </select>
-<input class="span1" type="text" name="year${date_range}" size="4" maxlength="4" placeholder="Year" id="${attr}_year" onchange="inpho.admin.change_date('${attr}_form')" />
+<input class="admin-text admin-date span1" type="text" name="year${date_range}" size="4" maxlength="4" placeholder="Year" id="${attr}_year" onchange="inpho.admin.change_date('${attr}_form')" />
 <select class="span1" name="era${date_range}" id="${attr}_era" onchange="inpho.admin.change_date('${attr}_form')">
   <option>Era</option>
   <option value="bce">B.C.E.</option>

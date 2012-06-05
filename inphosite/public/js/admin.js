@@ -142,7 +142,7 @@ inpho.admin.submit_form = function(form, url) {
   status_icon.removeClass('icon-share-alt');
   status_icon.addClass('icon-loading');
   $('.help-inline', form_elt).remove();
-  
+
   var data = $("#"+form).serialize();
   $.post(url, data)
    .success(function() {
@@ -193,6 +193,8 @@ inpho.admin.submit_form = function(form, url) {
     });
 }
 
+String.prototype.startsWith = function(str) {return (this.match("^"+str)==str)}
+
 inpho.admin.change_date = function(form) {
   var form_elt = $('#'+form);
   form_elt = $('.control-group', form_elt);
@@ -204,6 +206,14 @@ inpho.admin.change_date = function(form) {
   status_icon.removeClass('icon-loading');
   status_icon.addClass('icon-share-alt');
   $('.help-inline', form_elt).remove();
+ 
+  var year = $("[name='year']", form_elt).val();
+  if (year.startsWith('-')) {
+    // remove slash and set era
+    $("[name='year']", form_elt).val(year.substr(1));
+    $("[name='era']", form_elt).val('bce');
+    }
+
   }
 
 inpho.admin.build_date_string = function(form) {
@@ -247,7 +257,7 @@ inpho.admin.build_date_pretty_string = function(form) {
   var f = $('#'+form);
   var str = '';
   var day = $('[name=day]', f).val();
-  var month = $('[name=month]', f).val(); 
+  var month = $('[name=month]', f).val();
   var era = $('[name=era]', f).val();
   var year = $('[name=year]', f).val(); 
 

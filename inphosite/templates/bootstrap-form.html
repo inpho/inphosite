@@ -74,7 +74,7 @@ For use with the inpho.model.Date objects.
     <label class="control-label" for="${attr}">${h.titlecase(attr)} Date</label>
     <div class="controls">
       %for value in values:
-      <label data-value="${repr(value)}"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, '${url}')" data-url="${url}"></i> ${str(value)}</label>
+      <label class="control-date-label" data-value="${repr(value)}"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, '${url}')" data-url="${url}"></i> ${str(value)}</label>
       %endfor
       <div class="input-append">
         ${date_picker(attr)}

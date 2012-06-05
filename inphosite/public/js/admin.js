@@ -149,13 +149,28 @@ inpho.admin.submit_form = function(form, url) {
         status_icon.removeClass('icon-share-alt');
         status_icon.removeClass('icon-loading');
         status_icon.addClass('icon-ok');
-        form_elt.addClass('success');
-        
-        var new_entry = '<label data-value="' + inpho.admin.build_date_string(form) + '"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, \'' + url + '\')" data-url="' + url + '"></i> ' + inpho.admin.build_date_pretty_string(form) + ' </label>';
-        $('.input-append', form_elt).before(new_entry);
+      
+        // check if the date is already in the list of dates
+        var identical = $.grep($('.control-date-label', form_elt), function (elt,n) {
+          return $(elt).attr('data-value') == inpho.admin.build_date_string(form);
+        });
+
+        // behave accordingly
+        if (identical.length == 0) {
+          form_elt.addClass('success');
+
+          var new_entry = '<label class="control-date-label" data-value="' + inpho.admin.build_date_string(form) + '"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, \'' + url + '\')" data-url="' + url + '"></i> ' + inpho.admin.build_date_pretty_string(form) + ' </label>';
+          $('.input-append', form_elt).before(new_entry);
+        } else {
+          var warning = '<span class="help-inline">Date already submitted.</span>';
+          $('.input-append', form_elt).after(warning);
+        }
+
+        // reset fields
         $('select', form_elt).val('0');
         $('input', form_elt).val('');
         
+        // change status icon
         status_icon.removeClass('icon-ok');
         status_icon.addClass('icon-share-alt');
     }
@@ -236,9 +251,10 @@ inpho.admin.build_date_pretty_string = function(form) {
   var era = $('[name=era]', f).val();
   var year = $('[name=year]', f).val(); 
 
-  if (month != '') str += months[month] + " ";
-  if (day != '') str += day + ", ";
+  if (month != '' && month != '0') str += months[month] + " ";
+  if (day != '' && day != '0') str += day + ", ";
   str += year;
+  if (era == 'bce') str += " B.C.E."
 
   return str;
 }

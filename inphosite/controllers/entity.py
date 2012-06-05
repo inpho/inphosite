@@ -367,17 +367,47 @@ class EntityController(BaseController):
             return Date.convert_from_iso(c.entity.ID, id2, string)
 
         # process form fields
-        month = h.parse_int_param('month')
-        day = h.parse_int_param('day')
-        year = h.parse_int_param('year')
+        month = request.params.get('month', 0)
+        try:
+            month = None if month == '' else int(month)
+        except:
+            abort(400, "Invalid month.")
+        
+        day = request.params.get('day', 0)
+        try:
+            day = None if day == '' else int(day)
+        except:
+            abort(400, "Invalid day.")
+
+        year = request.params.get('year', 0)
+        try:
+            year = None if year == '' else int(year)
+        except:
+            abort(400, "Invalid year.")
+
         era = request.params.get('era', None)
 
         # process range fields
         range = request.params.get('is_date_range', False)
         if range: 
-            month_end = h.parse_int_param('month_end')
-            day_end = h.parse_int_param('day_end')
-            year_end = h.parse_int_param('year_end')
+            month_end = request.params.get('month_end', 0)
+            try:
+                month_end = None if month_end == '' else int(month_end)
+            except:
+                abort(400, "Invalid month_end.")
+            
+            day_end = request.params.get('day_end', 0)
+            try:
+                day_end = None if day_end == '' else int(day_end)
+            except:
+                abort(400, "Invalid day_end.")
+    
+            year_end = request.params.get('year_end', 0)
+            try:
+                year_end = None if year_end == '' else int(year_end)
+            except:
+                abort(400, "Invalid year_end.")
+
             era_end = request.params.get('era_end', None)
 
         # process era markers:

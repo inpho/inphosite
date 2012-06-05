@@ -12,12 +12,6 @@ from webhelpers.html.tags import *
 from pylons.controllers.util import abort, redirect
 import re
 
-def parse_int_param(field):
-    try: 
-        return request.params.get(field, 0)
-    except:
-        abort(400, "Invalid %s." % field)
-
 
 def titlecase(s):
     title = []

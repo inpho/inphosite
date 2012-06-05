@@ -200,7 +200,7 @@ inpho.admin.build_date_string = function(form) {
   
   var era = $('[name=era]', f).val();
   var year = $('[name=year]', f).val(); 
-  if (era == 'ce') year = (Number(year)-1).toString();
+  if (era != 'bce') year = (Number(year)-1).toString();
   if (year.length != 4) year = '0' + year;
   if (year.length != 4) year = '0' + year;
   if (year.length != 4) year = '0' + year;
@@ -230,13 +230,15 @@ var months = {
 
 inpho.admin.build_date_pretty_string = function(form) {
   var f = $('#'+form);
+  var str = '';
   var day = $('[name=day]', f).val();
   var month = $('[name=month]', f).val(); 
   var era = $('[name=era]', f).val();
   var year = $('[name=year]', f).val(); 
-  if (era == 'ce') year = (Number(year)-1).toString();
-  
-  var str = months[month] + " " + day + ", " + year;
+
+  if (month != '') str += months[month] + " ";
+  if (day != '') str += day + ", ";
+  str += year;
 
   return str;
 }

@@ -17,7 +17,7 @@ def nodeRecursion(i, nodes, root, selected):
 %>
 
 <%def name="sidebar(node=None)">
-<form class="form-stacked" method="get" action="/entity?id=None">
+<form class="form-stacked" method="get" action="/entity?id=None" autocomplete="off">
     <input type="hidden" value="True" name="redirect">
     ${actb.actb("q")}
 </form>

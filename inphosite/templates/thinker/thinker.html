@@ -34,20 +34,24 @@
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
       <dl class="dl-horizontal">
-          %if c.entity.birth_sd():
-          <dt>Birth Date:</dt>
+          %if c.entity.birth_dates:
+          <dt>Birth Dates:</dt>
+          %for date in c.entity.birth_dates:
           <dd>
-          ${c.entity.birth_sd()}
+          ${date}
           </dd>
-          %endif
-          
-          %if c.entity.death_sd():
-          <dt>Death Date:</dt>
-          <dd>
-          ${c.entity.death_sd()}
-          </dd>
+          %endfor
           %endif
       
+          %if c.entity.death_dates:
+          <dt>Death Dates:</dt>
+          %for date in c.entity.death_dates:
+          <dd>
+          ${date}
+          </dd>
+          %endfor
+          %endif
+
           %if len(c.entity.nationalities):
           <dt>Nationality/ethnicity:</dt>
           %for nationality in c.entity.nationalities:

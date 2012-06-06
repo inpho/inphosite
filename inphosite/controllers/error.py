@@ -25,7 +25,7 @@ class ErrorController(BaseController):
         code = cgi.escape(request.GET.get('code', ''))
         content = cgi.escape(request.GET.get('message', ''))
         if resp:
-            content = literal(resp.status)
+            content = content or resp.body or literal(resp.status)
             code = code or cgi.escape(str(resp.status_int))
         if not code:
             raise Exception('No status code was found')

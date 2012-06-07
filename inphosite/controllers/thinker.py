@@ -47,6 +47,39 @@ class ThinkerController(EntityController):
         c.thinker = h.fetch_obj(Thinker, id, new_id=True)
         return render('thinker/graph.%s' % filetype)
     
+    def data_integrity(self, filetype='html', redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        thinker_q = Session.query(Thinker)
+        c.thinkers = list(thinker_q)
+
+        # Data Integrity checks for Thinkers.
+        # Move to admin function and generate separate page soon.
+        c.missing_birth = []
+        c.missing_death = []
+        c.impossible_dates = []
+        for thinker in c.thinkers:
+            # Missing birth dates
+            if not getattr(thinker, 'birth_dates'):
+                c.missing_birth.append(thinker)
+            
+            # Missing death dates
+            if not getattr(thinker, 'death_dates'):
+                c.missing_death.append(thinker)
+            
+            # Impossible date combinations
+            if len(thinker.birth_dates) != 0 and len(thinker.death_dates) != 0:
+                dob = thinker.birth_dates[0]        
+                dod = thinker.death_dates[0]
+                if dob.year > dod.year or (dod.year - dob.year) > 120:
+                    c.impossible_dates.append(thinker)
+
+        return render('thinker/missing-fields.%s' % filetype)
+
+
     def _list_property(self, property, id, filetype='html', limit=False,
     sep_filter=False, type='thinker'):
         c.thinker = h.fetch_obj(Thinker, id)

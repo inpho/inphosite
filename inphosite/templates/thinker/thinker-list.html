@@ -23,10 +23,89 @@ thinkers.</p>
 interfaces for our thinker database. Use the searchbox to the left to perform
 searches over the entire InPhO knowledge base.</p>
 
-<ul>
-%for thinker in c.entities:
-<li><a href="${thinker.url()}">${thinker.label}</a></li>
-%endfor
-</ul>
+<div class="accordion" id="bad_thinker_dates">
+  <div class="accordion-group" style="border: none;">
+    <div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#missing_birth" style="display: inline; padding: 0px;">
+    <h2>Missing Birth Dates</h2>
+  </a>
+  <p>${len(c.missing_birth)} Thinkers missing DoB.</p>
+    </div>
+    <div class="accordion-body collapse" id="missing_birth">
+  <div class=accordion-inner style="border: none; padding: 0px;">
+    <ul>
+      %for thinker in c.missing_birth:
+      <li><a href="${thinker.url()}">${thinker.label}</a></li>
+      %endfor
+    </ul>
+  </div>
+  <hr />
+    </div>
+  </div>
+  
+  <div class="accordion-group" style="border: none;">
+    <div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#missing_death" style="display: inline; padding: 0px;">
+    <h2>Missing Death Dates</h2>
+  </a>
+  <p>${len(c.missing_death)} Thinkers missing DoD.</p>
+    </div>
+    <div class="accordion-body collapse" id="missing_death">
+  <div class=accordion-inner style="border: none; padding: 0px;">
+    <ul>
+      %for thinker in c.missing_death:
+      <li><a href="${thinker.url()}">${thinker.label}</a></li>
+      %endfor
+    </ul>
+  </div>
+  <hr />
+    </div>
+  </div>
+
+  <div class="accordion-group" style="border: none;">
+    <div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#impossible_dates" style="display: inline; padding: 0px;">
+    <h2>Impossible Dates</h2>
+  </a>
+  <p>${len(c.impossible_dates)} Thinkers have impossible DoB and DoD combinations.</p>
+    </div>
+    <div class="accordion-body collapse" id="impossible_dates">
+  <div class=accordion-inner style="border: none; padding: 0px;">
+    <ul>
+      %for thinker in c.impossible_dates:
+      <li><a href="${thinker.url()}">${thinker.label}</a></li>
+      %endfor
+    </ul>
+  </div>
+  <hr />
+    </div>
+  </div>
+
+  <div class="accordion-group" style="border: none;">
+    <div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#complete_list" style="display: inline; padding: 0px;">
+    <h2>All Thinkers</h2>
+  </a>
+  <p>${len(c.entities)} total Thinkers in database.</p>
+    </div>
+    <div class="accordion-body collapse" id="complete_list">
+  <div class=accordion-inner style="border: none; padding: 0px;">
+    <ul>
+      %for thinker in c.entities:
+      <li><a href="${thinker.url()}">${thinker.label}</a></li>
+      %endfor
+    </ul>
+  </div>
+  <hr />
+    </div>
+  </div>
+
+
+</div>
 </div>
 
+<script>
+  $(".collapse").collapse({
+  toggle: false
+  });
+</script>

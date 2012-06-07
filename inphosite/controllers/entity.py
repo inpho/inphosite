@@ -31,6 +31,7 @@ from sqlalchemy.exc import IntegrityError
 
 log = logging.getLogger(__name__)
 
+
 class EntityController(BaseController):
     _type = Entity
     _controller = 'entity'
@@ -59,13 +60,16 @@ class EntityController(BaseController):
             # Issue an HTTP success
             response.status_int = 200
             return "OK"
-
+    
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
         #TODO: Remove the following line when Nodes are eliminated
         entity_q = entity_q.filter(Entity.typeID != 2)
         
+        # get the list of entities
+        c.entities = entity_q.all()
+
         c.nodes = Session.query(Node).filter(Node.parent_id == None)
         c.nodes = c.nodes.order_by("name").all()
 
@@ -83,7 +87,31 @@ class EntityController(BaseController):
         if c.query:
             o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
-        
+
+        # Data Integrity checks for Thinkers.
+        # Move to admin function and generate separate page soon.
+        c.missing_birth = []
+        c.missing_death = []
+        c.impossible_dates = []
+        for entity in c.entities:
+            if not isinstance(entity, Thinker):
+                break
+            
+            # Missing birth dates
+            if not getattr(entity, 'birth_dates'):
+                c.missing_birth.append(entity)
+            
+            # Missing death dates
+            if not getattr(entity, 'death_dates'):
+                c.missing_death.append(entity)
+
+            # Impossible date combinations
+            if len(entity.birth_dates) != 0 and len(entity.death_dates) != 0:
+                dob = entity.birth_dates[0]
+                dod = entity.death_dates[0]
+                if dob.year > dod.year or (dod.year - dob.year) > 120:
+                    c.impossible_dates.append(entity)
+
         # limit must be the last thing applied to the query
         entity_q = entity_q.limit(request.params.get('limit', None))
         c.entities = entity_q.all()

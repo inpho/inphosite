@@ -56,11 +56,11 @@ class ThinkerController(EntityController):
         thinker_q = Session.query(Thinker)
         c.thinkers = list(thinker_q)
 
-        # Data Integrity checks for Thinkers.
-        # Move to admin function and generate separate page soon.
         c.missing_birth = []
         c.missing_death = []
         c.impossible_dates = []
+        c.missing_sep_dir = []
+        c.no_wiki = []
         for thinker in c.thinkers:
             # Missing birth dates
             if not getattr(thinker, 'birth_dates'):
@@ -76,6 +76,14 @@ class ThinkerController(EntityController):
                 dod = thinker.death_dates[0]
                 if dob.year > dod.year or (dod.year - dob.year) > 120:
                     c.impossible_dates.append(thinker)
+            
+            # Missing sep_dir
+            if not getattr(thinker, 'sep_dir'):
+                c.missing_sep_dir.append(thinker)
+
+            # No Wiki page
+            if not getattr(thinker, 'wiki'):
+                c.no_wiki.append(thinker)
 
         return render('thinker/missing-fields.%s' % filetype)
 

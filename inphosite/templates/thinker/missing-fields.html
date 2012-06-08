@@ -1,97 +1,59 @@
 <%inherit file="/base-tree.html"/>
-<%def name="title()">Thinkers</%def>
-<%def name="head_title()">Thinkers</%def>
+<%def name="title()">Bad/Missing Thinker Info</%def>
+<%def name="head_title()">Bad/Missing Thinker Info</%def>
 <%def name="sidebar()">
 ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
 <div id="content">
 
-<p>Select a field to see the list of Thinkers missing that information.</p>
-
-<div class="accordion" id="bad_thinker_dates">
-  <div class="accordion-group" style="border: none;">
-    <div class="accordion-heading">
-  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#missing_birth" style="display: inline; padding: 0px;">
-    <h2>Missing Birth Dates</h2>
-  </a>
-  <p>${len(c.missing_birth)} Thinkers missing DoB.</p>
-    </div>
-    <div class="accordion-body collapse" id="missing_birth">
-  <div class=accordion-inner style="border: none; padding: 0px;">
-    <ul>
-      %for thinker in c.missing_birth:
-      <li><a href="${thinker.url()}">${thinker.label}</a></li>
-      %endfor
-    </ul>
-  </div>
-  <hr />
-    </div>
-  </div>
-  
-  <div class="accordion-group" style="border: none;">
-    <div class="accordion-heading">
-  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#missing_death" style="display: inline; padding: 0px;">
-    <h2>Missing Death Dates</h2>
-  </a>
-  <p>${len(c.missing_death)} Thinkers missing DoD.</p>
-    </div>
-    <div class="accordion-body collapse" id="missing_death">
-  <div class=accordion-inner style="border: none; padding: 0px;">
-    <ul>
-      %for thinker in c.missing_death:
-      <li><a href="${thinker.url()}">${thinker.label}</a></li>
-      %endfor
-    </ul>
-  </div>
-  <hr />
-    </div>
-  </div>
-
-  <div class="accordion-group" style="border: none;">
-    <div class="accordion-heading">
-  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#impossible_dates" style="display: inline; padding: 0px;">
-    <h2>Impossible Dates</h2>
-  </a>
-  <p>${len(c.impossible_dates)} Thinkers have impossible DoB and DoD combinations.</p>
-    </div>
-    <div class="accordion-body collapse" id="impossible_dates">
-  <div class=accordion-inner style="border: none; padding: 0px;">
-    <ul>
-      %for thinker in c.impossible_dates:
-      <li><a href="${thinker.url()}">${thinker.label}</a></li>
-      %endfor
-    </ul>
-  </div>
-  <hr />
-    </div>
-  </div>
-
-  <div class="accordion-group" style="border: none;">
-    <div class="accordion-heading">
-  <a class="accordion-toggle" data-toggle="collapse" data-parent="#bad_thinker_dates" href="#complete_list" style="display: inline; padding: 0px;">
-    <h2>All Thinkers</h2>
-  </a>
-  <p>${len(c.thinkers)} total Thinkers in database.</p>
-    </div>
-    <div class="accordion-body collapse" id="complete_list">
-  <div class=accordion-inner style="border: none; padding: 0px;">
-    <ul>
-      %for thinker in c.thinkers:
-      <li><a href="${thinker.url()}">${thinker.label}</a></li>
-      %endfor
-    </ul>
-  </div>
-  <hr />
-    </div>
-  </div>
-
-
-</div>
-</div>
+<p>Select a field to see the list of Thinkers with that missing/bad information.</p>
 
 <script>
-  $(".collapse").collapse({
-  toggle: false
-  });
+function showThinkers(){
+    var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
+    var filters = $('div[id="di_filter"]');
+    for(var i=0; i<filters.length; i++){
+        if(filters[i].getAttribute("value") == chosen){
+            filters[i].style.display="inline";
+        }else{
+            filters[i].style.display="none";
+        }
+    }
+}
 </script>
+
+<select id="bad_field" onchange="showThinkers()">
+  <option>None</option>
+  <option value="missing_dob">Missing DoB (${len(c.missing_birth)} Thinkers)</option>
+  <option value="missing_dod">Missing DoD (${len(c.missing_death)} Thinkers)</option>
+  <option value="impossible_dates">Impossible Dates (${len(c.impossible_dates)} Thinkers)</option>
+</select>
+
+<div value="missing_dob" id="di_filter" style="display: none;">
+  <ul>
+    %for thinker in c.missing_birth:
+    <li><a href="${thinker.url()}">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="missing_dod" id="di_filter" style="display: none;">
+  <ul>
+    %for thinker in c.missing_death:
+    <li><a href="${thinker.url()}">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="impossible_dates" id="di_filter" style="display: none;">
+  <ul>
+    %for thinker in c.impossible_dates:
+    <li><a href="${thinker.url()}">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<script>showThinkers()</script>
+
+</div>

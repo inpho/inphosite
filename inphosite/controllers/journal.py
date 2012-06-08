@@ -1,5 +1,6 @@
 import logging
 import time
+import re
 from urllib import unquote
 
 from pylons import request, response, session, tmpl_context as c
@@ -23,7 +24,7 @@ class JournalController(EntityController):
     _type = Journal
     _controller = 'journal'
 
-    def list_stale_url(self, filetype='html', redirect=False):
+    def data_integrity(self, filetype='html', redirect=False):
         if not h.auth.is_logged_in():
             abort(401)
         if not h.auth.is_admin():
@@ -56,6 +57,14 @@ class JournalController(EntityController):
         # Jornal is inactive and missing URL
         c.inactive = [journal for journal in c.journals 
                       if journal.URL is None and not journal.active]
+        
+        # Missing ISSN
+        c.missing_issn = [journal for journal in c.journals
+                          if journal.ISSN == '']
+
+        # Journal has bad ISSN format (xxxx-xxxx is good format)
+        c.bad_issn = [journal for journal in c.journals 
+                      if not re.match(r'[0-9]{4}-[0-9]{4}', journal.ISSN)]
 
         return render('journal/stale-url-list.' + filetype)
 

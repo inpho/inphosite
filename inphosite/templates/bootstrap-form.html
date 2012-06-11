@@ -16,7 +16,7 @@
 
 <%def name="url_textbox(attr, url, value='', search='', access_attr='last_accessed')">
 ## workaround for value=None not having a .decode('utf-8') method
-<% value = value if value else 'None' %>
+<% value = value if value is not None else 'None' %>
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">

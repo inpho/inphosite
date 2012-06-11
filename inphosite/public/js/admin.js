@@ -106,6 +106,7 @@ inpho.admin.submit_field = function(attr, url) {
           $('#'+attr).before(new_entry);
           $('#'+attr).val('');
         } else {
+          if (attr == "URL") value = decodeURIComponent(value);
           // change the default value to the newly submitted value
           $('#'+attr)[0].defaultValue = value;
         }

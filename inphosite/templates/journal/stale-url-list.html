@@ -29,33 +29,13 @@ ${parent.draw()}</%def>
       </div>
     </div>
     
-    ## Journal is active, no URL set
-    <div class="accordion-group" style="border: none;">
-      <div class="accordion-heading">
-	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_missing" style="display: inline; padding: 0px;">
-	  <h2>Missing URLs</h2>
-	</a>
-	<p>${len(c.missing)} journals are active without a URL.</p>
-      </div> 
-      <div class="accordion-body collapse" id="journal_missing">
-	<div class="accordion-inner" style="border: none; padding: 0px;">
-	  <ul>
-	    %for journal in c.missing:
-	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
-	    %endfor
-	  </ul>
-	</div>
-	<hr />
-      </div>
-    </div>
-
     ## Journal is active, URL is set to blank
     <div class="accordion-group" style="border: none;">
       <div class="accordion-heading">
 	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_blank" style="display: inline; padding: 0px;">
-	  <h2>Blank URLs</h2>
+	  <h2>Missing URLs</h2>
 	</a>
-	<p>${len(c.blank)} journals are active with a blank URL.</p>
+	<p>${len(c.blank)} journals are active with a blank URL, with further search required.</p>
       </div>
       <div class="accordion-body collapse" id="journal_blank">
 	<div class="accordion-inner" style="border: none; padding: 0px;">
@@ -68,6 +48,27 @@ ${parent.draw()}</%def>
 	<hr />
       </div>
     </div>
+    
+    ## Journal is active, no URL set
+    <div class="accordion-group" style="border: none;">
+      <div class="accordion-heading">
+	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_missing" style="display: inline; padding: 0px;">
+	  <h2>No known website</h2>
+	</a>
+	<p>${len(c.missing)} journals are active without a known website.</p>
+      </div> 
+      <div class="accordion-body collapse" id="journal_missing">
+	<div class="accordion-inner" style="border: none; padding: 0px;">
+  <ul>
+	    %for journal in c.missing:
+	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
+	    %endfor
+	  </ul>
+	</div>
+	<hr />
+      </div>
+    </div>
+
     
     ## Journal is inactive and missing URL
     <div class="accordion-group" style="border: none;">

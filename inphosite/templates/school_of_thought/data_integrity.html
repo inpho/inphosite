@@ -1,0 +1,41 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Bad/Missing School Info</%def>
+<%def name="head_title()">Bad/Missing School Info</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+
+<p>Select a field to see the list of Schools with that missing/bad information.</p>
+
+<script>
+function showSchools(){
+    var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
+    var filters = $('div[id="di_filter"]');
+    for(var i=0; i<filters.length; i++){
+        if(filters[i].getAttribute("value") == chosen){
+            filters[i].style.display="inline";
+        }else{
+            filters[i].style.display="none";
+        }
+    }
+}
+</script>
+
+<select id="bad_field" onchange="showSchools()">
+  <option>None</option>
+  <option value="sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} School(s) of Thought)</option>
+</select>
+
+<div value="sep_dir" id="di_filter" style="display: none;">
+  <ul>
+    %for idea in c.missing_sep_dir:
+    <li><a href="${idea.url()}" target="_blank">${idea.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<script>showSchools()</script>
+
+</div>

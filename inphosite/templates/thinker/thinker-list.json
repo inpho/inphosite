@@ -1,8 +1,6 @@
 ## utilizing rdf-sparql-json guidelines at:
 ## ohttp://www.w3.org/TR/rdf-sparql-json-res/
-
 <%
-a = h.json({'responseData' : {'results' : [t.json_struct(extended=False) for t in c.thinkers]},
+a = h.json({'responseData' : {'results' : [t.json_struct(extended=False) for t in c.entities]},
           'responseStatus' : 200, 'responseDetails' : None })
-%>
-${a | n}
+%>${a | n}

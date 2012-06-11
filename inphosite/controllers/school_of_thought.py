@@ -39,7 +39,22 @@ class SchoolOfThoughtController(EntityController):
         c.school_of_thought = h.fetch_obj(SchoolOfThought, id)
 
         return render('school_of_thought/school_of_thought-edit.html')
-    
+
+    def data_integrity(self, filetype='html', redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        school_q = Session.query(SchoolOfThought)
+        c.schools = list(school_q)
+
+        #Missing sep_dir
+        c.missing_sep_dir = [school for school in c.schools
+                             if not getattr(school, "sep_dir")]
+
+        return render('school_of_thought/data_integrity.%s' % filetype)
+
     #UPDATE
     def update(self, id=None):
         terms = ['sep_dir']

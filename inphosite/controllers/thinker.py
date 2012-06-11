@@ -85,7 +85,7 @@ class ThinkerController(EntityController):
             if not getattr(thinker, 'wiki'):
                 c.no_wiki.append(thinker)
 
-        return render('thinker/missing-fields.%s' % filetype)
+        return render('thinker/data_integrity.%s' % filetype)
 
 
     def _list_property(self, property, id, filetype='html', limit=False,

@@ -58,15 +58,17 @@ class JournalController(EntityController):
         c.inactive = [journal for journal in c.journals 
                       if journal.URL is None and not journal.active]
         
-        # Missing ISSN
-        c.missing_issn = [journal for journal in c.journals
-                          if journal.ISSN == '']
+        c.missing_issn = []
+        c.bad_issn = []
+        for journal in c.journals:
+            # Missing ISSN
+            if journal.ISSN == '':
+                c.missing_issn.append(journal)
+            # Journal has bad ISSN format (xxxx-xxxx is good format)
+            elif not re.match(r'[0-9]{4}-[0-9]{4}', journal.ISSN):
+                c.bad_issn.append(journal)
 
-        # Journal has bad ISSN format (xxxx-xxxx is good format)
-        c.bad_issn = [journal for journal in c.journals 
-                      if not re.match(r'[0-9]{4}-[0-9]{4}', journal.ISSN)]
-
-        return render('journal/stale-url-list.' + filetype)
+        return render('journal/data_integrity.' + filetype)
 
     def graph(self, id=None, filetype='json'):
         abort(404)

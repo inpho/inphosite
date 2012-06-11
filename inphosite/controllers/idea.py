@@ -45,7 +45,34 @@ from collections import defaultdict
 class IdeaController(EntityController):
     _type = Idea
     _controller = 'idea'
-    
+
+    def data_integrity(self, filetype="html", redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        idea_q = Session.query(Idea)
+        c.ideas = list(idea_q)
+
+        c.missing_string = []
+        c.missing_pattern = []
+        c.missing_sep_dir = []
+        for idea in c.ideas:
+            # Missing searchstring
+            if not getattr(idea, 'searchstring'):
+                c.missing_string.append(idea)
+
+            # Missing searchpattern
+            if not getattr(idea, 'searchpattern'):
+                c.missing_pattern.append(idea)
+
+            # Missing sep_dir
+            if not getattr(idea, 'sep_dir'):
+                c.missing_sep_dir.append(idea)
+
+        return render('idea/data_integrity.%s' % filetype)
+
     #@beaker_cache(expire=300, type='memory', query_args=True)
     def list(self, filetype='html'):
         redirect = request.params.get('redirect', False)

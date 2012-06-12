@@ -5,6 +5,19 @@
 ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
+
+<%def name="getIcon(entity)">
+%if type(entity).__name__ == 'Thinker':
+<i class="icon-user"></i>
+%elif type(entity).__name__ == 'Journal':
+<i class="icon-list-alt"></i>
+%elif type(entity).__name__ == 'Idea':
+<i class="icon-comment"></i>
+%elif type(entity).__name__ == 'SchoolOfThought':
+<i class="icon-eye-open"></i>
+%endif
+</%def>
+
 <div id="content">
 %if not c.entities:
 %if c.query:
@@ -30,9 +43,16 @@ Encyclopedia of Philosophy, and a small amount of human feedback. Iterations of
 this cycle will be used to develop the taxonomy. The approach is explained in
 more detail in our <a href="/papers/">papers</a>.</p>
 %endif
+
+<p><i class="icon-user"></i> - Thinker
+</br><i class="icon-list-alt"></i> - Journal
+</br><i class="icon-comment"></i> - Idea
+</br><i class="icon-eye-open"></i> - School of Thought
+</p>
 <ul>
 %for entity in c.entities:
-<li><a href="${entity.url()}">${entity.label}</a></li>
+<li><a href="${entity.url()}">${getIcon(entity)}${entity.label}</a></li>
 %endfor
 </ul>
+
 </div>

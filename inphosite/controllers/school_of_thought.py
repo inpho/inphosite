@@ -49,9 +49,17 @@ class SchoolOfThoughtController(EntityController):
         school_q = Session.query(SchoolOfThought)
         c.schools = list(school_q)
 
-        #Missing sep_dir
+        # Missing sep_dir
         c.missing_sep_dir = [school for school in c.schools
                              if not getattr(school, "sep_dir")]
+
+        # Duplicates
+        c.duplicate = []
+        c.sorted_schools = sorted(c.schools, key=lambda school: school.label)
+        for i in range(len(c.sorted_schools) - 1):
+            if c.sorted_schools[i].label == c.sorted_schools[i+1].label:
+                c.duplicate.append(c.sorted_schools[i])
+                c.duplicate.append(c.sorted_schools[i+1])
 
         return render('school_of_thought/data_integrity.%s' % filetype)
 

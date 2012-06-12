@@ -85,6 +85,16 @@ class ThinkerController(EntityController):
             if not getattr(thinker, 'wiki'):
                 c.no_wiki.append(thinker)
 
+        # Duplicates
+        # It is set up for pairs. If there is more than 2 of the same thinker it will have multiples
+        c.duplicate = []
+        c.sorted_thinkers = sorted(c.thinkers, key=lambda thinker: thinker.label)
+        for i in range(len(c.sorted_thinkers) - 1):
+            if c.sorted_thinkers[i].label == c.sorted_thinkers[i+1].label:
+                c.duplicate.append(c.sorted_thinkers[i])
+                c.duplicate.append(c.sorted_thinkers[i+1]) 
+
+
         return render('thinker/data_integrity.%s' % filetype)
 
 

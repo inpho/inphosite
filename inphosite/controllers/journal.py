@@ -36,11 +36,31 @@ class JournalController(EntityController):
         if request.params.get('q'):
             journal_q = journal_q.filter(Journal.name.like(u'%'+request.params['q']+'%'))
         
-        # Magic constant of 2419200 corresponds to 4 weeks in seconds
-        journal_q = journal_q.filter(Journal.last_accessed < (time.time() - 2419200))
-
         # get the list of journals
         c.journals = list(journal_q)
+
+        c.missing_issn = []
+        c.bad_issn = []
+        for journal in c.journals:
+            # Missing ISSN
+            if not getattr(journal, 'ISSN') or journal.ISSN == '':
+                c.missing_issn.append(journal)
+            # Journal has bad ISSN format (xxxx-xxxx is good format)
+            elif not re.match(r'[0-9]{4}-[0-9]{4}', journal.ISSN):
+                c.bad_issn.append(journal)
+
+        # Duplicates
+        # It is set up for pairs. If there is more than 2 of the same journal it will have multiples
+        c.duplicate = []
+        c.sorted_journals = sorted(c.journals, key=lambda journal: journal.label)
+        for i in range(len(c.sorted_journals) - 1):
+            if c.sorted_journals[i].label == c.sorted_journals[i+1].label:
+                c.duplicate.append(c.sorted_journals[i])
+                c.duplicate.append(c.sorted_journals[i+1]) 
+
+        # re-get the list of journals (only ones accessed in last 4 weeks)
+        # Magic constant of 2419200 corresponds to 4 weeks in seconds
+        c.journals = list(journal_q.filter(Journal.last_accessed < (time.time() -2419200)))
 
         # filter out results into different chunks
         # Valid URL, not found
@@ -58,16 +78,6 @@ class JournalController(EntityController):
         c.inactive = [journal for journal in c.journals 
                       if journal.URL is None and not journal.active]
         
-        c.missing_issn = []
-        c.bad_issn = []
-        for journal in c.journals:
-            # Missing ISSN
-            if journal.ISSN == '':
-                c.missing_issn.append(journal)
-            # Journal has bad ISSN format (xxxx-xxxx is good format)
-            elif not re.match(r'[0-9]{4}-[0-9]{4}', journal.ISSN):
-                c.bad_issn.append(journal)
-
         return render('journal/data_integrity.' + filetype)
 
     def graph(self, id=None, filetype='json'):

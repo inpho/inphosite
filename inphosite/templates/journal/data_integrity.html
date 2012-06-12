@@ -8,15 +8,15 @@ ${parent.draw()}</%def>
 
 <script>
 function showJournals(){
-    var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
-    var filters = $('div[id="di_filter"]');
-    for(var i=0; i<filters.length; i++){
-        if(filters[i].getAttribute("value") == chosen){
-            filters[i].style.display="inline";
-        }else{
-            filters[i].style.display="none";
-        }
-    }
+  var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
+  var filters = $('div[id="di_filter"]');
+  for(var i=0; i<filters.length; i++){
+    if(filters[i].getAttribute("value") == chosen){
+      filters[i].style.display="inline";
+    }else{
+      filters[i].style.display="none";
+      }
+  }
 }
 </script>
 
@@ -25,16 +25,18 @@ function showJournals(){
 <p>Select a field to display the corresponding list.</p>
 
 <select id="bad_field" onchange="showJournals()">
-    <option>None</option>
-    <option value="broken">Broken URLs (${len(c.broken)} Journal(s))</option>
-    <option value="missing">Missing URLs (${len(c.missing)} Journal(s))</option>
-    <option value="blank">Blank URLs (${len(c.blank)} Journal(s))</option>
-    <option value="inactive">Inactive and Missing URL (${len(c.inactive)} Journal(s))</option>
-    <option value="missing_issn">Missing ISSN (${len(c.missing_issn)} Journal(s))</option>
-    <option value="bad_issn">Bad ISSN (${len(c.bad_issn)} Journal(s))</option>
+  <option>None</option>
+  <option value="broken">Broken URLs (${len(c.broken)} Journal(s))</option>
+  <option value="missing">Missing URLs (${len(c.missing)} Journal(s))</option>
+  <option value="blank">Blank URLs (${len(c.blank)} Journal(s))</option>
+  <option value="inactive">Inactive and Missing URL (${len(c.inactive)} Journal(s))</option>
+  <option value="missing_issn">Missing ISSN (${len(c.missing_issn)} Journal(s))</option>
+  <option value="bad_issn">Bad ISSN (${len(c.bad_issn)} Journal(s))</option>
+  <option value="duplicate">Duplicates (${len(c.duplicate)} Journals)</option>
 </select>
 
 <div value="broken" id="di_filter" style="display: none;">
+  <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.broken:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -43,6 +45,7 @@ function showJournals(){
 </div>
 
 <div value="missing" id="di_filter" style="display: none;">
+  <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.missing:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -51,6 +54,7 @@ function showJournals(){
 </div>
 
 <div value="blank" id="di_filter" style="display: none;">
+  <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.blank:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -59,6 +63,7 @@ function showJournals(){
 </div>
 
 <div value="inactive" id="di_filter" style="display: none;">
+  <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.inactive:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -77,6 +82,14 @@ function showJournals(){
 <div value="bad_issn" id="di_filter" style="display: none;">
   <ul>
   %for journal in c.bad_issn:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="duplicate" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.duplicate:
   <li><a href="${journal.url()}">${journal.label}</a></li>
   %endfor
   </ul>

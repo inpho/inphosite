@@ -55,22 +55,26 @@ class IdeaController(EntityController):
         idea_q = Session.query(Idea)
         c.ideas = list(idea_q)
 
-        c.missing_string = []
-        c.missing_pattern = []
-        c.missing_sep_dir = []
-        for idea in c.ideas:
-            # Missing searchstring
-            if not getattr(idea, 'searchstring'):
-                c.missing_string.append(idea)
-
-            # Missing searchpattern
-            if not getattr(idea, 'searchpattern'):
-                c.missing_pattern.append(idea)
-
-            # Missing sep_dir
-            if not getattr(idea, 'sep_dir'):
-                c.missing_sep_dir.append(idea)
-
+        # Missing searchstring
+        c.missing_string = [idea for idea in c.ideas
+                            if not getattr(idea, 'searchstring')]
+        
+        # Missing searchpattern
+        c.missing_pattern = [idea for idea in c.ideas
+                             if not getattr(idea, 'searchpattern')]
+        
+        # Missing sep_dir
+        c.missing_sep_dir = [idea for idea in c.ideas
+                             if not getattr(idea, 'sep_dir')]
+            
+        # Duplicates
+        c.duplicate = []
+        c.sorted_ideas = sorted(c.ideas, key=lambda idea: idea.label)
+        for i in range(len(c.sorted_ideas) - 1):
+            if c.sorted_ideas[i].label == c.sorted_ideas[i+1].label:
+                c.duplicate.append(c.sorted_ideas[i])
+                c.duplicate.append(c.sorted_ideas[i+1])
+                    
         return render('idea/data_integrity.%s' % filetype)
 
     #@beaker_cache(expire=300, type='memory', query_args=True)

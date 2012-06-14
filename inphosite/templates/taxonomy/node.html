@@ -55,7 +55,7 @@ $(document).ready(function() {
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
     <div class="tab-pane" id="admin">
-        ${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "in-degree", "out-degree", "entropy", "searchpatterns"])}
+        ${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "searchpatterns", "in-degree", "out-degree", "entropy"])}
     </div>
 %endif
 </div> <!-- tab-content -->

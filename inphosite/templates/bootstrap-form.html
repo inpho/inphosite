@@ -1,24 +1,31 @@
-<%def name="textbox(attr, url, value='')">
+<%! import time %>
+<%def name="textbox(attr, url, value='', search='')">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       <div class="input-append">
-        <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
+        <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value}" data-url="${url}" />
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+        %if search:
+        <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank"><i class="icon-search"></i></a>
+        %endif
       </div>
     </div>
 </div>
 </%def>
 
-<%def name="url_textbox(attr, url, value='', search='')">
+<%def name="url_textbox(attr, url, value='', search='', access_attr='last_accessed')">
+## workaround for value=None not having a .decode('utf-8') method
+<% value = value if value is not None else 'None' %>
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       <div class="input-append">
-        <input type="text" id="${attr}" name="${attr}" value="${value}" onkeyup="return inpho.admin.process_text(event, '${attr}', '${url}')" />
-        <a class="add-on btn" id="test_${attr}" href="${value}" target="_blank">Test</a>
-        <a class="add-on btn" id="google_${attr}" href="${search}" target="_blank">Search</a>
+        <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value.decode('utf-8')}" data-url="${url}" />
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+        <a class="add-on btn" id="test_${attr}" href="${value.decode('utf-8')}" target="_blank">Test</a>
+        <input type="hidden" id="${access_attr}" value="${time.time()}" />
+        <a class="add-on btn" id="manual_${attr}" onclick="return inpho.admin.submit_field('${access_attr}', '${url}')">Override</a>
       </div>
     </div>
 </div>
@@ -48,12 +55,67 @@
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       %for value in values:
-      <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')"></i> ${value} </label>
+      <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')" data-url="${url}"></i> ${value} </label>
       %endfor
       <div class="input-append">
-        <input type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" onkeyup="inpho.admin.process_text(event, '${attr}', '${url}'); return false;" onblur="return ($(this).val() != '') && inpho.admin.submit_field('${attr}', '${url}')" />
+        <input class="admin-text" type="text" id="${attr}" name="${attr}" placeholder="Add new ${attr}&#133;" data-url="${url}" />
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
       </div>
     </div>
 </div>
+</%def>
+
+<%def name="date_list(attr, url, values=tuple())">
+<%doc>
+For use with the inpho.model.Date objects.
+</%doc>
+<form class="date-control" id="${attr}_form">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)} Date</label>
+    <div class="controls">
+      %for value in values:
+      <label class="control-date-label" data-value="${repr(value)}"><i class="icon-remove" onclick="return inpho.admin.remove_date(this.parentNode, '${url}')" data-url="${url}"></i> ${str(value)}</label>
+      %endfor
+      <div class="input-append">
+        ${date_picker(attr)}
+        <span class="add-on"><i class="icon-share-alt input-status" onclick="return inpho.admin.submit_form('${attr}_form', '${url}')"></i></span>
+        ## <label class="checkbox pull-right">
+        ##   <input class="checkbox" type="checkbox" name="is_date_range" value="is_date_range" id="${attr}_is_date_range" />
+        ##   Date Range?</label>
+        ## ${date_picker(attr, True)}
+      </div>
+    </div>
+</div>
+</form>
+</%def>
+
+<%def name="date_picker(attr, date_range=False)">
+<% date_range = '_range' if date_range else '' %>
+<select class="input-small" name="month${date_range}" id="${attr}_month" onchange="inpho.admin.change_date('${attr}_form')">
+  <option value="0">Month</option>
+  <option value="1">January</option>
+  <option value="2">February</option>
+  <option value="3">March</option>
+  <option value="4">April</option>
+  <option value="5">May</option>
+  <option value="6">June</option>
+  <option value="7">July</option>
+  <option value="8">August</option>
+  <option value="9">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
+</select>
+<select class="span1" name="day${date_range}" id="${attr}_day" onchange="inpho.admin.change_date('${attr}_form')">
+  <option value="0">Day</option>
+  %for i in range(1,32):
+  <option>${i}</option>
+  %endfor
+</select>
+<input class="admin-text admin-date span1" type="text" name="year${date_range}" size="4" maxlength="4" placeholder="Year" id="${attr}_year" onchange="inpho.admin.change_date('${attr}_form')" />
+<select class="span1" name="era${date_range}" id="${attr}_era" onchange="inpho.admin.change_date('${attr}_form')">
+  <option>Era</option>
+  <option value="bce">B.C.E.</option>
+  <option value="ce">C.E.</option>
+</select>
 </%def>

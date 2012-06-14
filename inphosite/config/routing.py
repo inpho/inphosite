@@ -54,6 +54,8 @@ def make_map(config):
         action='unary', conditions=dict(method=["POST", "PUT", "DELETE"]))
     map.connect('/{controller}/{id:\d+}/{action}/{id2:\d+}',
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
+    map.connect('/{controller}/{id:\d+}/{action}/{id2:\d+}.{filetype:html|json|xml|txt}',
+        conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
 
     # Generic Routes
     map.connect('/{controller}', action='create', 

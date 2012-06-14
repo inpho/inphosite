@@ -31,6 +31,8 @@ from sqlalchemy.exc import IntegrityError
 
 log = logging.getLogger(__name__)
 
+class DateException(Exception):
+    pass
 
 class EntityController(BaseController):
     _type = Entity
@@ -343,21 +345,16 @@ class EntityController(BaseController):
 
         return "OK"
 
-    def date_form(self, id):
-        c.id = id
-        c.id2 = 2 # death date processing
-        return render('date.html')
-
     def _delete_date(self, id, id2):
         c.entity = h.fetch_obj(Entity, id, new_id=True)
         # get the date object
         date = self._get_date(id, id2)
 
         if date in c.entity.dates:
-            c.entity.dates.remove(date)
-
+            idx = c.entity.dates.index(date)
+            Session.delete(c.entity.dates[idx])
             Session.commit()
-
+        
         return "OK"
 
     def _get_date(self, id, id2):
@@ -366,19 +363,54 @@ class EntityController(BaseController):
         creation.
         """
         c.entity = h.fetch_obj(Entity, id, new_id=True)
+        id2 = int(id2)
+
+        string = request.params.get('string', None)
+        if string is not None:
+            return Date.convert_from_iso(c.entity.ID, id2, string)
 
         # process form fields
-        month = int(request.params.get('month', 0))
-        day = int(request.params.get('day', 0))
-        year = int(request.params.get('year', 0))
+        month = request.params.get('month', 0)
+        try:
+            month = None if month == '' else int(month)
+        except:
+            abort(400, "Invalid month.")
+        
+        day = request.params.get('day', 0)
+        try:
+            day = None if day == '' else int(day)
+        except:
+            abort(400, "Invalid day.")
+
+        year = request.params.get('year', 0)
+        try:
+            year = None if year == '' else int(year)
+        except:
+            abort(400, "Invalid year.")
+
         era = request.params.get('era', None)
 
         # process range fields
         range = request.params.get('is_date_range', False)
         if range: 
-            month_end = int(request.params.get('month_end', 0))
-            day_end = int(request.params.get('day_end', 0))
-            year_end = int(request.params.get('year_end', 0))
+            month_end = request.params.get('month_end', 0)
+            try:
+                month_end = None if month_end == '' else int(month_end)
+            except:
+                abort(400, "Invalid month_end.")
+            
+            day_end = request.params.get('day_end', 0)
+            try:
+                day_end = None if day_end == '' else int(day_end)
+            except:
+                abort(400, "Invalid day_end.")
+    
+            year_end = request.params.get('year_end', 0)
+            try:
+                year_end = None if year_end == '' else int(year_end)
+            except:
+                abort(400, "Invalid year_end.")
+
             era_end = request.params.get('era_end', None)
 
         # process era markers:
@@ -389,8 +421,13 @@ class EntityController(BaseController):
 
         # data integrity checks, raise a bad request if failed.
         # TODO: Make data integrity checks
-        if not year and not month and not day:
-            abort(400)
+        if not year:
+            raise DateException("You must specify a year.")
+        if year and not month and day:
+            raise DateException("You must specify a month.")
+
+        if range and (year > year_end):
+            raise DateException("Start year must be before end year.")
         
         if not range:
             date = Date(c.entity.ID, id2,
@@ -404,12 +441,18 @@ class EntityController(BaseController):
         
 
     @dispatch_on(DELETE='_delete_date')
-    def date(self, id, id2):
+    def date(self, id, id2, filetype='json'):
         """
         Creates a date object, associated to the id with the relation type of
         id2.
         """
-        date = self._get_date(id, id2)
+        try:
+            date = self._get_date(id, id2)
+        except DateException as e:
+            # TODO: Cleanup this workaround for the Pylons abort function not
+            # passing along error messages properly to the error controller.
+            response.status = 400
+            return str(e)
 
         try:
             Session.add(date)

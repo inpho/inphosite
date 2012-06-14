@@ -21,8 +21,12 @@ body {
 		height:147px;
         width: 262px;
 	}
+
 #sidebar {
     margin-top: 87px;
+}
+.yuitree-hl, .yuitree-hl .ygtvcontent a {
+    background-color: #C0E0E0 !important;    
 }
 
 .icon {
@@ -73,4 +77,11 @@ body {
   background-position: 0px 0px;
   background-repeat: no-repeat;
   *margin-right: .3em;
+}
+
+.terms .tablink {
+    margin-left: -18px;
+}
+.terms h3 {
+    margin-left: -20px;    
 }

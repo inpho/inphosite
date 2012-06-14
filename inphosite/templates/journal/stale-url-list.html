@@ -21,14 +21,14 @@ function showJournals(){
 </script>
 
 <div id="content">
-
+   
 <p>Select a field to display the corresponding list.</p>
 
 <select id="bad_field" onchange="showJournals()">
     <option>None</option>
     <option value="broken">Broken URLs (${len(c.broken)} Journals)</option>
-    <option value="missing">Missing URLs (${len(c.missing)} Journals)</option>
-    <option value="blank">Blank URLs (${len(c.blank)} Journals)</option>
+    <option value="blank">Blank URLs, need search (${len(c.blank)} Journals)</option>
+    <option value="missing">Missing URLs, nonexistant (${len(c.missing)} Journals)</option>
     <option value="inactive">Inactive and Missing URL (${len(c.inactive)} Journals)</option>
     <option value="missing_issn">Missing ISSN (${len(c.missing_issn)} Journals)</option>
     <option value="bad_issn">Bad ISSN (${len(c.bad_issn)} Journals</option>

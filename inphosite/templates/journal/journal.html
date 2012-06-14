@@ -62,7 +62,7 @@ $(document).ready(function () {
  <dl class="dl-horizontal">
     %if c.entity.URL:
     <dt>Web Site</dt>
-    <dd><a href="${c.entity.URL}">${c.entity.label}</a></dd>
+    <dd><a href="${c.entity.URL.decode('utf-8')}">${c.entity.label}</a></dd>
     %endif
 
     %if c.entity.language:

@@ -30,6 +30,7 @@ function showThinkers(){
   <option value="impossible_dates">Impossible Dates (${len(c.impossible_dates)} Thinker(s))</option>
   <option value="missing_sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} Thinker(s))</option>
   <option value="no_wiki">No Wiki page (${len(c.no_wiki)} Thinker(s))</option>
+  <option value="bad_wiki">Bad Wiki Link Format (${len(c.bad_wiki)} Thinkers(s))</option>
   <option value="duplicate">Duplicates (${len(c.duplicate)} Thinkers)</option>
 </select>
 
@@ -68,6 +69,14 @@ function showThinkers(){
 <div value="no_wiki" id="di_filter" style="display: none;">
   <ul>
     %for thinker in c.no_wiki:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="bad_wiki" id="di_filter" style="display: none;">
+  <ul>
+    %for thinker in c.bad_wiki:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
     %endfor
   </ul>

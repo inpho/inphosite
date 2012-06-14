@@ -61,6 +61,7 @@ class ThinkerController(EntityController):
         c.impossible_dates = []
         c.missing_sep_dir = []
         c.no_wiki = []
+        c.bad_wiki = []
         for thinker in c.thinkers:
             # Missing birth dates
             if not getattr(thinker, 'birth_dates'):
@@ -85,6 +86,10 @@ class ThinkerController(EntityController):
             if not getattr(thinker, 'wiki'):
                 c.no_wiki.append(thinker)
 
+            # Bad Wiki format
+            elif len(thinker.wiki) > 29:
+                if thinker.wiki[:29] == "http://en.wikipedia.org/wiki/":
+                    c.bad_wiki.append(thinker)
         # Duplicates
         # It is set up for pairs. If there is more than 2 of the same thinker it will have multiples
         c.duplicate = []

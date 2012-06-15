@@ -195,6 +195,16 @@ inpho.admin.submit_form = function(form, url) {
     });
 }
 
+inpho.admin.submitPluralizations = function(url) {
+    $(':checked').each(function(idx, elt) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("pattern=" + $(elt).attr("value"));
+        alert($(elt).attr("value"))
+    });
+}
+
 String.prototype.startsWith = function(str) {return (this.match("^"+str)==str)}
 
 inpho.admin.change_date = function(form) {

@@ -10,20 +10,18 @@ ${parent.draw()}</%def>
 <p>Select a field to see the list of Thinkers with that missing/bad information.</p>
 
 <script>
-function showThinkers(){
-    var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
-    var filters = $('div[id="di_filter"]');
-    for(var i=0; i<filters.length; i++){
-        if(filters[i].getAttribute("value") == chosen){
-            filters[i].style.display="inline";
-        }else{
-            filters[i].style.display="none";
-        }
-    }
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
 }
 </script>
 
-<select id="bad_field" onchange="showThinkers()">
+<select id="bad_field" onchange="showFilter()">
   <option>None</option>
   <option value="missing_dob">Missing DoB (${len(c.missing_birth)} Thinker(s))</option>
   <option value="missing_dod">Missing DoD (${len(c.missing_death)} Thinker(s))</option>
@@ -34,7 +32,8 @@ function showThinkers(){
   <option value="duplicate">Duplicates (${len(c.duplicate)} Thinkers)</option>
 </select>
 
-<div value="missing_dob" id="di_filter" style="display: none;">
+<div value="missing_dob" class="di_filter">
+  <h2>Missing Date of Birth (${len(c.missing_birth)})</h2>
   <ul>
     %for thinker in c.missing_birth:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -42,7 +41,8 @@ function showThinkers(){
   </ul>
 </div>
 
-<div value="missing_dod" id="di_filter" style="display: none;">
+<div value="missing_dod" class="di_filter">
+  <h2>Missing Date of Death (${len(c.missing_death)})</h2>
   <ul>
     %for thinker in c.missing_death:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -50,7 +50,8 @@ function showThinkers(){
   </ul>
 </div>
 
-<div value="impossible_dates" id="di_filter" style="display: none;">
+<div value="impossible_dates" class="di_filter">
+  <h2>Impossible Dates (${len(c.impossible_dates)})</h2>
   <ul>
     %for thinker in c.impossible_dates:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -58,7 +59,8 @@ function showThinkers(){
   </ul>
 </div>
 
-<div value="missing_sep_dir" id="di_filter" style="display: none;">
+<div value="missing_sep_dir" class="di_filter">
+  <h2>Missing sep_dir (${len(c.missing_sep_dir)})</h2>
   <ul>
     %for thinker in c.missing_sep_dir:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -66,7 +68,8 @@ function showThinkers(){
   </ul>
 </div>
 
-<div value="no_wiki" id="di_filter" style="display: none;">
+<div value="no_wiki" class="di_filter">
+  <h2>No Wiki Page (${len(c.no_wiki)})</h2>
   <ul>
     %for thinker in c.no_wiki:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -74,7 +77,8 @@ function showThinkers(){
   </ul>
 </div>
 
-<div value="bad_wiki" id="di_filter" style="display: none;">
+<div value="bad_wiki" class="di_filter">
+  <h2>Bad Wiki Link Format (${len(c.bad_wiki)})</h2>
   <ul>
     %for thinker in c.bad_wiki:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -82,7 +86,8 @@ function showThinkers(){
   </ul>
 </div>
 
-<div value="duplicate" id="di_filter" style="display: none;">
+<div value="duplicate" class="di_filter">
+  <h2>Duplicates (${len(c.duplicate)})</h2>
   <ul>
     %for thinker in c.duplicate:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
@@ -90,6 +95,6 @@ function showThinkers(){
   </ul>
 </div>
 
-<script>showThinkers()</script>
+<script>showFilter()</script>
 
 </div>

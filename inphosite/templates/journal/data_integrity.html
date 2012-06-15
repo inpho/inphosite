@@ -7,16 +7,14 @@ ${parent.sidebar()}
 ${parent.draw()}</%def>
 
 <script>
-function showJournals(){
-  var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
-  var filters = $('div[id="di_filter"]');
-  for(var i=0; i<filters.length; i++){
-    if(filters[i].getAttribute("value") == chosen){
-      filters[i].style.display="inline";
-    }else{
-      filters[i].style.display="none";
-      }
-  }
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
 }
 </script>
 
@@ -24,7 +22,7 @@ function showJournals(){
 
 <p>Select a field to display the corresponding list.</p>
 
-<select id="bad_field" onchange="showJournals()">
+<select id="bad_field" onchange="showFilter()">
   <option>None</option>
   <option value="broken">Broken URLs (${len(c.broken)} Journal(s))</option>
   <option value="missing">Missing URLs (${len(c.missing)} Journal(s))</option>
@@ -35,7 +33,8 @@ function showJournals(){
   <option value="duplicate">Duplicates (${len(c.duplicate)} Journals)</option>
 </select>
 
-<div value="broken" id="di_filter" style="display: none;">
+<div value="broken" class="di_filter">
+  <h2>Broken URLs (${len(c.broken)})</h2>
   <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.broken:
@@ -44,7 +43,8 @@ function showJournals(){
   </ul>
 </div>
 
-<div value="missing" id="di_filter" style="display: none;">
+<div value="missing" class="di_filter">
+  <h2>Missing URLs (${len(c.missing)})</h2>
   <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.missing:
@@ -53,7 +53,8 @@ function showJournals(){
   </ul>
 </div>
 
-<div value="blank" id="di_filter" style="display: none;">
+<div value="blank" class="di_filter">
+  <h2>Blank URLs (${len(c.blank)})</h2>
   <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.blank:
@@ -62,7 +63,8 @@ function showJournals(){
   </ul>
 </div>
 
-<div value="inactive" id="di_filter" style="display: none;">
+<div value="inactive" class="di_filter">
+  <h2>Inactive and Missing URLs (${len(c.inactive)})</h2>
   <p>This list includes journals only accessed over 4 weeks ago</p>
   <ul>
   %for journal in c.inactive:
@@ -71,7 +73,8 @@ function showJournals(){
   </ul>
 </div>
 
-<div value="missing_issn" id="di_filter" style="display: none;">
+<div value="missing_issn" class="di_filter">
+  <h2>Missing ISSN (${len(c.missing_issn)})</h2>
   <ul>
   %for journal in c.missing_issn:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -79,7 +82,8 @@ function showJournals(){
   </ul>
 </div>
 
-<div value="bad_issn" id="di_filter" style="display: none;">
+<div value="bad_issn" class="di_filter">
+  <h2>Bad ISSN (${len(c.bad_issn)})</h2>
   <ul>
   %for journal in c.bad_issn:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -87,7 +91,8 @@ function showJournals(){
   </ul>
 </div>
 
-<div value="duplicate" id="di_filter" style="display: none;">
+<div value="duplicate" class="di_filter">
+  <h2>Duplicates (${len(c.duplicate)})</h2>
   <ul>
   %for journal in c.duplicate:
   <li><a href="${journal.url()}">${journal.label}</a></li>
@@ -95,6 +100,6 @@ function showJournals(){
   </ul>
 </div>
 
-<script>showJournals()</script>
+<script>showFilter()</script>
 
 </div> 

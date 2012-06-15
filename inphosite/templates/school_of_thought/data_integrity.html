@@ -10,26 +10,25 @@ ${parent.draw()}</%def>
 <p>Select a field to see the list of Schools with that missing/bad information.</p>
 
 <script>
-function showSchools(){
-    var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
-    var filters = $('div[id="di_filter"]');
-    for(var i=0; i<filters.length; i++){
-        if(filters[i].getAttribute("value") == chosen){
-            filters[i].style.display="inline";
-        }else{
-            filters[i].style.display="none";
-        }
-    }
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
 }
 </script>
 
-<select id="bad_field" onchange="showSchools()">
+<select id="bad_field" onchange="showFilter()">
   <option>None</option>
   <option value="sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} School(s) of Thought)</option>
   <option value="duplicate">Duplicates (${len(c.duplicate)} Schools of Thought)</option>
 </select>
 
-<div value="sep_dir" id="di_filter" style="display: none;">
+<div value="sep_dir" class="di_filter">
+  <h2>Missing sep_dir (${len(c.missing_sep_dir)})</h2>
   <ul>
     %for school in c.missing_sep_dir:
     <li><a href="${school.url()}" target="_blank">${school.label}</a></li>
@@ -37,7 +36,8 @@ function showSchools(){
   </ul>
 </div>
 
-<div value="duplicate" id="di_filter" style="display: none;">
+<div value="duplicate" class="di_filter">
+  <h2>Duplicates (${len(c.duplicate)})</h2>
   <ul>
     %for school in c.duplicate:
     <li><a href="${school.url()}" target="_blank">${school.label}</a></li>
@@ -45,6 +45,6 @@ function showSchools(){
   </ul>
 </div>
 
-<script>showSchools()</script>
+<script>showFilter()</script>
 
 </div>

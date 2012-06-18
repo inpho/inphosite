@@ -201,7 +201,6 @@ inpho.admin.submitPluralizations = function(url) {
         xhr.open('PUT', url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send("pattern=" + $(elt).attr("value"));
-        alert($(elt).attr("value"))
     });
 }
 

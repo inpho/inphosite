@@ -77,6 +77,10 @@ $(function() { $('.admin-text').bind('change', inpho.admin.process_change) });
 inpho.admin.submit_field = function(attr, url) {
   var status_icon = $('.input-status', $('#' + attr).parent());
   var value = document.getElementById(attr).value;
+  if (attr == "wiki") {
+    if(value && value.substring(0, 29) == "http://en.wikipedia.org/wiki/")
+      value = value.substring(29);
+  }
   if (attr == "URL") {
     if (value && (value.substring(0, 4) != "http")
         && (value.substring(0, 4).toLowerCase() != "none"))

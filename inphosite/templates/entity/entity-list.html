@@ -65,7 +65,7 @@ more detail in our <a href="/papers/">papers</a>.</p>
 </br><i class="icon-comment"></i> - Idea
 </br><i class="icon-eye-open"></i> - School of Thought
 </p>
-<ul>
+<ul class='unstyled'>
 <% entities = sorted(c.entities, cmp=cmpEntities) %>
 %for entity in entities:
 <li><a href="${entity.url()}">${getIcon(entity)}${entity.label}</a></li>

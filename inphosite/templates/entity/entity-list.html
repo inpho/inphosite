@@ -18,6 +18,22 @@ ${parent.draw()}</%def>
 %endif
 </%def>
 
+<%def name="cmpEntities(a, b)">
+%if type(a).__name__ > type(b).__name__:
+<% return 1 %>
+%elif type(a).__name__ == type(b).__name__:
+%if a.label > b.label:
+<% return 1 %>
+%elif a.label == b.label:
+<% return 0 %>
+%else:
+<% return -1 %>
+%endif
+%else:
+<% return -1 %>
+%endif
+</%def>
+
 <div id="content">
 %if not c.entities:
 %if c.query:
@@ -50,7 +66,8 @@ more detail in our <a href="/papers/">papers</a>.</p>
 </br><i class="icon-eye-open"></i> - School of Thought
 </p>
 <ul>
-%for entity in c.entities:
+<% entities = sorted(c.entities, cmp=cmpEntities) %>
+%for entity in entities:
 <li><a href="${entity.url()}">${getIcon(entity)}${entity.label}</a></li>
 %endfor
 </ul>

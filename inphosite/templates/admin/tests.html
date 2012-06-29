@@ -1,0 +1,49 @@
+<%inherit file="/base-tree.html"/>
+
+## Header
+<%def name="title()">${parent.title()} - Update Checks - </%def>
+<%def name="head_title()">Website Update Checklist</%def>
+## Sidebar
+<%def name="sidebar()">${parent.sidebar()}<br/></%def>
+
+<form action="/admin/log_tests" method="GET">
+<% error = "" %>
+<table border="1" width="709">
+    <tr><th></th><th>TEST</th><th>DESCRIPTION</th><th>CHECK MANUALLY</th>
+    % for test in c.tests:
+    <tr>
+        <td><i class="icon-loading" id="${test.fn_name}"></i></td>
+        % if test.title in c.checked:
+            <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}" checked="checked"/%> ${test.title}</td>\
+        % else:
+            <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}"/%> ${test.title}</td>\
+        % endif
+        <td>${test.description}</td>
+        <td align="center"><a href="${test.link}">Click Here</a></td>
+    <tr>
+    % endfor
+</table>
+<input type="submit" value="submit" />
+<font size=2 color=red>${error}</font>
+<% count = c.testcount %> 
+<input type="hidden" name="count" value="${count}" /%>
+</form>
+
+<script>
+$(document).ready(function(){
+    $(':checkbox').each(
+    function(index, elt){
+        $.post("/admin/tests",{'test' : $(elt).attr('alt'), 'server': location.host })
+        .success(function() {
+            $("#"+$(elt).attr('alt')).removeClass('icon-loading');
+            $("#"+$(elt).attr('alt')).addClass('icon-ok');
+            $(elt).attr('checked', "checked");
+            })
+        .error(function() { 
+            $("#"+$(elt).attr('alt')).removeClass('icon-loading');
+            $("#"+$(elt).attr('alt')).addClass('icon-warning-sign');
+            })
+        })
+    });
+
+</script>

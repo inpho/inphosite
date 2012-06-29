@@ -192,6 +192,8 @@ class IdeaController(EntityController):
 
         if c.idea in c.entities: 
             c.entities.remove(c.idea)
+        
+        c.total = len(c.entities)
 
         #c.nodes = Session.query(Node).filter_by(parent_id=0).order_by("Name")
         return render('idea/idea-list.' + filetype)
@@ -209,6 +211,14 @@ class IdeaController(EntityController):
             property = property[1:limit]
         if sep_filter:
             property = [i.idea for i in property if i.idea.sep_dir]
+        
+        # TODO: Fix hacky workaround for the AppenderQuery vs. Relationship
+        # property issue - upgrading SQLAlchemy may fix this by allowing us to
+        # use len() in a smart way.
+        try:
+            c.total = property.count()
+        except TypeError:
+            c.total = len(property)
         
         c.entities = property
         #c.nodes = Session.query(Node).filter_by(parent_id=0).order_by("Name")

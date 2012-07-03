@@ -77,6 +77,7 @@
 
         % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
         <li><a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a></li>
+        <li><a href="${h.url('signout')}">Sign Out</a></li>
         %else:
         <li><a href="${h.url('register')}">Register</a></li>
         <li><a href="${h.url('signin')}">Sign In</a></li>

@@ -110,9 +110,9 @@ class AdminController(BaseController):
                 elif state == "link":
                     if char != '\n':
                         l += char
-                    else:
-                        case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test, l.strip(" "))
-                        testcases.append(case)
+            
+            case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test, l.strip(" "))
+            testcases.append(case)
             try:
                 c.checked
                 first_run = False

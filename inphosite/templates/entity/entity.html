@@ -83,7 +83,7 @@ ${parent.draw()}</%def>
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
   ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
   
-  <a class="offset4 btn" data-toggle="modal" href="#plurals"><i class="icon-cog"></i>Suggestions</a>
+  <a class="controls btn" style="margin-bottom: 20px;" data-toggle="modal" href="#plurals"><i class="icon-cog"></i>Suggestions</a>
   <div class="modal hide" id="plurals">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">x</button>

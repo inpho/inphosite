@@ -319,10 +319,15 @@ class EntityController(BaseController):
         if pattern is None:
             abort(400)
 
+        pattern = pattern.strip()
+
         if pattern in c.entity.searchpatterns:
             c.entity.searchpatterns.remove(pattern)
 
             Session.commit()
+        else:
+            log.debug("Pattern not found: '%s'" % pattern)
+            log.debug(c.entity.searchpatterns)
 
         return "OK"
 

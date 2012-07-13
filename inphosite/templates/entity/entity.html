@@ -82,6 +82,25 @@ ${parent.draw()}</%def>
   ${bootstrap.checkbox(attr, c.entity.url(), h.titlecase(attr), getattr(c.entity, attr, False))}
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
   ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
+  
+  <a class="controls btn" style="margin-bottom: 20px;" data-toggle="modal" href="#plurals"><i class="icon-cog"></i>Suggestions</a>
+  <div class="modal hide" id="plurals">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">x</button>
+      <h3>Searchpattern Suggestions</h3>
+    </div>
+    <div class="modal-body">
+      %for pattern in c.entity.pluralize():
+        ## Code to render checkbox for each
+        <p><input type="checkbox" name="pattern" value="${pattern}" />${pattern}</p>
+      %endfor
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="inpho.admin.submitPluralizations('${c.entity.url(action="searchpatterns")}')">Add Pluralizations</a>
+    </div>
+  </div>
+
   %elif attr == "birth":
   ${bootstrap.date_list('birth_dates', c.entity.url(action='date', id2=1, filetype='json'), getattr(c.entity, 'birth_dates', tuple()))}
   %elif attr == "death":

@@ -199,6 +199,30 @@ inpho.admin.submit_form = function(form, url) {
     });
 }
 
+inpho.admin.submitPluralizations = function(url) {
+  $(':checked').each(function(idx, elt) {
+    var val = $(elt).attr("value");
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        if (xhr.status < 400) {
+          $('#searchpatterns').parents('.control-group').addClass('success');
+          val = val.replace("<", "&lt;")
+          val = val.replace(">", "&gt;")
+          var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, searchpatterns, \'' + url + '\')" data-url="' + url + '"></i> ' + val + ' </label>';
+          $('#searchpatterns').before(new_entry);
+          $('#searchpatterns').val('');
+        }else{
+          $('#searchpatterns').parents('.control-group').addClass('error');
+        }
+      }
+    }
+    xhr.open('PUT', url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("pattern=" + $(elt).attr("value"));
+  });
+}
+
 String.prototype.startsWith = function(str) {return (this.match("^"+str)==str)}
 
 inpho.admin.change_date = function(form) {

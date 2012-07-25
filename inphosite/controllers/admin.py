@@ -1,6 +1,7 @@
 import logging
 
 import unittest2
+import re
 
 from collections import namedtuple
 from time import gmtime, strftime
@@ -84,35 +85,15 @@ class AdminController(BaseController):
         # Parse docstring, stick cases into variable c.tests
         for test in tests:
             testname = 'inpho.tests.Autotest.' + test
-            exec ('doc = ' + testname + '.__doc__')
-
-            state = "t"
-            t, d, l = "", "", ""
-            # eliminate beginning junk in string
-            doc = doc[9:]
-            for char in doc:
-                if state == "t":
-                    if char == '\n':
-                        state = "space"
-                        continue
-                    else:
-                        t += char
-                elif state == "space":
-                    if char != " ":
-                        d += char
-                        state = "d"
-                elif state == "d":
-                    if char != '\n':
-                        d += char
-                    else:
-                        state = "link"
-                        continue
-                elif state == "link":
-                    if char != '\n':
-                        l += char
             
-            case = Test_info(t.rstrip('\n'), d.replace("\n", " "), test, l.strip(" "))
+            exec ('doc = ' + testname + '.__doc__')
+            doc = doc[9:]
+            title = re.search('^.*', doc).group()
+            desc = re.search('(?<=\n).*', doc).group().strip()
+            url = re.search('http.*?(?= )|http.*(?=)|/.*?(?= )|/.*(?=)', desc).group()
+            case = Test_info(title, desc, test, url)
             testcases.append(case)
+            
             try:
                 c.checked
                 first_run = False

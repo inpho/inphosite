@@ -23,11 +23,11 @@
       Noesis
     </a>
   </li>
-  <li>
+<!--  <li>
     <a href="#bing" data-toggle="tab">
       Bing Web Search
     </a>
-  </li>
+  </li>-->
 </ul>
 
 <div class="tab-content">
@@ -37,9 +37,9 @@
   <div class="tab-pane" id="noesis">
     ${printResults("Noesis", c.noesis, results_link="http://noesis.evansville.edu/results.htm", icon='/img/noesis.png')}
   </div>
-  <div class="tab-pane" id="bing">
-    ${printBingResults()}
-  </div>
+<!--  <div class="tab-pane" id="bing">
+    ##${printBingResults()}
+  </div> -->
 </div>
 
 <%def name="printResults(title, results, results_link=None, icon=None)">

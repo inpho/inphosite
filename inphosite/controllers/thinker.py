@@ -51,7 +51,7 @@ class ThinkerController(EntityController):
     sep_filter=False, type='thinker'):
         c.thinker = h.fetch_obj(Thinker, id)
          
-        limit = request.params.get('limit', limit)
+        limit = int(request.params.get('limit', limit))
         sep_filter = request.params.get('sep_filter', sep_filter)
         property = getattr(c.thinker, property)
         if sep_filter:
@@ -59,7 +59,7 @@ class ThinkerController(EntityController):
         if limit:
             property = property[0:limit-1]
         
-        c.thinkers = property
+        c.entities = property
         return render('%s/%s-list.%s' %(type, type, filetype))
 
     def hyponyms(self, id=None, filetype='html', limit=20, sep_filter=False):

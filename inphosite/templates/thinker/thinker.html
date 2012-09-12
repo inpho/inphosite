@@ -74,12 +74,13 @@
           %endfor
           %endif
       </dl>
-      ${entity.printList('influenced')}
-      ${entity.printList('influenced_by')}
-      ${entity.printList('students')}
-      ${entity.printList('teachers')}
-      ${entity.printList('related', 'Related Thinkers', statistical=True)}
-      ${entity.printList('related_ideas', 'Related Terms', statistical=True)}
+
+      ${entity.printList('influenced', type="thinker")}
+      ${entity.printList('influenced_by', type="thinker")}
+      ${entity.printList('students', type="thinker")}
+      ${entity.printList('teachers', type="thinker")}
+      ${entity.printList('related', 'Related Thinkers', statistical=True, type="thinker")}
+      ${entity.printList('related_ideas', 'Related Terms', statistical=True, type="thinker")}
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

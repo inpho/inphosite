@@ -26,7 +26,7 @@ ${parent.draw()}</%def>
 <ol class="unstyled">
 %for idea in getattr(c.entity, attr)[:limit]:
 <li>
-    <a onClick="inpho.tabnav.appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label).replace("'", r"\'")}', '/idea/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab" class="tablink"><i class="icon-search"></i></a>
+    <a onClick="inpho.tabnav.appendTab('tabnav', 'i${idea.ID}', '${h.titlecase(idea.label).replace("'", r"\'")}', '/entity/${c.entity.ID}/panel/${idea.ID}')" href="#i${idea.ID}" data-toggle="tab" class="tablink"><i class="icon-search"></i></a>
     %if idea.sep_dir:
     <a href="http://plato.stanford.edu/entries/${idea.sep_dir}"><img src="/img/sepmanicon.png"  class="pull-right"/></a>
     %else:

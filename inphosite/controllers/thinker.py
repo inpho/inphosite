@@ -108,12 +108,19 @@ class ThinkerController(EntityController):
         c.thinker = h.fetch_obj(Thinker, id)
          
         limit = int(request.params.get('limit', limit))
+        start = int(request.params.get('start', 0))
         sep_filter = request.params.get('sep_filter', sep_filter)
         property = getattr(c.thinker, property)
         if sep_filter:
             property = property.filter(Entity.sep_dir != '')
+        
+        try:
+            c.total = property.count()
+        except TypeError:
+            c.total = len(property)
+
         if limit:
-            property = property[0:limit-1]
+            property = property[start:start+limit]
         
         c.entities = property
         return render('%s/%s-list.%s' %(type, type, filetype))

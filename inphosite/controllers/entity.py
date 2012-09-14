@@ -90,10 +90,11 @@ class EntityController(BaseController):
             o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
 
+        c.total = entity_q.count()
         # limit must be the last thing applied to the query
         entity_q = entity_q.limit(request.params.get('limit', None))
         c.entities = entity_q.all()
-        
+
         if filetype=='json':
             response.content_type = 'application/json'
        

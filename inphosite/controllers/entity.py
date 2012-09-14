@@ -62,13 +62,16 @@ class EntityController(BaseController):
             # Issue an HTTP success
             response.status_int = 200
             return "OK"
-
+    
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
         #TODO: Remove the following line when Nodes are eliminated
         entity_q = entity_q.filter(Entity.typeID != 2)
         
+        # get the list of entities
+        c.entities = entity_q.all()
+
         c.nodes = Session.query(Node).filter(Node.parent_id == None)
         c.nodes = c.nodes.order_by("name").all()
 
@@ -86,7 +89,7 @@ class EntityController(BaseController):
         if c.query:
             o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
-        
+
         # limit must be the last thing applied to the query
         entity_q = entity_q.limit(request.params.get('limit', None))
         c.entities = entity_q.all()

@@ -1,0 +1,69 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Bad/Missing Idea Info</%def>
+<%def name="head_title()">Bad/Missing Idea Info</%def>
+<%def name="sidebar()">
+${parent.sidebar()}
+<br />
+${parent.draw()}</%def>
+<div id="content">
+
+<p>Select a field to see the list of Ideas with that missing/bad information.</p>
+<script>
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
+}
+</script>
+
+<select id="bad_field" onchange="showFilter()">
+  <option>None</option>
+  <option value="string">No Searchstring (${len(c.missing_string)} Idea(s))</option>
+  <option value="pattern">No Searchpattern (${len(c.missing_pattern)} Idea(s))</option>
+  <option value="sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} Idea(s))</option>
+  <option value="duplicate">Duplicates (${len(c.duplicate)} Ideas)</option>
+</select>
+
+<div value="string" class="di_filter">
+  <h2>No Searchtring (${len(c.missing_string)})</h2>
+  <ul>
+    %for idea in c.missing_string:
+    <li><a href="${idea.url()}" target="_blank">${idea.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="pattern" class="di_filter">
+  <h2>No Searchpattern (${len(c.missing_pattern)})</h2>
+  <ul>
+    %for idea in c.missing_pattern:
+    <li><a href="${idea.url()}" target="_blank">${idea.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="sep_dir" class="di_filter">
+  <h2>Missing sep_dir (${len(c.missing_sep_dir)})</h2>
+  <ul>
+    %for idea in c.missing_sep_dir:
+    <li><a href="${idea.url()}" target="_blank">${idea.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="duplicate" class="di_filter">
+  <h2>Duplicates (${len(c.duplicate)})</h2>
+  <ul>
+    %for idea in c.duplicate:
+    <li><a href="${idea.url()}" target="_blank">${idea.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<script>showFilter()</script>
+
+</div>

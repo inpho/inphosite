@@ -25,6 +25,15 @@
     ## InPhO
     ${h.stylesheet_link(h.url('/css/style.css'))}
     ${self.head()}
+    <script type="text/javascript">
+    (function(){
+      var startTime = new Date().getTime();
+      window.setTimeout(function(){
+        var endTime = new Date().getTime();
+        document.getElementById("loadtime").innerHTML = ("<font color='gray' size='1'>Page took " + (endTime - startTime) + "ms to load</font>");
+      }, 0);
+    })();
+    </script>
   </head>
 
   <body class="yui-skin-sam">
@@ -119,5 +128,6 @@
     Funded through several generous grants by the <a href="http://www.neh.gov/odh/">National Endowment of the Humanities, Office of Digital Humanities</a>. 
     Any views, findings, conclusions or recommendations expressed in this website do not necessarily represent those of the NEH.
   </p>
+  <div id="loadtime" align="center"></div>
 </footer>
 </%def>

@@ -12,7 +12,7 @@ inpho.entity.showMore = function (attr, id, n, start) {
     for (i in data.responseData.results) {
       var idea = data.responseData.results[i];
       var item = '<li>'
-        + ' <a onClick="inpho.tabnav.appendTab(\'tabnav\', \'i'+ idea.ID +'\', \''+ idea.label + '\', \'/idea/' + idea.ID + '/panel/' + id + '\')" href="#i'+ idea.ID + '" data-toggle="tab" class="tablink"><i class="icon-search"></i></a> ';
+        + ' <a onClick="inpho.tabnav.appendTab(\'tabnav\', \'i'+ idea.ID +'\', \''+ idea.label + '\', \'/entity/' + idea.ID + '/panel/' + id + '\')" href="#i'+ idea.ID + '" data-toggle="tab" class="tablink"><i class="icon-search"></i></a> ';
 
       // SEP link
       if (idea.sep_dir != undefined && idea.sep_dir != '')

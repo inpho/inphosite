@@ -47,19 +47,82 @@ class ThinkerController(EntityController):
         c.thinker = h.fetch_obj(Thinker, id, new_id=True)
         return render('thinker/graph.%s' % filetype)
     
+    def data_integrity(self, filetype='html', redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        thinker_q = Session.query(Thinker)
+        c.thinkers = list(thinker_q)
+
+        c.missing_birth = []
+        c.missing_death = []
+        c.impossible_dates = []
+        c.missing_sep_dir = []
+        c.no_wiki = []
+        c.bad_wiki = []
+        for thinker in c.thinkers:
+            # Missing birth dates
+            if not getattr(thinker, 'birth_dates'):
+                c.missing_birth.append(thinker)
+            
+            # Missing death dates
+            if not getattr(thinker, 'death_dates'):
+                c.missing_death.append(thinker)
+            
+            # Impossible date combinations
+            if len(thinker.birth_dates) != 0 and len(thinker.death_dates) != 0:
+                dob = thinker.birth_dates[0]        
+                dod = thinker.death_dates[0]
+                if dob.year > dod.year or (dod.year - dob.year) > 120:
+                    c.impossible_dates.append(thinker)
+            
+            # Missing sep_dir
+            if not getattr(thinker, 'sep_dir'):
+                c.missing_sep_dir.append(thinker)
+
+            # No Wiki page
+            if not getattr(thinker, 'wiki'):
+                c.no_wiki.append(thinker)
+
+            # Bad Wiki format
+            elif len(thinker.wiki) > 29:
+                if thinker.wiki[:29] == "http://en.wikipedia.org/wiki/":
+                    c.bad_wiki.append(thinker)
+        # Duplicates
+        # It is set up for pairs. If there is more than 2 of the same thinker it will have multiples
+        c.duplicate = []
+        c.sorted_thinkers = sorted(c.thinkers, key=lambda thinker: thinker.label)
+        for i in range(len(c.sorted_thinkers) - 1):
+            if c.sorted_thinkers[i].label == c.sorted_thinkers[i+1].label:
+                c.duplicate.append(c.sorted_thinkers[i])
+                c.duplicate.append(c.sorted_thinkers[i+1]) 
+
+
+        return render('thinker/data_integrity.%s' % filetype)
+
+
     def _list_property(self, property, id, filetype='html', limit=False,
     sep_filter=False, type='thinker'):
         c.thinker = h.fetch_obj(Thinker, id)
          
-        limit = request.params.get('limit', limit)
+        limit = int(request.params.get('limit', limit))
+        start = int(request.params.get('start', 0))
         sep_filter = request.params.get('sep_filter', sep_filter)
         property = getattr(c.thinker, property)
         if sep_filter:
             property = property.filter(Entity.sep_dir != '')
-        if limit:
-            property = property[0:limit-1]
         
-        c.thinkers = property
+        try:
+            c.total = property.count()
+        except TypeError:
+            c.total = len(property)
+
+        if limit:
+            property = property[start:start+limit]
+        
+        c.entities = property
         return render('%s/%s-list.%s' %(type, type, filetype))
 
     def hyponyms(self, id=None, filetype='html', limit=20, sep_filter=False):

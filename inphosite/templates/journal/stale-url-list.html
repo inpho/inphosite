@@ -5,95 +5,83 @@
 ${parent.sidebar()}
 <br />
 ${parent.draw()}</%def>
-<div id="content">
-  <p> This is a list of journals with broken links. </p>
-
-  <div class="accordion" id="broken_journals">
-    ## Valid URL, not found
-    <div class="accordion-group" style="border: none;">
-      <div class="accordion-heading">
-	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_broken" style="display: inline; padding: 0px;">
-	  <h2>Broken URLs</h2>
-	</a>
-	<p>${len(c.broken)} journals have been inaccessible for 4 weeks.</p> 
-      </div>     
-      <div class="accordion-body collapse" id="journal_broken">
-	<div class="accordion-inner" style="border: none; padding: 0px;">
-	  <ul>
-	    %for journal in c.broken:
-	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
-	    %endfor
-	  </ul>
-	</div>
-	<hr />
-      </div>
-    </div>
-    
-    ## Journal is active, URL is set to blank
-    <div class="accordion-group" style="border: none;">
-      <div class="accordion-heading">
-	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_blank" style="display: inline; padding: 0px;">
-	  <h2>Missing URLs</h2>
-	</a>
-	<p>${len(c.blank)} journals are active with a blank URL, with further search required.</p>
-      </div>
-      <div class="accordion-body collapse" id="journal_blank">
-	<div class="accordion-inner" style="border: none; padding: 0px;">
-	  <ul>
-	    %for journal in c.blank:
-	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
-	    %endfor
-	  </ul>
-	</div>
-	<hr />
-      </div>
-    </div>
-    
-    ## Journal is active, no URL set
-    <div class="accordion-group" style="border: none;">
-      <div class="accordion-heading">
-	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_missing" style="display: inline; padding: 0px;">
-	  <h2>No known website</h2>
-	</a>
-	<p>${len(c.missing)} journals are active without a known website.</p>
-      </div> 
-      <div class="accordion-body collapse" id="journal_missing">
-	<div class="accordion-inner" style="border: none; padding: 0px;">
-  <ul>
-	    %for journal in c.missing:
-	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
-	    %endfor
-	  </ul>
-	</div>
-	<hr />
-      </div>
-    </div>
-
-    
-    ## Journal is inactive and missing URL
-    <div class="accordion-group" style="border: none;">
-      <div class="accordion-heading">
-	<a class="accordion-toggle" data-toggle="collapse" data-parent="#broken_journals" href="#journal_inactive" style="display: inline; padding: 0px;">
-	  <h2>Inactive and Missing URL</h2>
-	</a>
-	<p>${len(c.inactive)} journals are inactive and missing a URL.</p>
-      </div>
-      <div class="accordion-body collapse" id="journal_inactive">
-	<div class="accordion-inner" style="border: none; padding: 0px;">
-	  <ul>
-	    %for journal in c.inactive:
-	    <li><a href="${journal.url()}#admin">${journal.label}</a></li>
-	    %endfor
-	  </ul>
-	</div>
-	<hr />
-      </div>
-    </div>    
-  </div>
-</div> 
 
 <script>
-  $(".collapse").collapse({
-  toggle: false
-  });
+function showJournals(){
+    var chosen = document.getElementById('bad_field').options[document.getElementById('bad_field').selectedIndex].value;
+    var filters = $('div[id="di_filter"]');
+    for(var i=0; i<filters.length; i++){
+        if(filters[i].getAttribute("value") == chosen){
+            filters[i].style.display="inline";
+        }else{
+            filters[i].style.display="none";
+        }
+    }
+}
 </script>
+
+<div id="content">
+   
+<p>Select a field to display the corresponding list.</p>
+
+<select id="bad_field" onchange="showJournals()">
+    <option>None</option>
+    <option value="broken">Broken URLs (${len(c.broken)} Journals)</option>
+    <option value="blank">Blank URLs, need search (${len(c.blank)} Journals)</option>
+    <option value="missing">Missing URLs, nonexistant (${len(c.missing)} Journals)</option>
+    <option value="inactive">Inactive and Missing URL (${len(c.inactive)} Journals)</option>
+    <option value="missing_issn">Missing ISSN (${len(c.missing_issn)} Journals)</option>
+    <option value="bad_issn">Bad ISSN (${len(c.bad_issn)} Journals</option>
+</select>
+
+<div value="broken" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.broken:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="missing" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.missing:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="blank" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.blank:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="inactive" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.inactive:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="missing_issn" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.missing_issn:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="bad_issn" id="di_filter" style="display: none;">
+  <ul>
+  %for journal in c.bad_issn:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<script>showJournals()</script>
+
+</div> 

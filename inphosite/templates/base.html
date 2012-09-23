@@ -25,6 +25,15 @@
     ## InPhO
     ${h.stylesheet_link(h.url('/css/style.css'))}
     ${self.head()}
+    <script type="text/javascript">
+    (function(){
+      var startTime = new Date().getTime();
+      window.setTimeout(function(){
+        var endTime = new Date().getTime();
+        document.getElementById("loadtime").innerHTML = ("<font color='gray' size='1'>Page took " + (endTime - startTime) + "ms to render</font>");
+      }, 0);
+    })();
+    </script>
   </head>
 
   <body class="yui-skin-sam">
@@ -68,7 +77,11 @@
           <ul class="dropdown-menu">
             <li><a href="${h.url(controller='admin', action='tests')}">Unit Tests</a></li>
             <li><a href="${h.url(controller='entity', action='list_new')}">New Entries</a></li>
-            <li><a href="${h.url(controller='journal', action='list_stale_url')}">Journal URL Checker</a></li>
+            <li class="divider"></li>
+            <li><a href="${h.url(controller='thinker', action='data_integrity')}">Thinker Data Integrity</a></li>
+            <li><a href="${h.url(controller='journal', action='data_integrity')}">Journal Data Integrity</a></li>
+            <li><a href="${h.url(controller='idea', action='data_integrity')}">Idea Data Integrity</a></li>
+            <li><a href="${h.url(controller='school_of_thought', action='data_integrity')}">School of Thought Data Integrity</a></li>
           </ul>
         </li>
         
@@ -115,5 +128,6 @@
     Funded through several generous grants by the <a href="http://www.neh.gov/odh/">National Endowment of the Humanities, Office of Digital Humanities</a>. 
     Any views, findings, conclusions or recommendations expressed in this website do not necessarily represent those of the NEH.
   </p>
+  <div id="loadtime" align="center"></div>
 </footer>
 </%def>

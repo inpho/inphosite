@@ -55,7 +55,9 @@ body {
 .search-results .accordion-heading {
     padding: 12px;
 }
-
+.di_filter {
+    display: none;
+}
 
 /* TERM LIST STYLES */
 .terms {

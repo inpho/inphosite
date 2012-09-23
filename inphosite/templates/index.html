@@ -1,9 +1,6 @@
-<%inherit file="/base-tree.html"/>
+<%inherit file="/base.html"/
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()"></%def>
-<div class="yui-gd">
-<div id="contentLeft2">
-
 <p><span class="big">Welcome</span> to the Indiana Philosophy Ontology (InPhO) project!  We offer a
 variety of tools for students, researchers, programmers and scholars. The
 taxonomy browser, located to the left, provides an entry point for finding
@@ -110,12 +107,10 @@ href="/journal">journals</a>.</p>
 </tbody>
 
 </table> 
-</div>
 
 
 
 
-<div id="moreInfo2">
  
 <p>The InPhO is powered by expert feedback, augmented by cutting-edge machine
 learning techniques over the 13 million word <a
@@ -128,7 +123,4 @@ an account or <a href="${h.url('signin')}">sign in</a> and start helping today!<
 <p>Data from the InPhO may be accessed through an <strong><a href="/docs">API</a></strong>
 for easy integration with digital humanities and semantic web applications.</p>
 
-</div>
 
-
-</div>

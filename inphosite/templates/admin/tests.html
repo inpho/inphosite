@@ -19,7 +19,9 @@
             <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}"/%> ${test.title}</td>\
         % endif
         <td>${test.description}</td>
-        <td align="center"><a href="${test.link}">Click Here</a></td>
+        % if test.link:
+            <td align="center"><a href="${test.link}">Click Here</a></td>
+        % endif
     <tr>
     % endfor
 </table>

@@ -18,29 +18,30 @@ ${parent.draw()}</%def>
 %endif
 </%def>
 
-<%def name="cmpEntities(a, b)">
-%if type(a).__name__ == type(b).__name__:
-%if a.label > b.label:
-<% return 1 %>
-%elif a.label == b.label:
-<% return 0 %>
-%else:
-<% return -1 %>
-%endif
-%elif type(a).__name__ == "Thinker" and type(b).__name__ != "Thinker":
-<% return -1 %>
-%elif type(b).__name__ == "Thinker" and type(a).__name__ != "Thinker":
-<% return 1 %>
-%elif type(a).__name__ == "Idea" and (type(b).__name__ == "Journal" or type(b).__name__ == "SchoolOfThought") and type(b).__name__ != "Thinker":
-<% return -1 %>
-%elif type(a).__name__ == "Journal" and type(b).__name__ != "Journal":
-<% return 1 %>
-%elif type(b).__name__ == "Journal" and type(a).__name__ != "Journal":
-<% return -1 %>
-%elif type(a).__name__ == "SchoolOfThought" and (type(b).__name__ == "Idea" or type(b).__name__ == "Thinker") and type(b).__name__ != "Journal":
-<% return 1 %>
-%endif
-</%def>
+<%
+def cmpEntities(a, b):
+    if type(a).__name__ == type(b).__name__:
+        if a.label > b.label:
+            return 1
+        elif a.label == b.label:
+            return 0
+        else:
+            return -1
+    elif type(a).__name__ == "Thinker" and type(b).__name__ != "Thinker":
+        return -1
+    elif type(b).__name__ == "Thinker" and type(a).__name__ != "Thinker":
+        return 1 
+    elif type(a).__name__ == "Idea" and (type(b).__name__ == "Journal" or type(b).__name__ == "SchoolOfThought") and type(b).__name__ != "Thinker":
+        return -1
+    elif type(a).__name__ == "Journal" and type(b).__name__ != "Journal":
+        return 1
+    elif type(b).__name__ == "Journal" and type(a).__name__ != "Journal":
+        return -1
+    elif type(a).__name__ == "SchoolOfThought" and (type(b).__name__ == "Idea" or type(b).__name__ == "Thinker") and type(b).__name__ != "Journal":
+        return 1
+    else:
+        return 0
+%>
 
 <div id="content">
 %if not c.entities:

@@ -15,6 +15,8 @@ ${parent.draw()}</%def>
 <i class="icon-comment"></i>
 %elif type(entity).__name__ == 'SchoolOfThought':
 <i class="icon-eye-open"></i>
+%elif type(entity).__name__ == 'Work':
+<i class="icon-folder-close"></i>
 %endif
 </%def>
 
@@ -33,14 +35,18 @@ def cmpEntities(a, b):
         return 1 
     elif type(a).__name__ == "Idea" and (type(b).__name__ == "Journal" or type(b).__name__ == "SchoolOfThought") and type(b).__name__ != "Thinker":
         return -1
-    elif type(a).__name__ == "Journal" and type(b).__name__ != "Journal":
+    elif type(a).__name__ == "Journal" and type(b).__name__ != "Journal" and type(b).__name__ != "Work":
         return 1
-    elif type(b).__name__ == "Journal" and type(a).__name__ != "Journal":
+    elif type(b).__name__ == "Journal" and type(a).__name__ != "Journal" and type(b).__name__ != "Work":
         return -1
     elif type(a).__name__ == "SchoolOfThought" and (type(b).__name__ == "Idea" or type(b).__name__ == "Thinker") and type(b).__name__ != "Journal":
         return 1
+    elif type(a).__name__ == "Work" and type(b).__name__ != "Work":
+        return 1
+    elif type(b).__name__ == "Work" and type(a).__name__ != "Work":
+        return -1
     else:
-        return 0
+        return 1
 %>
 
 <div id="content">
@@ -73,6 +79,7 @@ more detail in our <a href="/papers/">papers</a>.</p>
 </br><i class="icon-list-alt"></i> - Journal
 </br><i class="icon-comment"></i> - Idea
 </br><i class="icon-eye-open"></i> - School of Thought
+</br><i class="icon-folder-close"></i> - Work
 </p>
 <ul class='unstyled'>
 <% entities = sorted(c.entities, cmp=cmpEntities) %>

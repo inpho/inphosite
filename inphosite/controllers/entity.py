@@ -294,12 +294,14 @@ class EntityController(BaseController):
     def view(self, id=None, filetype='html'):
         c.sep_filter = request.params.get('sep_filter', False) 
 
+        # Get entity and render template
+        c.entity = h.fetch_obj(self._type, id, new_id=True)
+        
         # Set MIME type of json files
         if filetype=='json':
             response.content_type = 'application/json'
+            return c.entity.json()
 
-        # Get entity and render template
-        c.entity = h.fetch_obj(self._type, id, new_id=True)
         if self._type == Entity:
             h.redirect(c.entity.url(filetype), code=303)
         else:

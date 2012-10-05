@@ -46,7 +46,7 @@ class JournalController(EntityController):
             if not getattr(journal, 'ISSN') or journal.ISSN == '':
                 c.missing_issn.append(journal)
             # Journal has bad ISSN format (xxxx-xxxx is good format)
-            elif not re.match(r'[0-9]{4}-[0-9]{4}', journal.ISSN):
+            elif not re.match(r'[0-9]{4}-[0-9]{3}[0-9X]', journal.ISSN):
                 c.bad_issn.append(journal)
 
         # Duplicates

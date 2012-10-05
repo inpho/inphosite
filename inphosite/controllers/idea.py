@@ -273,6 +273,10 @@ class IdeaController(EntityController):
         # IDEA GETTIN'
         c.entity = h.fetch_obj(Idea, id, new_id=True)
 
+        if filetype=='json':
+            response.content_type = 'application/json'
+            return c.entity.json()
+
         c.count = len(c.entity.nodes) + len(c.entity.instance_of) + len(c.entity.links_to)
         if len(c.entity.nodes) > 0:
             c.node = c.entity.nodes[0]
@@ -302,9 +306,6 @@ class IdeaController(EntityController):
         if redirect and len(c.entity.nodes) == 1:
             h.redirect(h.url(controller='taxonomy', action='view',
                              id=c.entity.nodes[0].ID,filetype=filetype), code=303)
-
-        if filetype=='json':
-            response.content_type = 'application/json'
 
         return render('idea/idea.' + filetype)
 

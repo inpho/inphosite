@@ -26,6 +26,7 @@ function showFilter(){
   <option value="missing_dob">Missing DoB (${len(c.missing_birth)} Thinker(s))</option>
   <option value="missing_dod">Missing DoD (${len(c.missing_death)} Thinker(s))</option>
   <option value="impossible_dates">Impossible Dates (${len(c.impossible_dates)} Thinker(s))</option>
+  <option value="bad_teacher">Impossible Teacher Relationships (${len(c.bad_teacher)} Thinker(s))</option>
   <option value="missing_sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} Thinker(s))</option>
   <option value="no_wiki">No Wiki page (${len(c.no_wiki)} Thinker(s))</option>
   <option value="bad_wiki">Bad Wiki Link Format (${len(c.bad_wiki)} Thinkers(s))</option>
@@ -55,6 +56,18 @@ function showFilter(){
   <ul>
     %for thinker in c.impossible_dates:
     <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="bad_teacher" class="di_filter">
+  <h2>Impossible Teacher Relationships (${len(c.impossible_dates)})</h2>
+  <ul>
+    %for pair in c.bad_teacher:
+    <li>
+      <a href="${pair[0].url()}" target="_blank">${pair[0].label}</a> being taught by 
+      <a href="${pair[1].url()}" target="_blank">${pair[1].label}</a>
+    </li>
     %endfor
   </ul>
 </div>

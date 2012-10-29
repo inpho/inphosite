@@ -37,6 +37,8 @@ def make_map(config):
         conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}', action='view', filetype='html',
         conditions=dict(method=["GET"]))
+    map.connect('/{controller}/{id:\d+}.{format:n3|nquads|nt|xml|trix|turtle|pretty-xml}.rdf', action='view', filetype='rdf',
+        conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}.{filetype:html|json|xml}', action='view', 
         conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}', action='update', 

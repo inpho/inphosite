@@ -291,12 +291,16 @@ class EntityController(BaseController):
         json = simplejson.loads(results) if results else None
         return json
 
-    def view(self, id=None, filetype='html'):
+    def view(self, id=None, filetype='html', format=None):
         c.sep_filter = request.params.get('sep_filter', False) 
 
         # Get entity and render template
         c.entity = h.fetch_obj(self._type, id, new_id=True)
-        
+       
+        if filetype=='rdf':
+            response.content_type = 'text/xml'
+            return c.entity.graph().serialize(format=format)
+      
         # Set MIME type of json files
         if filetype=='json':
             response.content_type = 'application/json'
@@ -327,13 +331,13 @@ class EntityController(BaseController):
 
         pattern = pattern.strip()
 
-        if pattern in c.entity.searchpatterns:
-            c.entity.searchpatterns.remove(pattern)
+        # Boneheaded working around bogus associationproxy in SQLAlchemy 0.6.8
+        # Why this isn't just c.entity.searchpatterns.remove(pattern)? who knows
+        for spattern in c.entity._spatterns:
+            if spattern.searchpattern == pattern:
+                Session.delete(spattern)
 
-            Session.commit()
-        else:
-            log.debug("Pattern not found: '%s'" % pattern)
-            log.debug(c.entity.searchpatterns)
+        Session.commit()
 
         return "OK"
 

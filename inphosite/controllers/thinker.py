@@ -59,16 +59,24 @@ class ThinkerController(EntityController):
         c.missing_birth = []
         c.missing_death = []
         c.impossible_dates = []
+        c.bad_teacher = []
         c.missing_sep_dir = []
         c.no_wiki = []
         c.bad_wiki = []
+
         for thinker in c.thinkers:
+            # variable to pass over impossible teacher-student
+            # relationship check. 
+            pass_teacher_check = False
+            
             # Missing birth dates
             if not getattr(thinker, 'birth_dates'):
+                pass_teacher_check = True
                 c.missing_birth.append(thinker)
             
             # Missing death dates
             if not getattr(thinker, 'death_dates'):
+                pass_teacher_check = True
                 c.missing_death.append(thinker)
             
             # Impossible date combinations
@@ -76,8 +84,25 @@ class ThinkerController(EntityController):
                 dob = thinker.birth_dates[0]        
                 dod = thinker.death_dates[0]
                 if dob.year > dod.year or (dod.year - dob.year) > 120:
+                    pass_teacher_check = True
                     c.impossible_dates.append(thinker)
-            
+        
+            # Impossible Teacher relationship
+            # currently only set up to query teacher info.
+            # Only runs if pass_teacher_check is False
+            # Builds a list of tuples containing the thinker and
+            # teacher that is incorrect.
+            if not pass_teacher_check:
+                thinker_birth = thinker.birth_dates[0]
+                thinker_death = thinker.death_dates[0]
+                teachers = thinker.teachers
+                for teacher in teachers:
+                    if getattr(teacher, 'birth_dates') and getattr(teacher, 'death_dates'):
+                        teacher_birth = teacher.birth_dates[0]
+                        teacher_death = teacher.death_dates[0]
+                        if thinker_birth.year > teacher_death.year or thinker_death.year < teacher_birth.year:
+                            c.bad_teacher.append((thinker, teacher))
+
             # Missing sep_dir
             if not getattr(thinker, 'sep_dir'):
                 c.missing_sep_dir.append(thinker)

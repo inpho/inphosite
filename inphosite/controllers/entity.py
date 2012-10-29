@@ -331,13 +331,13 @@ class EntityController(BaseController):
 
         pattern = pattern.strip()
 
-        if pattern in c.entity.searchpatterns:
-            c.entity.searchpatterns.remove(pattern)
+        # Boneheaded working around bogus associationproxy in SQLAlchemy 0.6.8
+        # Why this isn't just c.entity.searchpatterns.remove(pattern)? who knows
+        for spattern in c.entity._spatterns:
+            if spattern.searchpattern == pattern:
+                Session.delete(spattern)
 
-            Session.commit()
-        else:
-            log.debug("Pattern not found: '%s'" % pattern)
-            log.debug(c.entity.searchpatterns)
+        Session.commit()
 
         return "OK"
 

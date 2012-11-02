@@ -65,6 +65,17 @@
 </div>
 </%def>
 
+<%def name="binary_list(attr, urls=tuple(), values=tuple())">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      %for url, value in zip(urls, values):
+      <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')" data-url="${url}"></i> ${value} </label>
+      %endfor
+    </div>
+</div>
+</%def>
+
 <%def name="date_list(attr, url, values=tuple())">
 <%doc>
 For use with the inpho.model.Date objects.

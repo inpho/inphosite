@@ -1,5 +1,5 @@
 // initialize namespaces
-inpho = inpho || {};
+var inpho = inpho || {};
 inpho.admin = inpho.admin || {};
 
 

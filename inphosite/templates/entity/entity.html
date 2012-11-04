@@ -83,9 +83,9 @@ ${parent.draw()}</%def>
   %elif attr in ["has_influenced", "influenced_by"]:
   ${bootstrap.binary_list(attr, [c.entity.url(action=attr, id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
   %elif attr == "students":
-  ${bootstrap.binary_list(attr, [c.entity.url(action='student_of', id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
-  %elif attr == "teachers":
   ${bootstrap.binary_list(attr, [c.entity.url(action='teacher_of', id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
+  %elif attr == "teachers":
+  ${bootstrap.binary_list(attr, [c.entity.url(action='student_of', id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
   ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
     %if attr == 'searchpatterns':

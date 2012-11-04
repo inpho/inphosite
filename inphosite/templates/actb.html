@@ -1,4 +1,4 @@
-<%def name="actb(id, label=None, param=None)" >
+<%def name="actb(id, label=None, param=None, source='/entity.json')" >
 <div class="actb">
   %if label:
   <label for="${id}">${label}</label>
@@ -9,5 +9,5 @@
     <button type="submit" class="btn" value="Search">Search</button>
   </div>
 </div>
-<script>inpho.actb.init('#${id}');</script>
+<script>inpho.actb.init('#${id}', '${source}');</script>
 </%def>

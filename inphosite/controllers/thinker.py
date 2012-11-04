@@ -12,7 +12,7 @@ import inphosite.lib.helpers as h
 from inphosite.lib.rest import restrict, dispatch_on
 from inpho.model.thinker import *
 from inpho.model import Session
-from inpho.model import Idea, Entity
+from inpho.model import Idea, Entity, User
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func

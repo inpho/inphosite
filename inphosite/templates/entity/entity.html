@@ -80,8 +80,12 @@ ${parent.draw()}</%def>
   ${bootstrap.disabled_textbox(attr, getattr(c.entity, attr, ''))}
   %elif attr in ["openAccess", "active", "student"]:
   ${bootstrap.checkbox(attr, c.entity.url(), h.titlecase(attr), getattr(c.entity, attr, False))}
-  %elif attr in ["students", "teachers", "has_influenced", "influenced_by"]:
+  %elif attr in ["has_influenced", "influenced_by"]:
   ${bootstrap.binary_list(attr, [c.entity.url(action=attr, id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
+  %elif attr == "students":
+  ${bootstrap.binary_list(attr, [c.entity.url(action='student_of', id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
+  %elif attr == "teachers":
+  ${bootstrap.binary_list(attr, [c.entity.url(action='teacher_of', id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], getattr(c.entity, attr, list()))}
   %elif (attr in ["searchpatterns", "abbrs", "queries"]):
   ${bootstrap.list(attr, c.entity.url(action=attr), getattr(c.entity, attr, []))}
     %if attr == 'searchpatterns':
@@ -107,27 +111,6 @@ ${parent.draw()}</%def>
   ${bootstrap.date_list('birth_dates', c.entity.url(action='date', id2=1, filetype='json'), getattr(c.entity, 'birth_dates', tuple()))}
   %elif attr == "death":
   ${bootstrap.date_list('death_dates', c.entity.url(action='date', id2=2, filetype='json'), getattr(c.entity, 'death_dates', tuple()))}
-
-    <%doc>
-    ## Birth Date(s) (mutable; for Idea, Thinker)
-    %elif (attr == "birth"):
-    <ul>
-      %for i,birth_date in enumerate(c.entity.birth):
-      <li class="idea" id="birth_date${i}">
-        <span id="birth_date${i}_edit" class="sep" onclick="inpho.admin.removesp('birth_date${i}','${c.entity.url(action='date', id2='1')}')">
-          <img src="/img/delete.png" width=18 height=18 />
-        </span>
-        <span id="birth_date${i}_field">
-          ${birth_date}
-        </span>
-      </li>
-      %endfor
-    </ul>
-    </%doc>
-  %elif (attr == "birth"):
-  ${dateControl(attr, 1)}
-  %elif (attr == "death"):
-  ${dateControl(attr, 2)}
   %endif
 </%def>
 

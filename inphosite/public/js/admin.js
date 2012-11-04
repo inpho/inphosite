@@ -326,8 +326,10 @@ inpho.admin.remove_date = function(elt, url) {
            success: function() { $(elt).remove()} });
 }
 
+// TODO: remove override and use pure-REST call. Need to figure out why auth
+// isn't transferring over DELETE in AJAX.
 inpho.admin.remove_binary = function(elt, attr, url) {
-  $.ajax({ type: 'DELETE', url: url,
+  $.ajax({ type: 'GET', url: url + "?_method=DELETE",
            success: function() { $(elt).remove()} });
 }
 

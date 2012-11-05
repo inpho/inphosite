@@ -38,7 +38,6 @@ inpho.actb.init = function(elt, api_call) {
         self.data('active', true);
 
         //Do data request. Insert your own API logic here.
-        var url = window.location.protocol + "//" + window.location.host + "/entity.json";
         $.getJSON(url,{
           q: $(this).val()
         }, function(data) {

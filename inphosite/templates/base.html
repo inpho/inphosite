@@ -25,16 +25,7 @@
     ## InPhO
     ${h.stylesheet_link(h.url('/css/style.css'))}
     ${self.head()}
-    <script type="text/javascript">
-    (function(){
-      var startTime = new Date().getTime();
-      window.setTimeout(function(){
-        var endTime = new Date().getTime();
-        document.getElementById("loadtime").innerHTML = ("<font color='gray' size='1'>Page took " + (endTime - startTime) + "ms to render</font>");
-      }, 0);
-    })();
-    </script>
-  </head>
+ </head>
 
   <body class="yui-skin-sam">
     ${self.header()}

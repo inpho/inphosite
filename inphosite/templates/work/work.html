@@ -37,6 +37,8 @@ $(document).ready(srch(${c.entity.ID}));
 <img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a>
 is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
+<p><a href="https://www.google.com/search?q=${c.entity.label}">Google</a> ${c.entity.label}</p>
+<p><a href="">Bing</a> ${c.entity.label}</p>
 
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

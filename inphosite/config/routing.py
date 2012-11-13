@@ -49,7 +49,7 @@ def make_map(config):
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
     map.connect('/{controller}/{id:\d+}/{action}', 
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
-    map.connect('/{controller}/{id:\d+}/{type:has_influenced|influenced_by|' +
+    map.connect('/{controller}/{id:\d+}/{type:influenced|influenced_by|' +
         'teacher_of|student_of}/{id2:\d+}', action='binary',
         conditions=dict(method=["POST", "PUT", "DELETE"]))
     map.connect('/{controller}/{id:\d+}/{type:nationality|profession}/{id2:\d+}', 

@@ -80,7 +80,7 @@ ${parent.draw()}</%def>
   ${bootstrap.disabled_textbox(attr, getattr(c.entity, attr, ''))}
   %elif attr in ["openAccess", "active", "student"]:
   ${bootstrap.checkbox(attr, c.entity.url(), h.titlecase(attr), getattr(c.entity, attr, False))}
-  %elif attr in ["has_influenced", "influenced_by"]:
+  %elif attr in ["influenced", "influenced_by"]:
   ${bootstrap.binary_list(attr, [c.entity.url(action=attr, id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], [entity.name for entity in getattr(c.entity, attr, list())])}
   %elif attr == "students":
   ${bootstrap.binary_list(attr, [c.entity.url(action='teacher_of', id2=entity2.ID) for entity2 in getattr(c.entity, attr, list())], [entity.name for entity in getattr(c.entity, attr, list())])}

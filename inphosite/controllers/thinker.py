@@ -26,7 +26,7 @@ unary_vars = {
                     'property' : 'professions'}
 }
 binary_vars = {
-    'has_influenced' : {'object' : ThinkerInfluencedEvaluation, 
+    'influenced' : {'object' : ThinkerInfluencedEvaluation, 
                         'reverse' : False, 'maxdegree' : 4},
     'influenced_by' : {'object' : ThinkerInfluencedEvaluation, 
                        'reverse' : True, 'maxdegree' : 4},

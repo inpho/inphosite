@@ -209,7 +209,20 @@ class EntityController(BaseController):
         c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
-    def panel(self, id, id2):
+    def panel(self, id, id2): 
+        c.entity = h.fetch_obj(Entity, id)
+        c.entity2 = h.fetch_obj(Entity, id2)
+
+        # redirection for Idea-Idea panels
+        if isinstance(c.entity, Node):
+            c.entity = c.entity.idea
+            id = c.entity.ID
+        if isinstance(c.entity2, Node):
+            c.entity2 = c.entity2.idea
+            id = c.entity2.ID
+        if isinstance(c.entity, Idea) and isinstance(c.entity2, Idea):
+            h.redirect(c.entity.url(action='panel', id2=id2), code=303)
+        
         return self.search(id, id2)
 
     @staticmethod

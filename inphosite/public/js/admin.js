@@ -1,5 +1,5 @@
 // initialize namespaces
-inpho = inpho || {};
+var inpho = inpho || {};
 inpho.admin = inpho.admin || {};
 
 
@@ -326,6 +326,12 @@ inpho.admin.remove_date = function(elt, url) {
            success: function() { $(elt).remove()} });
 }
 
+// TODO: remove override and use pure-REST call. Need to figure out why auth
+// isn't transferring over DELETE in AJAX.
+inpho.admin.remove_binary = function(elt, attr, url) {
+  $.ajax({ type: 'GET', url: url + "?_method=DELETE",
+           success: function() { $(elt).remove()} });
+}
 
 // The reset function does the following:
 // 1.) The text input box should go back to a static field displaying either

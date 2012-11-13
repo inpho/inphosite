@@ -320,6 +320,9 @@ class IdeaController(EntityController):
     def evaluation(self, id, id2):
         c.entity = h.fetch_obj(Idea, id)
         c.entity2 = h.fetch_obj(Entity, id2)
+        if isinstance(c.entity2, Node):
+            c.entity2 = c.entity2.idea
+            id2 = c.entity2.ID
         if not isinstance(c.entity2, Idea):
             # no evaluation implemented
             response.status_int = 501

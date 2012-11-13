@@ -10,13 +10,13 @@ ${parent.draw()}</%def>
 %if type(entity).__name__ == 'Thinker':
 <i class="icon-user"></i>
 %elif type(entity).__name__ == 'Journal':
-<i class="icon-list-alt"></i>
+<i class="icon-book"></i>
 %elif type(entity).__name__ == 'Idea':
 <i class="icon-comment"></i>
 %elif type(entity).__name__ == 'SchoolOfThought':
-<i class="icon-eye-open"></i>
+<i class="icon-bookmark"></i>
 %elif type(entity).__name__ == 'Work':
-<i class="icon-folder-close"></i>
+<i class="icon-file"></i>
 %endif
 </%def>
 
@@ -76,10 +76,10 @@ more detail in our <a href="/papers/">papers</a>.</p>
 %endif
 
 <p><i class="icon-user"></i> - Thinker
-</br><i class="icon-list-alt"></i> - Journal
+</br><i class="icon-book"></i> - Journal
 </br><i class="icon-comment"></i> - Idea
-</br><i class="icon-eye-open"></i> - School of Thought
-</br><i class="icon-folder-close"></i> - Work
+</br><i class="icon-bookmark"></i> - School of Thought
+</br><i class="icon-file"></i> - Work
 </p>
 <ul class='unstyled'>
 <% entities = sorted(c.entities, cmp=cmpEntities) %>

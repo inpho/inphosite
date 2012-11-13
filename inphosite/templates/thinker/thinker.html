@@ -20,9 +20,8 @@
 %if c.entity.wiki:
 <p><a href="http://wikipedia.org/wiki/${c.entity.wiki}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
 %endif
+
 <p>Search for <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}">${c.entity.label}</a> on PhilPapers.</p>
-<p><a href="https://www.google.com/search?q=${c.entity.label}">Google</a> ${c.entity.label}</p>
-<p><a href="">Bing</a> ${c.entity.label}</p>
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
     <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>

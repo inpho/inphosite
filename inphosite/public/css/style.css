@@ -3,7 +3,7 @@ body {
     }
 
 .footer {
-    padding-top: 50px;    
+    padding-top: 10px;    
     padding-bottom: 100px;
 }
 .brand {
@@ -86,4 +86,20 @@ body {
 }
 .terms h3 {
     margin-left: -20px;    
+}
+
+.taxonomy {
+    background-image: url('../img/taxo-thumbnail.png');
+    background-repeat: no-repeat;
+    background-position: 220px 20px;
+    padding-bottom: 50px;
+}
+
+.centered {
+    text-align: center;
+    margin: auto 0;
+    }
+
+#search-form {
+    display: none;
 }

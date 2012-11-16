@@ -1,4 +1,5 @@
 <%inherit file="/base-nosidebar.html"/>
+<%namespace file="/actb.html" name="actb" /> 
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()"></%def>
 
@@ -11,22 +12,25 @@
 </div>
 
 
-<div class="span4">
-<h3>Big Data for Philosophers</h3>
-<p>The InPhO analyzes over 37 million words of philosophical content.</p>
+<div class="span3">
+<h3>Philosophy Big Data</h3>
+<p>The InPhO analyzes over 37 million words of philosophical content from:</p>
 <dl>
-  <dt><a href="http://plato.stanford.edu">Stanford Encyclopedia of Philosophy</a></dt><dd>1600 articles, 12 million words</dd>
-  <dt><a href="http://www.iep.utm.edu/">Internet Encyclopedia of Philosophy</a></dt><dd>800 articles, 4 million words</dd>
-  <dt><a href="http://philpapers.org/">PhilPapers</a></dt><dd>500,000 abstracts, 21 million words </dd>
-  <dt><a href="http://www.hathitrust.org/">HathiTrust/Google Books Collection</a></dt><dd>3 million volumes, 250 billion words</dd>
+  <dt><a href="http://plato.stanford.edu">Stanford Encyclopedia of Philosophy</a></dt>
+    <dd>1600 articles, 12 million words</dd>
+  <dt><a href="http://www.iep.utm.edu/">Internet Encyclopedia of Philosophy</a></dt>
+    <dd>800 articles, 4 million words</dd>
+  <dt><a href="http://philpapers.org/">PhilPapers</a></dt>
+    <dd>500,000 abstracts, 21 million words </dd>
+  <dt><a href="http://www.hathitrust.org/">HathiTrust/Google Books Collection</a></dt>
+    <dd>3 million volumes, 250 billion words</dd>
 </dl>
-<h3>Current Projects</h3>
-<ul>
- <li>Digging into Data</li>
- <li>LinkedHumanities</li>
-</ul>
+<div class="centered">
+<strong><a class="btn">Developers Portal</a></strong>
+</div>
 </div>
 
+<div class="span6 taxonomy">
 <div class="span4">
 <h3>Dynamic Ontology</h3>
 <p>The InPhO is constructed by a novel 3-step semi-automated process, called <strong>dynamic ontology</strong>:</p>
@@ -39,20 +43,28 @@
 
 <p>Further details on dynamic ontology can be found on the <a href="/papers">Articles and Papers</a> page.</p>
 </div>
+<div class="centered">
+  <strong><a id="search-btn" class="btn" style="margin-bottom: 20px;"><i class="icon-search"></i> Search the Taxonomy</a></strong>
+  <form id="search-form" class="form-stacked" method="get" action="/entity?id=None" autocomplete="off">
+    <input type="hidden" value="True" name="redirect">
+    ${actb.actb("q")}
+  </form>
+  <strong><a class="btn btn-success" style="margin-bottom: 20px;"><i class="icon-arrow-right icon-white"></i> Browse the Taxonomy</a></strong>
+</div>
+</div>
 
-<div class="span4">
-<h3></h3>
-<h3>The InPhOrmers</h3>
-<p>The InPhOrmers operate under <a href="http://mypage.iu.edu/~colallen"><strong>Prof. Colin Allen</strong></a> to develop the InPhO.</p>
-<h3>Partners</h3>
-<p>An international team of researchers from Germany, the United Kingdom, and the United States:</p>
-<ul>
-  <li>Indiana University</li>
-  <li>Stanford University</li>
-  <li>University of London</li>
-  <li>University of Dundee</li>
-  <li>University of East London</li>
-  <li>University of Evansville</li>
-  <li>University of Mannheim</li>
-</ul>
+<script>
+$('#search-btn').click(function() {
+  $('#search-btn').toggle('slow');
+  $('#search-form').toggle('slow');
+  $('#q').focus();
+  });
+</script>
+
+<div class="span3">
+<h3>Data Blog</h3>
+<p><strong>November 12, 2012</strong> — In the previous post, we looked at the possibility of translating between languages by aligning words that had similar semantic neighborhoods. The final (9th) graph in that post suggested that the semantic structures of the French and English wikipedia articles were sufficiently dissimilar as to make this approach unworkable.  But it was still unclear how much dissimilarity was really being represented in that graph.
+
+Here we attempt to answer that question by comparing three different alignments between models generated from sources within the same language (English) and between languages (English & French).</p>
+<a class="btn btn-info" href="http://inpho.cogs.indiana.edu/datablog/?p=81">Read more...</a>
 </div>

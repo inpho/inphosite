@@ -9,6 +9,17 @@ body {
 .brand {
     margin-left: -10px !important;    
 }
+
+.graph-bg {
+    background-image: url('../img/hero-unit.png');
+    /*background-repeat: no-repeat;
+    background-position: 0 0; 
+    background-color: transparent;*/
+    }
+.graph-content {
+    background-color: rgba(224,224,224,0.6);
+    }
+
 #logo-container {
     width: 940px; margin:0 auto; zoom: 1; z-index: -1;
 }

@@ -3,30 +3,35 @@
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()"></%def>
 
-<div class="hero-unit" style="text-align: center;">
+<div class="hero-unit graph-bg" style="text-align: center;">
+  <div class="graph-content">
   <h1>The InPhO Project</h1>
   <p><span class="big">Welcome</span> to the Indiana Philosophy Ontology (InPhO) project!</p>
   <p>We offer a variety of tools for students, researchers, programmers and scholars.
      The ontology currently covers philosophical <a href="/idea">ideas</a>, 
      <a href="/thinker">thinkers</a>, and <a href="/journal">journals</a>.</p>
+  </div>
 </div>
 
 
 <div class="span3">
 <h3>Philosophy Big Data</h3>
 <p>The InPhO analyzes over 37 million words of philosophical content from:</p>
-<dl>
-  <dt><a href="http://plato.stanford.edu">Stanford Encyclopedia of Philosophy</a></dt>
-    <dd>1600 articles, 12 million words</dd>
-  <dt><a href="http://www.iep.utm.edu/">Internet Encyclopedia of Philosophy</a></dt>
-    <dd>800 articles, 4 million words</dd>
-  <dt><a href="http://philpapers.org/">PhilPapers</a></dt>
-    <dd>500,000 abstracts, 21 million words </dd>
-  <dt><a href="http://www.hathitrust.org/">HathiTrust/Google Books Collection</a></dt>
-    <dd>3 million volumes, 250 billion words</dd>
-</dl>
+<ul style="margin-left: 0px;">
+  <li><a href="http://plato.stanford.edu">Stanford Encyclopedia of Philosophy</a></li>
+  <li><a href="http://www.iep.utm.edu/">Internet Encyclopedia of Philosophy</a></li>
+  <li><a href="http://philpapers.org/">PhilPapers</a></li>
+  <li><a href="http://www.hathitrust.org/">HathiTrust/Google Books Collection</a></li>
+</ul>
+<p>We are committed to open access, with data available via a <a href="/docs">REST API</a> and source code at <a href="http://github.com/inpho">GitHub</a>.</p>
 <div class="centered">
-<strong><a class="btn">Developers Portal</a></strong>
+<strong><a class="btn"><i class="icon-arrow-right"></i> Developers Portal</a></strong>
+</div>
+<h3>&nbsp;</h3>
+<h3>The InPhOrmers</h3>
+<p>The InPhOrmers create the InPhO. Find out more about the team:</p>
+<div class="centered">
+<strong><a class="btn"><i class="icon-user"></i> The InPhOrmers</a></strong>
 </div>
 </div>
 
@@ -65,6 +70,8 @@ $('#search-btn').click(function() {
 <h3>Data Blog</h3>
 <p><strong>November 12, 2012</strong> — In the previous post, we looked at the possibility of translating between languages by aligning words that had similar semantic neighborhoods. The final (9th) graph in that post suggested that the semantic structures of the French and English wikipedia articles were sufficiently dissimilar as to make this approach unworkable.  But it was still unclear how much dissimilarity was really being represented in that graph.
 
-Here we attempt to answer that question by comparing three different alignments between models generated from sources within the same language (English) and between languages (English & French).</p>
-<a class="btn btn-info" href="http://inpho.cogs.indiana.edu/datablog/?p=81">Read more...</a>
+Here we attempt to answer that question by comparing three different alignments between models generated from sources within the same language (English) and between languages (English &amp; French).</p>
+<div class="centered">
+<strong><a class="btn" href="http://inpho.cogs.indiana.edu/datablog/?p=81"><i class="icon-book"></i> Read More</a></strong>
+</div>
 </div>

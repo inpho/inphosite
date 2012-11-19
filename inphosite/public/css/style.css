@@ -11,6 +11,19 @@ body {
     margin-left: -10px !important;    
 }*/
 
+.logo-word {
+    background-image: url('../img/newlogo.png');
+    background-size: 172px 92px;
+    width: 172px;    
+    height: 84px;
+    padding-top: 6px;
+    margin-top: 14px;
+    margin-bottom: 5px;
+    margin-left: -6px;
+    display: inline-block;
+    text-indent: -3000px;
+}
+
 .graph-bg {
     background-image: url('../img/hero-unit.png');
     /*background-repeat: no-repeat;

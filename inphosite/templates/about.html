@@ -1,65 +1,119 @@
-<%inherit file="/base-tree.html"/>
+<%inherit file="/base-nosidebar.html"/>
+<%namespace file="/actb.html" name="actb" /> 
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
-<%def name="head_title()">About Us</%def>
-<h1>About the InPhO</h1>
+<%def name="head_title()"></%def>
 
-<p>The InPhO is an attempt to model the discipline of philosophy. Our
-approach leverages expert knowledge by augmenting it with machine reasoning,
-greatly reducing the need for expensive "double experts" trained in both
-philosophy and computational ontology. The primary source of text data and
-domain experts is the <a href="http://plato.stanford.edu">Stanford Encyclopedia
-of Philosophy</a> (SEP). With over 1 million weekly article downloads, the SEP
-is the leading digital humanities resource for philosophy, maintained by over
-1,600 volunteer authors and subject editors. Consisting of over 1,200 articles
-and 15 million words, the tremendous depth of the encyclopedia makes it
-impossible for any one person to have expertise over the whole domain,
-necessitating the creation of a useful organization scheme to provide better
-editorial control and content accessibility. At the same time, the comprehensive
-richness of the SEP makes it a reasonable proxy for the discipline of philosophy
-as a whole.</p>
+<div class="hero-unit graph-bg" style="text-align: center;">
+  <div class="graph-content">
+  <h1>About the<a href="/"><img src="/img/newlogo.png" width="181" style="padding-top: 14px;"></a></h1>
+  <p><span class="big">Welcome</span> to the Indiana Philosophy Ontology (InPhO) project!</p>
+<div class="centered">
+  <strong><a id="search-btn" class="btn btn-info" style="margin-bottom: 20px;"><i class="icon-search icon-white"></i> Search the Taxonomy</a></strong>
+  <form id="search-form" class="form-stacked" method="get" action="/entity?id=None" autocomplete="off">
+    <input type="hidden" value="True" name="redirect">
+    ${actb.actb("q")}
+  </form>
+  <strong><a href="/taxonomy" class="btn btn-success" style="margin-bottom: 20px;"><i class="icon-arrow-right icon-white"></i> Browse the Taxonomy</a></strong>
+  </div>
+</div>
+</div>
 
-<p>Our approach utilizes an iterative three-step process, which we have termed <i>dynamic
-ontology</i>, to create a taxonomic representation of philosophy:
-<ol class="numbered">
-    <li><strong>Data mining</strong> - Natural Language Processing (NLP)
-        techniques are used to generate statistical hypotheses about the
-        relations among various topics in the SEP. </li>
-    <li><strong>Expert feedback</strong> - These hypotheses are evaluated
-        by domain experts through online interfaces.</li>
-    <li><strong>Machine reasoning</strong> - The feedback is combined
-        with the statistical measures as a knowledge base for our machine
-        reasoning program, which uses answer set programming to output a
-        taxonomic view of the discipline.</li>
-</ol></p>
 
-<p>Further details on dynamic ontology can be found on the <a
-href="/papers">Articles and Papers</a> page.</p>
+<div class="span3 grants">
+<h3>Funders</h3>
+The InPhO project is generously supported by the following grants:
 
-<p>InPhO does not assume that a single, correct view of the discipline is possible, but
-rather takes the pragmatic approach that some representation is better than no
-representation at all. However, even if other projects do not agree with our
-taxonomic projections, our statistical data and expert evaluations may still be
-useful. By exposing our data at all three steps through an easy-to-use <a
-href="/docs">API</a>, we encourage other projects to discover alternative ways
-to construct meaningful and useful representations of the discipline.
-Additionally, by offering an open platform, we invite other projects to
-contribute relevant data and expert feedback to improve the quality of the
-service.</p>
+<dl>
+<dt><strong class="pull-right">2012</strong> <a href="https://securegrants.neh.gov/PublicQuery/main.aspx?f=1&gn=HJ-50092-12">NEH HJ-50092-12</a></dt>
+<dd>Digging by Debating: Linking massive datasets to specific arguments</dd>
 
-<p>If you are interested in collaborating on the InPhO, digital humanities, or
-dynamic ontology generally, we invite you to contact us at <a
-href="mailto:inpho@indiana.edu">inpho@indiana.edu</a></p>
+<dt><strong class="pull-right">2011</strong> <a href="https://securegrants.neh.gov/PublicQuery/main.aspx?f=1&gn=HG-50032-11">NEH HG-50032-11</a></dt>
+<dd>Linking and Populating the Digital Humanities</dd>
 
+<dt><strong class="pull-right">2009</strong> <a href="https://securegrants.neh.gov/PublicQuery/main.aspx?f=1&gn=PW-50401-09">NEH PW-50401-09</a></dt>
+<dd>InPhO @ Work: providing integrated access to philosophy</dd>
+
+<dt><strong class="pull-right">2007</strong> <a href="https://securegrants.neh.gov/PublicQuery/main.aspx?f=1&gn=HD-50203-07">NEH HD-50203-07</a></dt>
+<dd>InPhO: the Indiana Philosophy Ontology project</dd>
+
+<dt><strong class="pull-right">2006</strong> Indiana University New Frontiers in the Arts &amp; Humanities<dt>
+<dd>Automatic Metacontent Management for Dynamic Reference Works</dd>
+</dl>
+
+And the ongoing support of the <a href="http://www.cogs.indiana.edu/">Cognitive Science Program</a> at Indiana University.
+</div>
+
+<div class="span5 inphormers offset1">
 <h3>The InPhOrmers</h3>
-<p>The InPhOrmers operate under <a href="http://mypage.iu.edu/~colallen"><strong>Prof. Colin Allen</strong></a> to develop the InPhO.</p>
-<h3>Partners</h3>
-<p>An international team of researchers from Germany, the United Kingdom, and the United States:</p>
-<ul>
-  <li>Indiana University</li>
-  <li>Stanford University</li>
-  <li>University of London</li>
-  <li>University of Dundee</li>
-  <li>University of East London</li>
-  <li>University of Evansville</li>
-  <li>University of Mannheim</li>
+<ul class="unstyled">
+<li class="person">
+  <img src="/img/front/colin.jpg" />
+  <h4><a href="http://mypage.iu.edu/~colallen">Colin Allen</a> <small>Project Director</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/cbuckner.jpg" />
+  <h4><a href="http://anonbuckner.net/professional/">Cameron Buckner</a> <small>Founding Project Member</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/mniepert.jpg" />
+  <h4><a href="http://www.matlog.net/research.php">Mathias Niepert</a> <small>Founding Project Member</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4>Mark Jenne <small>Graduate Asisstant</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4><a href="http://mypage.iu.edu/~bkievitk/">Brent Kievit-Kylar</a> <small>Graduate Asisstant</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4><a href="http://jamram.net">Jaimie Murdock</a> <small>Graduate Asisstant</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4><a href="https://sites.google.com/site/junotk/">Jun Otsuka</a> <small>Graduate Asisstant</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4>Robert Rose <small>Graduate Asisstant</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4>Alex Frost <small>Undergraduate Programmer</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4><a href="http://www.squiresdevelopment.com/">Jesse Squires</a> <small>Undergraduate Programmer</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4>Sam Waggoner <small>Undergraduate Programmer</small></h4>
+</li>
+<li class="person">
+  <img src="/img/front/anon.jpg" />
+  <h4>Sam Zorowitz <small>Undergraduate Programmer</small></h4>
+</li>
 </ul>
+</div>
+
+<div class="span3">
+<h3>Partners</h3>
+<h3>Co-funded Partners</h3>
+<ul>
+  <li><a href="http://ella.slis.indiana.edu/~katy/">Katy Börner</a>, Indiana University</li>
+  <li><a href="http://www.uel.ac.uk/cass/staff/andrewravenscroft/">Andrew Ravenscroft</a>, University of East London</li>     
+  <li><a href="http://www.dbourget.com">David Bourget</a>, <a href="http://philpapers.org/">PhilPapers</a></li>
+  <li><a href="http://www.computing.dundee.ac.uk/staff/creed/index.html">Chris Reed</a>, University of Dundee</li>
+  <li><a href="http://www.matlog.net/research.php">Mathias Niepert</a>, University of Mannheim and University of Washington</li>
+  <li><a href="http://www.afbeavers.net">Tony Beavers</a>, University of Evansville</li>
+</ul>
+
+<h3>Other Collaborations</h3>
+<ul>
+  <li><a href="http://mally.stanford.edu/zalta.html">Ed Zalta</a> &amp; <a href="http://www-csli.stanford.edu/people/nodelman-uri">Uri Nodelman</a>, <a href="http://plato.stanford.edu">The Stanford Encyclopedia of Philosophy</a></li>
+  <li><a href="http://www.hathitrust.org/htrc">Hathi Trust Research Center</a></li>
+  <li><a href="http://www.digitalhps.org/index.php/Main_Page">Digital HPS</a></li>
+  <li><a href="http://univ-paris1.academia.edu/AlexandreMonnin">Alexandre Monnin</a>, PHILOWEB</li>
+</ul>
+</div>

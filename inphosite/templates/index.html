@@ -5,12 +5,20 @@
 
 <div class="hero-unit graph-bg" style="text-align: center;">
   <div class="graph-content">
-  <h1>The InPhO Project</h1>
+  <h1>The<a href="/"><img src="/img/newlogo.png" width="181" style="padding-top: 14px;"></a> Project</h1>
   <p><span class="big">Welcome</span> to the Indiana Philosophy Ontology (InPhO) project!</p>
-  <p>We offer a variety of tools for students, researchers, programmers and scholars.
+  <p>We offer a variety of tools for students, researchers, programmers and scholars. <br />
      The ontology currently covers philosophical <a href="/idea">ideas</a>, 
      <a href="/thinker">thinkers</a>, and <a href="/journal">journals</a>.</p>
+<div class="centered">
+  <strong><a id="search-btn" class="btn btn-info" style="margin-bottom: 20px;"><i class="icon-search icon-white"></i> Search the Taxonomy</a></strong>
+  <form id="search-form" class="form-stacked" method="get" action="/entity?id=None" autocomplete="off">
+    <input type="hidden" value="True" name="redirect">
+    ${actb.actb("q")}
+  </form>
+  <strong><a href="/taxonomy" class="btn btn-success" style="margin-bottom: 20px;"><i class="icon-arrow-right icon-white"></i> Browse the Taxonomy</a></strong>
   </div>
+</div>
 </div>
 
 
@@ -25,13 +33,13 @@
 </ul>
 <p>We are committed to open access, with data available via a <a href="/docs">REST API</a> and source code at <a href="http://github.com/inpho">GitHub</a>.</p>
 <div class="centered">
-<strong><a class="btn"><i class="icon-arrow-right"></i> Developers Portal</a></strong>
+<strong><a class="btn" href="https://github.com/inpho"><i class="icon-arrow-right"></i> Developers Portal</a></strong>
 </div>
 <h3>&nbsp;</h3>
 <h3>The InPhOrmers</h3>
 <p>The InPhOrmers create the InPhO. Find out more about the team:</p>
 <div class="centered">
-<strong><a class="btn"><i class="icon-user"></i> The InPhOrmers</a></strong>
+<strong><a class="btn" href="/about"><i class="icon-user"></i> The InPhOrmers</a></strong>
 </div>
 </div>
 
@@ -47,14 +55,6 @@
 </ol>
 
 <p>Further details on dynamic ontology can be found on the <a href="/papers">Articles and Papers</a> page.</p>
-</div>
-<div class="centered">
-  <strong><a id="search-btn" class="btn" style="margin-bottom: 20px;"><i class="icon-search"></i> Search the Taxonomy</a></strong>
-  <form id="search-form" class="form-stacked" method="get" action="/entity?id=None" autocomplete="off">
-    <input type="hidden" value="True" name="redirect">
-    ${actb.actb("q")}
-  </form>
-  <strong><a class="btn btn-success" style="margin-bottom: 20px;"><i class="icon-arrow-right icon-white"></i> Browse the Taxonomy</a></strong>
 </div>
 </div>
 

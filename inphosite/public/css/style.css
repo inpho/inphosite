@@ -6,9 +6,10 @@ body {
     padding-top: 10px;    
     padding-bottom: 100px;
 }
-.brand {
+
+/*.brand {
     margin-left: -10px !important;    
-}
+}*/
 
 .graph-bg {
     background-image: url('../img/hero-unit.png');
@@ -17,7 +18,7 @@ body {
     background-color: transparent;*/
     }
 .graph-content {
-    background-color: rgba(224,224,224,0.6);
+    background-color: rgba(255,255,255,0.6);
     }
 
 #logo-container {
@@ -26,7 +27,7 @@ body {
 #logo {
         /* float: left; */
         position: absolute;
-        top: 0;
+        top: 45px;
         margin-top: 0px;
         z-index: 100000;
 		height:147px;
@@ -34,7 +35,6 @@ body {
 	}
 
 #sidebar {
-    margin-top: 87px;
 }
 .yuitree-hl, .yuitree-hl .ygtvcontent a {
     background-color: #C0E0E0 !important;    

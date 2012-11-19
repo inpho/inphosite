@@ -1,3 +1,4 @@
+<%namespace file="/actb.html" name="actb" />
 <!DOCTYPE html>
 <html>
   <head>
@@ -51,13 +52,20 @@
   <div class="navbar-inner">
     <div class="container">
       <ul class="nav">
-          <li><a class="brand" href="/">InPhO</a></li>
-      </ul>
-      <ul class="nav pull-right" style="margin-left: 300px;">
+        <li><a href="/"><i class="icon-home icon-white"></i></a></li>
         <li><a href="/about/">About</a></li>
         <li><a href="/docs/">API</a></li>
-        <li><a href="/owl/">OWL</a></li>
         <li><a href="/papers/">Papers</a></li>
+      </ul>
+      <ul class="nav pull-right" style="margin-left: 300px;">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/taxonomy"><i class="icon-comment"></i> Taxonomy</a></li>
+            <li><a href="/thinker"><i class="icon-user"></i> Thinkers</a></li>
+            <li><a href="/journal"><i class="icon-list-alt"></i> Journals</a></li>
+          </ul>
+        </li>
 
         <li class="divider-vertical"></li>
         
@@ -83,11 +91,6 @@
         %endif
       </ul> 
     </div>
-  </div>
-</div>
-<div id="logo-container">
-  <div id="logo">
-    <a href="/"><img src="/img/logo.gif"></a>
   </div>
 </div>
 </%def>

@@ -51,12 +51,12 @@
 		"publisher":"Proceedings of the 10th ACM/IEEE Joint Conference on Digital Libraries (JCDL), Gold Coast, Australia, ACM Press"
 		},
 		{
-		"id":"JCDL2009",
+		"id":"Hypertext2009",
 		"title":"Working the Crowd: Design Principles and Early Lessons from the Social-Semantic Web",
 		"publication_date":"2009",
 		"summary":"",	
 		"abstract":"The Indiana Philosophy Ontology (InPhO) project is presented as one of the first social-semantic web endeavors which aims to bootstrap feedback from users unskilled in ontology design into a precise representation of a specific domain. Our approach combines statistical text processing methods with expert feedback and logic programming approaches to create a dynamic semantic representation of the discipline of philosophy. We describe the basic principles and initial experimental results of our system.",
-		"fulltext":"",
+		"fulltext":"/papers/2009ACMHypertext.pdf",
 		"authors":"Mathias Niepert, Cameron Buckner, Colin Allen", 
 		"publisher":"Proceedings of the Workshop on Web 3.0: Merging Semantic Web and Social Web - (SW)^2 at ACM Hypertext, Turin, Italy"
 		},

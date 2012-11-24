@@ -53,7 +53,6 @@ class EntityController(BaseController):
 
         entity = h.fetch_obj(self._type, id)
         h.update_obj(entity, terms, request.params)
-        raise Exception
 
         # Check for redirect
         if request.params.get('redirect', False):

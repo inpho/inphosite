@@ -63,11 +63,6 @@ class SchoolOfThoughtController(EntityController):
 
         return render('school_of_thought/data_integrity.%s' % filetype)
 
-    #UPDATE
-    def update(self, id=None):
-        terms = ['sep_dir']
-        super(SchoolOfThoughtController, self).update(id, terms)
-
     @restrict('POST')
     def create(self):
         if not h.auth.is_logged_in():

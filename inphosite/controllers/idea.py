@@ -378,7 +378,7 @@ class IdeaController(EntityController):
         
     #UPDATE
     def update(self, id=None):
-        terms = ['sep_dir', 'searchstring']
+        terms = ['sep_dir', 'searchstring', 'label']
         super(IdeaController, self).update(id, terms)
 
     @restrict('POST')

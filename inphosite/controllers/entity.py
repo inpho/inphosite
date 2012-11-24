@@ -49,10 +49,11 @@ class EntityController(BaseController):
 
         #if no whitelist is passed in, go with default
         if terms is None:
-            terms = ['sep_dir', 'searchstring']
+            terms = ['sep_dir', 'searchstring', 'label']
 
         entity = h.fetch_obj(self._type, id)
         h.update_obj(entity, terms, request.params)
+        raise Exception
 
         # Check for redirect
         if request.params.get('redirect', False):

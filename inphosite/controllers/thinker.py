@@ -190,7 +190,7 @@ class ThinkerController(EntityController):
     
     #UPDATE
     def update(self, id=None):
-        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday']
+        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday', 'label']
         super(ThinkerController, self).update(id, terms)
 
     @restrict('POST')

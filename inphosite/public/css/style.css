@@ -87,3 +87,9 @@ body {
 .terms h3 {
     margin-left: -20px;    
 }
+
+/* QUICK FIX for Thinker alignment bugs*/
+.dl-horizontal dt {
+    width: 150px;
+    padding-right: 10px;
+}

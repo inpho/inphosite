@@ -62,7 +62,17 @@
         <li><a href="/docs/">API</a></li>
         <li><a href="/papers/">Papers</a></li>
       </ul>
-      <ul class="nav pull-right" style="margin-left: 300px;">
+      <ul class="nav pull-right">
+        <li>
+          <form class="navbar-search" action="/entity" method="get">
+            <% q = request.params.get('q','') %>
+            <input class="search-query input-medium" type="text" id="q" name="q" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
+          </form>
+          <script src="/js/actb.js"></script>
+        </li>
+
+        <li class="divider-vertical"></li>
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -71,8 +81,6 @@
             <li><a href="/journal"><i class="icon-list-alt"></i> Journals</a></li>
           </ul>
         </li>
-
-        <li class="divider-vertical"></li>
         
         %if h.auth.is_admin():
         <li class="dropdown">
@@ -84,8 +92,9 @@
           </ul>
         </li>
         
-        <li class="divider-vertical"></li>
         %endif
+
+        <li class="divider-vertical"></li>
 
         % if h.auth.is_logged_in() and not (request.urlvars['controller'] == 'account' and request.urlvars['action']  == 'signout'):
         <li><a href="${h.url(controller='account', action='profile')}">${h.auth.username(request)}</a></li>

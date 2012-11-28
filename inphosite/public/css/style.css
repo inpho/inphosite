@@ -7,10 +7,23 @@ body {
     padding-top: 10px;    
     padding-bottom: 100px;
 }
-
 /*.brand {
     margin-left: -10px !important;    
 }*/
+
+.navbar-search .search-query {
+    background-image: url('../img/icon-search-white.png');
+    background-repeat: no-repeat;
+    background-position: 8px 6px;
+    padding-left: 28px; 
+}
+
+.navbar-search .search-query:focus {
+    background-image: url('../img/icon-search.png');
+    background-repeat: no-repeat;
+    background-position: 8px 6px;
+    padding-left: 28px; 
+    }
 
 .logo-word {
     background-image: url('../img/newlogo.png');

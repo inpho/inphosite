@@ -1,10 +1,14 @@
-<%inherit file="/base-tree.html"/>
+<%inherit file="/base-nosidebar.html"/>
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()">API Documentation</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
+<div class="hero-unit graph-bg" style="text-align: center;">
+  <div class="graph-content">
+  <h1><span class="logo-word">InPhO</span> API Docs</h1>
+  <p>The InPhO offers much of its data through a REST API in JSON and RDF formats.</p>
+  </div>
+</div>
+
+<div class="span8 offset2">
 
 <style type="text/css">
 
@@ -913,5 +917,6 @@ Good summary, but does not include examples.</li>
 <li><a class="reference external" href="http://bitworking.org/news/201/RESTify-DayTrader">RESTify-DayTrader</a> - Good example of using REST</li>
 <li><a class="reference external" href="http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm">Representational State Transfer (REST)</a> The original chapter from Roy Feldings&#8217;s dissertation</li>
 </ul>
+</div>
 </div>
 </div>

@@ -9,6 +9,7 @@
   </div>
 </div>
 
+<style>.thumbnail { height: 265px; position: relative;}</style>
 <div class="span12">
 <ul class="thumbnails">
 <% publications = c.papers['publications'] %>
@@ -21,18 +22,17 @@
 	  <!--<h4>
       ${paper['title']} 
     </h4> -->
-    <a class="pull-right" href="${paper['fulltext']}">
+    <a class="pull-right" href="${paper['fulltext']}" style="display:block">
     %if paper.get('thumbnail'):
     <img src="${paper['thumbnail']}">
     %else:
     <img src="http://placehold.it/210x120">
     %endif
 	  <img src="/img/pdf_icon.gif" style="position: relative; top: -22px; float: right; margin-right: 6px;"/></a>
-
-	  <p class="summary">
+	  <p>
 	    <strong>${paper['year']}</strong> &mdash; ${paper['summary']}
     </p>
-	  <div class="centered">
+	  <div class="centered" style="position:absolute; bottom: 6px; width: 210px;">
     <a href="#${paper['id']}-abstract" class="btn btn-mini" role="button" data-toggle="modal">
 	      <strong>Show Abstract</strong>
 	    </a>

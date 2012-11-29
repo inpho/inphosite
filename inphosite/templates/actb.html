@@ -6,7 +6,6 @@
   <div class="form-search">
     <% q = request.params.get(param,'') if param else '' %>
     <input class="input-medium search-query" type="text" id="${id}" name="${id}" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
-    <button type="submit" class="btn" value="Search"><i class="icon-search"></i></button>
   </div>
 </div>
 <script>inpho.actb.init('#${id}', '${source}');</script>

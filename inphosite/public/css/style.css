@@ -172,4 +172,9 @@ body {
 
 .grants dd {
     padding-bottom: 4px;
+
+/* QUICK FIX for Thinker alignment bugs*/
+.dl-horizontal dt {
+    width: 150px;
+    padding-right: 10px;
 }

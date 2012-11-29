@@ -12,7 +12,7 @@ import inphosite.lib.helpers as h
 from inphosite.lib.rest import restrict, dispatch_on
 from inpho.model.thinker import *
 from inpho.model import Session
-from inpho.model import Idea, Entity
+from inpho.model import Idea, Entity, User
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
@@ -26,7 +26,7 @@ unary_vars = {
                     'property' : 'professions'}
 }
 binary_vars = {
-    'has_influenced' : {'object' : ThinkerInfluencedEvaluation, 
+    'influenced' : {'object' : ThinkerInfluencedEvaluation, 
                         'reverse' : False, 'maxdegree' : 4},
     'influenced_by' : {'object' : ThinkerInfluencedEvaluation, 
                        'reverse' : True, 'maxdegree' : 4},
@@ -190,7 +190,7 @@ class ThinkerController(EntityController):
     
     #UPDATE
     def update(self, id=None):
-        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday']
+        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday', 'label']
         super(ThinkerController, self).update(id, terms)
 
     @restrict('POST')
@@ -283,11 +283,28 @@ class ThinkerController(EntityController):
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
         username = request.params.get('username', username)
+
+        # look for a specific user's feedback
         evaluation = self._get_evaluation(evaltype, id, id2, uid, username, 
                                           autoCreate=False)
         
-        if not evaluation:
-            abort(404)
+        # if that feedback does not exist, unleash the nuclear option and delete
+        # ALL evaluation facts for this relation, wiping it from the database.
+        if h.auth.is_admin() and not evaluation:
+            eval_q = Session.query(evaltype)
+            eval_q = eval_q.filter_by(ante_id=id, cons_id=id2)
+            evals = eval_q.all()
+
+            # wipe them out. all of them.
+            for evaluation in evals:
+                h.delete_obj(evaluation)
+            
+            # return ok, with how many were deleted
+            response.status_int = 200
+            return "OK %d" % len(evals)
+
+        elif not evaluation:
+            abort(404) # simply return an error (not evaluated), if not admin
 
         current_uid = h.get_user(request.environ['REMOTE_USER']).ID
         if evaluation.uid != current_uid and not h.auth.is_admin():

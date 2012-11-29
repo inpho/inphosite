@@ -65,10 +65,20 @@
 </div>
 </%def>
 
+<%def name="binary_list(attr, urls=tuple(), values=tuple())">
+<div class="control-group">
+    <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+    <div class="controls">
+      %for url, value in zip(urls, values):
+      ## workaround for value=None not having a .decode('utf-8') method
+      <% value = value if value is not None else 'None' %>
+      <label><i class="icon-remove" onclick="return inpho.admin.remove_binary(this.parentNode, '${attr}', '${url}')" data-url="${url}"></i> ${value.decode('utf-8')} </label>
+      %endfor
+    </div>
+</div>
+</%def>
+
 <%def name="date_list(attr, url, values=tuple())">
-<%doc>
-For use with the inpho.model.Date objects.
-</%doc>
 <form class="date-control" id="${attr}_form">
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)} Date</label>

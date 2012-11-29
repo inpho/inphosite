@@ -44,8 +44,8 @@ inpho.eval.reset = function(elt) {
   $(formElm + " #relatednessSelect").val('-1');
 
   $(elt + " #generalitySelect").attr('disabled', 'disabled');
-  $(elt + " .and").show();
-  $(elt + " #generalitySelect").show();
+  $(elt + " .and").hide();
+  $(elt + " #generalitySelect").hide();
 
   inpho.eval.submit(elt);
 };

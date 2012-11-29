@@ -51,7 +51,12 @@ $(document).ready(function() {
         ${entity.printList('related_thinkers', statistical=True)}
         ${entity.printList('hyponyms', statistical=True)}
         ${entity.printList('occurrences', statistical=True)}
-    </div>
+
+%if not (c.entity.links[:10] or c.entity.instances[:10] or c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
+${entity.printMissing()}
+%endif
+
+</div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
     <div class="tab-pane" id="admin">

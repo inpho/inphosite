@@ -14,6 +14,16 @@ ${parent.draw()}</%def>
 
 <h1>${c.entity.label}</h1>
 
+<%def name="printMissing()">
+<div class="alert">
+  <strong>No data!</strong>
+  The InPhO current contains no statistical information on ${c.entity.label}.
+  This is likely a new concept for the ontology, and statsitical information will be
+  added after our nightly data mining. If this page continues to lack data, please
+  inform us at <strong><span class="iumail">inpho</span></strong>.
+</div>
+</%def>
+
 <%def name="printList(attr, alt_title='', limit=10, statistical=False, type='idea')">
 %if getattr(c.entity, attr)[:limit]:
 <% title = alt_title if alt_title else h.titlecase(attr.replace('_', ' ')) %>

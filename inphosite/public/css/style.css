@@ -151,6 +151,12 @@ body {
     padding: 2px 5px;
     width: 48px;
 }
+
+.iumail:after {
+    content: "@indiana.edu";    
+}
+
+
 /*
 .person:nth-child(even) {
     float: right;

@@ -22,13 +22,32 @@ d3.json("/inpho.json", function(json) {
   root.x0 = 0;
   root.y0 = 0;
 
-  function toggleAll(d) {
-    if (d.children) {
-      d.children.forEach(toggleAll);
-      toggle(d);
+  // goes through and selects the proper nodes to disable
+  function containsChild(d, ID) {
+    if (d.ID == ID) {
+      d.selected = true;
+      return true;
+    } else {
+      if (d.children) {
+        for(var c=0; c<d.children.length; c++) {
+          if (containsChild(d.children[c], ID)) { 
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
-
+  function toggleAll(d) {
+    var ID = $("#chart").attr('data-selected');
+    if (!containsChild(d, ID) || d.ID == ID) {
+      toggle(d);
+    }
+    if (d.children) {
+      d.children.forEach(toggleAll);
+    }
+  }
+  
   root.children.forEach(toggleAll);
   update(root);
   
@@ -79,6 +98,7 @@ function update(source) {
   // .attr("xlink:href", function(d) { return "https://inpho.cogs.indiana.edu" + d.url; })
 
   nodeEnter.append("svg:text")
+    .attr("style", function(d) { if (d.selected) return "font-weight: bold;"; else ""; })
     .attr("dx", 8)
     .attr("dy", 3)
     //.attr("fill", "steelblue")

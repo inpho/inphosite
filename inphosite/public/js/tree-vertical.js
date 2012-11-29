@@ -94,10 +94,10 @@ function update(source) {
     });
 
   // Draw alabel for each newly-found node. 
-  // .append("svg:a")
-  // .attr("xlink:href", function(d) { return "https://inpho.cogs.indiana.edu" + d.url; })
 
-  nodeEnter.append("svg:text")
+  nodeEnter.append("svg:a")
+    .attr("xlink:href", function(d) { return window.location.protocol + "//" + window.location.host + d.url; })
+    .append("svg:text")
     .attr("style", function(d) { if (d.selected) return "font-weight: bold;"; else ""; })
     .attr("dx", 8)
     .attr("dy", 3)
@@ -105,10 +105,11 @@ function update(source) {
     .attr("text-anchor", "start")
     .text(function(d) {
       return d.name;
-    })
+    });
+    /*
     .on("click", function(d) {
       document.location.href=(window.location.protocol + "//" + window.location.host + d["url"]);
-    });
+    });*/
 
   //Transition nodes to their new positions.
   var nodeUpdate = node.transition()

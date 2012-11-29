@@ -67,7 +67,9 @@ function update(source) {
     });
 
   // Draw a label for each newly-found node.
-  nodeEnter.append("svg:text")
+  nodeEnter.append("svg:a")
+    .attr("xlink:href", function(d) { return window.location.protocol + "//" + window.location.host + d.url; })
+    .append("svg:text")
     .attr("dx", function(d) {
       return d.children || d._children ? -8 : 8;
     })

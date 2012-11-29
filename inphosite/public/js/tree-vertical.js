@@ -11,11 +11,17 @@ var tree = d3.layout.tree()
 var diagonal = d3.svg.diagonal()
   .projection(function(d) { return [d.x, d.y]; });
 
+var vis = d3.select("#chart").append("svg")
+  .attr("width", w)
+  .attr("height", h)
+  .append("g")
+  .attr("transform", "translate(" + margin + "," + margin +")");
+
 d3.json("/inpho.json", function(json) {
   root = json;
   root.x0 = 0;
   root.y0 = 0;
- 
+
   function toggleAll(d) {
     if (d.children) {
       d.children.forEach(toggleAll);
@@ -28,34 +34,27 @@ d3.json("/inpho.json", function(json) {
   
 });
 
-var vis = d3.select("#chart").append("svg")
-  .attr("width", w)
-  .attr("height", h)
-  .append("g")
-  .attr("transform", "translate(" + margin + "," + margin +")");
-
 var filling = function(d) { return d._children ? "lightsteelblue" : "#fff"; };
 
 function update(source) {
-  var duration = d3.event && d3.event.altKey ? 5000 : 500;
+  var duration = d3.event && d3.event.altKey ? 5000 : 750;
   var nodes = tree.nodes(root).reverse();
   nodes.forEach(function(d) { d.y = d.depth * 180; });
 
   var xindent = 20;
   var yindent = 20;
-  var i = nodes.length;
+  var j = nodes.length;
 
   nodes.forEach(function(d) { 
     d.x = xindent * d.depth;
-    d.y = yindent * --i;
+    d.y = yindent * --j;
   });
 
-  d3.select("svg").attr("height", function() { return margin + (nodes.length * yindent) });
-
+//  d3.select("svg").attr("height", function() { return margin + (nodes.length * yindent) });
   /***  NODE HANDLING  ***/
   var node = vis.selectAll("g.node")
     .data(nodes, function(d) {
-      return d.id || (d.id = --i);
+      return d.id || (d.id = ++i);
     });
 
   // Enter in any newfound nodes at parent's previous position.
@@ -85,18 +84,16 @@ function update(source) {
     .attr("text-anchor", "start")
     .text(function(d) {
       return d.name;
-    });
-  /*
+    })
     .on("click", function(d) {
-      //alert( d.url );
-      window.location.href= "https://inpho.cogs.indiana.edu" + d.url;
+      document.location.href=(window.location.protocol + "//" + window.location.host + "/taxonomy/" + d["ID"]);
     });
-  */
 
   //Transition nodes to their new positions.
   var nodeUpdate = node.transition()
     .duration(duration)
-    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")";});
+                                     
 
   nodeUpdate.select("circle")
     .style("fill", filling);
@@ -123,12 +120,12 @@ function update(source) {
     .data(tree.links(nodes), function(d) { return d.target.id; });
 
   // Draw new lines from the new node
-  link.enter().insert("svg:line", "g")
+/*  link.enter().insert("svg:line", "g")
     .attr("class", "link")
     .attr("x1", function(d) { return d.x; })
     .attr("y1", function(d) { return d.y; })
     .attr("x2", function(d) { return d.x; })
-    .attr("y2", function(d) { return d.y; });
+    .attr("y2", function(d) { return d.y; });*/
 
   // Enter any new links at the parent's previous position.
   link.enter().insert("svg:path", "g")
@@ -143,10 +140,11 @@ function update(source) {
 
 
   // Transition unchanged links to their new positions. 
+  
   link.transition()
     .duration(duration)
-    .attr("d", diagonal);  
-  
+    .attr("d", diagonal);
+
   // remove any exiting links.
   link.exit().transition()
     .duration(duration)
@@ -155,7 +153,8 @@ function update(source) {
       return diagonal({source: o, target: o});
     })
     .remove();
-  
+  //link.exit().remove();
+
   // Stash the old positions for transition.
   nodes.forEach(function(d) {
     d.x0 = d.x;

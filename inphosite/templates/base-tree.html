@@ -22,33 +22,8 @@ ${draw(getattr(c, "node", None))}
 </%def>
 
 <%def name="draw(node=None)">
-<%
-from inpho.model import Node
-from inpho.model import Session
-from sqlalchemy.orm import joinedload, subqueryload, joinedload_all
-nodes = Session.query(Node)
-nodes = nodes.options(joinedload_all('children.children.children.children'))
-nodes = nodes.filter(Node.parent_id == None).order_by("name").all()
-%>
-<div id="tree-root"><img src="/favicon.ico" />
-<span><a href="/taxonomy">Philosophy</a> 
-[<a href="#" onclick="tree.expandAll()">Expand All</a>]
-[<a href="#" onclick="tree.collapseAll()">Collapse All</a>]</span></div>
-<div id="tree">
-</div>
-<script type="text/javascript">
-var tree = new YAHOO.widget.TreeView("tree");
-var root = tree.getRoot();
-${nodeRecursion(0, nodes, "root", (node and node.ID)) | n}
-tree.render();
-
-var selectedNode = tree.getNodeByProperty('selected',true);
-if (selectedNode) {
-    selectedNode.focus();
-    selectedNode.expand();
-}
-
-</script>
+<div id="chart"></div>
+<script type="text/javascript" src="/js/tree-vertical.js"></script>
 </%def>
 
 <%def name="head_title()">

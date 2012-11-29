@@ -1,6 +1,6 @@
 var margin = 20
 var w = 360;
-var h = 2000;
+var h = 600;
 var root;
 var i = 0;
 
@@ -50,7 +50,8 @@ function update(source) {
     d.y = yindent * --j;
   });
 
-//  d3.select("svg").attr("height", function() { return margin + (nodes.length * yindent) });
+  d3.select("svg").attr("height", 
+    function() { return Math.max(margin + (nodes.length * yindent), d3.select("svg").attr("height")); });
   /***  NODE HANDLING  ***/
   var node = vis.selectAll("g.node")
     .data(nodes, function(d) {

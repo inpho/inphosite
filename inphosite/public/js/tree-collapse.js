@@ -30,7 +30,7 @@ d3.json("/inpho.json", function(json) {
 
   root.children.forEach(toggleAll);
   update(root);
-  $('#chart .node').click(function() {$('#chart .alert').hide()});
+  $('#chart .node:not(#demoNode)').click(function() {$('#chart .alert').hide()});
 });
 
 

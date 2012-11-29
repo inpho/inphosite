@@ -116,7 +116,7 @@ body {
   background-image: url("../img/loading.gif");
   background-position: 0px 0px;
   background-repeat: no-repeat;
-  *margin-right: .3em;
+  margin-right: .3em;
 }
 
 .terms .tablink {
@@ -172,7 +172,7 @@ body {
 
 .grants dd {
     padding-bottom: 4px;
-
+}
 /* QUICK FIX for Thinker alignment bugs*/
 .dl-horizontal dt {
     width: 150px;

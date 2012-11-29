@@ -67,21 +67,18 @@ function update(source) {
     });
 
   // Draw a label for each newly-found node.
-  nodeEnter.append("svg:a")
-    .attr("xlink:href", function(d) { return window.location.protocol + "//" + window.location.host + d.url; })
-    .append("svg:text")
-    .attr("dx", function(d) {
+  nodeEnter.append("svg:text")
+    .attr("x", function(d) {
       return d.children || d._children ? -8 : 8;
     })
-    .attr("dy", 3)
+    .attr("y", 4)
     .attr("text-anchor", function(d) {
       return d.children || d._children ? "end" : "start";
     })
+    .append("svg:a")
+    .attr("xlink:href", function(d) { return window.location.protocol + "//" + window.location.host + d.url; })
     .text(function(d) {
       return d.name;
-    })
-    .on("click", function(d) {
-      document.location.href=(window.location.protocol + "//" + window.location.host + d["url"]);
     });
 
   //Transition nodes to their new positions.

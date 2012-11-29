@@ -33,6 +33,12 @@
     ${h.javascript_link(h.url('/js/util.js'))}
     ${h.javascript_link(h.url('/js/actb.js'))}
     ${self.head()}
+    <script type="text/javascript">
+      //Fixes navbar behavior with hashchanges
+      var shiftWindow = function() { scrollBy(0, -50) };
+      if (location.hash) shiftWindow();
+      window.addEventListener("hashchange", shiftWindow);
+    </script>
   </head>
 
   <body class="yui-skin-sam">

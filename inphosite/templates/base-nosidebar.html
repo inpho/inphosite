@@ -30,6 +30,8 @@
     ## InPhO
     ${h.stylesheet_link(h.url('/css/style.css'))}
     ${h.stylesheet_link(h.url('/css/tree.css'))}
+    ${h.javascript_link(h.url('/js/util.js'))}
+    ${h.javascript_link(h.url('/js/actb.js'))}
     ${self.head()}
   </head>
 
@@ -66,9 +68,11 @@
         <li>
           <form class="navbar-search" action="/entity" method="get">
             <% q = request.params.get('q','') %>
-            <input class="search-query input-medium" type="text" id="q" name="q" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
+            <input type="hidden" name="redirect" value="true" />
+            <input class="search-query input-medium" type="text" id="nav-search" name="q" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
           </form>
           <script src="/js/actb.js"></script>
+          <script>inpho.actb.init('#nav-search', '/entity.json');</script>
         </li>
 
         <li class="divider-vertical"></li>

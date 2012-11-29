@@ -79,7 +79,7 @@ function update(source) {
       return d.name;
     })
     .on("click", function(d) {
-      document.location.href=(window.location.protocol + "//" + window.location.host + "/taxonomy/" + d["ID"]);
+      document.location.href=(window.location.protocol + "//" + window.location.host + d["url"]);
     });
 
   //Transition nodes to their new positions.

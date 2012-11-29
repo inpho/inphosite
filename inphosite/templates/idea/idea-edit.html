@@ -1,10 +1,6 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">Idea - ${c.idea.label}</%def>
 <%def name="head_title()">${c.idea.label}</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw(c.node)}</%def>
 
 <%def name="printEntity(cons, cls='', group=False, srch_id=None)">
 <%

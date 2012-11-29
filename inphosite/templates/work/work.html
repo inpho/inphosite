@@ -4,12 +4,6 @@
 <%def name="title()">Work - ${h.titlecase(c.entity.label)}</%def>
 <%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
 
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
-
-
 <div class="yui-gd">
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>

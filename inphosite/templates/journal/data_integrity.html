@@ -1,11 +1,6 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">Journals with bad links</%def>
 <%def name="head_title()">Journals with bad links</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
-
 <script>
 function showFilter(){
     var chosen = $('#bad_field').val();

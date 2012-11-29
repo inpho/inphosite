@@ -4,11 +4,6 @@
 ## Header
 <%def name="title()">${parent.title()} - New Entity</%def>
 <%def name="head_title()">New Entity</%def>
-## Sidebar
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 
 %if c.message:
 <p>${c.message}</p>

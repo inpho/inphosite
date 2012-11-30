@@ -67,6 +67,18 @@ body {
     background-color: #C0E0E0 !important;    
 }
 
+.taxonomy-breadcrumb {
+    padding: 0 0;
+    margin: 0 0 0;
+    color: #999;
+    border: 0;
+    background: none;
+    font-size: x-small;
+}
+.taxonomy-breadcrumb a {
+    color: #999;    
+}
+
 .icon {
     float: right;
 }

@@ -34,6 +34,10 @@ $(document).ready(function() {
 </script>
 
 <h1>${h.titlecase(c.entity.label)}</h1>
+%for node in c.nodes:
+${entity.breadcrumbs(node)}
+%endfor
+
 %if c.entity.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/" target="_blank"><img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif

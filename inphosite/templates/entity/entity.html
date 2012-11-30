@@ -9,6 +9,27 @@
 
 <h1>${c.entity.label}</h1>
 
+<%def name="breadcrumbs(node)">
+<ul class="breadcrumb taxonomy-breadcrumb">
+  <li><a href="/taxonomy">Philosophy</a> <span class="divider">&rarr;</span></li> 
+  <%
+path = list() 
+current = node
+while current:
+    path.insert(0, current)
+    current = current.parent
+  %>
+  %for current in path:
+    <li><a href="${current.url()}">${h.titlecase(current.label)}</a>\
+    %if current != path[-1]:
+      <span class="divider">&rarr;</span>\
+    %endif
+    </li>
+  %endfor
+  <!-- <li class="active">${h.titlecase(c.entity.label)}</li> -->
+</ul>
+</%def>
+
 <%def name="printMissing()">
 <div class="alert">
   <strong>No data!</strong>

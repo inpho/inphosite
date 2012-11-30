@@ -278,10 +278,20 @@ class IdeaController(EntityController):
             return c.entity.json()
 
         c.count = len(c.entity.nodes) + len(c.entity.instance_of) + len(c.entity.links_to)
-        if len(c.entity.nodes) > 0:
+        if c.entity.nodes:
             c.node = c.entity.nodes[0]
-        elif len(c.entity.instance_of) > 0:
+        elif c.entity.instance_of:
             c.node = c.entity.instance_of[0]
+            # just in case of data corruption
+            # instance_of points to idea, need node
+            if c.node.nodes:
+                c.node = c.node.nodes[0]
+        elif c.entity.links_to:
+            c.node = c.entity.links_to[0]
+            # just in case of data corruption
+            # links_to point to idea, need node
+            if c.node.nodes:
+                c.node = c.node.nodes[0]
         else:
             c.node = None
         

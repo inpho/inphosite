@@ -1,16 +1,47 @@
 var inpho = inpho || {};
 inpho.eval = inpho.eval || {};
 
-inpho.eval.submit = function(elt) {
+
+inpho.eval.submitEval = function(ante_id, cons_id, rel, gen) {
+  // url to post generality value
+  var url_gen = '/idea/' + ante_id + '/generality/' + cons_id;
+  var url_rel = '/idea/' + ante_id + '/relatedness/' + cons_id;
+  
+  // submit generality value
+  $.post(url_gen,
+         { degree : gen },
+         function(data){
+           // submit relatedness after generality
+           $.post(url_rel,
+                  { degree : rel }
+                );
+         } );
+  // url to post relatedness value
+}
+
+inpho.eval.resetEval = function(ante_id, cons_id) {
+  inpho.eval.submitEval(ante_id, cons_id, -1, -1);
+};
+
+
+
+
+// "Pop-up" widget evaluations
+// ***************************
+// TODO refactor parsing form and submittion to use functions above
+inpho.eval.submitWidgetEval = function(elt) {
   var formElm = elt + '-eval';
   // antecedent term
   var id   = $(formElm + " [name='ante_id']").val();
   // consequent term
   var id2  = $(formElm + " [name='cons_id']").val();
+
   // submitted generality value
-  var generality  = $(formElm + " #generalitySelect").val();
+  var generality  = $(formElm + " #generalitySelect").val(); 
   // submitted relatedness value
-  var relatedness = $(formElm + " #relatednessSelect").val();
+  var relatedness = $(formElm + " #relatednessSelect").val(); 
+
+  //console.log("Submit eval = " + id + " " + id2 + " " + generality + " " + relatedness);
 
   // url to post generality value
   var url_gen = '/idea/' + id + '/generality/' + id2;
@@ -28,11 +59,10 @@ inpho.eval.submit = function(elt) {
                   }
                  );
          } );
-
   // url to post relatedness value
 };
 
-inpho.eval.reset = function(elt) {
+inpho.eval.resetWidgetEval = function(elt) {
   var formElm = elt + '-eval';
   // antecedent term
   var id   = $(formElm + " [name='ante_id']").val();
@@ -47,7 +77,7 @@ inpho.eval.reset = function(elt) {
   $(elt + " .and").show();
   $(elt + " #generalitySelect").show();
 
-  inpho.eval.submit(elt);
+  inpho.eval.submitWidgetEval(elt);
 };
 
 inpho.eval.get_edit_form = function(elt) {

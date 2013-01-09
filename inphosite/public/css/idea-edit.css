@@ -1,0 +1,20 @@
+.eval {
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.edit {
+    margin-left: 5px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+form p {
+    margin-left: 7px;
+}
+
+li.evalItem {
+	font-size: 15px;
+	margin-bottom: 40px;
+}

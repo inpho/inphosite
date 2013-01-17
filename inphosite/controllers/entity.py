@@ -204,9 +204,15 @@ class EntityController(BaseController):
             c.entity2 = h.fetch_obj(Entity, id2)
 
         # Run searches
-        c.sep = EntityController._search_sep(c.entity, c.entity2)
-        c.noesis = EntityController._search_noesis(c.entity, c.entity2)
-        c.bing = EntityController._search_bing(c.entity, c.entity2)
+        try:
+            c.sep = EntityController._search_sep(c.entity, c.entity2)
+        except:
+            c.sep = None
+        try:
+            c.noesis = EntityController._search_noesis(c.entity, c.entity2)
+        except:
+            c.noesis = None
+        # c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
     def panel(self, id, id2): 

@@ -3,6 +3,10 @@
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+.node-path circle {
+    stroke: steelblue;
+    stroke-width: 2.5px;    
+}
 
 .node {
   font: 12px sans-serif;
@@ -12,4 +16,10 @@
   fill: none;
   stroke: #ccc;
   stroke-width: 1.5px;
+}
+
+.link-path{
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2.5px;
 }

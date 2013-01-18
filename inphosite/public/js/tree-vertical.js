@@ -7,6 +7,9 @@ var i = 0;
 var tree = d3.layout.tree()
   .size([w, h]);
 
+// custom curve function to create bottom of node to left of node links.
+// using string join because JavaScript engines struggle with numbers and
+// strings using the + operator. In particular "C" + 25 + " " + 10 ?= "C25010"
 var curve = function(d,i) {
   var source =  "M" + d.source.x + "," + d.source.y;
   var c1 = "C" + d.source.x + "," + ((d.source.y + d.target.y) / 2);
@@ -44,14 +47,28 @@ d3.json("/inpho.json", function(json) {
   }
   function toggleAll(d) {
     var ID = $("#chart").attr('data-selected');
+
+    // recursive call
     if (d.children) {
       d.children.forEach(toggleAll);
     }
-    if (!containsChild(d, ID) || d.ID == ID) {
-      toggle(d);
+
+    // setting proper appearance
+    if (!containsChild(d, ID)) {
+      toggle(d);  // doesn't contain child, collapse
+    } else if (d.ID == ID) {
+      toggle(d); // is the thing, collapse & mark as part of path
+      d.partOfPath = true;
     }
+    else {
+      d.partOfPath = true; // contains child, so part of path
+    } 
   }
+ 
   
+  root.partOfPath = true; // root is always part of path
+
+  // toggle nodes and update visualization
   root.children.forEach(toggleAll);
   update(root);
   
@@ -83,7 +100,7 @@ function update(source) {
 
   // Enter in any newfound nodes at parent's previous position.
   var nodeEnter = node.enter().append("svg:g")
-    .attr("class", "node")
+    .attr("class", function (d) { return d.partOfPath ? "node node-path" : "node"})
     .attr("transform", function(d) {
       return "translate(" + source.x0 + "," + source.y0 + ")";
     });
@@ -145,17 +162,9 @@ function update(source) {
   var link = vis.selectAll("path.link")
     .data(tree.links(nodes), function(d) { return d.target.id; });
 
-  // Draw new lines from the new node
-/*  link.enter().insert("svg:line", "g")
-    .attr("class", "link")
-    .attr("x1", function(d) { return d.x; })
-    .attr("y1", function(d) { return d.y; })
-    .attr("x2", function(d) { return d.x; })
-    .attr("y2", function(d) { return d.y; });*/
-
   // Enter any new links at the parent's previous position.
   link.enter().insert("svg:path", "g")
-    .attr("class", "link")
+    .attr("class", function(d) { return d.target.partOfPath ? "link link-path" :"link";})
     .attr("d", function(d) {
       var o = {x: source.x0, y: source.y0};
       return curve({source: o, target: o});
@@ -166,7 +175,6 @@ function update(source) {
 
 
   // Transition unchanged links to their new positions. 
-  
   link.transition()
     .duration(duration)
     .attr("d", curve);
@@ -180,6 +188,12 @@ function update(source) {
     })
     .remove();
   //link.exit().remove();
+
+  // selectAll again to correct render order
+  // I think this should be possible in a single pass.
+  var link = vis.selectAll("path.link")
+    .data(tree.links(nodes), function(d) { return d.target.id; })
+    .sort(function(a,b) { return (a.target.partOfPath && !b.target.partOfPath) ? 1 : -1 });
 
   // Stash the old positions for transition.
   nodes.forEach(function(d) {

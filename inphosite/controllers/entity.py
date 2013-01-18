@@ -243,7 +243,7 @@ class EntityController(BaseController):
             c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
 
         # Put together URL string
-        url = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + \
+        url = "http://plato.stanford.edu/cgi-bin/search/xmlSearcher.py?query=" + \
               c.sep_searchstr
 
         # Get results and parse the XML

@@ -7,9 +7,13 @@ var i = 0;
 var tree = d3.layout.tree()
   .size([w, h]);
 
-
-var diagonal = d3.svg.diagonal()
-  .projection(function(d) { return [d.x, d.y]; });
+var curve = function(d,i) {
+  var source =  "M" + d.source.x + "," + d.source.y;
+  var c1 = "C" + d.source.x + "," + ((d.source.y + d.target.y) / 2);
+  var c2 = (d.source.x + (margin / 5)) + "," + d.target.y;
+  var target = d.target.x + "," + d.target.y;
+  return [source, c1, c2, target].join(' ');
+  }
 
 var vis = d3.select("#chart").append("svg")
   .attr("width", w)
@@ -154,25 +158,25 @@ function update(source) {
     .attr("class", "link")
     .attr("d", function(d) {
       var o = {x: source.x0, y: source.y0};
-      return diagonal({source: o, target: o});
+      return curve({source: o, target: o});
     })
     .transition()
     .duration(duration)
-    .attr("d", diagonal);
+    .attr("d", curve);
 
 
   // Transition unchanged links to their new positions. 
   
   link.transition()
     .duration(duration)
-    .attr("d", diagonal);
+    .attr("d", curve);
 
   // remove any exiting links.
   link.exit().transition()
     .duration(duration)
     .attr("d", function(d) {
       var o = {x: source.x, y: source.y };
-      return diagonal({source: o, target: o});
+      return curve({source: o, target: o});
     })
     .remove();
   //link.exit().remove();

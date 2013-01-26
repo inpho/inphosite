@@ -1,20 +1,76 @@
+.caps {
+	text-transform: capitalize;
+}
+
 .eval {
     margin-left: 5px;
     margin-top: 5px;
     margin-bottom: 8px;
 }
 
-.edit {
+.editEval {
     margin-left: 5px;
     margin-top: 0px;
     margin-bottom: 20px;
 }
 
+.editEval p {
+	display: inline;
+}
+
+.editEval .btn {
+	margin-top: 10px;
+}
+
+#thanks {
+	color: #666666;
+	font-style: italic;
+}
+
+.resultMessage p {
+	text-transform: lowercase;
+	font-style: normal;
+	color: #468847;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+p.idea {
+	text-transform: capitalize;
+	font-weight: bold; 
+}
+
+p.evalMargin {
+	margin-left: 7px;
+}
+
 form p {
-    margin-left: 7px;
+    display: inline;
 }
 
 li.evalItem {
 	font-size: 15px;
 	margin-bottom: 40px;
+}
+
+li p {
+	color: #666666;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	font-style: italic;
+}
+
+.inlineEval {
+    margin-left: 0px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.alert p {
+	font-style: italic;
+	margin-left: 5px;
+}
+
+.inlineEval .btn-group {
+	margin-left: 0px;
+    margin-top: 5px;
+    margin-bottom: 8px;
 }

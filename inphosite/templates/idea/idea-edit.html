@@ -36,36 +36,39 @@
 
         %if (rel > -1) and (gen > -1):
         <img class='loading' src="/img/check.gif"/>
-        <script>incrEvals();</script>
         %else:
         <img class='loading' src="/img/empty.gif"/>
         %endif
 
-        <form id="${cons.ID}">
-            <p><em>${c.idea.label} &#133; is to &#133; ${cons}</em></p>
+        <form id="${cons.ID}" data-anteID="${c.idea.ID}" data-consID="${cons.ID}">
+            <p class="caps evalMargin">${c.idea.label} </p><p>&#133; is to &#133;</p><p class="caps"> ${cons}</p>
 
             <div class="eval btn-group" data-toggle="buttons-radio" id="relatednessSelect-${cons.ID}">
-                <button type="button" class="btn" value="0" onClick="didSelectRelatedness(this)">Not Related</button>
-                <button type="button" class="btn" value="1" onClick="didSelectRelatedness(this)">Marginally Related</button>
-                <button type="button" class="btn" value="2" onClick="didSelectRelatedness(this)">Somewhat Related</button>
-                <button type="button" class="btn" value="3" onClick="didSelectRelatedness(this)">Generally Related</button>
-                <button type="button" class="btn" value="4" onClick="didSelectRelatedness(this)">Highly Related</button>
+                <button type="button" class="btn" value="0" onClick="inpho.eval.didSelectRelatedness(this)">Not Related</button>
+                <button type="button" class="btn" value="1" onClick="inpho.eval.didSelectRelatedness(this)">Marginally Related</button>
+                <button type="button" class="btn" value="2" onClick="inpho.eval.didSelectRelatedness(this)">Somewhat Related</button>
+                <button type="button" class="btn" value="3" onClick="inpho.eval.didSelectRelatedness(this)">Related</button>
+                <button type="button" class="btn" value="4" onClick="inpho.eval.didSelectRelatedness(this)">Highly Related</button>
             </div>
             <div class="eval btn-group hide" data-toggle="buttons-radio" id="generalitySelect-${cons.ID}">
-                <button type="button" class="btn" value="0" onClick="didSelectGenerality(this)">More Specific Than</button>
-                <button type="button" class="btn" value="1" onClick="didSelectGenerality(this)">More General Than</button>
-                <button type="button" class="btn" value="2" onClick="didSelectGenerality(this)">As General As</button>
-                <button type="button" class="btn" value="3" onClick="didSelectGenerality(this)">Incomparable To</button>
+                <button type="button" class="btn" value="0" onClick="inpho.eval.didSelectGenerality(this)">More Specific Than</button>
+                <button type="button" class="btn" value="1" onClick="inpho.eval.didSelectGenerality(this)">More General Than</button>
+                <button type="button" class="btn" value="2" onClick="inpho.eval.didSelectGenerality(this)">As General As</button>
+                <button type="button" class="btn" value="3" onClick="inpho.eval.didSelectGenerality(this)">Incomparable To</button>
             </div>
-            <div class="eval hide" id="submit-${cons.ID}">
-                <button type="button" class="btn btn-primary" id="submitBtn-${cons.ID}" onClick="didPressSubmit(this)">Submit</button>
+            <div class="eval hide" id="submitDiv-${cons.ID}">
+                <button type="button" class="btn btn-primary" onClick="inpho.eval.didPressSubmit(this.form.id)">Submit</button>
+                <button type="button" class="btn btn-danger hide" id="cancelBtn-${cons.ID}" onClick="inpho.eval.didPressCancel(this.form.id)">Cancel</button>
             </div>
-         </form>
+        </form>
 
-        <div class="edit hide" id="thanks-${cons.ID}">
-            <p><em>Evaluation submitted. Thank you!</em></p>
-            <button type="reset" class="btn btn-success" onClick="didPressEdit(this)" id="${cons.ID}"><i class="icon-pencil icon-white"></i> Edit</button>
+        <form>
+        <div class="editEval hide" id="thanksDiv-${cons.ID}" data-ante="${c.idea.label}" data-cons="${cons}">
+            <p id="thanks evalMargin">Evaluation submitted. Thank you!</p><br />
+            <span class="resultMessage" id="evalThanksResult-${cons.ID}"></span><br />
+            <button type="reset" class="btn btn-success" onClick="inpho.eval.didPressEdit(this.id)" id="${cons.ID}"><i class="icon-pencil icon-white"></i> Edit</button>
         </div>
+        </form>
 </%def>
 
 <div id="evalContent">
@@ -332,77 +335,3 @@
 
 <!-- le javascript -->
 <script type="text/javascript" src="/js/eval.js"></script>
-<script type="text/javascript">
-    function didSelectRelatedness(button) {
-        var formid = button.form.id;
-        var generalityDiv = document.getElementById("generalitySelect-" + formid);
-        var submitDiv = document.getElementById("submit-" + formid);
-
-        // update UI
-        // deselect generality value
-        for(var i = 0; i < $(generalityDiv).children().length; i++) { 
-            $($(generalityDiv).children()[i]).removeClass('active');
-        }
-
-        // not related, show submit
-        if($(button).val() == 0) {
-            $(generalityDiv).fadeOut('slow', null);
-            $(submitDiv).fadeIn('fast', null);
-        }
-        else { // are related, show generality
-            $(submitDiv).fadeOut('fast', null);
-            $(generalityDiv).fadeIn('slow', null);
-        }
-    }
-
-    function didSelectGenerality(button) {
-        // update UI, show submit
-        var formid = button.form.id;
-        var submitDiv = document.getElementById("submit-" + formid);
-        $(submitDiv).fadeIn('fast', null);
-    }
-
-    function didPressSubmit(button) {
-        var formid = button.form.id;
-
-        // update UI hide form, show thanks/edit
-        $(document.getElementById(formid)).fadeOut('slow', function() {
-            var thanksDiv = document.getElementById("thanks-" + formid);
-            $(thanksDiv).fadeIn('slow',null);
-        });
-
-        submitEval(button);
-    }
-
-    function submitEval(button) {
-        var formid = button.form.id;
-        var relDiv = document.getElementById("relatednessSelect-" + formid);
-        var genDiv = document.getElementById("generalitySelect-" + formid);
-
-        var relVal = getValueFromButtonGroupDiv(relDiv);
-        var genVal = getValueFromButtonGroupDiv(genDiv);
-
-        inpho.eval.submitEval(${c.idea.ID}, formid, relVal, genVal);
-    }
-
-    function getValueFromButtonGroupDiv(btnGroupDiv) {
-        for(var i = 0; i < $(btnGroupDiv).children().length; i++) {
-            var btn = $($(btnGroupDiv).children()[i]);
-            if(btn.hasClass('active')) {
-                return $(btn).val();
-            }
-        }
-        return -1;
-    }
-
-    function didPressEdit(button) {
-        var id = button.id;
-
-        // update UI show form, hide thanks/edit
-        $(document.getElementById("thanks-" + id)).fadeOut('slow', function() {
-            $(document.getElementById(id)).fadeIn('slow', null);
-        });
-
-        inpho.eval.resetEval(${c.idea.ID}, id);
-    }
-</script>

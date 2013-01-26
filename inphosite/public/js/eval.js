@@ -73,16 +73,14 @@ inpho.eval.didSelectRelatedness = function(button) {
 
     // update UI
     inpho.eval.resetButtonGroup(generalityDiv);
-    console.log("here we are");
+    
     if($(button).val() == 0) { // not related, show submit
         $(generalityDiv).fadeOut('slow', null);
         $(submitDiv).fadeIn('fast', null);
-        console.log("no generality");
     }
     else { // are related, show generality
         $(submitDiv).fadeOut('fast', null);
         $(generalityDiv).fadeIn('slow', null);
-        console.log("WLOG");
     }
 }
 

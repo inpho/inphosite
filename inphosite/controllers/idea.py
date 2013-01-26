@@ -359,17 +359,16 @@ class IdeaController(EntityController):
         c.identity = request.environ.get('repoze.who.identity')
         c.uid = None if not c.identity else c.identity['user'].ID
 
-        if c.generality == -1 and c.relatedness == -1:
-            
-            # use the user's evaluation if present, otherwise a null eval
-            if c.identity:
-                eval_q = Session.query(IdeaEvaluation.generality, 
+        # use the user's evaluation if present, otherwise a null eval
+        if c.identity and (c.generality == -1 or c.relatedness == -1):
+            eval_q = Session.query(IdeaEvaluation.generality, 
                                        IdeaEvaluation.relatedness)
-                eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
+            eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
 
-                c.generality, c.relatedness = eval_q.first() or\
-                    (request.params.get('generality', -1), 
-                     request.params.get('relatedness', -1))
+            c.generality, c.relatedness = eval_q.first() or\
+                (int(request.params.get('generality', -1)), 
+                 int(request.params.get('relatedness', -1)))
+
 
         if c.relatedness != -1:
             c.edit = request.params.get('edit', False)

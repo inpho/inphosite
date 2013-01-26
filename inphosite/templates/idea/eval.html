@@ -1,14 +1,20 @@
 %if c.edit:
-<div class="alert alert-block alert-info" id="i${c.entity2.ID}-eval">
+${form(c.entity, c.entity2)}
+%else:
+${thanks(c.entity, c.entity2)}
+%endif
+
+<%def name="form(entity, entity2)">
+<div class="alert alert-block alert-info" id="i${entity2.ID}-eval">
   <a class="close" data-dismiss="alert">×</a>
   <h3 class="alert-heading">Help improve the InPhO!</h3>
   <br />
   <form class="form-inline eval">
     <fieldset>
-      <input type="hidden" name="ante_id" value="${c.entity.ID}" />
-      <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
-        ${h.titlecase(c.entity.label)} is
-        <select class="span2" id="relatednessSelect" onchange="inpho.eval.validate('#i${c.entity2.ID}')">
+      <input type="hidden" name="ante_id" value="${entity.ID}" />
+      <input type="hidden" name="cons_id" value="${entity2.ID}" />
+        ${h.titlecase(entity.label)} is
+        <select class="span2" id="relatednessSelect" onchange="inpho.eval.validate('#i${entity2.ID}')">
           <option value="-1" disabled ${'selected' if c.relatedness == -1 else ''}>&#133;</option>
           <option value="0" ${'selected' if c.relatedness == 0 else ''}>not</option>
           <option value="1" ${'selected' if c.relatedness == 1 else ''}>marginally</option>
@@ -16,7 +22,7 @@
           <option value="3" ${'selected' if c.relatedness == 3 else ''}>generally</option>
           <option value="4" ${'selected' if c.relatedness == 4 else ''}>highly</option>
         </select>
-        related to ${h.titlecase(c.entity2.label)}.
+        related to ${h.titlecase(entity2.label)}.
         <br />
       <nobr>
         <span class="and" hidden>
@@ -28,20 +34,20 @@
             <option value="2" ${'selected' if c.generality == 2 else ''}>as general as</option>
             <option value="3" ${'selected' if c.generality == 3 else ''}>incomparable to</option>
           </select>
-        ${h.titlecase(c.entity2.label)}.
+        ${h.titlecase(entity2.label)}.
       </span> 
       </nobr>
     </fieldset>
     <br />
     <fieldset>
-    <button type="button" class="btn btn-primary" onClick="inpho.eval.submitWidgetEval('#i${c.entity2.ID}')">Submit</button>
-    <button type="button" class="btn" onClick="inpho.eval.resetWidgetEval('#i${c.entity2.ID}')">Cancel</button>
+    <button type="button" class="btn btn-primary" onClick="inpho.eval.submitWidgetEval('#i${entity2.ID}')">Submit</button>
+    <button type="button" class="btn" onClick="inpho.eval.resetWidgetEval('#i${entity2.ID}')">Cancel</button>
     </fieldset>
   </form>
 </div>
+</%def>
 
-
-%else:
+<%def name="thanks(entity, entity2)">
 <div class="alert alert-block alert-success" id="i${c.entity2.ID}-eval">
   <a class="close" data-dismiss="alert">×</a>
   <h3 class="alert-heading">Thank you!</h3>
@@ -77,5 +83,5 @@
     
   </form>
 </div>
+</%def>
 
-%endif

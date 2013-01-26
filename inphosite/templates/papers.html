@@ -1,94 +1,65 @@
-<%inherit file="/base-tree.html"/>
+<%inherit file="/base-nosidebar.html"/>
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()">Articles & Papers</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
-<div class="yui-gd">
-  <div id="content">
-    <h2>Papers</h2>
-    <hr />
 
-    <%
-       publications = c.papers['publications']
-    %>
-
-    %for i, paper in enumerate(publications):
-    <% 
-       publication = publications[i] 
-       publicationId = publication['id']
-       publicationTitle = publication['title']
-       publicationDate = publication['publication_date']
-       publicationFulltext = publication['fulltext']
-       publicationSummary = publication['summary']
-    %>
-    <div class="accordion" id="${publicationId}">
-      <div class="accordion-group" style="border: none;">
-	<div class="accordion-heading">
-	  <h3>
-	    ${publicationTitle}
-	    <span class="fullpaper" style="float:right;">
-	      <a href="${publicationFulltext}"> 
-		Full paper 
-		<img src="/img/pdf_icon.gif"/>
-	      </a>
-	    </span>
-	  </h3>
-	  <p class="summary">
-	    %if publicationSummary:
-	    <strong>${publicationDate}</strong> &mdash; ${publicationSummary}
-	    <br />
-	    %endif
-	    <a class="toggle-abstract accordion-toggle" data-toggle="collapse" onClick="toggleAbstract($(this).attr('data-parent'))" data-parent="#${publicationId}" href="#${publication['id']}Abstract" style="display: inline;">
-	      <strong>&laquo;show abstract&raquo;</strong>
-	    </a> 
-	  </p>
-	</div>
-	<div class="accordion-body collapse" id="${publicationId}Abstract">
-          <p> 
-	    ${publication['abstract']}
-	  </p>
-	  <p class="citation">${publication['authors']}.
-            <em>${publicationTitle}</em>.
-            ${publication['publisher']}, ${publicationDate}.
-            [<a href="${publicationFulltext}">full paper</a>]
-	  </p>
-	</div>
-      </div>
-    </div>
-    %endfor
-
-    <div id="APA2007">
-      <h3>
-	InPhO: The Indiana Philosophy Ontology
-	<span class="fullpaper" style="float:right;">
-	  <a href="http://www.apaonline.org/documents/publications/v07n1_Computers.pdf"> 
-	    Full paper 
-	    <img src="/img/pdf_icon.gif"/>
-	  </a>
-	</span>
-      </h3>
-      <p class="citation">Cameron Buckner, Mathias Niepert, Colin Allen. <em>InPhO: The Indiana Philosophy Ontology</em>.
-	APA Newsletter on Philosophy and Computers, Volume 7, Number 1, pages 26-28, 2007.
-	[<a href="http://www.apaonline.org/documents/publications/v07n1_Computers.pdf">full paper</a>]</p> 
-    </div>
+<div class="hero-unit graph-bg" style="text-align: center;">
+  <div class="graph-content">
+  <h1>Articles &amp; Papers</h1>
+  <p>Find more details about dynamic ontology and digital philosophy.</p>
   </div>
 </div>
 
-<br />
-
-<script>
-  $(".collapse").collapse({
-  toggle: false
-  });
-
-  function toggleAbstract(id) {
-  $(id).on("shown", function() {
-  $(id+" div div p .accordion-toggle").html("<strong>&laquo;hide abstract&raquo;</strong>");
-  });
-  $(id).on("hidden", function() {
-  $(id+" div div p .accordion-toggle").html("<strong>&laquo;show abstract&raquo;</strong>");
-  });
-  }
-</script>
+<style>.thumbnail { height: 265px; position: relative;}</style>
+<div class="span12">
+<ul class="thumbnails">
+<% publications = c.papers['publications'] %>
+%for i, paper in enumerate(publications):
+%if i % 4 == 0:
+<div style="padding-bottom: 20px; display: table;">
+%endif
+<li class="span3" id="${paper['id']}">
+  <div class="thumbnail">
+	  <!--<h4>
+      ${paper['title']} 
+    </h4> -->
+    <a class="pull-right" href="${paper['fulltext']}" style="display:block">
+    %if paper.get('thumbnail'):
+    <img src="${paper['thumbnail']}">
+    %else:
+    <img src="http://placehold.it/210x120">
+    %endif
+	  <img src="/img/pdf_icon.gif" style="position: relative; top: -22px; float: right; margin-right: 6px;"/></a>
+	  <p>
+	    <strong>${paper['year']}</strong> &mdash; ${paper['summary']}
+    </p>
+	  <div class="centered" style="position:absolute; bottom: 6px; width: 210px;">
+    <a href="#${paper['id']}-abstract" class="btn btn-mini" role="button" data-toggle="modal">
+	      <strong>Show Abstract</strong>
+	    </a>
+    </div>
+    <div id="${paper['id']}-abstract" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="${paper['id']}-label" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="${paper['id']}-label">${paper['title']}</h3>
+      </div>
+      <div class="modal-body">
+        <p>${paper['abstract']}</p>
+        <p class="citation"><small>${paper['authors']}.
+            <em>${paper['title']}</em>.
+            ${paper['publisher']}, ${paper['year']}.</small>
+    	  </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <a class="btn" href="${paper['fulltext']}"><img src="/img/pdf_icon.gif"> Full paper</a>
+      </div>
+    </div>
+## TODO: Citation information from pubs
+  </div>
+%if i % 4 == 3 or i == (len(publications) - 1):
+</div>
+%endif
+</li>
+%endfor
+</ul>
+</div>

@@ -1,10 +1,6 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">Thinkers</%def>
 <%def name="head_title()">Thinkers</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 <div id="content">
 %if len(c.entities) == 0:
 %if c.query:
@@ -23,10 +19,11 @@ thinkers.</p>
 interfaces for our thinker database. Use the searchbox to the left to perform
 searches over the entire InPhO knowledge base.</p>
 
+<p>${len(c.entities)} total Thinkers in database.</p>
 <ul>
-%for thinker in c.entities:
-<li><a href="${thinker.url()}">${thinker.label}</a></li>
-%endfor
+  %for thinker in c.entities:
+  <li><a href="${thinker.url()}">${thinker.label}</a></li>
+  %endfor
 </ul>
-</div>
 
+</div>

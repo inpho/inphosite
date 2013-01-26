@@ -1,17 +1,12 @@
 <%inherit file="/base-tree.html"/>
-<%def name="title()">Idea | ${h.titlecase(c.idea.label)}</%def>
+<%def name="title()">Idea - ${h.titlecase(c.idea.label)}</%def>
 <%def name="head_title()">${h.titlecase(c.idea.label)}</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw(c.node)}
-</%def>
 
 <%def name="head()">
 <link rel="stylesheet" type="text/css" href="/css/idea-edit.css">
 </%def>
 
-<%def name="printEntity(cons, cls='', group=False, srch_id=None)">
+<%def name="printEntity(cons, cls='')">
     <%
     from inpho.model import IdeaEvaluation
     from inpho.model import Session
@@ -27,6 +22,7 @@ ${parent.draw(c.node)}
         gen, rel = (evaluation.generality, evaluation.relatedness)
     else:
         gen, rel = (-1, -1)
+
     %>
         <strong>${h.titlecase(cons.label)}</strong>&nbsp;&nbsp;
 

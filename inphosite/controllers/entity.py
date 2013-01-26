@@ -49,7 +49,7 @@ class EntityController(BaseController):
 
         #if no whitelist is passed in, go with default
         if terms is None:
-            terms = ['sep_dir', 'searchstring']
+            terms = ['sep_dir', 'searchstring', 'label']
 
         entity = h.fetch_obj(self._type, id)
         h.update_obj(entity, terms, request.params)
@@ -62,13 +62,16 @@ class EntityController(BaseController):
             # Issue an HTTP success
             response.status_int = 200
             return "OK"
-
+    
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
         #TODO: Remove the following line when Nodes are eliminated
         entity_q = entity_q.filter(Entity.typeID != 2)
         
+        # get the list of entities
+        c.entities = entity_q.all()
+
         c.nodes = Session.query(Node).filter(Node.parent_id == None)
         c.nodes = c.nodes.order_by("name").all()
 
@@ -86,11 +89,12 @@ class EntityController(BaseController):
         if c.query:
             o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
-        
+
+        c.total = entity_q.count()
         # limit must be the last thing applied to the query
         entity_q = entity_q.limit(request.params.get('limit', None))
         c.entities = entity_q.all()
-        
+
         if filetype=='json':
             response.content_type = 'application/json'
        
@@ -200,12 +204,31 @@ class EntityController(BaseController):
             c.entity2 = h.fetch_obj(Entity, id2)
 
         # Run searches
-        c.sep = EntityController._search_sep(c.entity, c.entity2)
-        c.noesis = EntityController._search_noesis(c.entity, c.entity2)
-        c.bing = EntityController._search_bing(c.entity, c.entity2)
+        try:
+            c.sep = EntityController._search_sep(c.entity, c.entity2)
+        except:
+            c.sep = None
+        try:
+            c.noesis = EntityController._search_noesis(c.entity, c.entity2)
+        except:
+            c.noesis = None
+        # c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
-    def panel(self, id, id2):
+    def panel(self, id, id2): 
+        c.entity = h.fetch_obj(Entity, id)
+        c.entity2 = h.fetch_obj(Entity, id2)
+
+        # redirection for Idea-Idea panels
+        if isinstance(c.entity, Node):
+            c.entity = c.entity.idea
+            id = c.entity.ID
+        if isinstance(c.entity2, Node):
+            c.entity2 = c.entity2.idea
+            id = c.entity2.ID
+        if isinstance(c.entity, Idea) and isinstance(c.entity2, Idea):
+            h.redirect(c.entity.url(action='panel', id2=id2), code=303)
+        
         return self.search(id, id2)
 
     @staticmethod
@@ -220,7 +243,7 @@ class EntityController(BaseController):
             c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
 
         # Put together URL string
-        url = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + \
+        url = "http://plato.stanford.edu/cgi-bin/search/xmlSearcher.py?query=" + \
               c.sep_searchstr
 
         # Get results and parse the XML
@@ -287,15 +310,21 @@ class EntityController(BaseController):
         json = simplejson.loads(results) if results else None
         return json
 
-    def view(self, id=None, filetype='html'):
+    def view(self, id=None, filetype='html', format=None):
         c.sep_filter = request.params.get('sep_filter', False) 
-
-        # Set MIME type of json files
-        if filetype=='json':
-            response.content_type = 'application/json'
 
         # Get entity and render template
         c.entity = h.fetch_obj(self._type, id, new_id=True)
+       
+        if filetype=='rdf':
+            response.content_type = 'text/xml'
+            return c.entity.graph().serialize(format=format)
+      
+        # Set MIME type of json files
+        if filetype=='json':
+            response.content_type = 'application/json'
+            return c.entity.json()
+
         if self._type == Entity:
             h.redirect(c.entity.url(filetype), code=303)
         else:
@@ -321,13 +350,13 @@ class EntityController(BaseController):
 
         pattern = pattern.strip()
 
-        if pattern in c.entity.searchpatterns:
-            c.entity.searchpatterns.remove(pattern)
+        # Boneheaded working around bogus associationproxy in SQLAlchemy 0.6.8
+        # Why this isn't just c.entity.searchpatterns.remove(pattern)? who knows
+        for spattern in c.entity._spatterns:
+            if spattern.searchpattern == pattern:
+                Session.delete(spattern)
 
-            Session.commit()
-        else:
-            log.debug("Pattern not found: '%s'" % pattern)
-            log.debug(c.entity.searchpatterns)
+        Session.commit()
 
         return "OK"
 

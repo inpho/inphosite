@@ -3,8 +3,6 @@
 ## Header
 <%def name="title()">${parent.title()} - Update Checks - </%def>
 <%def name="head_title()">Website Update Checklist</%def>
-## Sidebar
-<%def name="sidebar()">${parent.sidebar()}<br/></%def>
 
 <form action="/admin/log_tests" method="GET">
 <% error = "" %>
@@ -19,7 +17,9 @@
             <td><input type="checkbox" name="test" value="${test.title}" alt="${test.fn_name}"/%> ${test.title}</td>\
         % endif
         <td>${test.description}</td>
-        <td align="center"><a href="${test.link}">Click Here</a></td>
+        % if test.link:
+            <td align="center"><a href="${test.link}">Click Here</a></td>
+        % endif
     <tr>
     % endfor
 </table>

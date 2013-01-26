@@ -1,10 +1,75 @@
-<%inherit file="/base-tree.html"/>
+<%inherit file="/base-nosidebar.html"/>
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()">API Documentation</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
+<div class="hero-unit graph-bg" style="text-align: center;">
+  <div class="graph-content">
+  <h1><span class="logo-word">InPhO</span> API Docs</h1>
+  <p>The InPhO offers much of its data through a REST API in JSON and RDF formats.</p>
+  </div>
+</div>
+    <div class="contents span3" id="table-of-contents">
+      <ul id="navlist" class="nav nav-list" style="position: fixed;">
+	<li>
+	  <a class="reference internal" href="#a-restful-inpho-api" id="id1">
+	    A RESTful InPhO API
+	  </a>
+	    <li>
+	      <a class="reference internal" href="#api-structure" id="id2">
+		API Structure
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#response-codes" id="id3">
+		Response Codes
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#permissions" id="id4">
+		Permissions
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#request-parameters" id="id5">
+		Request Parameters
+	      </a>
+	      <ul>
+		<li>
+		  <a class="reference internal" href="#get-parameters" id="id6">
+		    GET Parameters
+		  </a>
+		</li>
+		<li>
+		  <a class="reference internal" href="#post-put-parameters" id="id7">
+		    POST/PUT Parameters
+		  </a>
+		</li>
+	      </ul>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#quick-start" id="id8">
+		Quick Start
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#development" id="id9">
+		Development
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#testing" id="id10">
+		Testing
+	      </a>
+	    </li>
+	    <li>
+	      <a class="reference internal" href="#more-rest-resources" id="id11">
+		More REST Resources
+	      </a>
+	    </li>
+	</li>
+      </ul>
+    &nbsp;
+    </div>
+<div class="span9">
 
 <style type="text/css">
 
@@ -343,72 +408,6 @@ ul.auto-toc {
     <p>
       A detailed technical specification is below:
     </p>
-    <div class="contents topic" id="table-of-contents">
-      <p class="topic-title first">
-	Table of Contents
-      </p>
-      <ul class="simple">
-	<li>
-	  <a class="reference internal" href="#a-restful-inpho-api" id="id1">
-	    A RESTful InPhO API
-	  </a>
-	  <ul>
-	    <li>
-	      <a class="reference internal" href="#api-structure" id="id2">
-		API Structure
-	      </a>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#response-codes" id="id3">
-		Response Codes
-	      </a>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#permissions" id="id4">
-		Permissions
-	      </a>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#request-parameters" id="id5">
-		Request Parameters
-	      </a>
-	      <ul>
-		<li>
-		  <a class="reference internal" href="#get-parameters" id="id6">
-		    GET Parameters
-		  </a>
-		</li>
-		<li>
-		  <a class="reference internal" href="#post-put-parameters" id="id7">
-		    POST/PUT Parameters
-		  </a>
-		</li>
-	      </ul>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#quick-start" id="id8">
-		Quick Start
-	      </a>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#development" id="id9">
-		Development
-	      </a>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#testing" id="id10">
-		Testing
-	      </a>
-	    </li>
-	    <li>
-	      <a class="reference internal" href="#more-rest-resources" id="id11">
-		More REST Resources
-	      </a>
-	    </li>
-	  </ul>
-	</li>
-      </ul>
-    </div>
 
     <div class="section" id="api-structure">
       <h2>
@@ -726,7 +725,7 @@ ul.auto-toc {
       </table>
 <dl class="docutils">
 <dt>Thinker-Thinker {relation}s</dt>
-<dd>has_influenced, influenced_by, teacher_of, student_of</dd>
+<dd>influenced, influenced_by, teacher_of, student_of</dd>
 <dt>Idea-Idea {relation}s</dt>
 <dd>classes, instances, links, hyponyms, related
 FIX: generality, relatedness</dd>
@@ -915,3 +914,5 @@ Good summary, but does not include examples.</li>
 </ul>
 </div>
 </div>
+</div>
+<script>$('#navlist').scrollspy();</script>

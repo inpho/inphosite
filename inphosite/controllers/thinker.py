@@ -12,7 +12,7 @@ import inphosite.lib.helpers as h
 from inphosite.lib.rest import restrict, dispatch_on
 from inpho.model.thinker import *
 from inpho.model import Session
-from inpho.model import Idea, Entity
+from inpho.model import Idea, Entity, User
 
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
@@ -26,7 +26,7 @@ unary_vars = {
                     'property' : 'professions'}
 }
 binary_vars = {
-    'has_influenced' : {'object' : ThinkerInfluencedEvaluation, 
+    'influenced' : {'object' : ThinkerInfluencedEvaluation, 
                         'reverse' : False, 'maxdegree' : 4},
     'influenced_by' : {'object' : ThinkerInfluencedEvaluation, 
                        'reverse' : True, 'maxdegree' : 4},
@@ -47,19 +47,107 @@ class ThinkerController(EntityController):
         c.thinker = h.fetch_obj(Thinker, id, new_id=True)
         return render('thinker/graph.%s' % filetype)
     
+    def data_integrity(self, filetype='html', redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        thinker_q = Session.query(Thinker)
+        c.thinkers = list(thinker_q)
+
+        c.missing_birth = []
+        c.missing_death = []
+        c.impossible_dates = []
+        c.bad_teacher = []
+        c.missing_sep_dir = []
+        c.no_wiki = []
+        c.bad_wiki = []
+
+        for thinker in c.thinkers:
+            # variable to pass over impossible teacher-student
+            # relationship check. 
+            pass_teacher_check = False
+            
+            # Missing birth dates
+            if not getattr(thinker, 'birth_dates'):
+                pass_teacher_check = True
+                c.missing_birth.append(thinker)
+            
+            # Missing death dates
+            if not getattr(thinker, 'death_dates'):
+                pass_teacher_check = True
+                c.missing_death.append(thinker)
+            
+            # Impossible date combinations
+            if len(thinker.birth_dates) != 0 and len(thinker.death_dates) != 0:
+                dob = thinker.birth_dates[0]        
+                dod = thinker.death_dates[0]
+                if dob.year > dod.year or (dod.year - dob.year) > 120:
+                    pass_teacher_check = True
+                    c.impossible_dates.append(thinker)
+        
+            # Impossible Teacher relationship
+            # currently only set up to query teacher info.
+            # Only runs if pass_teacher_check is False
+            # Builds a list of tuples containing the thinker and
+            # teacher that is incorrect.
+            if not pass_teacher_check:
+                thinker_birth = thinker.birth_dates[0]
+                thinker_death = thinker.death_dates[0]
+                teachers = thinker.teachers
+                for teacher in teachers:
+                    if getattr(teacher, 'birth_dates') and getattr(teacher, 'death_dates'):
+                        teacher_birth = teacher.birth_dates[0]
+                        teacher_death = teacher.death_dates[0]
+                        if thinker_birth.year > teacher_death.year or thinker_death.year < teacher_birth.year:
+                            c.bad_teacher.append((thinker, teacher))
+
+            # Missing sep_dir
+            if not getattr(thinker, 'sep_dir'):
+                c.missing_sep_dir.append(thinker)
+
+            # No Wiki page
+            if not getattr(thinker, 'wiki'):
+                c.no_wiki.append(thinker)
+
+            # Bad Wiki format
+            elif len(thinker.wiki) > 29:
+                if thinker.wiki[:29] == "http://en.wikipedia.org/wiki/":
+                    c.bad_wiki.append(thinker)
+        # Duplicates
+        # It is set up for pairs. If there is more than 2 of the same thinker it will have multiples
+        c.duplicate = []
+        c.sorted_thinkers = sorted(c.thinkers, key=lambda thinker: thinker.label)
+        for i in range(len(c.sorted_thinkers) - 1):
+            if c.sorted_thinkers[i].label == c.sorted_thinkers[i+1].label:
+                c.duplicate.append(c.sorted_thinkers[i])
+                c.duplicate.append(c.sorted_thinkers[i+1]) 
+
+
+        return render('thinker/data_integrity.%s' % filetype)
+
+
     def _list_property(self, property, id, filetype='html', limit=False,
     sep_filter=False, type='thinker'):
         c.thinker = h.fetch_obj(Thinker, id)
          
-        limit = request.params.get('limit', limit)
+        limit = int(request.params.get('limit', limit))
+        start = int(request.params.get('start', 0))
         sep_filter = request.params.get('sep_filter', sep_filter)
         property = getattr(c.thinker, property)
         if sep_filter:
             property = property.filter(Entity.sep_dir != '')
-        if limit:
-            property = property[0:limit-1]
         
-        c.thinkers = property
+        try:
+            c.total = property.count()
+        except TypeError:
+            c.total = len(property)
+
+        if limit:
+            property = property[start:start+limit]
+        
+        c.entities = property
         return render('%s/%s-list.%s' %(type, type, filetype))
 
     def hyponyms(self, id=None, filetype='html', limit=20, sep_filter=False):
@@ -102,7 +190,7 @@ class ThinkerController(EntityController):
     
     #UPDATE
     def update(self, id=None):
-        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday']
+        terms = ['sep_dir', 'searchstring', 'wiki', 'birthday', 'deathday', 'label']
         super(ThinkerController, self).update(id, terms)
 
     @restrict('POST')
@@ -195,11 +283,28 @@ class ThinkerController(EntityController):
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
         username = request.params.get('username', username)
+
+        # look for a specific user's feedback
         evaluation = self._get_evaluation(evaltype, id, id2, uid, username, 
                                           autoCreate=False)
         
-        if not evaluation:
-            abort(404)
+        # if that feedback does not exist, unleash the nuclear option and delete
+        # ALL evaluation facts for this relation, wiping it from the database.
+        if h.auth.is_admin() and not evaluation:
+            eval_q = Session.query(evaltype)
+            eval_q = eval_q.filter_by(ante_id=id, cons_id=id2)
+            evals = eval_q.all()
+
+            # wipe them out. all of them.
+            for evaluation in evals:
+                h.delete_obj(evaluation)
+            
+            # return ok, with how many were deleted
+            response.status_int = 200
+            return "OK %d" % len(evals)
+
+        elif not evaluation:
+            abort(404) # simply return an error (not evaluated), if not admin
 
         current_uid = h.get_user(request.environ['REMOTE_USER']).ID
         if evaluation.uid != current_uid and not h.auth.is_admin():

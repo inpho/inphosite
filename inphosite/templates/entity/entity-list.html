@@ -1,10 +1,50 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">${parent.title()} - Entities</%def>
 <%def name="head_title()">Entities</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
+
+<%def name="getIcon(entity)">
+%if type(entity).__name__ == 'Thinker':
+<i class="icon-user"></i>
+%elif type(entity).__name__ == 'Journal':
+<i class="icon-book"></i>
+%elif type(entity).__name__ == 'Idea':
+<i class="icon-comment"></i>
+%elif type(entity).__name__ == 'SchoolOfThought':
+<i class="icon-bookmark"></i>
+%elif type(entity).__name__ == 'Work':
+<i class="icon-file"></i>
+%endif
+</%def>
+
+<%
+def cmpEntities(a, b):
+    if type(a).__name__ == type(b).__name__:
+        if a.label > b.label:
+            return 1
+        elif a.label == b.label:
+            return 0
+        else:
+            return -1
+    elif type(a).__name__ == "Thinker" and type(b).__name__ != "Thinker":
+        return -1
+    elif type(b).__name__ == "Thinker" and type(a).__name__ != "Thinker":
+        return 1 
+    elif type(a).__name__ == "Idea" and (type(b).__name__ == "Journal" or type(b).__name__ == "SchoolOfThought") and type(b).__name__ != "Thinker":
+        return -1
+    elif type(a).__name__ == "Journal" and type(b).__name__ != "Journal" and type(b).__name__ != "Work":
+        return 1
+    elif type(b).__name__ == "Journal" and type(a).__name__ != "Journal" and type(b).__name__ != "Work":
+        return -1
+    elif type(a).__name__ == "SchoolOfThought" and (type(b).__name__ == "Idea" or type(b).__name__ == "Thinker") and type(b).__name__ != "Journal":
+        return 1
+    elif type(a).__name__ == "Work" and type(b).__name__ != "Work":
+        return 1
+    elif type(b).__name__ == "Work" and type(a).__name__ != "Work":
+        return -1
+    else:
+        return 1
+%>
+
 <div id="content">
 %if not c.entities:
 %if c.query:
@@ -30,9 +70,18 @@ Encyclopedia of Philosophy, and a small amount of human feedback. Iterations of
 this cycle will be used to develop the taxonomy. The approach is explained in
 more detail in our <a href="/papers/">papers</a>.</p>
 %endif
-<ul>
-%for entity in c.entities:
-<li><a href="${entity.url()}">${entity.label}</a></li>
+
+<p><i class="icon-user"></i> - Thinker
+</br><i class="icon-book"></i> - Journal
+</br><i class="icon-comment"></i> - Idea
+</br><i class="icon-bookmark"></i> - School of Thought
+</br><i class="icon-file"></i> - Work
+</p>
+<ul class='unstyled'>
+<% entities = sorted(c.entities, cmp=cmpEntities) %>
+%for entity in entities:
+<li><a href="${entity.url()}">${getIcon(entity)}${entity.label}</a></li>
 %endfor
 </ul>
+
 </div>

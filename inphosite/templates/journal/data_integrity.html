@@ -1,0 +1,100 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Journals with bad links</%def>
+<%def name="head_title()">Journals with bad links</%def>
+<script>
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
+}
+</script>
+
+<div id="content">
+
+<p>Select a field to display the corresponding list.</p>
+
+<select id="bad_field" onchange="showFilter()">
+  <option>None</option>
+  <option value="broken">Broken URLs (${len(c.broken)} Journal(s))</option>
+  <option value="missing">Missing URLs (${len(c.missing)} Journal(s))</option>
+  <option value="blank">Blank URLs (${len(c.blank)} Journal(s))</option>
+  <option value="inactive">Inactive and Missing URL (${len(c.inactive)} Journal(s))</option>
+  <option value="missing_issn">Missing ISSN (${len(c.missing_issn)} Journal(s))</option>
+  <option value="bad_issn">Bad ISSN (${len(c.bad_issn)} Journal(s))</option>
+  <option value="duplicate">Duplicates (${len(c.duplicate)} Journals)</option>
+</select>
+
+<div value="broken" class="di_filter">
+  <h2>Broken URLs (${len(c.broken)})</h2>
+  <p>This list includes journals only accessed over 4 weeks ago</p>
+  <ul>
+  %for journal in c.broken:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="missing" class="di_filter">
+  <h2>Missing URLs (${len(c.missing)})</h2>
+  <p>This list includes journals only accessed over 4 weeks ago</p>
+  <ul>
+  %for journal in c.missing:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="blank" class="di_filter">
+  <h2>Blank URLs (${len(c.blank)})</h2>
+  <p>This list includes journals only accessed over 4 weeks ago</p>
+  <ul>
+  %for journal in c.blank:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="inactive" class="di_filter">
+  <h2>Inactive and Missing URLs (${len(c.inactive)})</h2>
+  <p>This list includes journals only accessed over 4 weeks ago</p>
+  <ul>
+  %for journal in c.inactive:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="missing_issn" class="di_filter">
+  <h2>Missing ISSN (${len(c.missing_issn)})</h2>
+  <ul>
+  %for journal in c.missing_issn:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="bad_issn" class="di_filter">
+  <h2>Bad ISSN (${len(c.bad_issn)})</h2>
+  <ul>
+  %for journal in c.bad_issn:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<div value="duplicate" class="di_filter">
+  <h2>Duplicates (${len(c.duplicate)})</h2>
+  <ul>
+  %for journal in c.duplicate:
+  <li><a href="${journal.url()}">${journal.label}</a></li>
+  %endfor
+  </ul>
+</div>
+
+<script>showFilter()</script>
+
+</div> 

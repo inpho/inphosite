@@ -1,10 +1,6 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">${parent.title()} - Ideas</%def>
 <%def name="head_title()">Ideas</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 <div id="content">
 %if not c.entities:
 %if c.query:

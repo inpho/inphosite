@@ -90,7 +90,11 @@ class AdminController(BaseController):
             doc = doc[9:]
             title = re.search('^.*', doc).group()
             desc = re.search('(?<=\n).*', doc).group().strip()
-            url = re.search('http.*?(?= )|http.*(?=)|/.*?(?= )|/.*(?=)', desc).group()
+            group = re.search('http.*?(?= )|http.*(?=)|/.*?(?= )|/.*(?=)', desc)
+            if group is not None:
+                url = group.group()
+            else:
+                url = None
             case = Test_info(title, desc, test, url)
             testcases.append(case)
             

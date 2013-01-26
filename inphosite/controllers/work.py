@@ -35,11 +35,6 @@ class WorkController(EntityController):
         
         return render('work/work-edit.html')
     
-    #UPDATE
-    def update(self, id=None):
-        terms = ['sep_dir']
-        super(WorkController, self).update(id, terms)
-
     @restrict('POST')
     def create(self):
         if not h.auth.is_logged_in():

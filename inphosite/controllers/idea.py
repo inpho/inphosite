@@ -45,7 +45,38 @@ from collections import defaultdict
 class IdeaController(EntityController):
     _type = Idea
     _controller = 'idea'
-    
+
+    def data_integrity(self, filetype="html", redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        idea_q = Session.query(Idea)
+        c.ideas = list(idea_q)
+
+        # Missing searchstring
+        c.missing_string = [idea for idea in c.ideas
+                            if not getattr(idea, 'searchstring')]
+        
+        # Missing searchpattern
+        c.missing_pattern = [idea for idea in c.ideas
+                             if not getattr(idea, 'searchpattern')]
+        
+        # Missing sep_dir
+        c.missing_sep_dir = [idea for idea in c.ideas
+                             if not getattr(idea, 'sep_dir')]
+            
+        # Duplicates
+        c.duplicate = []
+        c.sorted_ideas = sorted(c.ideas, key=lambda idea: idea.label)
+        for i in range(len(c.sorted_ideas) - 1):
+            if c.sorted_ideas[i].label == c.sorted_ideas[i+1].label:
+                c.duplicate.append(c.sorted_ideas[i])
+                c.duplicate.append(c.sorted_ideas[i+1])
+                    
+        return render('idea/data_integrity.%s' % filetype)
+
     #@beaker_cache(expire=300, type='memory', query_args=True)
     def list(self, filetype='html'):
         redirect = request.params.get('redirect', False)
@@ -242,11 +273,35 @@ class IdeaController(EntityController):
         # IDEA GETTIN'
         c.entity = h.fetch_obj(Idea, id, new_id=True)
 
+        if filetype=='json':
+            response.content_type = 'application/json'
+            return c.entity.json()
+
         c.count = len(c.entity.nodes) + len(c.entity.instance_of) + len(c.entity.links_to)
-        if len(c.entity.nodes) > 0:
+        c.nodes = list()
+        if c.entity.nodes:
+            c.nodes.extend(c.entity.nodes[:])
+        for idea in c.entity.instance_of:
+            for node in idea.nodes:
+                c.nodes.append(node)
+        for idea in c.entity.links_to:
+            for node in idea.nodes:
+                c.nodes.append(node)
+
+        if c.entity.nodes:
             c.node = c.entity.nodes[0]
-        elif len(c.entity.instance_of) > 0:
+        elif c.entity.instance_of:
             c.node = c.entity.instance_of[0]
+            # just in case of data corruption
+            # instance_of points to idea, need node
+            if c.node.nodes:
+                c.node = c.node.nodes[0]
+        elif c.entity.links_to:
+            c.node = c.entity.links_to[0]
+            # just in case of data corruption
+            # links_to point to idea, need node
+            if c.node.nodes:
+                c.node = c.node.nodes[0]
         else:
             c.node = None
         
@@ -272,9 +327,6 @@ class IdeaController(EntityController):
             h.redirect(h.url(controller='taxonomy', action='view',
                              id=c.entity.nodes[0].ID,filetype=filetype), code=303)
 
-        if filetype=='json':
-            response.content_type = 'application/json'
-
         return render('idea/idea.' + filetype)
 
     def panel(self, id, id2):
@@ -288,6 +340,9 @@ class IdeaController(EntityController):
     def evaluation(self, id, id2):
         c.entity = h.fetch_obj(Idea, id)
         c.entity2 = h.fetch_obj(Entity, id2)
+        if isinstance(c.entity2, Node):
+            c.entity2 = c.entity2.idea
+            id2 = c.entity2.ID
         if not isinstance(c.entity2, Idea):
             # no evaluation implemented
             response.status_int = 501
@@ -295,24 +350,26 @@ class IdeaController(EntityController):
             return ''
 
         c.edit = True
+       
         # retrieve evaluation for pair
+        c.generality = int(request.params.get('generality', -1))
+        c.relatedness = int(request.params.get('relatedness', -1))
+        
+        # retrieve user information
         c.identity = request.environ.get('repoze.who.identity')
-        if c.identity:
-            c.uid = c.identity['user'].ID
+        c.uid = None if not c.identity else c.identity['user'].ID
 
-            eval_q = Session.query(IdeaEvaluation.generality, 
-                                   IdeaEvaluation.relatedness)
-            eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
-
+        if c.generality == -1 and c.relatedness == -1:
+            
             # use the user's evaluation if present, otherwise a null eval
-            c.generality, c.relatedness = eval_q.first() or\
-                (request.params.get('generality', -1), 
-                 request.params.get('relatedness', -1))
+            if c.identity:
+                eval_q = Session.query(IdeaEvaluation.generality, 
+                                       IdeaEvaluation.relatedness)
+                eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
 
-        else:
-            c.uid = None
-            c.generality = int(request.params.get('generality', -1))
-            c.relatedness = int(request.params.get('relatedness', -1))
+                c.generality, c.relatedness = eval_q.first() or\
+                    (request.params.get('generality', -1), 
+                     request.params.get('relatedness', -1))
 
         if c.relatedness != -1:
             c.edit = request.params.get('edit', False)
@@ -343,7 +400,7 @@ class IdeaController(EntityController):
         
     #UPDATE
     def update(self, id=None):
-        terms = ['sep_dir', 'searchstring']
+        terms = ['sep_dir', 'searchstring', 'label']
         super(IdeaController, self).update(id, terms)
 
     @restrict('POST')

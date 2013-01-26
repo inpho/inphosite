@@ -1,0 +1,108 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Bad/Missing Thinker Info</%def>
+<%def name="head_title()">Bad/Missing Thinker Info</%def>
+
+<p>Select a field to see the list of Thinkers with that missing/bad information.</p>
+
+<script>
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
+}
+</script>
+
+<select id="bad_field" onchange="showFilter()">
+  <option>None</option>
+  <option value="missing_dob">Missing DoB (${len(c.missing_birth)} Thinker(s))</option>
+  <option value="missing_dod">Missing DoD (${len(c.missing_death)} Thinker(s))</option>
+  <option value="impossible_dates">Impossible Dates (${len(c.impossible_dates)} Thinker(s))</option>
+  <option value="bad_teacher">Impossible Teacher Relationships (${len(c.bad_teacher)} Thinker(s))</option>
+  <option value="missing_sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} Thinker(s))</option>
+  <option value="no_wiki">No Wiki page (${len(c.no_wiki)} Thinker(s))</option>
+  <option value="bad_wiki">Bad Wiki Link Format (${len(c.bad_wiki)} Thinkers(s))</option>
+  <option value="duplicate">Duplicates (${len(c.duplicate)} Thinkers)</option>
+</select>
+
+<div value="missing_dob" class="di_filter">
+  <h2>Missing Date of Birth (${len(c.missing_birth)})</h2>
+  <ul>
+    %for thinker in c.missing_birth:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="missing_dod" class="di_filter">
+  <h2>Missing Date of Death (${len(c.missing_death)})</h2>
+  <ul>
+    %for thinker in c.missing_death:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="impossible_dates" class="di_filter">
+  <h2>Impossible Dates (${len(c.impossible_dates)})</h2>
+  <ul>
+    %for thinker in c.impossible_dates:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="bad_teacher" class="di_filter">
+  <h2>Impossible Teacher Relationships (${len(c.impossible_dates)})</h2>
+  <ul>
+    %for pair in c.bad_teacher:
+    <li>
+      <a href="${pair[0].url()}" target="_blank">${pair[0].label}</a> being taught by 
+      <a href="${pair[1].url()}" target="_blank">${pair[1].label}</a>
+    </li>
+    %endfor
+  </ul>
+</div>
+
+<div value="missing_sep_dir" class="di_filter">
+  <h2>Missing sep_dir (${len(c.missing_sep_dir)})</h2>
+  <ul>
+    %for thinker in c.missing_sep_dir:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="no_wiki" class="di_filter">
+  <h2>No Wiki Page (${len(c.no_wiki)})</h2>
+  <ul>
+    %for thinker in c.no_wiki:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="bad_wiki" class="di_filter">
+  <h2>Bad Wiki Link Format (${len(c.bad_wiki)})</h2>
+  <ul>
+    %for thinker in c.bad_wiki:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="duplicate" class="di_filter">
+  <h2>Duplicates (${len(c.duplicate)})</h2>
+  <ul>
+    %for thinker in c.duplicate:
+    <li><a href="${thinker.url()}" target="_blank">${thinker.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<script>showFilter()</script>
+
+</div>

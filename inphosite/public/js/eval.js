@@ -2,6 +2,37 @@ var inpho = inpho || {};
 inpho.eval = inpho.eval || {};
 
 
+inpho.eval.getEvalForm = function(form) {
+  var anteID = $(form).attr('data-anteID');
+  var consID = $(form).attr('data-consID');
+
+  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1"
+  
+  $.get(url, function(data){
+    var p = $('#i' + consID + '-eval').parent();
+    $('#i' + consID + '-eval').alert('close');
+    $(p).prepend(data);
+  });
+}
+
+inpho.eval.getThanksForm = function(form) {
+  var anteID = $(form).attr('data-anteID');
+  var consID = $(form).attr('data-consID');
+
+  var relDiv = $('.relatednessSelect', form);
+  var genDiv = $('.generalitySelect', form);
+
+  var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
+  var genVal = inpho.eval.getValueFromButtonGroupDiv(genDiv);
+
+  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=&relatedness=" + relVal + "&generality=" + genVal;
+  
+  $.get(url, function(data){
+    var p = $('#i' + consID + '-eval').parent();
+    $('#i' + consID + '-eval').alert('close');
+    $(p).prepend(data);
+  });
+};
 
 // *********************
 // Evaluation Submission
@@ -44,28 +75,6 @@ inpho.eval.parseAndSubmit = function(form) {
       function () { inpho.eval.getThanksForm(form) });
 }
 
-inpho.eval.resetWidgetEval = function(elt) {
-  var formElm = elt + '-eval';
-  // antecedent term
-  var id   = $(formElm + " [name='ante_id']").val();
-  // consequent term
-  var id2  = $(formElm + " [name='cons_id']").val();
-  // submitted generality value
-  $(formElm + " #generalitySelect").val('-1');
-  // submitted relatedness value
-  $(formElm + " #relatednessSelect").val('-1');
-
-  $(elt + " #generalitySelect").attr('disabled', 'disabled');
-  $(elt + " .and").hide();
-  $(elt + " #generalitySelect").hide();
-
-  inpho.eval.submitWidgetEval(elt);
-};
-
-
-// ************************************************
-// Full Form (idea-edit.html) Evaluation Submission
-// ************************************************
 inpho.eval.didSelectRelatedness = function(button) {
     var form = button.form;
     var generalityDiv = $('.generalitySelect', form);
@@ -90,6 +99,55 @@ inpho.eval.didSelectGenerality = function(button) {
   var submitDiv = $('.submitBtns', form);
   $(submitDiv).fadeIn('fast', null);
 }
+
+inpho.eval.getValueFromButtonGroupDiv = function(btnGroupDiv) {
+    for(var i = 0; i < $(btnGroupDiv).children().length; i++) {
+        var btn = $($(btnGroupDiv).children()[i]);
+        if(btn.hasClass('active')) {
+            return $(btn).val();
+        }
+    }
+    return -1;
+}   
+
+inpho.eval.getHTMLFromButtonGroupDiv = function(btnGroupDiv) {
+    for(var i = 0; i < $(btnGroupDiv).children().length; i++) {
+        var btn = $($(btnGroupDiv).children()[i]);
+        if(btn.hasClass('active')) {
+            return $(btn).html();
+        }
+    }
+    return null;
+}
+
+inpho.eval.resetButtonGroup = function(btnGroupDiv) {
+    for(var i = 0; i < $(btnGroupDiv).children().length; i++) { 
+        $($(btnGroupDiv).children()[i]).removeClass('active');
+    }
+}
+
+inpho.eval.resetWidgetEval = function(elt) {
+  var formElm = elt + '-eval';
+  // antecedent term
+  var id   = $(formElm + " [name='ante_id']").val();
+  // consequent term
+  var id2  = $(formElm + " [name='cons_id']").val();
+  // submitted generality value
+  $(formElm + " #generalitySelect").val('-1');
+  // submitted relatedness value
+  $(formElm + " #relatednessSelect").val('-1');
+
+  $(elt + " #generalitySelect").attr('disabled', 'disabled');
+  $(elt + " .and").hide();
+  $(elt + " #generalitySelect").hide();
+
+  inpho.eval.submitWidgetEval(elt);
+};
+
+
+// ************************************************
+// Full Form (idea-edit.html) Evaluation Submission
+// ************************************************
 
 inpho.eval.didPressSubmit = function(formid) {
   inpho.eval.parseAndSubmit(formid);
@@ -122,32 +180,6 @@ inpho.eval.getEvalResultMessage = function(formid) {
     return '<p class="idea">' + anteTerm + '</p><p> is ' + relVal + ' to ' + genVal + ' </p><p class="idea">' + consTerm + '</p><p>.</p>';
 }
 
-inpho.eval.getValueFromButtonGroupDiv = function(btnGroupDiv) {
-    for(var i = 0; i < $(btnGroupDiv).children().length; i++) {
-        var btn = $($(btnGroupDiv).children()[i]);
-        if(btn.hasClass('active')) {
-            return $(btn).val();
-        }
-    }
-    return -1;
-}   
-
-inpho.eval.getHTMLFromButtonGroupDiv = function(btnGroupDiv) {
-    for(var i = 0; i < $(btnGroupDiv).children().length; i++) {
-        var btn = $($(btnGroupDiv).children()[i]);
-        if(btn.hasClass('active')) {
-            return $(btn).html();
-        }
-    }
-    return null;
-}
-
-inpho.eval.resetButtonGroup = function(btnGroupDiv) {
-    for(var i = 0; i < $(btnGroupDiv).children().length; i++) { 
-        $($(btnGroupDiv).children()[i]).removeClass('active');
-    }
-}
-
 
 // occurs when the edit putton is pushed
 inpho.eval.didPressEdit = function(formid) {
@@ -170,24 +202,6 @@ inpho.eval.didPressCancel = function(formid) {
 // ****************************************
 // Inline (eval.html) Evaluation Submission
 // ****************************************
-inpho.eval.getThanksForm = function(form) {
-  var anteID = $(form).attr('data-anteID');
-  var consID = $(form).attr('data-consID');
-
-  var relDiv = $('.relatednessSelect', form);
-  var genDiv = $('.generalitySelect', form);
-
-  var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
-  var genVal = inpho.eval.getValueFromButtonGroupDiv(genDiv);
-
-  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=&relatedness=" + relVal + "&generality=" + genVal;
-  
-  $.get(url, function(data){
-    var p = $('#i' + consID + '-eval').parent();
-    $('#i' + consID + '-eval').alert('close');
-    $(p).prepend(data);
-  });
-};
 
 inpho.eval.didPressEditInline = function(formid, elt) {
   inpho.eval.getEvalForm(formid, elt);
@@ -210,19 +224,6 @@ inpho.eval.getEvalFormReset = function(formid, elt) {
   $.get(url, function(data){
     $(elt + '-edit').alert('close');
     $(elt).prepend(data);
-  });
-}
-
-inpho.eval.getEvalForm = function(form) {
-  var anteID = $(form).attr('data-anteID');
-  var consID = $(form).attr('data-consID');
-
-  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1"
-  
-  $.get(url, function(data){
-    var p = $('#i' + consID + '-eval').parent();
-    $('#i' + consID + '-eval').alert('close');
-    $(p).prepend(data);
   });
 }
 

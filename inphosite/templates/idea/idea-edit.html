@@ -35,14 +35,7 @@
         <a href="http://plato.stanford.edu/entries/${cons.sep_dir}/" class="icons" target="_blank"><img src="/img/sepmanicon.png" /></a>
         %endif
 
-        %if (rel > -1) and (gen > -1):
-        <img class='loading' src="/img/check.gif"/>
-        %else:
-        <img class='loading' src="/img/empty.gif"/>
-        %endif
-
-        ${eval.form(c.idea, cons, rel, gen)}
-
+        <div class="evalContainer">${eval.form(c.idea, cons, rel, gen)}</div>
 </%def>
 
 <div id="evalContent">

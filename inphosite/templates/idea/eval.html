@@ -10,6 +10,8 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
   <a class="close" data-dismiss="alert">×</a>
   <h3 class="alert-heading">Help improve the InPhO!</h3>
   <br />
+%else:
+<div id="i${entity2.ID}-eval">
 %endif
   <form data-anteid="${entity.ID}" data-consid="${entity2.ID}">
       <p><strong>${entity.label}</strong> &#133; is to &#133; <strong>${entity2}</strong></p>
@@ -27,14 +29,12 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
           <button type="button" class="btn ${'active' if generality == 2 else ''}" value="2" onClick="inpho.eval.didSelectGenerality(this)">As General As</button>
           <button type="button" class="btn ${'active' if generality == 3 else ''}" value="3" onClick="inpho.eval.didSelectGenerality(this)">Incomparable To</button>
       </div>
-      <div class="eval submitBtns ${'hide' if relatedness == -1 or (relatedness > 0  and generality == -1) else ''}">
+      <div class="submitBtns ${'hide' if relatedness == -1 or (relatedness > 0  and generality == -1) else ''}">
           <button type="button" class="btn btn-primary" onClick="inpho.eval.parseAndSubmit(this.form)">Submit</button>
           <button type="button" class="btn btn-danger hide" id="cancelBtn-${entity2.ID}" onClick="inpho.eval.didPressCancel(this.form.id)">Cancel</button>
       </div>
   </form>
-%if alert:
 </div>
-%endif
 </%def>
 
 <%def name="thanks(entity, entity2, relatedness=-1, generality=-1, alert=False)">
@@ -43,8 +43,10 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
   <a class="close" data-dismiss="alert">×</a>
   <h3 class="alert-heading">Thank you!</h3>
   <br />
+%else:
+<div id="i${entity2.ID}-eval">
 %endif
-  <form class="form-inline eval" data-anteID="${entity.ID}" data-consID="${entity2.ID}">
+  <form data-anteID="${entity.ID}" data-consID="${entity2.ID}">
     <fieldset>
       <input type="hidden" name="ante_id" value="${c.entity.ID}" />
       <em><strong>${h.titlecase(c.entity.label)}</strong> is 
@@ -74,8 +76,6 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
     </fieldset>
     
   </form>
-%if alert:
 </div>
-%endif
 </%def>
 

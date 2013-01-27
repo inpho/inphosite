@@ -13,7 +13,8 @@ inpho.eval.getEvalForm = function(form) {
   
   $.get(url, function(data){
     var p = $('#i' + consID + '-eval').parent();
-    $('#i' + consID + '-eval').alert('close');
+    if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
+    else $('#i' + consID + '-eval').remove();
     $(p).prepend(data);
   });
 }
@@ -33,7 +34,8 @@ inpho.eval.getThanksForm = function(form) {
   
   $.get(url, function(data){
     var p = $('#i' + consID + '-eval').parent();
-    $('#i' + consID + '-eval').alert('close');
+    if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
+    else $('#i' + consID + '-eval').remove();
     $(p).prepend(data);
   });
 };
@@ -128,48 +130,6 @@ inpho.eval.resetButtonGroup = function(btnGroupDiv) {
     for(var i = 0; i < $(btnGroupDiv).children().length; i++) { 
         $($(btnGroupDiv).children()[i]).removeClass('active');
     }
-}
-
-inpho.eval.resetWidgetEval = function(elt) {
-  var formElm = elt + '-eval';
-  // antecedent term
-  var id   = $(formElm + " [name='ante_id']").val();
-  // consequent term
-  var id2  = $(formElm + " [name='cons_id']").val();
-  // submitted generality value
-  $(formElm + " #generalitySelect").val('-1');
-  // submitted relatedness value
-  $(formElm + " #relatednessSelect").val('-1');
-
-  $(elt + " #generalitySelect").attr('disabled', 'disabled');
-  $(elt + " .and").hide();
-  $(elt + " #generalitySelect").hide();
-
-  inpho.eval.submitWidgetEval(elt);
-};
-
-
-// ************************************************
-// Full Form (idea-edit.html) Evaluation Submission
-// ************************************************
-
-inpho.eval.didPressSubmit = function(formid) {
-  inpho.eval.parseAndSubmit(formid);
-  inpho.eval.displayThankYou(formid, true);
-}
-
-inpho.eval.displayThankYou = function(formid, shouldUpdateMsg) {
-    // update UI hide form, show thanks/edit
-    $(document.getElementById(formid)).fadeOut('slow', function() {
-        var thanksDiv = document.getElementById("thanksDiv-" + formid);
-        
-        if(shouldUpdateMsg) {
-            var resultSpan = document.getElementById('evalThanksResult-' + formid);
-            resultSpan.innerHTML = inpho.eval.getEvalResultMessage(formid);
-        }
-
-        $(thanksDiv).fadeIn('slow',null);
-    });
 }
 
 inpho.eval.getEvalResultMessage = function(formid) {

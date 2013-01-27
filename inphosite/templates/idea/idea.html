@@ -1,6 +1,7 @@
 <%! import urllib, itertools %>
 <%inherit file="/base-tree.html" />
 <%namespace name="entity" file="/entity/entity.html" />
+<%namespace name="eval" file="/idea/idea-edit.html" />
 <%def name="head()">
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
@@ -78,6 +79,9 @@ while curParent:
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
     <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
+    %if h.auth.is_logged_in():
+    <li id="evaluate-tab" onclick="inpho.tabnav.lazyLoad('tabnav','evaluate', '/idea/'+${c.entity.ID}+'/evaluate')"><a href="#evaluate" data-toggle="tab"><i class="icon-pencil"></i> Evaluate</a></li>
+    %endif
     %if h.auth.is_admin():
     <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
     %endif
@@ -107,6 +111,10 @@ ${entity.printMissing()}
 %endif
 
     </div>
+## If user is logged in, show evaluations
+%if h.auth.is_logged_in():
+    <div class="tab-pane" id="evaluate"></div>
+%endif
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():
     <div class="tab-pane" id="admin">

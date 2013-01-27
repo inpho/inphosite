@@ -1,12 +1,15 @@
 var inpho = inpho || {};
 inpho.eval = inpho.eval || {};
 
+// default to alert mode. Individual pages can disable this.
+inpho.eval.alert = true;
 
 inpho.eval.getEvalForm = function(form) {
   var anteID = $(form).attr('data-anteID');
   var consID = $(form).attr('data-consID');
 
-  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1"
+  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1";
+  if (!inpho.eval.alert) url += '&alert=';
   
   $.get(url, function(data){
     var p = $('#i' + consID + '-eval').parent();
@@ -26,6 +29,7 @@ inpho.eval.getThanksForm = function(form) {
   var genVal = inpho.eval.getValueFromButtonGroupDiv(genDiv);
 
   var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=&relatedness=" + relVal + "&generality=" + genVal;
+  if (!inpho.eval.alert) url += '&alert=';
   
   $.get(url, function(data){
     var p = $('#i' + consID + '-eval').parent();
@@ -220,6 +224,7 @@ inpho.eval.getEvalFormReset = function(formid, elt) {
   var consID = $(document.getElementById(formid)).attr('data-consID');
 
   var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=&relatedness=-1&generality=-1";
+  if (!inpho.eval.alert) url += '&alert=';
   
   $.get(url, function(data){
     $(elt + '-edit').alert('close');

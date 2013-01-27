@@ -350,6 +350,7 @@ class IdeaController(EntityController):
             return ''
 
         c.edit = True
+        c.alert = request.params.get('alert', True)
        
         # retrieve evaluation for pair
         c.generality = int(request.params.get('generality', -1))

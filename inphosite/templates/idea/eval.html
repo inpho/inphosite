@@ -1,14 +1,16 @@
 %if c.edit:
-${form(c.entity, c.entity2, c.relatedness, c.generality)}
+${form(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
 %else:
-${thanks(c.entity, c.entity2, c.relatedness, c.generality)}
+${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
 %endif
 
-<%def name="form(entity, entity2, relatedness=-1, generality=-1)">
+<%def name="form(entity, entity2, relatedness=-1, generality=-1, alert=False)">
+%if alert:
 <div class="alert alert-block alert-info" id="i${entity2.ID}-eval">
   <a class="close" data-dismiss="alert">×</a>
   <h3 class="alert-heading">Help improve the InPhO!</h3>
   <br />
+%endif
   <form data-anteid="${entity.ID}" data-consid="${entity2.ID}">
       <p><strong>${entity.label}</strong> &#133; is to &#133; <strong>${entity2}</strong></p>
 
@@ -30,14 +32,18 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality)}
           <button type="button" class="btn btn-danger hide" id="cancelBtn-${entity2.ID}" onClick="inpho.eval.didPressCancel(this.form.id)">Cancel</button>
       </div>
   </form>
+%if alert:
 </div>
+%endif
 </%def>
 
-<%def name="thanks(entity, entity2, relatedness=-1, generality=-1)">
+<%def name="thanks(entity, entity2, relatedness=-1, generality=-1, alert=False)">
+%if alert:
 <div class="alert alert-block alert-success" id="i${c.entity2.ID}-eval">
   <a class="close" data-dismiss="alert">×</a>
   <h3 class="alert-heading">Thank you!</h3>
   <br />
+%endif
   <form class="form-inline eval" data-anteID="${entity.ID}" data-consID="${entity2.ID}">
     <fieldset>
       <input type="hidden" name="ante_id" value="${c.entity.ID}" />
@@ -68,6 +74,8 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality)}
     </fieldset>
     
   </form>
+%if alert:
 </div>
+%endif
 </%def>
 

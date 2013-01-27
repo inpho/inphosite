@@ -1,4 +1,5 @@
 <%inherit file="/base-tree.html"/>
+<%namespace name="eval" file="/idea/eval.html" />
 <%def name="title()">Idea - ${h.titlecase(c.idea.label)}</%def>
 <%def name="head_title()">${h.titlecase(c.idea.label)}</%def>
 
@@ -40,53 +41,23 @@
         <img class='loading' src="/img/empty.gif"/>
         %endif
 
-        <form id="${cons.ID}" data-anteID="${c.idea.ID}" data-consID="${cons.ID}">
-            <p class="caps evalMargin">${c.idea.label} </p><p>&#133; is to &#133;</p><p class="caps"> ${cons}</p>
+        ${eval.form(c.idea, cons, rel, gen)}
 
-            <div class="eval btn-group" data-toggle="buttons-radio" id="relatednessSelect-${cons.ID}">
-                <button type="button" class="btn" value="0" onClick="inpho.eval.didSelectRelatedness(this)">Not Related</button>
-                <button type="button" class="btn" value="1" onClick="inpho.eval.didSelectRelatedness(this)">Marginally Related</button>
-                <button type="button" class="btn" value="2" onClick="inpho.eval.didSelectRelatedness(this)">Somewhat Related</button>
-                <button type="button" class="btn" value="3" onClick="inpho.eval.didSelectRelatedness(this)">Related</button>
-                <button type="button" class="btn" value="4" onClick="inpho.eval.didSelectRelatedness(this)">Highly Related</button>
-            </div>
-            <div class="eval btn-group hide" data-toggle="buttons-radio" id="generalitySelect-${cons.ID}">
-                <button type="button" class="btn" value="0" onClick="inpho.eval.didSelectGenerality(this)">More Specific Than</button>
-                <button type="button" class="btn" value="1" onClick="inpho.eval.didSelectGenerality(this)">More General Than</button>
-                <button type="button" class="btn" value="2" onClick="inpho.eval.didSelectGenerality(this)">As General As</button>
-                <button type="button" class="btn" value="3" onClick="inpho.eval.didSelectGenerality(this)">Incomparable To</button>
-            </div>
-            <div class="eval hide" id="submitDiv-${cons.ID}">
-                <button type="button" class="btn btn-primary" onClick="inpho.eval.didPressSubmit(this.form.id)">Submit</button>
-                <button type="button" class="btn btn-danger hide" id="cancelBtn-${cons.ID}" onClick="inpho.eval.didPressCancel(this.form.id)">Cancel</button>
-            </div>
-        </form>
-
-        <form>
-        <div class="editEval hide" id="thanksDiv-${cons.ID}" data-ante="${c.idea.label}" data-cons="${cons}">
-            <p id="thanks evalMargin">Evaluation submitted. Thank you!</p><br />
-            <span class="resultMessage" id="evalThanksResult-${cons.ID}"></span><br />
-            <button type="reset" class="btn btn-success" onClick="inpho.eval.didPressEdit(this.id)" id="${cons.ID}"><i class="icon-pencil icon-white"></i> Edit</button>
-        </div>
-        </form>
 </%def>
 
 <div id="evalContent">
     <h1>${h.titlecase(c.idea.label)}</h1>
   
-    %if len(c.paginator):   
-        <div id="relatedTerms">
-            %if c.paginator:
-                <br /><h3>How is <em>${h.titlecase(c.idea.label)}</em> related to each idea?</h3><br />
-                <ol>
-                %for idea in c.paginator:
-                    <li class="evalItem">${printEntity(idea)}</li>
-                %endfor
-                </ol>
-            %endif
-        </div> <!-- RELATED TERMS -->
+    <h3>How is <em>${h.titlecase(c.idea.label)}</em> related to each idea?</h3>
+
+    %if len(c.paginator):
+      <ol class="unstyled">
+        %for idea in c.paginator:
+          <li class="evalItem">${printEntity(idea)}</li>
+        %endfor  
+      </ol>
     % else:
-    <br /><h3>No more candidates to evaluate.</h3><br />
+    <h3>No more candidates to evaluate.</h3><br />
     % endif
 </div> <!-- EVAL CONTENT -->
 
@@ -335,3 +306,4 @@
 
 <!-- le javascript -->
 <script type="text/javascript" src="/js/eval.js"></script>
+<script type="text/javascript">inpho.eval.alert = false;</script>

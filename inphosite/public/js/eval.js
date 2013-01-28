@@ -67,6 +67,21 @@ inpho.eval.resetEval = function(ante_id, cons_id) {
     inpho.eval.submitEval(ante_id, cons_id, -1, -1);
 };
 
+inpho.eval.cancelEval = function(form) {
+  var anteID = $(form).attr('data-anteID');
+  var consID = $(form).attr('data-consID');
+
+  var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=";
+  if (!inpho.eval.alert) url += '&alert=';
+  
+  $.get(url, function(data){
+    var p = $('#i' + consID + '-eval').parent();
+    if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
+    else $('#i' + consID + '-eval').remove();
+    $(p).prepend(data);
+  });
+}
+
 inpho.eval.parseAndSubmit = function(form) {
     var anteID = $(form).attr('data-anteID');
     var consID = $(form).attr('data-consID');
@@ -131,4 +146,3 @@ inpho.eval.resetButtonGroup = function(btnGroupDiv) {
         $($(btnGroupDiv).children()[i]).removeClass('active');
     }
 }
-

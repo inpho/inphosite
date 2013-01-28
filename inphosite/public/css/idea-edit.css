@@ -1,47 +1,14 @@
-.editEval {
-    margin-left: 5px;
-    margin-top: 0px;
-    margin-bottom: 20px;
+/* full page eval */
+/*----------------*/
+#evalContent h1 {
+	margin-bottom: 8px;
 }
 
-.editEval p {
-	display: inline;
+#evalContent h3 {
+	margin-bottom: 12px;
 }
 
-.editEval form, .btn-group + .btn-group {
-    margin-left: 0px;    
-}
-
-.editEval form div {
-	margin-top: 10px;
-}
-
-#thanks {
-	color: #666666;
-	font-style: italic;
-}
-
-.resultMessage p {
-	text-transform: lowercase;
-	font-style: normal;
-	color: #468847;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-p.idea {
-	text-transform: capitalize;
-	font-weight: bold; 
-}
-
-p.evalMargin {
-	margin-left: 7px;
-}
-
-form p {
-    display: inline;
-}
-
-li.evalItem {
+#evalContent li {
 	font-size: 15px;
 	margin-bottom: 40px;
 }
@@ -52,19 +19,43 @@ li p {
 	font-style: italic;
 }
 
-.inlineEval {
-    margin-left: 0px;
-    margin-top: 5px;
-    margin-bottom: 0px;
+
+/* individual eval */
+/*-----------------*/
+p {
+	display: inline;
 }
 
-.alert p {
+.btn-group {
+	margin-bottom: 7px;
+}
+
+form, .btn-group + .btn-group {
+    margin-left: 0px; 
+}
+
+.description {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+#result p {
 	font-style: italic;
-	margin-left: 5px;
+	color: #468847;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.inlineEval .btn-group {
-	margin-left: 0px;
-    margin-top: 5px;
-    margin-bottom: 8px;
+
+/* alert eval */
+/*------------*/
+.alert-heading {
+	margin-bottom: 7px;
+}
+
+.alert .description {
+	margin-bottom: 8px;
+}
+
+.alert {
+	padding-bottom: 0px;
 }

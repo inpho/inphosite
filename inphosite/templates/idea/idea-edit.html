@@ -23,7 +23,6 @@
         gen, rel = (evaluation.generality, evaluation.relatedness)
     else:
         gen, rel = (-1, -1)
-
     %>
         <strong>${h.titlecase(cons.label)}</strong>&nbsp;&nbsp;
 
@@ -40,13 +39,12 @@
 
 <div id="evalContent">
     <h1>${h.titlecase(c.idea.label)}</h1>
-  
     <h3>How is <em>${h.titlecase(c.idea.label)}</em> related to each idea?</h3>
 
     %if len(c.paginator):
       <ol class="unstyled">
         %for idea in c.paginator:
-          <li class="evalItem">${printEntity(idea)}</li>
+          <li>${printEntity(idea)}</li>
         %endfor  
       </ol>
     % else:

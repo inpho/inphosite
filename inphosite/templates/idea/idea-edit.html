@@ -19,23 +19,7 @@
 
 
 
-<%def name="printEntity(cons, cls='')">
-    <%
-    from inpho.model import IdeaEvaluation
-    from inpho.model import Session
-
-    if request.environ.get('REMOTE_USER'):
-        uid = h.get_user(request.environ['REMOTE_USER']).ID
-        evaluation = Session.query(IdeaEvaluation).filter_by(ante_id=c.idea.ID, cons_id=cons.ID, uid=uid).first()
-    else:
-        evaluation = None
-        uid = None
-
-    if evaluation:
-        gen, rel = (evaluation.generality, evaluation.relatedness)
-    else:
-        gen, rel = (-1, -1)
-    %>
+<%def name="printEntity(cons, cls='', relatedness=-1, generality=-1)">
         <strong>${h.titlecase(cons.label)}</strong>&nbsp;&nbsp;
 
         %if cons not in c.idea.nodes and cons != c.idea:
@@ -46,6 +30,6 @@
         <a href="http://plato.stanford.edu/entries/${cons.sep_dir}/" class="icons" target="_blank"><img src="/img/sepmanicon.png" /></a>
         %endif
 
-        <div class="evalContainer">${eval.form(c.idea, cons, rel, gen)}</div>
+        <div class="evalContainer">${eval.form(c.idea, cons, relatedness, generality)}</div>
 </%def>
 

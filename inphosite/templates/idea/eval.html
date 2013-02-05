@@ -39,7 +39,7 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
 
 <%def name="thanks(entity, entity2, relatedness=-1, generality=-1, alert=False)">
     %if alert:
-      <div class="alert alert-block alert-success" id="i${c.entity2.ID}-eval">
+      <div class="alert alert-block alert-success" id="i${entity2.ID}-eval">
         <a class="close" data-dismiss="alert">×</a>
         <h3 class="alert-heading">Thank you!</h3>
     %else:
@@ -48,15 +48,15 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
 
     <form data-anteID="${entity.ID}" data-consID="${entity2.ID}">
       <fieldset>
-        <input type="hidden" name="ante_id" value="${c.entity.ID}" />
+        <input type="hidden" name="ante_id" value="${entity.ID}" />
         <div id="result" class="description">
           <p>
-          <strong>${h.titlecase(c.entity.label)}</strong> is
+          <strong><a href="${entity.url()}" target="_blank">${h.titlecase(entity.label)}</a></strong> is
 
             ${'not' if relatedness == 0 else ''}
             ${'marginally' if relatedness == 1 else ''}
+            
             ${'somewhat' if relatedness == 2 else ''}
-            ${'generally' if relatedness == 3 else ''}
             ${'highly' if relatedness == 4 else ''}
 
             related to
@@ -69,9 +69,9 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
             ${'incomparable to' if generality == 3 else ''}
             %endif
           
-          <input type="hidden" name="cons_id" value="${c.entity2.ID}" />
+          <input type="hidden" name="cons_id" value="${entity2.ID}" />
           
-          <strong>${h.titlecase(c.entity2.label)}</strong>
+          <strong><a href="${entity2.url()}" target="_blank">${h.titlecase(entity2.label)}</a></strong>
           </p>
         </div>
       </fieldset>

@@ -45,6 +45,12 @@ form, .btn-group + .btn-group {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
+#result a {
+	font-style: italic;
+	color: #468847;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
 
 /* alert eval */
 /*------------*/

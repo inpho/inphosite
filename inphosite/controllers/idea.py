@@ -32,6 +32,7 @@ from formencode import variabledecode
     
 import simplejson
 import re
+import time
 from collections import defaultdict
 
 #Schema for validating form data from "edit idea" admin interface
@@ -558,6 +559,8 @@ class IdeaController(EntityController):
             evaluation = self._get_anon_evaluation(id, id2, request.environ.get('REMOTE_ADDR', '0.0.0.0'))
 
         # Populate proper generality, relatedness, hyperrank and hyporank values
+        evaluation.time = time.time()
+
         # Attempt to convert to integers, if unable, throw HTTP 400
         try: 
             setattr(evaluation, evaltype, 

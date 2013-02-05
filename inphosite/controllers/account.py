@@ -304,11 +304,11 @@ inpho@indiana.edu
         
         c.user = h.get_user(request.environ['REMOTE_USER'])        
 
-        ieq = Session.query(IdeaEvaluation).order_by(IdeaEvaluation.time.asc())
+        ieq = Session.query(IdeaEvaluation).order_by(IdeaEvaluation.time.desc())
         c.evaluations = ieq.filter(and_(IdeaEvaluation.uid==c.user.ID,
                                    or_(IdeaEvaluation.generality>-1,
-                                       IdeaEvaluation.relatedness>-1)))
-
+                                       IdeaEvaluation.relatedness>-1))).all()
+        
         return render('account/review.html')
 
 

@@ -78,10 +78,11 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
       
       <fieldset>
         %if alert:
-          <button type="reset" class="btn" onClick="inpho.eval.getEvalForm(this.form)"><i class="icon-pencil"> </i> Edit</button>
+          <button type="reset" class="btn" onClick="inpho.eval.getEvalForm(this.form)"><i class="icon-pencil"></i> Edit</button>
         %else:
           <button type="reset" class="btn btn-success" onClick="inpho.eval.getEvalForm(this.form)"><i class="icon-pencil icon-white"></i> Edit</button>
         %endif
+        <button type="button" class="btn" onClick="inpho.eval.deleteEval(this.form)"><i class="icon-remove"></i> Delete</button>
       </fieldset>
     </form>
   </div>

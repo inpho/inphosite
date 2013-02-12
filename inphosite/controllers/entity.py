@@ -146,10 +146,15 @@ class EntityController(BaseController):
         c.sep_dir = request.params.get('sep_dir', None)
 
         c.linklist = []
-        if c.sep_dir and sep.published(c.sep_dir):
-            if not c.label:
+       
+        if c.sep_dir and not c.label:
+            try:
                 c.label = sep.get_title(c.sep_dir)
+            except KeyError:
+                c.message = "Invalid sep_dir: " + c.sep_dir
+                c.sep_dir = ""
 
+        if c.sep_dir:
             fuzzypath = config.get('corpus', 'fuzzy_path')
             fuzzypath = os.path.join(fuzzypath, c.sep_dir)
             if os.path.exists(fuzzypath):
@@ -157,12 +162,10 @@ class EntityController(BaseController):
                     matches = csv.reader(f)
                     for row in matches:
                         c.linklist.append(row)
+            else:
+                c.message = "Fuzzy match for " + c.sep_dir + " not yet complete."
 
             c.linklist.sort(key=lambda x: x[2], reverse=True)
-
-        elif c.sep_dir and not sep.published(c.sep_dir):
-            c.message = "Invalid sep_dir: " + c.sep_dir
-            c.sep_dir = ""
 
         return render('entity/new.html')
 

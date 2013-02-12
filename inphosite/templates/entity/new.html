@@ -5,17 +5,9 @@
 <%def name="title()">${parent.title()} - New Entity</%def>
 <%def name="head_title()">New Entity</%def>
 
-%if c.message:
-<p>${c.message}</p>
-%endif
 
 <form class="form-horizontal" action="/entity" method="POST">
   <fieldset>
-    <legend>New Entity Form</legend>
-    
-    <div class="control-group">
-      <input type="hidden" name="redirect" id="redirect" value="True" />
-    </div>
 
     <div class="control-group">
       %if c.sep_dir and c.linklist:
@@ -25,14 +17,18 @@
 	<li><a href="${url(controller='entity', action='update', id=entity[0], sep_dir=c.sep_dir, _method='PUT', redirect='true')}">${entity[1]}</a> (${entity[2]})</li>
 	%endfor
       </ul>
-      <p>&nbsp;</p>
       %elif c.sep_dir:
-      <p>This entry does not have a corresponding InPhO Entity, as determined by the fuzzymatch algorithm.</p>
+      <p>This entry does not have a corresponding InPhO Entity.</p>
+      %endif
+      
+      %if c.message:
+      <p>${c.message}</p>
       %endif
     </div>
     
-    
+    <legend>New Entity Form</legend>
     <div class="control-group">
+      <input type="hidden" name="redirect" id="redirect" value="True" />
       <label class="control-label" for="label">Label</label>
 
       <div class="controls">

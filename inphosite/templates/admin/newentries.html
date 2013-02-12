@@ -12,10 +12,15 @@ import re
 ##host is ${request.host}
 <br /><br />
 
-
+<ul class="unstyled">
 %for entry in c.entries:
-	<a href="${entry['link']}">${entry['title']}</a>  (<a href="${'http://plato.stanford.edu/entries/' + entry['sep_dir']}" target="_blank">SEP Entry</a>)<br />
+  %if entry['published']:
+	<li><strong><a href="${entry['link']}">${entry['title']}</a></strong>  (<a href="${'http://plato.stanford.edu/entries/' + entry['sep_dir']}" target="_blank">SEP Entry</a>)</li>
+  %else:
+	<li><a href="${entry['link']}">${entry['title']}</a></li>
+  %endif
 %endfor
+</ul>
 
 
 

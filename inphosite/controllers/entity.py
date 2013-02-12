@@ -126,7 +126,8 @@ class EntityController(BaseController):
                                label=titles[sep_dir], sep_dir=sep_dir)
             c.entries.append({ 'sep_dir' : sep_dir, 
                                'title' : titles[sep_dir], 
-                               'link' : link })
+                               'link' : link,
+                               'published' : sep.published(sep_dir)})
 
         return render ('admin/newentries.html')
 

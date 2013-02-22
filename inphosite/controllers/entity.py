@@ -38,6 +38,9 @@ class EntityController(BaseController):
     _type = Entity
     _controller = 'entity'
 
+    def __before__(self):
+        response.headers['Access-Control-Allow-Origin'] = '*' 
+
     # UPDATE
     def update(self, id, terms=None):
         if not h.auth.is_logged_in():

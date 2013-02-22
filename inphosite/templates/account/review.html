@@ -20,10 +20,8 @@
 	<h4>You do not have any evaluations.</h4><br />
 %endif
 
-
 <script type="text/javascript" src="/js/eval.js"></script>
 <script type="text/javascript">inpho.eval.alert = false;</script>
-
 
 <%def name="printEval(e, cls='')">
     <div class="evalContainer">${eval.thanks(e.ante, e.cons, e.relatedness, e.generality)}</div>

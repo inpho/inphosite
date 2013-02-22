@@ -49,7 +49,6 @@ class IdeaController(EntityController):
 
     def __before__(self):
         response.headers['Access-Control-Allow-Origin'] = '*'
-        
 
     def data_integrity(self, filetype="html", redirect=False):
         if not h.auth.is_logged_in():
@@ -476,6 +475,7 @@ class IdeaController(EntityController):
             id=id
         )
 
+        response.headers['Access-Control-Allow-Origin'] = '*' 
 
         return render('idea/idea-edit.html')
 

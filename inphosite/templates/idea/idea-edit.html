@@ -17,8 +17,6 @@
 <script type="text/javascript" src="/js/eval.js"></script>
 <script type="text/javascript">inpho.eval.alert = false;</script>
 
-
-
 <%def name="printEntity(cons, cls='', relatedness=-1, generality=-1)">
         <strong>${h.titlecase(cons.label)}</strong>&nbsp;&nbsp;
 
@@ -32,4 +30,3 @@
 
         <div class="evalContainer">${eval.form(c.idea, cons, relatedness, generality)}</div>
 </%def>
-

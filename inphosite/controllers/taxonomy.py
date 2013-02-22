@@ -16,6 +16,9 @@ log = logging.getLogger(__name__)
 class TaxonomyController(EntityController):
     _type = Node
     _controller = 'taxonomy'
+    
+    def __before__(self):
+        response.headers['Access-Control-Allow-Origin'] = '*' 
 
     def view(self, id=None, filetype='html'):
         c.node = h.fetch_obj(Node, id, new_id=True)

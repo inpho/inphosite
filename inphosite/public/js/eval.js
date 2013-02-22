@@ -4,14 +4,25 @@ inpho.eval = inpho.eval || {};
 // default to alert mode. Individual pages can disable this.
 inpho.eval.alert = true;
 
-inpho.eval.getEvalForm = function(form) {
-  var anteID = $(form).attr('data-anteID');
-  var consID = $(form).attr('data-consID');
+// *******************
+// User Authentication
+// *******************
+inpho.eval.userAuth = null;
 
+inpho.eval.makeBaseAuth = function(user, pass) {
+  var tok = user + ':' + pass;
+  var hash = Base64.encode(tok);
+  return "Basic " + hash;
+}
+
+// ****************
+// Evaluation Forms
+// ****************
+inpho.eval.getEvalForm = function(anteID, consID) {
   var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1";
   if (!inpho.eval.alert) url += '&alert=';
-  
-  $.get(url, function(data){
+
+  $.get(inpho.util.url(url), function(data){
     var p = $('#i' + consID + '-eval').parent();
     if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
     else $('#i' + consID + '-eval').remove();
@@ -32,7 +43,7 @@ inpho.eval.getThanksForm = function(form) {
   var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=&relatedness=" + relVal + "&generality=" + genVal;
   if (!inpho.eval.alert) url += '&alert=';
   
-  $.get(url, function(data){
+  $.get(inpho.util.url(url), function(data){
     var p = $('#i' + consID + '-eval').parent();
     if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
     else $('#i' + consID + '-eval').remove();
@@ -46,21 +57,27 @@ inpho.eval.getThanksForm = function(form) {
 inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
     console.log("submitEval: " + ante_id + "," + cons_id + "," + rel + "," + gen);
 
-    // url to post generality value
+    // urls to post generality and relatedness values
     var url_gen = '/idea/' + ante_id + '/generality/' + cons_id;
     var url_rel = '/idea/' + ante_id + '/relatedness/' + cons_id;
-    
-    // submit generality value
-    $.post(url_gen,
-           { degree : gen },
-           function(data){
-             // submit relatedness after generality
-             $.post(url_rel,
-                    { degree : rel },
-                    callback
-                  );
-           } );
-    // url to post relatedness value
+
+    $.ajax({
+      type: "POST",
+      url: inpho.util.url(url_gen),
+      data: { degree : gen },
+      success: function(data) {
+              $.post(inpho.util.url(url_rel),
+                  { degree : rel },
+                  callback
+                );
+            },
+      beforeSend: function(req) {
+            req.setRequestHeader('Authorization', inpho.eval.userAuth);
+          },
+      complete: function () {
+            console.log("authenticated submit complete");
+          }
+    });
 }
 
 inpho.eval.resetEval = function(ante_id, cons_id) {
@@ -84,7 +101,7 @@ inpho.eval.cancelEval = function(form) {
     var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=";
     if (!inpho.eval.alert) url += '&alert=';
     
-    $.get(url, function(data){
+    $.get(inpho.util.url(url), function(data){
       var p = $('#i' + consID + '-eval').parent();
       if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
       else $('#i' + consID + '-eval').remove();
@@ -92,6 +109,9 @@ inpho.eval.cancelEval = function(form) {
     });
 }
 
+// *************
+// Evaluation UI
+//**************
 inpho.eval.parseAndSubmit = function(form) {
     var anteID = $(form).attr('data-anteID');
     var consID = $(form).attr('data-consID');
@@ -103,7 +123,9 @@ inpho.eval.parseAndSubmit = function(form) {
     var genVal = inpho.eval.getValueFromButtonGroupDiv(genDiv);
 
     inpho.eval.submitEval(anteID, consID, relVal, genVal,
-      function () { inpho.eval.getThanksForm(form) });
+      function () { 
+        inpho.eval.getThanksForm(form) 
+      });
 }
 
 inpho.eval.didSelectRelatedness = function(button) {

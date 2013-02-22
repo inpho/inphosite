@@ -58,24 +58,32 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
     console.log("submitEval: " + ante_id + "," + cons_id + "," + rel + "," + gen);
 
     // urls to post generality and relatedness values
-    var url_gen = '/idea/' + ante_id + '/generality/' + cons_id;
     var url_rel = '/idea/' + ante_id + '/relatedness/' + cons_id;
+    var url_gen = '/idea/' + ante_id + '/generality/' + cons_id;
 
     $.ajax({
       type: "POST",
-      url: inpho.util.url(url_gen),
-      data: { degree : gen },
+      url: inpho.util.url(url_rel),
+      data: { degree : rel },
       success: function(data) {
-              $.post(inpho.util.url(url_rel),
-                  { degree : rel },
-                  callback
-                );
-            },
+	  $.ajax({
+	      type: "POST",
+	      url: inpho.util.url(url_gen),
+	      data: { degree : gen },
+	      success: callback,
+	      beforeSend: function(req) {
+		  req.setRequestHeader('Authorization',inpho.eval.userAuth);
+	      },
+	      complete: function() {
+		  console.log("auth submit gen complete");
+	      }
+	  });
+      },
       beforeSend: function(req) {
             req.setRequestHeader('Authorization', inpho.eval.userAuth);
           },
       complete: function () {
-            console.log("authenticated submit complete");
+            console.log("auth submit rel complete");
           }
     });
 }

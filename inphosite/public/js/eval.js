@@ -22,11 +22,21 @@ inpho.eval.getEvalForm = function(anteID, consID) {
   var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1";
   if (!inpho.eval.alert) url += '&alert=';
 
-  $.get(inpho.util.url(url), function(data){
-    var p = $('#i' + consID + '-eval').parent();
-    if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
-    else $('#i' + consID + '-eval').remove();
-    $(p).prepend(data);
+  $.ajax({
+      type: "GET",
+      url: inpho.util.url(url),
+      success: function(data) {
+        var p = $('#i' + consID + '-eval').parent();
+        if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
+        else $('#i' + consID + '-eval').remove();
+        $(p).prepend(data);
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization',inpho.eval.userAuth);
+      },
+      complete: function() {
+        console.log("getEvalForm complete");
+      }
   });
 }
 
@@ -42,12 +52,22 @@ inpho.eval.getThanksForm = function(form) {
 
   var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=&relatedness=" + relVal + "&generality=" + genVal;
   if (!inpho.eval.alert) url += '&alert=';
-  
-  $.get(inpho.util.url(url), function(data){
-    var p = $('#i' + consID + '-eval').parent();
-    if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
-    else $('#i' + consID + '-eval').remove();
-    $(p).prepend(data);
+
+  $.ajax({
+      type: "GET",
+      url: inpho.util.url(url),
+      success: function(data){
+        var p = $('#i' + consID + '-eval').parent();
+        if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
+        else $('#i' + consID + '-eval').remove();
+        $(p).prepend(data);
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization',inpho.eval.userAuth);
+      },
+      complete: function() {
+        console.log("getThanksForm complete");
+      }
   });
 };
 
@@ -66,25 +86,25 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
       url: inpho.util.url(url_rel),
       data: { degree : rel },
       success: function(data) {
-	  $.ajax({
-	      type: "POST",
-	      url: inpho.util.url(url_gen),
-	      data: { degree : gen },
-	      success: callback,
-	      beforeSend: function(req) {
-		  req.setRequestHeader('Authorization',inpho.eval.userAuth);
-	      },
-	      complete: function() {
-		  console.log("auth submit gen complete");
-	      }
-	  });
+    	  $.ajax({
+    	      type: "POST",
+    	      url: inpho.util.url(url_gen),
+    	      data: { degree : gen },
+    	      success: callback,
+    	      beforeSend: function(req) {
+    		      req.setRequestHeader('Authorization',inpho.eval.userAuth);
+    	      },
+    	      complete: function() {
+    		      console.log("auth submit gen complete");
+    	      }
+    	  });
       },
       beforeSend: function(req) {
-            req.setRequestHeader('Authorization', inpho.eval.userAuth);
-          },
-      complete: function () {
-            console.log("auth submit rel complete");
-          }
+        req.setRequestHeader('Authorization', inpho.eval.userAuth);
+      },
+      complete: function() {
+        console.log("auth submit rel complete");
+      }
     });
 }
 
@@ -108,13 +128,23 @@ inpho.eval.cancelEval = function(form) {
 
     var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=";
     if (!inpho.eval.alert) url += '&alert=';
-    
-    $.get(inpho.util.url(url), function(data){
-      var p = $('#i' + consID + '-eval').parent();
-      if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
-      else $('#i' + consID + '-eval').remove();
-      $(p).prepend(data);
-    });
+
+    $.ajax({
+      type: "GET",
+      url: inpho.util.url(url),
+      success: function(data) {
+        var p = $('#i' + consID + '-eval').parent();
+        if (inpho.eval.alert) $('#i' + consID + '-eval').alert('close');
+        else $('#i' + consID + '-eval').remove();
+        $(p).prepend(data);
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization',inpho.eval.userAuth);
+      },
+      complete: function() {
+        console.log("cancelEval complete");
+      }
+  });
 }
 
 // *************

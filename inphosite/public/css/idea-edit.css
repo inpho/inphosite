@@ -19,6 +19,14 @@ li p {
 	font-style: italic;
 }
 
+.spinner {
+	margin-bottom: 15px;
+}
+
+.spinner p:after {
+	content: url('/img/loading.gif');
+}
+
 
 /* individual eval */
 /*-----------------*/

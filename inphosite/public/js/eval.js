@@ -151,6 +151,8 @@ inpho.eval.cancelEval = function(form) {
 // Evaluation UI
 //**************
 inpho.eval.parseAndSubmit = function(form) {
+    inpho.eval.animateSpinner(form);
+
     var anteID = $(form).attr('data-anteID');
     var consID = $(form).attr('data-consID');
 
@@ -164,6 +166,13 @@ inpho.eval.parseAndSubmit = function(form) {
       function () { 
         inpho.eval.getThanksForm(form) 
       });
+}
+
+inpho.eval.animateSpinner = function(form) {
+    $(form).fadeOut('fast', function() {
+      var spinnerDiv = $('.spinner', $(form).parent());
+      $(spinnerDiv).fadeIn('fast', null);
+    });
 }
 
 inpho.eval.didSelectRelatedness = function(button) {

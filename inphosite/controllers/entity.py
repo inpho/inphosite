@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
@@ -195,6 +196,7 @@ class EntityController(BaseController):
         Session.add(c.entity)
         Session.commit()
         if redirect: 
+            sleep(5) # TODO: figure out database slowness so this can be removed
             redirect(c.entity.url(filetype, action="view"), code=303)
         else:
             return "200 OK"

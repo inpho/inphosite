@@ -64,6 +64,11 @@ inpho.admin.process_change = function(e) {
     $(this).parents('.control-group').removeClass('success');
     $(this).parents('.control-group').removeClass('error');
     status_icon.addClass('icon-share-alt');
+
+    // update url fields
+    if ($(this).hasClass('admin-url')) {
+      $(this).siblings('.admin-url-test').attr('href', $(this).val());
+    }
   } else {
     status_icon.removeClass('icon-loading');
     status_icon.removeClass('icon-warning-sign');

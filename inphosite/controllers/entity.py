@@ -470,10 +470,12 @@ class EntityController(BaseController):
         if not range:
             date = Date(c.entity.ID, id2,
                         year, month, day)
+            date.entity = c.entity 
         else:
             date = Date(c.entity.ID, id2, 
                         year, month, day, 
                         year_end, month_end, day_end)
+            date.entity = c.entity
 
         return date
         

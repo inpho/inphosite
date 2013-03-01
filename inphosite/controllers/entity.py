@@ -222,6 +222,7 @@ class EntityController(BaseController):
             c.sep = EntityController._search_sep(c.entity, c.entity2)
         except:
             c.sep = None
+
         try:
             c.noesis = EntityController._search_noesis(c.entity, c.entity2)
         except:

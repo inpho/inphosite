@@ -1,5 +1,6 @@
 <%! import urllib %>
 <%inherit file="/base-tree.html" />
+<%namespace name="actb" file="/actb.html" />
 
 ## Header
 <%def name="title()">${parent.title()} - New Entity</%def>
@@ -32,11 +33,7 @@
       <label class="control-label" for="label">Label</label>
 
       <div class="controls">
-	%if c.label:
-	<input id="label" name="label" size="80" type="text" value="${c.label}" />
-	%else:
-	<input id="label" name="label" size="80" type="text" />
-	%endif
+        ${actb.actb("label", value=c.label)}
       </div>
     </div>
     
@@ -69,7 +66,8 @@
     
     <div class="form-actions">
       <button type="submit" class="btn btn-primary" value="Create Entry">Create Entry</button>
-      <button type="reset" class="btn">Reset</button>
+      <button type="reset" class="btn">Reset</button><br />
+      <p><em>Note:</em> If term already exists, you will be redirected.</p>
     </div>  
   </fieldset>
 </form>

@@ -182,6 +182,11 @@ class EntityController(BaseController):
         label = request.params.get('label')
         sep_dir = request.params.get('sep_dir')
 
+        c.entity = Session.query(Entity).filter(Entity.label==label).first()
+        if c.entity:
+            redirect(c.entity.url(filetype, action="view"), code=303)
+
+
         if entity_type == 1:
             c.entity = Idea(label, sep_dir=sep_dir)
         elif entity_type == 3:

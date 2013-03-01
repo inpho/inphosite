@@ -1,10 +1,10 @@
-<%def name="actb(id, label=None, param=None, source='/entity.json')" >
+<%def name="actb(id, label=None, param=None, source='/entity.json', value='')" >
 <div class="actb">
   %if label:
   <label for="${id}">${label}</label>
   %endif
   <div class="form-search">
-    <% q = request.params.get(param,'') if param else '' %>
+    <% q = request.params.get(param,'') if param else value %>
     <input class="input-medium search-query" type="text" id="${id}" name="${id}" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
   </div>
 </div>

@@ -1,10 +1,16 @@
 <%! import time %>
 <%def name="textbox(attr, url, value='', search='')">
+<%
+try:
+    value = value.decode('utf-8')
+except UnicodeEncodeError:
+    value = value
+%>
 <div class="control-group">
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       <div class="input-append">
-        <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value.decode('utf-8')}" data-url="${url}" />
+        <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value}" data-url="${url}" />
         <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
         %if search:
         <a class="add-on btn" id="google_${attr}" href="${search.decode('utf-8')}" target="_blank"><i class="icon-search"></i></a>

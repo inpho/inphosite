@@ -559,6 +559,32 @@ class IdeaController(EntityController):
         if request.environ.get('REMOTE_USER', False):
             username = request.environ.get('REMOTE_USER', username)
             evaluation = self._get_evaluation(id, id2, None, username)
+        elif request.params.get('cookieAuth'):
+            # eat cookie
+            cookieAuth = request.params.get('cookieAuth')
+            decodedCookie = h.rot(cookieAuth)
+            ip = request.environ.get('REMOTE_ADDR')
+
+            index = decodedCookie.find(ip, 0, len(ip))
+            if index != -1:
+                user = decodedCookie.replace(ip, '', len(ip))
+
+                if user.isalpha():
+                    username = 'sep.' + user
+
+                    if auth.user_exists(username):
+                        print "Valid cookie auth for user:", username
+                        evaluation = self._get_evaluation(id, id2, None, username)
+                    else:
+                        print "Error: user does not exist:", username
+                        abort(401)
+                else:
+                    print "Error: invalid IP from cookie:", decodedCookie
+                    abort(403)
+            else:
+                print "Error: invalid IP from cookie:", decodedCookie
+                abort(403)
+
         else:
             evaluation = self._get_anon_evaluation(id, id2, request.environ.get('REMOTE_ADDR', '0.0.0.0'))
 

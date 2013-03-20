@@ -12,6 +12,9 @@ from webhelpers.html.tags import *
 from pylons.controllers.util import abort, redirect
 import re
 
+def rot(cookie=None):
+    
+    return cookie;
 
 def titlecase(s):
     title = []

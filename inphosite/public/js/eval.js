@@ -85,12 +85,12 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
     $.ajax({
       type: "POST",
       url: inpho.util.url(url_rel),
-      data: { degree : rel },
+      data: { degree : rel, cookieAuth : inpho.eval.cookieAuth },
       success: function(data) {
     	  $.ajax({
     	      type: "POST",
     	      url: inpho.util.url(url_gen),
-    	      data: { degree : gen },
+    	      data: { degree : gen, cookieAuth : inpho.eval.cookieAuth },
     	      success: callback,
     	      beforeSend: function(req) {
     		      req.setRequestHeader('Authorization',inpho.eval.basicAuth);

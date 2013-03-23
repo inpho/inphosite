@@ -17,3 +17,19 @@ inpho.util.url = function(api_call) {
   else
     return inpho.util.base_url + api_call;
 }
+
+inpho.util.getCookieValueForName = function(cookieName) {
+	console.log("Getting list of cookies...");
+	var cookies = document.cookie.split(";");
+	for(var i = 0; i < cookies.length; i++) {
+		var pair = cookies[i].split("=");
+		console.log("Cookie " + i + ": name(" + pair[0] + "), value(" + pair[1] + ")");
+
+		if(pair[0] === cookieName) {
+			console.log("Success! Cookie found: " + cookieName);
+			return pair[1];
+		}
+	}
+	console.log("Error! Cookie not found: " + cookieName);
+	return null;
+}

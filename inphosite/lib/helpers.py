@@ -11,10 +11,14 @@ from webhelpers.html.tags import *
 #from formbuild import start_with_layout as form_start, end_with_layout as form_end
 from pylons.controllers.util import abort, redirect
 import re
+import string
 
 def rot(cookie=None):
-    
-    return cookie;
+    ascii_table = "".join([chr(i) for i in xrange(32,127)])
+    rot_table = ascii_table[48:] + 'O' + ascii_table[:47]
+    trans = string.maketrans(ascii_table, rot_table)
+    decoded = str(cookie).translate(trans)
+    return decoded
 
 def titlecase(s):
     title = []

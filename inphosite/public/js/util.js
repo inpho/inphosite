@@ -56,5 +56,9 @@ inpho.util.getURLParamsAndValues = function() {
 
 inpho.util.getValueForURLParam = function(param) {
     var paramsAndValues = inpho.util.getURLParamsAndValues();
+    
+    if(paramsAndValues.length == 0)
+    	return null;
+
     return paramsAndValues[param];
 }

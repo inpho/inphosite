@@ -8,7 +8,7 @@
 		body {
 			margin: 50px 80px 50px 80px;
 		}
-		
+
 		li {
 			margin-bottom: 25px;
 		}
@@ -36,13 +36,15 @@
 			inpho.eval.alert = false;
 			inpho.eval.cookieAuth = inpho.util.getCookieValueForName("1ED8%3FBC%5E379"); // sep cookie name
 
+			var loadingSpinner = $('#loading', '#container');
 			var sepdir = inpho.util.getValueForURLParam("sep");
-			if(sepdir == null) {
-				var loadingSpinner = $('#loading', '#container');
-	      			$(loadingSpinner).fadeOut('slow', function() {
-	      				$('#container').remove('#loading');
-						inpho.eval.displayInvalidURLErrorInDiv('#errors');
-					});
+
+			if(sepdir == null) {	
+      			$(loadingSpinner).fadeOut('slow', function() {
+      				$('#container').remove('#loading');
+					inpho.eval.displayErrorAlertInDivWithMessage('#errors',
+						'Invalid url query parameter: article not found.<br /> Evaluations could not be loaded.');
+				});
 			}
 			else {
 				if(inpho.eval.cookieAuth == null) {
@@ -51,7 +53,17 @@
 
 				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir + '&redirect=evaluate'), function(json) {
 					inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
-					inpho.eval.loadEvalsListFromJSONDataWithFade(json, 'slow');
+
+					if(typeof(json.related) == 'undefined') {
+					  	$(loadingSpinner).fadeOut('slow', function() {
+					  		$('#container').remove('#loading');
+					  		inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
+					  			'Could not load evaluations for this article. Are you sure this is an idea?');
+					  	});
+					}
+					else {
+						inpho.eval.loadEvalsListFromJSONDataWithFade(json, 'slow');
+					}
 				});
 			}
 

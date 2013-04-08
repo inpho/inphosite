@@ -23,13 +23,13 @@ inpho.eval.loadEvalsListFromJSONDataWithFade = function(json, fade) {
   var anteID = json.ID;
   var relatedTerms = json.related;
   var length = (relatedTerms.length > 10) ? 10 : relatedTerms.length;
-
   var loadingSpinner = $('#loading', '#container');
-      $(loadingSpinner).fadeOut('slow', function() {
-        $('#container').remove('#loading');
-      
-        var evals = [];
-        for(var i = 0; i < length; i++) {
+
+  $(loadingSpinner).fadeOut('slow', function() {
+    $('#container').remove('#loading');
+  
+    var evals = [];
+    for(var i = 0; i < length; i++) {
       var consID = relatedTerms[i];
       $('#evalList').append('<li class="evalItem-eval hide"><div id=i' + consID + '-eval></div></li>');
       inpho.eval.getEvalForm(anteID, consID);
@@ -61,11 +61,10 @@ inpho.eval.showAllEvals = function() {
   $('.evalItem-eval').fadeIn('slow', null);
 }
 
-inpho.eval.displayInvalidURLErrorInDiv = function(divID) {
+inpho.eval.displayErrorAlertInDivWithMessage = function(divID, msg) {
   $(divID).append('<div class="alert alert-error alert-block">' +
-                  '<h3>Error!</h3><p>Invalid url query parameter: article not found.<br />' + 
-                  'Evaluations could not be loaded.' +
-                  '</p><br/><br/>' +
+                  '<h3>Error!</h3>' +
+                  '<p>' + msg + '</p><br/><br/>' +
                   '</div>');
 }
 

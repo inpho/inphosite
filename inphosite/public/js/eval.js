@@ -16,6 +16,66 @@ inpho.eval.makeBaseAuth = function(user, pass) {
   return "Basic " + hash;
 }
 
+// ************************
+// Cross-domain Evaluations
+// ************************
+inpho.eval.loadEvalsListFromJSONDataWithFade = function(json, fade) {
+  var anteID = json.ID;
+  var relatedTerms = json.related;
+  var length = (relatedTerms.length > 10) ? 10 : relatedTerms.length;
+
+  var loadingSpinner = $('#loading', '#container');
+      $(loadingSpinner).fadeOut('slow', function() {
+        $('#container').remove('#loading');
+      
+        var evals = [];
+        for(var i = 0; i < length; i++) {
+      var consID = relatedTerms[i];
+      $('#evalList').append('<li class="evalItem-eval hide"><div id=i' + consID + '-eval></div></li>');
+      inpho.eval.getEvalForm(anteID, consID);
+
+      evals.push($('#i' + consID + '-eval').parent());
+    }
+
+    if(fade === 'slow')
+      inpho.eval.fadeInEvalsList(0, evals);
+    else if(fade === 'fast')
+      inpho.eval.showAllEvals();
+  });
+}
+
+inpho.eval.fadeInEvalsList = function(n, evalList) {
+  if(n >= evalList.length) {
+    return;
+  }
+  else {
+    setTimeout(function() {
+      evalList[n].fadeIn('slow', function() {
+        inpho.eval.fadeInEvalsList(n+1, evalList);
+      });
+    }, 0);
+  }
+}
+
+inpho.eval.showAllEvals = function() {
+  $('.evalItem-eval').fadeIn('slow', null);
+}
+
+inpho.eval.displayInvalidURLErrorInDiv = function(divID) {
+  $(divID).append('<div class="alert alert-error alert-block">' +
+                  '<h3>Error!</h3><p>Invalid url query parameter: article not found.<br />' + 
+                  'Evaluations could not be loaded.' +
+                  '</p><br/><br/>' +
+                  '</div>');
+}
+
+inpho.eval.displayPromptForArticle = function(divID, label, sepdir) {
+  var url = "http://plato.stanford.edu/entries/" + sepdir;
+  $(divID).html('Please evaluate the following relevant terms for the article ' +
+                '<em><a href="' + url + '" target="_blank">' + label + '</a></em>.');
+  $(divID).fadeIn('slow', null);
+}
+
 // ****************
 // Evaluation Forms
 // ****************

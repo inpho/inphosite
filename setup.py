@@ -22,7 +22,10 @@ setup(
         "Sphinx>=1.1.0,<=1.1.99",
         "inflect>=0.2.0,<=0.2.99",
         "turbomail>=3.0.0,<=3.0.99",
-        "BeautifulSoup>=3.2.0,<=3.2.99"
+        "BeautifulSoup>=3.2.0,<=3.2.99",
+        "unittest2>=0.5.0",
+        "distribute>= 0.6.0",
+        "nltk>=2.0.0"
     ],
     dependency_links = [
         "http://pylonshq.com/download/"

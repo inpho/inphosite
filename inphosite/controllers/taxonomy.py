@@ -19,6 +19,10 @@ class TaxonomyController(EntityController):
     
     def __before__(self):
         response.headers['Access-Control-Allow-Origin'] = '*' 
+        response.headers['Access-Control-Allow-Methods'] = '*'
+        response.headers['Access-Control-Allow-Headers'] =\
+            'origin, c-csrftoken, content-type, authorization, accept'
+        response.headers['Access-Control-Max-Age'] = '1000'
 
     def view(self, id=None, filetype='html'):
         c.node = h.fetch_obj(Node, id, new_id=True)

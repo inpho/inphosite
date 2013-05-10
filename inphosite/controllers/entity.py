@@ -40,6 +40,10 @@ class EntityController(BaseController):
 
     def __before__(self):
         response.headers['Access-Control-Allow-Origin'] = '*' 
+        response.headers['Access-Control-Allow-Methods'] = '*'
+        response.headers['Access-Control-Allow-Headers'] =\
+            'origin, c-csrftoken, content-type, authorization, accept'
+        response.headers['Access-Control-Max-Age'] = '1000'
 
     # UPDATE
     def update(self, id, terms=None):

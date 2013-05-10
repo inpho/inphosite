@@ -88,6 +88,7 @@ inpho.eval.getEvalForm = function(anteID, consID) {
 
   $.ajax({
       type: "GET",
+      data: {cookieAuth: inpho.eval.cookieAuth},
       url: inpho.util.url(url),
       success: function(data) {
         var p = $('#i' + consID + '-eval').parent();

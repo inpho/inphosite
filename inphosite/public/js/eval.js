@@ -4,6 +4,9 @@ inpho.eval = inpho.eval || {};
 // default to alert mode. Individual pages can disable this.
 inpho.eval.alert = true;
 
+// enable jQuery CORS per http://api.jquery.com/jQuery.support/
+$.support.cors = true;
+
 // *******************
 // User Authentication
 // *******************
@@ -19,6 +22,7 @@ inpho.eval.makeBaseAuth = function(user, pass) {
 // ************************
 // Cross-domain Evaluations
 // ************************
+
 inpho.eval.loadEvalsListFromJSONDataWithFade = function(json, fade) {
   var anteID = json.ID;
   var relatedTerms = json.related;

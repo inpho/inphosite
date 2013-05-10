@@ -49,10 +49,6 @@ class IdeaController(EntityController):
 
     def __before__(self):
         response.headers['Access-Control-Allow-Origin'] = '*'
-        response.headers['Access-Control-Allow-Methods'] = '*'
-        response.headers['Access-Control-Allow-Headers'] =\
-            'origin, c-csrftoken, content-type, authorization, accept'
-        response.headers['Access-Control-Max-Age'] = '1000'
 
     def data_integrity(self, filetype="html", redirect=False):
         if not h.auth.is_logged_in():
@@ -557,15 +553,17 @@ class IdeaController(EntityController):
         """
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
+        cookieAuth = request.params.get('cookieAuth')
+        if cookieAuth == 'null':
+            cookieAuth = None
 
         print "grabbing eval for", username, uid
 
         if request.environ.get('REMOTE_USER', False):
             username = request.environ.get('REMOTE_USER', username)
             evaluation = self._get_evaluation(id, id2, None, username)
-        elif request.params.get('cookieAuth'):
+        elif cookieAuth:
             # eat cookie
-            cookieAuth = request.params.get('cookieAuth')
             decodedCookie = h.rot(cookieAuth)
             ip = request.environ.get('REMOTE_ADDR')
 
@@ -583,10 +581,10 @@ class IdeaController(EntityController):
                         print "Error: user does not exist:", username
                         abort(401)
                 else:
-                    print "Error: invalid IP from cookie:", decodedCookie
+                    print "Error: invalid username from cookie:", cookieAuth
                     abort(403)
             else:
-                print "Error: invalid IP from cookie:", decodedCookie
+                print "Error: invalid IP from cookie:", cookieAuth
                 abort(403)
 
         else:
@@ -601,7 +599,6 @@ class IdeaController(EntityController):
                     int(request.params.get('degree', getattr(evaluation, evaltype))))
         except TypeError:
             abort(400)
-
 
         # Create and commit evaluation
         try:

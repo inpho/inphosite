@@ -34,6 +34,7 @@ import simplejson
 import re
 import time
 from collections import defaultdict
+import urllib2
 
 #Schema for validating form data from "edit idea" admin interface
 #class IdeaSchema(Schema):
@@ -553,11 +554,12 @@ class IdeaController(EntityController):
         """
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
-        cookieAuth = request.params.get('cookieAuth')
+        cookieAuth = urllib2.unquote(request.params.get('cookieAuth', ''))
+
         if cookieAuth == 'null':
             cookieAuth = None
 
-        print "grabbing eval for", username, uid
+        print "grabbing eval for", username, uid, cookieAuth
 
         if request.environ.get('REMOTE_USER', False):
             username = request.environ.get('REMOTE_USER', username)
@@ -584,7 +586,7 @@ class IdeaController(EntityController):
                     print "Error: invalid username from cookie:", cookieAuth
                     abort(403)
             else:
-                print "Error: invalid IP from cookie:", cookieAuth
+                print "Error: invalid IP from cookie:", cookieAuth, decodedCookie
                 abort(403)
 
         else:

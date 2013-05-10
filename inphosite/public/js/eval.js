@@ -96,7 +96,8 @@ inpho.eval.getEvalForm = function(anteID, consID) {
         $(p).prepend(data);
       },
       beforeSend: function(req) {
-        req.setRequestHeader('Authorization',inpho.eval.basicAuth);
+        if (inpho.eval.basicAuth != null)
+          req.setRequestHeader('Authorization',inpho.eval.basicAuth);
       },
       complete: function() {
         console.log("getEvalForm complete");
@@ -127,7 +128,8 @@ inpho.eval.getThanksForm = function(form) {
         $(p).prepend(data);
       },
       beforeSend: function(req) {
-        req.setRequestHeader('Authorization',inpho.eval.basicAuth);
+        if (inpho.eval.basicAuth != null)
+          req.setRequestHeader('Authorization',inpho.eval.basicAuth);
       },
       complete: function() {
         console.log("getThanksForm complete");
@@ -156,7 +158,8 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
     	      data: { degree : gen, cookieAuth : inpho.eval.cookieAuth },
     	      success: callback,
     	      beforeSend: function(req) {
-    		      req.setRequestHeader('Authorization',inpho.eval.basicAuth);
+              if (inpho.eval.basicAuth != null)
+    		        req.setRequestHeader('Authorization',inpho.eval.basicAuth);
     	      },
     	      complete: function() {
     		      console.log("auth submit gen complete");
@@ -164,7 +167,8 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
     	  });
       },
       beforeSend: function(req) {
-        req.setRequestHeader('Authorization', inpho.eval.basicAuth);
+        if (inpho.eval.basicAuth != null)
+          req.setRequestHeader('Authorization', inpho.eval.basicAuth);
       },
       complete: function() {
         console.log("auth submit rel complete");
@@ -203,7 +207,8 @@ inpho.eval.cancelEval = function(form) {
         $(p).prepend(data);
       },
       beforeSend: function(req) {
-        req.setRequestHeader('Authorization',inpho.eval.basicAuth);
+        if (inpho.eval.basicAuth != null)
+          req.setRequestHeader('Authorization',inpho.eval.basicAuth);
       },
       complete: function() {
         console.log("cancelEval complete");

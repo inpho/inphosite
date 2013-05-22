@@ -17,3 +17,48 @@ inpho.util.url = function(api_call) {
   else
     return inpho.util.base_url + api_call;
 }
+
+inpho.util.getCookieValueForName = function(cookieName) {
+	console.log("Getting list of cookies...");
+	var cookies = document.cookie.split(";");
+	for(var i = 0; i < cookies.length; i++) {
+		var pair = cookies[i].split("=");
+		console.log("Cookie " + i + ": name(" + pair[0] + "), value(" + pair[1] + ")");
+
+		if(pair[0] === cookieName) {
+			console.log("Success! Cookie found: " + cookieName);
+			return pair[1];
+		}
+	}
+	console.log("Error! Cookie not found: " + cookieName);
+	return null;
+}
+
+inpho.util.getURLParamsAndValues = function() {
+    var paramsAndValues = [];
+    var queryString = window.location.href.slice(window.location.href.indexOf('?') + 1);
+    var keyValPairs = queryString.split('&');
+
+    console.log("Parsing query string: " + queryString);
+    for(var i = 0; i < keyValPairs.length; i++) {
+		var pair = keyValPairs[i].split('=');
+		
+		if(pair.length == 2) {
+		    paramsAndValues.push(pair[0]);
+		    paramsAndValues[pair[0]] = pair[1];
+		}
+		else {
+		    console.log("Error: invalid URL query string");
+	    }
+	}
+    return paramsAndValues;
+}
+
+inpho.util.getValueForURLParam = function(param) {
+    var paramsAndValues = inpho.util.getURLParamsAndValues();
+    
+    if(paramsAndValues.length == 0)
+    	return null;
+
+    return paramsAndValues[param];
+}

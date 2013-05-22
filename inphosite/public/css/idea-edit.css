@@ -13,10 +13,22 @@
 	margin-bottom: 40px;
 }
 
-li p {
+li p, #loading {
 	color: #666666;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	font-style: italic;
+}
+
+.spinner {
+	margin-bottom: 15px;
+}
+
+.spinner p:after {
+	content: url('/img/loading.gif');
+}
+
+#loading:after {
+	content: url('/img/loading.gif');
 }
 
 

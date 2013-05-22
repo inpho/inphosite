@@ -34,6 +34,7 @@ import simplejson
 import re
 import time
 from collections import defaultdict
+import urllib2
 
 #Schema for validating form data from "edit idea" admin interface
 #class IdeaSchema(Schema):
@@ -48,7 +49,7 @@ class IdeaController(EntityController):
     _controller = 'idea'
 
     def __before__(self):
-        response.headers['Access-Control-Allow-Origin'] = '*' 
+        response.headers['Access-Control-Allow-Origin'] = '*'
 
     def data_integrity(self, filetype="html", redirect=False):
         if not h.auth.is_logged_in():
@@ -361,11 +362,23 @@ class IdeaController(EntityController):
         c.relatedness = int(request.params.get('relatedness', -1))
         
         # retrieve user information
-        c.identity = request.environ.get('repoze.who.identity')
-        c.uid = None if not c.identity else c.identity['user'].ID
+        identity = request.environ.get('repoze.who.identity')
+        c.uid = None if not identity else identity['user'].ID
+        
+        #TODO: Place cookie auth here
+        try:
+            cookie = request.params.get('cookieAuth', 'null')
+            username = h.auth.get_username_from_cookie(cookie) or ''
+            user = h.get_user(username)
+            if user is not None:
+                c.uid = user.ID
+
+        except ValueError:
+            # invalid IP, abort
+            abort(403)
 
         # use the user's evaluation if present, otherwise a null eval
-        if c.identity and (c.generality == -1 or c.relatedness == -1):
+        if c.uid and (c.generality == -1 or c.relatedness == -1):
             eval_q = Session.query(IdeaEvaluation.generality, 
                                        IdeaEvaluation.relatedness)
             eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
@@ -553,11 +566,18 @@ class IdeaController(EntityController):
         """
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
+        try:
+            username = h.auth.get_username_from_cookie(request.params.get('cookieAuth', ''))
+        except ValueError:
+            # invalid IP, abort
+            abort(403)
 
         print "grabbing eval for", username, uid
 
         if request.environ.get('REMOTE_USER', False):
             username = request.environ.get('REMOTE_USER', username)
+            evaluation = self._get_evaluation(id, id2, None, username)
+        elif username:
             evaluation = self._get_evaluation(id, id2, None, username)
         else:
             evaluation = self._get_anon_evaluation(id, id2, request.environ.get('REMOTE_ADDR', '0.0.0.0'))
@@ -571,7 +591,6 @@ class IdeaController(EntityController):
                     int(request.params.get('degree', getattr(evaluation, evaltype))))
         except TypeError:
             abort(400)
-
 
         # Create and commit evaluation
         try:

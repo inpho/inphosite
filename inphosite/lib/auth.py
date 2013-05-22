@@ -8,6 +8,8 @@ from pylons import request
 import helpers as h
 
 from hashlib import md5
+import urllib2
+
 def encrypt(password, secret=''):
     ''' Encryption function for use on passwords '''
     result = md5(password)
@@ -50,6 +52,28 @@ def username(request):
 def user_exists(username):
     return h.get_user(username) is not None  
 
+def get_username_from_cookie(cookie):
+    """
+    Takes a cookie authorization and decodes it to find the username.
+    Does some validation against the requesting IP address. 
+    Raises a ValueError if they do not match the request.
+    """
+    cookie = urllib2.unquote(cookie)
+    if cookie == "null":
+        return None
+
+    decodedCookie = h.rot(cookie)
+    ip = request.environ.get('REMOTE_ADDR')
+    index = decodedCookie.find(ip, 0, len(ip))
+    if index != -1:
+        username = decodedCookie.replace(ip, '', len(ip))
+
+        if username.isalpha():
+            username = 'sep.' + username
+
+            return username
+    else:
+        raise ValueError("Invalid IP for cookie value")
 
 
 class UserModelPlugin(object):

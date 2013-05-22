@@ -34,6 +34,9 @@ ${thanks(c.entity, c.entity2, c.relatedness, c.generality, c.alert)}
           <button type="button" class="btn ${'hide' if relatedness == -1 or (relatedness > 0  and generality == -1) else ''}" onClick="inpho.eval.cancelEval(this.form)">Cancel</button>
       </div>
   </form>
+  <div class="spinner hide">
+    <p>Submitting... </p>&nbsp;&nbsp;
+  </div>
 </div>
 </%def>
 

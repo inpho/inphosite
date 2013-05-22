@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="UFT-8">
+		<link rel="stylesheet" type="text/css" href="http://inphodev.cogs.indiana.edu:8082/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="http://inphodev.cogs.indiana.edu:8082/css/idea-edit.css">
+	</head>
+	<style type="text/css">
+		body {
+			margin: 50px 80px 50px 80px;
+		}
+
+		li {
+			margin-bottom: 25px;
+		}
+
+		.alert {
+			max-width: 475px;
+		}
+	</style>
+	<body>
+		<div id="container">
+			<h1>Evaluate the Following Terms</h1><br />
+			<h4 id="prompt" class="hide"></h4><br/>
+			<div id="errors"></div>
+			<p id="loading">Loading... </p>&nbsp;&nbsp;
+			<ol id="evalList" class="unstyled"></ol>
+		</div>
+
+		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/jquery/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/base64.js"></script>
+		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/util.js"></script>
+		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/eval.js"></script>
+		<script type="text/javascript">
+			inpho.util.base_url = 'http://inphodev.cogs.indiana.edu:8082';
+			inpho.eval.alert = false;
+			inpho.eval.cookieAuth = inpho.util.getCookieValueForName("1ED8%3FBC%5E379"); // sep cookie name
+
+			var loadingSpinner = $('#loading', '#container');
+			var sepdir = inpho.util.getValueForURLParam("sep");
+
+			if(sepdir == null) {	
+      			$(loadingSpinner).fadeOut('slow', function() {
+      				$('#container').remove('#loading');
+					inpho.eval.displayErrorAlertInDivWithMessage('#errors',
+						'Invalid url query parameter: article not found.<br /> Evaluations could not be loaded.');
+				});
+			}
+			else {
+				if(inpho.eval.cookieAuth == null) {
+					displayInvalidCookieWarningInDiv('#errors', sepdir);
+				}
+
+				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir + '&redirect=evaluate'), function(json) {
+					inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
+
+					if(typeof(json.related) == 'undefined') {
+					  	$(loadingSpinner).fadeOut('slow', function() {
+					  		$('#container').remove('#loading');
+					  		inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
+					  			'Could not load evaluations for this article. Are you sure this is an idea?');
+					  	});
+					}
+					else {
+						inpho.eval.loadEvalsListFromJSONDataWithFade(json, 'slow');
+					}
+				});
+			}
+
+			function displayInvalidCookieWarningInDiv(divID, sepdir) {
+				var url = "https://meinong.stanford.edu/cgi-bin/encyclopedia/authors.cgi?action=InPhOEval&entry=" + sepdir;
+  				$(divID).append('<div class="alert alert-warning alert-block">' +
+				                  '<h3>Warning!</h3>' +
+				                  '<p>Invalid user authentication: SEP cookie not found.<br />' + 
+				                  'Evaluations will be submitted anonymously unless you login to SEP.</p><br/><br/>' +
+				                  '<a href="' + url + '" target="_blank"><button type="button" class="btn"><i class="icon-user"></i> Login</button></a>' +
+				                  '<br/><br/></div>');
+			}
+		</script>
+	</body>
+</html>

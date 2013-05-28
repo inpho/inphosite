@@ -27,7 +27,6 @@
 		</div>
 
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/jquery/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/base64.js"></script>
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/util.js"></script>
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/eval.js"></script>
@@ -62,13 +61,13 @@
 					  	});
 					}
 					else {
-						inpho.eval.loadEvalsListFromJSONDataWithFade(json, 'slow');
+						inpho.eval.loadEvalsListFromJSON(json);
 					}
 				});
 			}
 
 			function displayInvalidCookieWarningInDiv(divID, sepdir) {
-				var url = "https://meinong.stanford.edu/cgi-bin/encyclopedia/authors.cgi?action=InPhOEval&entry=" + sepdir;
+				var url = "https://plato.stanford.edu/cgi-bin/encyclopedia/authors.cgi?action=InPhOEval&entry=" + sepdir;
   				$(divID).append('<div class="alert alert-warning alert-block">' +
 				                  '<h3>Warning!</h3>' +
 				                  '<p>Invalid user authentication: SEP cookie not found.<br />' + 

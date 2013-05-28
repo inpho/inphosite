@@ -14,6 +14,8 @@
 <%def name="head_title()">${h.titlecase(c.entity.label)}</%def>
 
 <script type="text/javascript">
+inpho.eval.alert = true;
+
 $(document).ready(function() {
     $('#tabnav').tab();
     if (window.location.hash != "") {

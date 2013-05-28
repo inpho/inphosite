@@ -31,6 +31,9 @@ class PageController(BaseController):
     def about(self):
         return render('about.html')
 
+    def scimap(self):
+        return render('scimap.html')
+
     def papers(self):
         with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
             c.papers = json.load(publications)

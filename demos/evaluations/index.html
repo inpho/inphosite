@@ -35,7 +35,7 @@
 				<p>You are now ready to select cross references for your article.</p>
 			</div>
 			<div class="modal-footer">
-				<a href="http://plato.stanford.edu/~inpho/crossref.php"> 
+				<a id="crossrefLink" href="">
 					<button class="btn btn-primary">Go to cross references</button>
 				<a/>
 			</div>
@@ -71,6 +71,9 @@
 				if(inpho.eval.cookieAuth == null) {
 					displayInvalidCookieWarningInDiv('#errors', sepdir);
 				}
+				
+				var crossRefURL = "https://plato.stanford.edu/~inpho/crossref.php?query=" + sepdir;
+				$('#crossRefLink').attr('href', crossRefURL);
 
 				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir + '&redirect=evaluate'), function(json) {
 					inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);

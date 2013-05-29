@@ -26,6 +26,21 @@
 			<ol id="evalList" class="unstyled"></ol>
 		</div>
 
+		<div id="modalAlert" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalAlertLabel" aria-hidden="true">
+			<div class="modal-header">
+				<h2 id="modalAlertLabel">Thank you!</h2>
+			</div>
+			<div class="modal-body">
+				<p>We appreciate your contributions to the <a href="http://inpho.cogs.indiana.edu/" target="_blank">InPhO Project</a>!</p>
+				<p>You are now ready to select cross references for your article.</p>
+			</div>
+			<div class="modal-footer">
+				<a href="http://plato.stanford.edu/~inpho/crossref.php"> 
+					<button class="btn btn-primary">Go to cross references</button>
+				<a/>
+			</div>
+		</div>
+
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/jquery/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="http://inphodev.cogs.indiana.edu:8082/js/util.js"></script>
@@ -34,6 +49,13 @@
 			inpho.util.base_url = 'http://inphodev.cogs.indiana.edu:8082';
 			inpho.eval.alert = false;
 			inpho.eval.cookieAuth = inpho.util.getCookieValueForName("1ED8%3FBC%5E379"); // sep cookie name
+			inpho.eval.finishedEvalsToDoCallback = function() {
+				console.log("Executing callback...");
+				if(inpho.eval.cookieAuth)
+					$('#modalAlert').modal('show');
+				else
+					console.log("User not authorized. Not directing to crossref.");
+			}
 
 			var loadingSpinner = $('#loading', '#container');
 			var sepdir = inpho.util.getValueForURLParam("sep");

@@ -22,6 +22,9 @@ inpho.eval.makeBaseAuth = function(user, pass) {
 // ************************
 // Cross-domain Evaluations
 // ************************ 
+inpho.eval.numEvalsToDo = 0;
+inpho.eval.finishedEvalsToDoCallback = null;
+
 inpho.eval.loadEvalsListFromJSON = function(json) {
 	var anteID = json.ID;
 	var allTerms = json.related.concat(json.hyponyms, json.occurrences);
@@ -40,7 +43,7 @@ inpho.eval.loadEvalsListFromJSON = function(json) {
 		if(relatedTerms.length > 0) {
 			inpho.eval.getEvalForm(anteID, relatedTerms[0], relatedTerms, 0, 0);
 		}
-		else{
+		else {
 			console.log("Error: no related terms found!");
 		}
 	});
@@ -89,16 +92,20 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 		data: {cookieAuth: inpho.eval.cookieAuth},
 		url: inpho.util.url(url),
 		success: function(data) {
-			var li = '<li class="evalItem-eval hide"><div id=i' + consID + '-eval></div></li>';
-			var relDiv = $('<div />').append(data).find('.relatednessSelect');
-			var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
+			var relVal = -1;
 
-			if(relVal != -1) {
-				$('#evalList').append(li); // put already completed evals at end of list
-			}
-			else {
-				incompleteEvals++;
-				$('#evalList').prepend(li);
+			if(terms) {
+				var li = '<li class="evalItem-eval hide"><div id=i' + consID + '-eval></div></li>';
+				var relDiv = $('<div />').append(data).find('.relatednessSelect');
+				relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
+
+				if(relVal != -1) {
+					$('#evalList').append(li); // put already completed evals at end of list
+				}
+				else {
+					incompleteEvals++;
+					$('#evalList').prepend(li);
+				}
 			}
 
 			var p = $('#i' + consID + '-eval').parent();
@@ -106,27 +113,34 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 			else $('#i' + consID + '-eval').remove();
 			$(p).prepend(data);
 
-			if(relVal != -1) {
-				var div = $('#i' + consID + '-eval');
-				var form = div.find('form');
-				inpho.eval.getThanksForm(form);
+			if(terms) {
+				if(relVal != -1) {
+					var div = $('#i' + consID + '-eval');
+					var form = div.find('form');
+					inpho.eval.getThanksForm(form);
+				}
+				currIndex++;
 			}
-
-			currIndex++;
 		},
 		beforeSend: function(req) {
 			if(inpho.eval.basicAuth != null)
 				req.setRequestHeader('Authorization',inpho.eval.basicAuth);
 		},
 		complete: function() {
-			console.log("getEvalForm complete (" + terms.length + " terms = " + terms + ")");
-			console.log("current index = " + currIndex);
-			console.log("incomplete evals = " + incompleteEvals);
+			console.log("getEvalForm complete");
 
-			if(incompleteEvals == 10 || currIndex == terms.length - 1)
-				inpho.eval.showAllEvals();
-			else {
-				inpho.eval.getEvalForm(anteID, terms[currIndex], terms, currIndex, incompleteEvals);
+			if(terms) {
+				console.log(terms.length + " terms (" + terms + ")");
+				console.log("current index = " + currIndex);
+				console.log("incomplete evals = " + incompleteEvals);
+
+				if(incompleteEvals == 10 || currIndex == terms.length - 1) {
+					inpho.eval.numEvalsToDo = incompleteEvals;
+					inpho.eval.showAllEvals();
+				}
+				else {
+					inpho.eval.getEvalForm(anteID, terms[currIndex], terms, currIndex, incompleteEvals);
+				}
 			}
 		}
 	});
@@ -189,7 +203,7 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
 							req.setRequestHeader('Authorization',inpho.eval.basicAuth);
 					},
 					complete: function() {
-						console.log("auth submit gen complete");
+						console.log("auth submit generality complete");
 					}
 			});
 		},
@@ -198,14 +212,14 @@ inpho.eval.submitEval = function(ante_id, cons_id, rel, gen, callback) {
 				req.setRequestHeader('Authorization', inpho.eval.basicAuth);
 		},
 		complete: function() {
-			console.log("auth submit rel complete");
+			console.log("auth submit relatedness complete");
 		}
 	});
 }
 
 inpho.eval.resetEval = function(ante_id, cons_id) {
 	inpho.eval.submitEval(ante_id, cons_id, -1, -1);
-};
+}
 
 inpho.eval.deleteEval = function(form) {
 	var anteID = $(form).attr('data-anteID');
@@ -258,10 +272,20 @@ inpho.eval.parseAndSubmit = function(form) {
 	var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
 	var genVal = inpho.eval.getValueFromButtonGroupDiv(genDiv);
 
-	inpho.eval.submitEval(anteID, consID, relVal, genVal,
-						function () { 
-							inpho.eval.getThanksForm(form) 
-						});
+	inpho.eval.submitEval(anteID, consID, relVal, genVal, 
+							function() { 
+								inpho.eval.getThanksForm(form);
+
+								if(inpho.eval.finishedEvalsToDoCallback) {
+									inpho.eval.numEvalsToDo--;
+									console.log("Num evals left = " + inpho.eval.numEvalsToDo);
+									
+									if(inpho.eval.numEvalsToDo == 0) {
+										console.log("Finished all evals!");
+										inpho.eval.finishedEvalsToDoCallback();
+									}
+								}
+							});
 }
 
 inpho.eval.animateSpinner = function(form) {

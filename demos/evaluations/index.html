@@ -75,19 +75,26 @@
 				var crossRefURL = "https://plato.stanford.edu/~inpho/crossref.php?query=" + sepdir;
 				$('#crossRefLink').attr('href', crossRefURL);
 
-				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir + '&redirect=evaluate'), function(json) {
-					inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
-
-					if(typeof(json.related) == 'undefined') {
-					  	$(loadingSpinner).fadeOut('slow', function() {
-					  		$('#container').remove('#loading');
-					  		inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
-					  			'Could not load evaluations for this article. Are you sure this is an idea?');
-					  	});
-					}
-					else {
-						inpho.eval.loadEvalsListFromJSON(json);
-					}
+        // Query for the proper entity ID first. We should be able to auto-follow via the redirect
+        // url parameter, but Safari has an issue with handling 302 response codes with json mimetypes,
+        // so we have to fire two requests manually. -- Jaimie
+				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir), function(json) {
+          if (json.responseData.results.length > 0) {
+            // fire off the request for the actual concept
+            $.getJSON(inpho.util.url(json.responseData.results[0].url + '.json'),
+              function (json) {
+      					inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
+      				  inpho.eval.loadEvalsListFromJSON(json);
+              });
+          } else {
+            // send an error message - no results
+				  	$(loadingSpinner).fadeOut('slow', function() {
+				  		$('#container').remove('#loading');
+				  		inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
+				  			'Could not load evaluations for this article. Are you sure this is an idea?');
+				  	});
+            
+          }
 				});
 			}
 

@@ -1,0 +1,276 @@
+sub_discipline_Id,sub_discipline_name,num_areas,areas
+215,Neurophsyiology & Neuroscience,3,Philosophy of Cognitive Science; Philosophy of Language; Philosophy of Mind
+212,Higher Education,5,Arabic and Islamic Philosophy; Ethics [Applied - Biomedical]; Indian and Tibetan Philosophy; Feminism; Philosophy of Science
+213,Ecology,10,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+264,Molecular Biochemical Parasitology,10,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+218,Molecular Biological Evolution,10,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+219,Photonics,1,Philosophy of Physics [Spacetime]
+131,Pest Management Science,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+130,Pathology,1,Ethics [Applied - Biomedical]
+498,Pragmatics & Discourse,8,Chinese Philosophy; 20th Century Philosophy; Social and Political Philosophy; Feminism; Ethics [Normative]; Philosophy of Language; Metaphysics; Philosophy of Mind
+135,Stem Cells,11,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+134,Teacher Education; Evaluation,3,Epistemology [Formal]; Aesthetics; Social and Political Philosophy
+139,Intensive Care,1,Ethics [Applied - Biomedical]
+490,Menopause,1,Ethics [Applied - Biomedical]
+166,Quaternary Research,11,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+24,Dermatology,1,Ethics [Applied - Biomedical]
+25,Kidney,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+26,Pharmacology Science,11,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+27,Law,11,Epistemology; Social and Political Philosophy; Ethics [Normative]; Ethics [Applied - Biomedical]; Ethics [Applied]; Ethics [Metaethics]; Aesthetics; Philosophy of Religion; Philosophy of Biology; Philosophy of Law; Feminism
+20,Virology,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+21,Plant Physiology,10,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+22,Allergy & Clinical Immunology,1,Ethics [Applied - Biomedical]
+23,Material Science,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Logic [Computation and Agency]; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+28,Medical Imaging,1,Ethics [Applied - Biomedical]
+29,Bacteriology,10,Philosophy of Cognitive Science; Ethics [Normative]; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+94,Statistics,1,Philosophy of Language
+407,Ethics,28,Renaissance and 16th Century Philosophy; Philosophy of Cognitive Science; Social and Political Philosophy; Ancient Philosophy; Ethics [Applied - Biomedical]; Indian and Tibetan Philosophy; Ethics [Applied - Information Technology]; Epistemology; Epistemology [Formal]; 18th Century Philosophy; Philosophy of Law; Feminism; Aesthetics; 19th Century Philosophy; Feminism [History of]; Philosophy of Action; Ethics [Normative]; Ancient Philosophy [Aristotle]; Philosophy of Mind; Medieval Philosophy; 20th Century Philosophy; Ethics [Metaethics]; Arabic and Islamic Philosophy; 17th Century Philosophy; Judaic Philosophy; Philosophy of Religion; Philosophy of Biology; Philosophy of Science
+345,Genetics,5,Philosophy of Cognitive Science; Philosophy of Biology; Philosophy of Language; Philosophy of Mind; Ethics [Normative]
+405,Clinical Rehabilitation,1,Ethics [Applied - Biomedical]
+541,Italian Studies,3,Renaissance and 16th Century Philosophy; 20th Century Philosophy; Arabic and Islamic Philosophy
+403,Human Resource Management,10,Philosophy of Cognitive Science; Social and Political Philosophy; 19th Century Philosophy; Ethics [Normative]; Philosophy of Language; Ethics [Applied - Biomedical]; Epistemology [Formal]; Philosophy of Biology; Feminism; Philosophy of Science
+4,Protein Science,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+401,Sociobiology,9,Philosophy of Cognitive Science; Philosophy of Physics [Quantum Mechanics]; Feminism; Philosophy of Physics [Spacetime]; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Biology; Philosophy of Mind; Philosophy of Science
+334,Contemporary Philosophy,16,20th Century Philosophy; Renaissance and 16th Century Philosophy; Ethics [History]; 18th Century Philosophy; Ethics [Normative]; Philosophy of Mathematics; Aesthetics; Ancient Philosophy; Philosophy of Mind; Medieval Philosophy; Arabic and Islamic Philosophy; 17th Century Philosophy; Kant; Logic [Mathematical]; Philosophy of Religion; Metaphysics
+281,Third World Political Economics,4,Arabic and Islamic Philosophy; Social and Political Philosophy; Feminism; Aesthetics
+8,Urology,1,Ethics [Applied - Biomedical]
+283,Sociology,4,Philosophy of Cognitive Science; Metaphysics; Feminism; Ethics [Normative]
+282,Public Hospitals,1,Ethics [Applied - Biomedical]
+285,Bone & Osteoporosis,1,Ethics [Applied - Biomedical]
+337,Mathematics Research,6,Philosophy of Mathematics; Epistemology [Formal]; Logic [Mathematical]; Ancient Philosophy; Logic [Philosophy of]; Logic [History - Contemporary]
+409,Aerospace,11,20th Century Philosophy; Philosophy of Cognitive Science; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Logic [Computation and Agency]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+408,Marital & Family Therapy,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Feminism
+331,Logic,16,Logic [Philosophical]; 20th Century Philosophy; ; Ethics [Normative]; Logic [Computation and Agency]; Philosophy of Mathematics; Philosophy of Mind; Logic [Philosophy of]; Logic [and Language]; Epistemology; Epistemology [Formal]; Logic [Mathematical]; Philosophy of Language; Metaphysics; Logic [History - Contemporary]; Philosophy of Science
+262,Molecular Endocrinology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Epistemology [Formal]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+122,Philosophy Psychology,43,; 20th Century Philosophy; Social and Political Philosophy; Philosophy of Cognitive Science; Indian and Tibetan Philosophy; 19th Century Philosophy; Logic [and Language]; 18th Century Philosophy; Philosophy of Language; Medieval Philosophy; Logic [History - Contemporary]; Logic [Philosophical]; Ethics [History]; African and African-American Philosophy; Ethics [Applied]; Philosophy of Mathematics; Ancient Philosophy [Aristotle]; Philosophy of Mind; Logic [Philosophy of]; Feminism; 17th Century Philosophy; Logic [Mathematical]; Ancient Philosophy [Plato]; Philosophy of Science; Chinese Philosophy; Ancient Philosophy; Logic [Computation and Agency]; Ethics [Applied - Biomedical]; Renaissance and 16th Century Philosophy; Philosophy of Physics [Quantum Mechanics]; Epistemology; Epistemology [Formal]; Philosophy of Law; Aesthetics; Philosophy of Action; Ethics [Normative]; Philosophy of Physics [Spacetime]; Ethics [Metaethics]; Arabic and Islamic Philosophy; Kant; Philosophy of Religion; Philosophy of Biology; Metaphysics
+123,Construction & Project Management,2,Ethics [Applied - Information Technology]; Philosophy of Science
+124,Social Psychology,8,Chinese Philosophy; Philosophy of Cognitive Science; Social and Political Philosophy; Feminism; Ethics [Normative]; Epistemology; Philosophy of Biology; Philosophy of Mind
+125,High Energy Physics,17,Philosophy of Cognitive Science; Ancient Philosophy [Plato]; Ethics [Normative]; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ancient Philosophy; Ancient Philosophy [Aristotle]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Social and Political Philosophy; Logic [Computation and Agency]; Epistemology [Formal]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+265,Vocational Counseling,1,Philosophy of Cognitive Science
+127,Genomics & Nucleic Acids,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+268,Art History,4,Renaissance and 16th Century Philosophy; 20th Century Philosophy; Aesthetics; Philosophy of Mathematics
+176,Optics & Lasers,13,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Logic [Computation and Agency]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+365,Surfactants,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+59,Vascular Surgery,1,Ethics [Applied - Biomedical]
+58,Business Ethics,4,Social and Political Philosophy; Philosophy of Biology; Ethics [Normative]; Ethics [Applied]
+55,AntiMicrobial Agents,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+54,Pharmaceutical Design,13,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mathematics; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+57,Decision Support Systems,6,Logic [Philosophical]; 20th Century Philosophy; Philosophy of Physics [Quantum Mechanics]; Social and Political Philosophy; Epistemology [Formal]; Logic [Computation and Agency]
+51,Chest & Respiratory,1,Ethics [Applied - Biomedical]
+50,Obstetrics,1,Ethics [Applied - Biomedical]
+53,Zoology,1,Philosophy of Mind
+415,Thermal Analysis,2,Philosophy of Cognitive Science; Philosophy of Mind
+410,Critical Studies,3,Epistemology; Aesthetics; Feminism
+411,Econometrics,10,20th Century Philosophy; Logic [Philosophical]; Social and Political Philosophy; 19th Century Philosophy; Ethics [Normative]; Ethics [Metaethics]; Logic [and Language]; Epistemology [Formal]; Philosophy of Language; Logic [History - Contemporary]
+412,Neuroscience Methods,3,Philosophy of Cognitive Science; Philosophy of Language; Philosophy of Mind
+299,Wireless Communication,1,Philosophy of Physics [Quantum Mechanics]
+371,Functional Programing,1,Logic [Philosophical]
+372,Applied Genetics,9,Philosophy of Cognitive Science; Ethics [Normative]; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+292,Hospice Care,1,Ethics [Applied - Biomedical]
+293,Climatology,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+290,Science Education,3,Philosophy of Biology; Feminism; Philosophy of Science
+291,Design & Analysis of Algorithms,5,Logic [Philosophical]; Philosophy of Physics [Quantum Mechanics]; Logic [Computation and Agency]; Epistemology [Formal]; Philosophy of Science
+318,Mental Health Assessment,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind
+198,Political Geography,2,Aesthetics; Philosophy of Biology
+313,Pain,2,Philosophy of Cognitive Science; Philosophy of Mind
+312,Child Development,3,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mind
+311,Medical Screening & Epidemiology,1,Ethics [Applied - Biomedical]
+310,Chemistry & Material Science,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+190,Clinical Infectious Disease,1,Ethics [Applied - Biomedical]
+391,Asian Studies,3,Chinese Philosophy; Arabic and Islamic Philosophy; Social and Political Philosophy
+114,Thoracic Surgery,1,Ethics [Applied - Biomedical]
+272,Medical Insurance,9,20th Century Philosophy; Social and Political Philosophy; Ethics [Normative]; Metaphysics; Ethics [Applied - Biomedical]; Philosophy of Language; Kant; Philosophy of Mind; Philosophy of Science
+89,Surgery,1,Ethics [Applied - Biomedical]
+397,Rural Health Care,1,Ethics [Applied - Biomedical]
+110,Otolaryngology; Laryngoscope,1,Ethics [Applied - Biomedical]
+113,Biological Conservation,1,Philosophy of Biology
+394,Gene Therapy,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+82,Clinical Endocrinology,10,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Philosophy of Science
+279,Biblical Literature,5,Social and Political Philosophy; Judaic Philosophy; Philosophy of Religion; Philosophy of Biology; Medieval Philosophy
+80,Hypertension,1,Ethics [Applied - Biomedical]
+81,Human Molecular Genetics,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Epistemology [Formal]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+119,Energy Fuel,1,Feminism
+496,Education,2,20th Century Philosophy; Ethics [Normative]
+84,Clinical Microbiology,2,Philosophy of Cognitive Science; Philosophy of Mind
+85,Hospital Pharmacy,1,Ethics [Applied - Biomedical]
+174,Geriatrics,1,Ethics [Applied - Biomedical]
+525,Impotence,1,Ethics [Applied - Biomedical]
+520,Rangeland Ecology,1,Philosophy of Biology
+7,Anesthetics & Analgesics,1,Ethics [Applied - Biomedical]
+523,Molecular Biology Methods,2,Ethics [Applied - Biomedical]; Philosophy of Mind
+366,Eye,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+420,Semiotics,1,Ancient Philosophy
+423,Molecular Ecology,11,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Feminism; Philosophy of Physics [Spacetime]; Philosophy of Language; Logic [History - Contemporary]; Philosophy of Science
+422,Drug Safety,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mathematics; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+425,Clinical Psychiatry,6,Philosophy of Cognitive Science; Philosophy of Mind; Ethics [Applied - Biomedical]; Philosophy of Biology; Feminism; Philosophy of Science
+424,Cytogentics & Genome Mapping,10,Philosophy of Cognitive Science; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Philosophy of Science
+426,Paleogeography,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+531,Public Health,1,Ethics [Applied - Biomedical]
+300,Atherosclerosis,1,Ethics [Applied - Biomedical]
+301,Region & Medical Ethics,4,Ethics [Applied - Biomedical]; Aesthetics; Philosophy of Biology; Feminism
+441,Peptides,9,Philosophy of Cognitive Science; Philosophy of Physics [Quantum Mechanics]; Feminism; Philosophy of Physics [Spacetime]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Language; Philosophy of Mind; Philosophy of Science
+303,Thoracic & Respiratory,1,Ethics [Applied - Biomedical]
+306,Computer Systems Design,3,Logic [Philosophical]; Logic [Computation and Agency]; Philosophy of Mind
+444,Engineering Education,2,Social and Political Philosophy; Ancient Philosophy
+380,Medieval History,1,Feminism
+247,Geriatric Psychiatry,1,Ethics [Applied - Biomedical]
+383,Foreign Policy,2,20th Century Philosophy; Philosophy of Science
+384,Gut,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+445,NeuroImmunology,2,Philosophy of Cognitive Science; Philosophy of Mind
+387,Vaccines,1,Ethics [Applied - Biomedical]
+103,Astronomy & Astrophysics,10,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Philosophy of Science
+443,Sexually Transmitted Diseases,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+101,Transplantation,1,Ethics [Applied - Biomedical]
+106,Drug Discovery,11,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+248,Sound & Vibration,2,Philosophy of Cognitive Science; Philosophy of Mind
+302,Speech Language & Hearing,2,Philosophy of Cognitive Science; Philosophy of Language
+105,Research Policy; Technology Management,2,Epistemology [Formal]; Social and Political Philosophy
+39,Diabetes Care,1,Ethics [Applied - Biomedical]
+295,Fuzzy Sets,2,Logic [Philosophical]; Epistemology [Formal]
+33,Toxicology Applied Pharmacology,11,Philosophy of Cognitive Science; Philosophy of Mathematics; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+32,Digestion,1,Ethics [Applied - Biomedical]
+31,Developmental Biology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+30,Marine Biology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+37,Pharmaceutical Research,11,Philosophy of Cognitive Science; Ethics [Normative]; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+108,Chaos Fractals & Complexity,9,20th Century Philosophy; Philosophy of Physics [Quantum Mechanics]; Logic [History - Contemporary]; Epistemology [Formal]; Philosophy of Physics [Spacetime]; Logic [Computation and Agency]; Philosophy of Mathematics; Philosophy of Mind; Philosophy of Science
+35,Inorganic Chemistry,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+539,Optometry,1,19th Century Philosophy
+438,Regional Studies,1,Aesthetics
+511,Human Rights,22,20th Century Philosophy; Philosophy of Cognitive Science; Social and Political Philosophy; Ancient Philosophy; Ethics [Applied - Biomedical]; Epistemology [Formal]; 18th Century Philosophy; Logic [Philosophy of]; Feminism; Logic [Philosophical]; Aesthetics; Ethics [Normative]; Ancient Philosophy [Aristotle]; Medieval Philosophy; Ethics [Metaethics]; Arabic and Islamic Philosophy; 17th Century Philosophy; Kant; Philosophy of Religion; Metaphysics; Philosophy of Law; Philosophy of Science
+510,Hearing Research,1,Ethics [Applied - Biomedical]
+513,Social Economics,6,Social and Political Philosophy; 19th Century Philosophy; Feminism [History of]; Philosophy of Religion; 18th Century Philosophy; Logic [History - Contemporary]
+435,Topology,12,Logic [Philosophical]; 20th Century Philosophy; ; Philosophy of Mathematics; Philosophy of Physics [Spacetime]; Logic [and Language]; Epistemology [Formal]; Logic [Mathematical]; Philosophy of Language; Logic [Philosophy of]; Logic [History - Contemporary]; Philosophy of Science
+430,User Interface Design,2,Ethics [Applied - Information Technology]; Philosophy of Science
+431,Public Policy,5,Ethics [Applied - Information Technology]; Ethics [Applied - Biomedical]; Arabic and Islamic Philosophy; Social and Political Philosophy; Philosophy of Science
+458,Computer Systems Theory,9,Logic [Philosophical]; Philosophy of Physics [Quantum Mechanics]; Philosophy of Mind; Logic [and Language]; Logic [Computation and Agency]; Logic [Mathematical]; Philosophy of Language; Logic [History - Contemporary]; Philosophy of Science
+347,Obesity,1,Ethics [Applied - Biomedical]
+338,Geology (International),7,Philosophy of Cognitive Science; Feminism; Philosophy of Physics [Spacetime]; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Biology; Philosophy of Mind
+451,Medical Education,1,Ethics [Applied - Biomedical]
+452,Magnetic Resonance Imagery,1,Ethics [Applied - Biomedical]
+454,Insect Physiology,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+61,Seismology,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+258,Electrocardiography,1,Ethics [Applied - Biomedical]
+63,Neurology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+64,Algebra,6,Logic [Philosophical]; Philosophy of Mathematics; Logic [and Language]; Philosophy of Language; Logic [Philosophy of]; Logic [History - Contemporary]
+179,Molecular Physics,10,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+68,Retinal Surgery,1,Ethics [Applied - Biomedical]
+69,Psychopharmacology,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+250,Ethnology,2,Philosophy of Cognitive Science; Feminism
+251,Prenatal Diagnostics,1,Ethics [Applied - Biomedical]
+254,Atmospheric GeoPhysics,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+170,American History,1,Medieval Philosophy
+542,Perception Motor Skills,1,African and African-American Philosophy
+222,Linguistics,11,20th Century Philosophy; Philosophy of Cognitive Science; Logic [Philosophical]; Philosophy of Action; Ethics [Normative]; Philosophy of Biology; Indian and Tibetan Philosophy; Ancient Philosophy [Aristotle]; Arabic and Islamic Philosophy; Logic [and Language]; Philosophy of Language
+543,World Trade; Law,4,Ethics [Metaethics]; Social and Political Philosophy; Philosophy of Law; Ethics [Normative]
+181,Political Science,7,Renaissance and 16th Century Philosophy; Social and Political Philosophy; 17th Century Philosophy; Ethics [Normative]; Aesthetics; Epistemology [Formal]; Feminism
+346,Industrial Chemistry,1,Feminism
+107,Animal Science,1,Ethics [Applied - Biomedical]
+182,Science History,16,Ethics [Applied - Information Technology]; Feminism [History of]; Philosophy of Mathematics; Indian and Tibetan Philosophy; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Arabic and Islamic Philosophy; Feminism; 17th Century Philosophy; Philosophy of Physics [Spacetime]; Judaic Philosophy; 18th Century Philosophy; Philosophy of Biology; Medieval Philosophy; Logic [History - Contemporary]; Philosophy of Science
+180,Comparative Animal Physiology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+2,Circulation,4,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind; Ethics [Normative]
+186,Speech Recognition,3,Philosophy of Cognitive Science; Philosophy of Language; Philosophy of Mind
+104,Substance-abuse Treatment,1,Ethics [Applied - Biomedical]
+508,Marine Pollution,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+6,Neuroscience; Molecular & Cellular,10,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Epistemology [Formal]; Philosophy of Language; Feminism; Philosophy of Science
+502,Socio-Cultural Anthropology,3,Social and Political Philosophy; African and African-American Philosophy; Medieval Philosophy
+197,Public Health Service,1,Ethics [Applied - Biomedical]
+501,Applied Math,4,Logic [Philosophical]; Logic [Computation and Agency]; Logic [Mathematical]; Philosophy of Mind
+196,Botany,1,Philosophy of Biology
+469,Preventive Medicine,4,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind; Ethics [Normative]
+468,Archeological Science,8,20th Century Philosophy; Philosophy of Cognitive Science; Philosophy of Action; Ancient Philosophy [Aristotle]; Philosophy of Language; Medieval Philosophy; Philosophy of Mind; Philosophy of Science
+464,Pychiatric & Behavioral Genetics,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Feminism
+467,Cross Disciplinary Studies,1,Arabic and Islamic Philosophy
+185,Nanotechnology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+402,Molecular Medicine,1,Ethics [Applied - Biomedical]
+463,Physics; Current Developments,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+99,BioStatistics,2,Ethics [Applied - Biomedical]; Philosophy of Biology
+38,Semiconducting Materials,1,Philosophy of Physics [Spacetime]
+169,Language Learning,2,Aesthetics; Philosophy of Language
+228,Simulation,1,Philosophy of Physics [Quantum Mechanics]
+91,AIDS Research,1,Ethics [Applied - Biomedical]
+528,Aquatic Disease,1,Philosophy of Biology
+224,Spine,1,Philosophy of Mind
+160,Artificial Intelligence,8,Logic [Philosophical]; Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mind; Logic [and Language]; Epistemology [Formal]; Logic [Computation and Agency]; Philosophy of Science
+161,Electro Analytical Chemistry,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+97,Atmospheric Science,1,Philosophy of Science
+11,Affective Disorders,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind
+10,Macromolecules & Polymers,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+13,Surface Science,14,20th Century Philosophy; Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Logic [Computation and Agency]; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Language; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+12,Oncology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mathematics; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+15,Hospital Financial Management,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Ethics [Applied]; Philosophy of Language; Feminism; Philosophy of Science
+14,Nonlinear Analysis,1,Philosophy of Mathematics
+17,Occupational Health,1,Ethics [Applied - Biomedical]
+16,Rheumatology,11,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+19,Leukemia,10,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+18,Organic Chemistry,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+143,Memory & Cognition,13,Philosophy of Cognitive Science; 19th Century Philosophy; Ethics [Normative]; Philosophy of Language; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Logic [and Language]; Epistemology; Epistemology [Formal]; Philosophy of Biology; Metaphysics; Feminism; Philosophy of Science
+88,Computational Chemistry,1,Ethics [Normative]
+349,Hepatology,1,Ethics [Applied - Biomedical]
+sub_discipline_Id,sub_discipline_name,0,
+390,Psychiatric Nursing,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind
+111,Mechanical Design Engineering,2,Ethics [Applied - Information Technology]; Philosophy of Science
+544,Insects,1,Philosophy of Physics [Quantum Mechanics]
+151,BioEthics,4,Ethics [Applied - Biomedical]; Philosophy of Biology; Feminism; Ethics [Normative]
+150,Psychosis; Schizophrenia,10,Philosophy of Cognitive Science; Philosophy of Mathematics; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+116,Tropical Medicine,1,Ethics [Applied - Biomedical]
+154,Gerontology,1,Ethics [Applied - Biomedical]
+157,Geology & Tectonics,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+156,Discrete Applied Mathematics,2,Logic [Computation and Agency]; Philosophy of Mind
+158,GeoChemistry,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+62,Bone Joint Surgery,1,Ethics [Applied - Biomedical]
+112,Classics,6,Social and Political Philosophy; Ancient Philosophy; Ancient Philosophy [Plato]; Ancient Philosophy [Aristotle]; Medieval Philosophy; Metaphysics
+361,Microbiology Biotechnology,10,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Biology; Feminism; Philosophy of Science
+278,Applied Physiology; Muscle,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+238,Diabetes Metabolism,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+83,Dietetics,1,Ethics [Applied - Biomedical]
+234,Symbolic Interaction,1,Aesthetics
+236,General Practice,1,Ethics [Applied - Biomedical]
+237,Environmental Management,1,Feminism
+231,Forest Science,1,Aesthetics
+233,Proteomics,13,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mathematics; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+48,Molecular Cell Biology,11,Philosophy of Cognitive Science; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+473,Pharmaco Economics,1,Ethics [Applied - Biomedical]
+274,Biotechnology Trends,2,Ethics [Applied - Biomedical]; Philosophy of Biology
+44,Neurosurgery,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind
+45,Fertility,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+42,Nutrition,10,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Biology; Feminism; Philosophy of Science
+40,Clinical Neurophysiology,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+322,Space Research,10,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Biology; Feminism; Philosophy of Science
+418,Educational Psychology,6,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Language; Philosophy of Mind; Philosophy of Science
+320,Mutation; DNA Repair,12,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+321,Human Evolution,11,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+325,Plant Ecology,3,Ethics [Normative]; Philosophy of Biology; Philosophy of Science
+9,Immunology,13,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Epistemology [Formal]; Philosophy of Language; Feminism; Philosophy of Science
+329,Personality,2,Philosophy of Cognitive Science; Philosophy of Mind
+477,Consciousness,20,20th Century Philosophy; Philosophy of Cognitive Science; Ethics [Applied - Information Technology]; Philosophy of Mathematics; Logic [Computation and Agency]; Logic [and Language]; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Epistemology; Epistemology [Formal]; Philosophy of Language; Logic [Philosophy of]; Logic [Philosophical]; 19th Century Philosophy; Ethics [Normative]; Philosophy of Mind; Ethics [Metaethics]; Philosophy of Biology; Metaphysics; Philosophy of Science
+200,Radiation Protection,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Language; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+144,Vision,11,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Ethics [Applied - Biomedical]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Epistemology [Formal]; Philosophy of Biology; Feminism; Philosophy of Science
+466,Emergency Medicine,1,Ethics [Applied - Biomedical]
+205,Thrombosis,1,Ethics [Applied - Biomedical]
+204,Birth Defects,2,Ethics [Applied - Biomedical]; Philosophy of Biology
+221,Functional Analysis,3,Logic [Mathematical]; Logic [History - Contemporary]; Philosophy of Mathematics
+209,English Literature,8,20th Century Philosophy; Philosophy of Cognitive Science; Social and Political Philosophy; African and African-American Philosophy; Ethics [Normative]; Philosophy of Language; Philosophy of Law; Feminism
+208,Artificial Evolution,2,Logic [Computation and Agency]; Philosophy of Mind
+148,Pharmacy,1,Philosophy of Biology
+77,Cardiovascular,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Biology; Feminism; Philosophy of Science
+76,Pediatrics,1,Ethics [Applied - Biomedical]
+74,Operations Research,1,Logic [Mathematical]
+73,Sports Medicine,1,Ethics [Applied - Biomedical]
+72,Oceanography,12,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+488,Social History,7,20th Century Philosophy; Philosophy of Cognitive Science; Ethics [Applied - Information Technology]; 17th Century Philosophy; Medieval Philosophy; Feminism; Philosophy of Science
+487,Fish Biology,1,Philosophy of Mind
+485,Headache,3,Philosophy of Cognitive Science; Ethics [Applied - Biomedical]; Philosophy of Mind
+79,Economics,8,20th Century Philosophy; Ethics [Metaethics]; Social and Political Philosophy; 19th Century Philosophy; Ethics [Normative]; Epistemology [Formal]; Ethics [Applied - Biomedical]; Logic [History - Contemporary]
+78,Paleobiology,10,Philosophy of Cognitive Science; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+121,Integrated Circuit Design,1,Philosophy of Physics [Spacetime]
+261,Political Studies,4,20th Century Philosophy; Epistemology [Formal]; Social and Political Philosophy; 17th Century Philosophy
+404,Ecological Modeling,1,Philosophy of Biology
+357,Wildlife Management,1,Philosophy of Biology
+46,Applied Optics,11,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+1,Clinical Cancer Research,13,Philosophy of Cognitive Science; Social and Political Philosophy; Ethics [Normative]; Philosophy of Biology; Ethics [Applied - Biomedical]; Philosophy of Mathematics; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Religion; Philosophy of Language; Feminism; Philosophy of Science
+353,Geophysical Science,12,Philosophy of Cognitive Science; Social and Political Philosophy; Philosophy of Mathematics; Philosophy of Biology; Ethics [Applied - Biomedical]; Ethics [Normative]; Philosophy of Mind; Philosophy of Physics [Quantum Mechanics]; Philosophy of Physics [Spacetime]; Philosophy of Language; Feminism; Philosophy of Science
+352,World Health Organization,1,Ethics [Applied - Biomedical]
+351,Computational Math,1,Philosophy of Mathematics
+475,Medical Practice,1,Ethics [Applied - Biomedical]
+267,International Conflict,1,Social and Political Philosophy
+126,Strategic Management,1,Ethics [Applied - Biomedical]

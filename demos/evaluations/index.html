@@ -23,7 +23,18 @@
 			<h4 id="prompt" class="hide"></h4><br/>
 			<div id="errors"></div>
 			<p id="loading">Loading... </p>&nbsp;&nbsp;
+
+			<div class="submitAllAlert alert alert-info alert-block hide">
+				<h4>Note:</h4>
+				<p>You may submit all evaluations at once, or individually.</p><br /><br />
+				<button type="button" class="btn btn-primary btn-large" onclick="submitAllEvals()">Submit All Evaluations <i class="icon-arrow-right icon-white"></i></button><br /><br />
+			</div>
+
 			<ol id="evalList" class="unstyled"></ol>
+
+			<div class="submitAllAlert alert alert-info alert-block hide">
+				<button type="button" class="btn btn-primary btn-large" onclick="submitAllEvals()">Submit All Evaluations <i class="icon-arrow-right icon-white"></i></button><br /><br />
+			</div>
 		</div>
 
 		<div id="modalAlert" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalAlertLabel" aria-hidden="true">
@@ -85,7 +96,7 @@
 							function (json) {
 								inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
 								inpho.eval.loadEvalsListFromJSON(json, function(hasEvalsToDo) {
-									console.log("callback all loaded!");
+									$('.submitAllAlert').fadeIn('fast', null);
 
 									if(!hasEvalsToDo && inpho.eval.cookieAuth) {
 										$('.modal-body', '#modalAlert').prepend('<strong><p>It looks like you have previously evaluated all these terms!</p></strong><br />');
@@ -114,6 +125,16 @@
 								'Evaluations will be submitted anonymously unless you login to SEP.</p><br/><br/>' +
 								'<a href="' + url + '"><button type="button" class="btn"><i class="icon-user"></i> Login</button></a>' +
 								'<br/><br/></div>');
+			}
+
+			function submitAllEvals() {
+				console.log("Submitting all evals...");
+				$("li").find('form').each(function(index) {
+					var form = this;
+					setTimeout(function() {
+						inpho.eval.parseAndSubmit(form);
+					}, 1000 * index);
+				});
 			}
 		</script>
 	</body>

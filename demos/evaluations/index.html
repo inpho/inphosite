@@ -61,8 +61,8 @@
 			var sepdir = inpho.util.getValueForURLParam("sep");
 
 			if(sepdir == null) {	
-      			$(loadingSpinner).fadeOut('slow', function() {
-      				$('#container').remove('#loading');
+				$(loadingSpinner).fadeOut('slow', function() {
+					$('#container').remove('#loading');
 					inpho.eval.displayErrorAlertInDivWithMessage('#errors',
 						'Invalid url query parameter: article not found.<br /> Evaluations could not be loaded.');
 				});
@@ -75,36 +75,45 @@
 				var crossRefURL = "http://plato.stanford.edu/~inpho/crossref.php?query=" + sepdir;
 				$('#crossRefLink').attr('href', crossRefURL);
 
-        // Query for the proper entity ID first. We should be able to auto-follow via the redirect
-        // url parameter, but Safari has an issue with handling 302 response codes with json mimetypes,
-        // so we have to fire two requests manually. -- Jaimie
+				// Query for the proper entity ID first. We should be able to auto-follow via the redirect
+				// url parameter, but Safari has an issue with handling 302 response codes with json mimetypes,
+				// so we have to fire two requests manually. -- Jaimie
 				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir), function(json) {
-          if (json.responseData.results.length > 0) {
-            // fire off the request for the actual concept
-            $.getJSON(inpho.util.url(json.responseData.results[0].url + '.json'),
-              function (json) {
-      					inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
-      				  inpho.eval.loadEvalsListFromJSON(json);
-              });
-          } else {
-            // send an error message - no results
-				  	$(loadingSpinner).fadeOut('slow', function() {
-				  		$('#container').remove('#loading');
-				  		inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
-				  			'Could not load evaluations for this article. Are you sure this is an idea?');
-				  	});
-          }
+					if(json.responseData.results.length > 0) {
+						// fire off the request for the actual concept
+						$.getJSON(inpho.util.url(json.responseData.results[0].url + '.json'),
+							function (json) {
+								inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
+								inpho.eval.loadEvalsListFromJSON(json, function(hasEvalsToDo) {
+									console.log("callback all loaded!");
+
+									if(!hasEvalsToDo && inpho.eval.cookieAuth) {
+										$('.modal-body', '#modalAlert').prepend('<strong><p>It looks like you have previously evaluated all these terms!</p></strong><br />');
+
+										$('#modalAlert').modal('show');
+									}
+								});
+							});
+					} 
+					else {
+						// send an error message - no results
+						$(loadingSpinner).fadeOut('slow', function() {
+							$('#container').remove('#loading');
+							inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
+								'Could not load evaluations for this article. Are you sure this is an idea?');
+						});
+					}
 				});
 			}
 
 			function displayInvalidCookieWarningInDiv(divID, sepdir) {
 				var url = "https://plato.stanford.edu/cgi-bin/encyclopedia/authors.cgi?action=InPhOEval&entry=" + sepdir;
-  				$(divID).append('<div class="alert alert-warning alert-block">' +
-				                  '<h3>Warning!</h3>' +
-				                  '<p>Invalid user authentication: SEP cookie not found.<br />' + 
-				                  'Evaluations will be submitted anonymously unless you login to SEP.</p><br/><br/>' +
-				                  '<a href="' + url + '"><button type="button" class="btn"><i class="icon-user"></i> Login</button></a>' +
-				                  '<br/><br/></div>');
+				$(divID).append('<div class="alert alert-warning alert-block">' +
+								'<h3>Warning!</h3>' +
+								'<p>Invalid user authentication: SEP cookie not found.<br />' + 
+								'Evaluations will be submitted anonymously unless you login to SEP.</p><br/><br/>' +
+								'<a href="' + url + '"><button type="button" class="btn"><i class="icon-user"></i> Login</button></a>' +
+								'<br/><br/></div>');
 			}
 		</script>
 	</body>

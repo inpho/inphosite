@@ -25,7 +25,7 @@ inpho.eval.makeBaseAuth = function(user, pass) {
 inpho.eval.numEvalsToDo = 0;
 inpho.eval.finishedEvalsToDoCallback = null;
 
-inpho.eval.loadEvalsListFromJSON = function(json) {
+inpho.eval.loadEvalsListFromJSON = function(json, callback) {
 	var anteID = json.ID;
 	var allTerms = json.related.concat(json.hyponyms, json.occurrences);
 	var relatedTerms = [];
@@ -37,7 +37,7 @@ inpho.eval.loadEvalsListFromJSON = function(json) {
 	}
 
 	if(relatedTerms.length > 0) {
-		inpho.eval.getEvalForm(anteID, relatedTerms[0], relatedTerms, 0, 0);
+		inpho.eval.getEvalForm(anteID, relatedTerms[0], relatedTerms, 0, 0, callback);
 	}
 	else {
 		console.log("Error: no related terms found!");
@@ -78,7 +78,7 @@ inpho.eval.displayPromptForArticle = function(divID, label, sepdir) {
 // ****************
 // Evaluation Forms
 // ****************
-inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEvals) {
+inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEvals, callback) {
 	var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1";
 	if (!inpho.eval.alert) url += '&alert=';
 
@@ -136,10 +136,13 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 					$(loadingSpinner).fadeOut('slow', function() {
 						$('#container').remove('#loading');
 						inpho.eval.showAllEvals();
+						
+						if(callback)
+							callback(incompleteEvals != 0);
 					});
 				}
 				else {
-					inpho.eval.getEvalForm(anteID, terms[currIndex], terms, currIndex, incompleteEvals);
+					inpho.eval.getEvalForm(anteID, terms[currIndex], terms, currIndex, incompleteEvals, callback);
 				}
 			}
 		}

@@ -131,9 +131,20 @@
 				console.log("Submitting all evals...");
 				$("li").find('form').each(function(index) {
 					var form = this;
-					setTimeout(function() {
-						inpho.eval.parseAndSubmit(form);
-					}, 1000 * index);
+					var relDiv = $('.relatednessSelect', form);
+					var genDiv = $('.generalitySelect', form);
+
+					var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
+					var genVal = inpho.eval.getValueFromButtonGroupDiv(genDiv);
+
+					if((relVal != -1 && genVal != -1)
+						|| (relVal == 0)) {
+						setTimeout(function() {
+							inpho.eval.parseAndSubmit(form);
+						}, 1000 * index);
+					}
+					else
+						console.log("Can't submit " + $(form).attr('data-consID'));
 				});
 			}
 		</script>

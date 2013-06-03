@@ -36,17 +36,12 @@ inpho.eval.loadEvalsListFromJSON = function(json) {
 			relatedTerms.push(t);
 	}
 
-	var loadingSpinner = $('#loading', '#container');
-	$(loadingSpinner).fadeOut('slow', function() {
-		$('#container').remove('#loading');
-
-		if(relatedTerms.length > 0) {
-			inpho.eval.getEvalForm(anteID, relatedTerms[0], relatedTerms, 0, 0);
-		}
-		else {
-			console.log("Error: no related terms found!");
-		}
-	});
+	if(relatedTerms.length > 0) {
+		inpho.eval.getEvalForm(anteID, relatedTerms[0], relatedTerms, 0, 0);
+	}
+	else {
+		console.log("Error: no related terms found!");
+	}
 }
 
 inpho.eval.fadeInEvalsList = function(n, evalList) {
@@ -136,7 +131,12 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 
 				if(incompleteEvals == 10 || currIndex == terms.length - 1) {
 					inpho.eval.numEvalsToDo = incompleteEvals;
-					inpho.eval.showAllEvals();
+					
+					var loadingSpinner = $('#loading', '#container');
+					$(loadingSpinner).fadeOut('slow', function() {
+						$('#container').remove('#loading');
+						inpho.eval.showAllEvals();
+					});
 				}
 				else {
 					inpho.eval.getEvalForm(anteID, terms[currIndex], terms, currIndex, incompleteEvals);

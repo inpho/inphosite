@@ -89,31 +89,60 @@
 				// Query for the proper entity ID first. We should be able to auto-follow via the redirect
 				// url parameter, but Safari has an issue with handling 302 response codes with json mimetypes,
 				// so we have to fire two requests manually. -- Jaimie
+				
 				$.getJSON(inpho.util.url('/entity.json?sep=' + sepdir), function(json) {
 					if(json.responseData.results.length > 0) {
+						inpho.eval.displayPromptForArticle('#prompt', json.responseData.results[0].label, sepdir);
+
 						// fire off the request for the actual concept
-						$.getJSON(inpho.util.url(json.responseData.results[0].url + '.json'),
-							function (json) {
-								inpho.eval.displayPromptForArticle('#prompt', json.label, sepdir);
-								inpho.eval.loadEvalsListFromJSON(json, function(hasEvalsToDo) {
-									$('.submitAllAlert').fadeIn('fast', null);
-
-									if(!hasEvalsToDo && inpho.eval.cookieAuth) {
-										$('.modal-body', '#modalAlert').prepend('<strong><p>It looks like you have previously evaluated all these terms!</p></strong><br />');
-
-										$('#modalAlert').modal('show');
-									}
-								});
-							});
+						getRelatedTermsForIdea(json.responseData.results[0].url, 
+													  json.responseData.results[0].ID, 
+													  inpho.eval.evalQueryLimit, 
+													  0);
 					} 
 					else {
-						// send an error message - no results
 						$(loadingSpinner).fadeOut('slow', function() {
 							$('#container').remove('#loading');
 							inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
 								'Could not load evaluations for this article. Are you sure this is an idea?');
 						});
 					}
+				});
+			}
+
+			function getRelatedTermsForIdea(url, anteID, limit, start) {
+				$.getJSON(inpho.util.url(url + '/related.json?limit=' + limit + '&start=' + start),
+					function (json) {
+						console.log("JSON = " + JSON.stringify(json));
+
+						inpho.eval.loadEvalsForIdeaFromResults(anteID, json.responseData.results, function(numEvalsToDo) {
+							if(numEvalsToDo == -1) {
+								$(loadingSpinner).fadeOut('slow', function() {
+									$('#container').remove('#loading');
+									inpho.eval.displayErrorAlertInDivWithMessage('#errors', 
+									'Oops! No related terms were found for this idea.');
+								});
+							}
+							else {
+								if(numEvalsToDo != inpho.eval.evalQueryLimit) {
+									console.log("Need more evals...");
+									var newStart = start + limit;
+									
+									if(newStart + limit < json.responseData.total) {
+										getRelatedTermsForIdea(url, anteID, limit, newStart);
+									}
+									else {
+										$('.submitAllAlert').fadeIn('fast', null);
+
+										if(inpho.eval.cookieAuth && inpho.eval.numEvalsToDo == 0) {
+											$('.modal-body', '#modalAlert').prepend('<strong><p>It looks like you have previously evaluated all these terms!</p></strong><br />');
+
+											$('#modalAlert').modal('show');
+										}
+									}
+								}
+							}
+					});
 				});
 			}
 

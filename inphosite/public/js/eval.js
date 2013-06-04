@@ -22,25 +22,16 @@ inpho.eval.makeBaseAuth = function(user, pass) {
 // ************************
 // Cross-domain Evaluations
 // ************************ 
+inpho.eval.evalQueryLimit = 10;
 inpho.eval.numEvalsToDo = 0;
 inpho.eval.finishedEvalsToDoCallback = null;
 
-inpho.eval.loadEvalsListFromJSON = function(json, callback) {
-	var anteID = json.ID;
-	var allTerms = json.related.concat(json.hyponyms, json.occurrences);
-	var relatedTerms = [];
-
-	for(var i = 0; i < allTerms.length; i++) {
-		var t = allTerms[i];
-		if(relatedTerms.indexOf(t) == -1)
-			relatedTerms.push(t);
-	}
-
-	if(relatedTerms.length > 0) {
-		inpho.eval.getEvalForm(anteID, relatedTerms[0], relatedTerms, 0, 0, callback);
-	}
+inpho.eval.loadEvalsForIdeaFromResults = function(anteID, results, callback) {
+	if(results.length > 0)
+		inpho.eval.getEvalForm(anteID, results[0].ID, results, 0, 0, callback);
 	else {
-		console.log("Error: no related terms found!");
+		inpho.eval.numEvalsToDo = -1;
+		callback(-1);
 	}
 }
 
@@ -78,7 +69,7 @@ inpho.eval.displayPromptForArticle = function(divID, label, sepdir) {
 // ****************
 // Evaluation Forms
 // ****************
-inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEvals, callback) {
+inpho.eval.getEvalForm = function(anteID, consID, results, currIndex, incompleteEvals, callback) {
 	var url = "/idea/" + anteID + "/evaluation/" + consID + "?edit=1";
 	if (!inpho.eval.alert) url += '&alert=';
 
@@ -89,7 +80,7 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 		success: function(data) {
 			var relVal = -1;
 
-			if(terms) {
+			if(results) {
 				var li = '<li class="evalItem-eval hide"><div id=i' + consID + '-eval></div></li>';
 				var relDiv = $('<div />').append(data).find('.relatednessSelect');
 				relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
@@ -108,7 +99,7 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 			else $('#i' + consID + '-eval').remove();
 			$(p).prepend(data);
 
-			if(terms) {
+			if(results) {
 				if(relVal != -1) {
 					var div = $('#i' + consID + '-eval');
 					var form = div.find('form');
@@ -124,13 +115,13 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 		complete: function() {
 			console.log("getEvalForm complete");
 
-			if(terms) {
-				console.log(terms.length + " terms (" + terms + ")");
+			if(results) {
+				console.log("number of results = " + results.length);
 				console.log("current index = " + currIndex);
 				console.log("incomplete evals = " + incompleteEvals);
 
-				if(incompleteEvals == 10 || currIndex == terms.length - 1) {
-					inpho.eval.numEvalsToDo = incompleteEvals;
+				if(incompleteEvals == inpho.eval.evalQueryLimit || currIndex == results.length) {
+					inpho.eval.numEvalsToDo += incompleteEvals;
 					
 					var loadingSpinner = $('#loading', '#container');
 					$(loadingSpinner).fadeOut('slow', function() {
@@ -138,11 +129,11 @@ inpho.eval.getEvalForm = function(anteID, consID, terms, currIndex, incompleteEv
 						inpho.eval.showAllEvals();
 						
 						if(callback)
-							callback(incompleteEvals != 0);
+							callback(inpho.eval.numEvalsToDo);
 					});
 				}
 				else {
-					inpho.eval.getEvalForm(anteID, terms[currIndex], terms, currIndex, incompleteEvals, callback);
+					inpho.eval.getEvalForm(anteID, results[currIndex].ID, results, currIndex, incompleteEvals, callback);
 				}
 			}
 		}

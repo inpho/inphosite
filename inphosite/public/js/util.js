@@ -25,7 +25,7 @@ inpho.util.getCookieValueForName = function(cookieName) {
 		var pair = cookies[i].split("=");
 		console.log("Cookie " + i + ": name(" + pair[0] + "), value(" + pair[1] + ")");
 
-		if(pair[0] === cookieName) {
+		if($.trim(pair[0]) === $.trim(cookieName)) {
 			console.log("Success! Cookie found: " + cookieName);
 			return pair[1];
 		}

@@ -22,7 +22,7 @@ body {
     background-image: url('../img/icon-search.png');
     background-repeat: no-repeat;
     background-position: 8px 6px;
-    padding-left: 28px; 
+    padding-left: 28px !important; 
     }
 
 .logo-word {

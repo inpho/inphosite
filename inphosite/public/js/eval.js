@@ -118,7 +118,7 @@ inpho.eval.getEvalForm = function(anteID, consID, results, currIndex, incomplete
 			if(results) {
 				console.log("number of results = " + results.length);
 				console.log("current index = " + currIndex);
-				console.log("incomplete evals = " + incompleteEvals);
+				console.log("incomplete evals retrieved = " + incompleteEvals);
 
 				if(incompleteEvals == inpho.eval.evalQueryLimit || currIndex == results.length) {
 					inpho.eval.numEvalsToDo += incompleteEvals;

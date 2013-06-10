@@ -133,7 +133,15 @@ body {
 }
 .terms h3 {
     margin-left: -20px;    
+    margin-bottom: 0;
+    margin-top: 0;
+    line-height: 27px;
+    font-size: 18px;
 }
+
+.terms h3 img {
+    margin-top: 7px;
+    }
 
 .taxonomy {
     background-image: url('../img/taxo-thumbnail.png');
@@ -149,6 +157,13 @@ body {
 
 #search-form {
     display: none;
+}
+.typeahead li>a {
+    color: #333;    
+}
+.navbar .nav .typeahead .active a, .navbar .nav .typeahead .active a:hover {
+    color: #fff;
+    background: #08c;    
 }
 
 .person {

@@ -37,7 +37,7 @@ inpho.actb.init = function(elt, api_call) {
         process(labels);
       }); },
     highlighter: function(item) {
-      return '<a style="color: #333" href="' + mapped[item].url + '">' + item + '</a>';
+      return '<a href="' + mapped[item].url + '">' + item + '</a>';
     },
     updater: function(item) {
       window.location = inpho.util.url(mapped[item].url);

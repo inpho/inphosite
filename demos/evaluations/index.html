@@ -39,7 +39,7 @@
 			<div id="actionsAlert" class="submitAllAlert alert alert-info alert-block hide">
 				<h4>Options:</h4><br />
 				<button id="loadMoreBtn" type="button" class="btn" onclick="loadMoreEvals()"><i class="icon-list"></i> Load More</button>
-				<button type="button" class="btn btn" onclick=""><i class="icon-pencil"></i> Show Previous</button>
+				<button type="button" class="btn btn" onclick="showPreviousEvals()"><i class="icon-pencil"></i> Show Previous</button>
 				<button type="button" class="btn btn-primary" onclick="submitAllEvals()"><i class="icon-arrow-right icon-white"></i> Submit All</button>
 				<br /><br />
 			</div>
@@ -107,14 +107,11 @@
 					if(json.responseData.results.length > 0) {
 						inpho.eval.displayPromptForArticle('#prompt', json.responseData.results[0].label, sepdir);
 
-						// fire off the request for the actual concept
 						responseURL = json.responseData.results[0].url;
 						responseID = json.responseData.results[0].ID;
 
-						getRelatedTermsForIdea(responseURL, 
-													  responseID, 
-													  inpho.eval.evalQueryLimit, 
-													  queryStart);
+						// fire off the request for the actual concept
+						getRelatedTermsForIdea(responseURL, responseID, inpho.eval.evalQueryLimit, queryStart);
 					} 
 					else {
 						$(loadingSpinner).fadeOut('slow', function() {
@@ -179,6 +176,10 @@
 			function loadMoreEvals() {
 				queryStart += inpho.eval.evalQueryLimit;
 				getRelatedTermsForIdea(responseURL, responseID, inpho.eval.evalQueryLimit, queryStart);
+			}
+
+			function showPreviousEvals() {
+				inpho.eval.showAllEvals();
 			}
 
 			function displayInvalidCookieWarningInDiv(divID, sepdir) {

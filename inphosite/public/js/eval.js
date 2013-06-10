@@ -52,6 +52,17 @@ inpho.eval.showAllEvals = function() {
 	$('.evalItem-eval').fadeIn('slow', null);
 }
 
+inpho.eval.showOnlyNewEvals = function() {
+	$('.evalItem-eval').find('form').each(function(index) {
+		var form = this;
+		var relDiv = $('.relatednessSelect', form);
+		var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
+		
+		if(relVal == -1)
+			$('.evalItem-eval').fadeIn('slow', null);
+	});
+}
+
 inpho.eval.displayErrorAlertInDivWithMessage = function(divID, msg) {
 	$(divID).append('<div class="alert alert-error alert-block">' +
 					'<h3>Error!</h3>' +
@@ -126,7 +137,7 @@ inpho.eval.getEvalForm = function(anteID, consID, results, currIndex, incomplete
 					var loadingSpinner = $('#loading', '#container');
 					$(loadingSpinner).fadeOut('slow', function() {
 						$('#container').remove('#loading');
-						inpho.eval.showAllEvals();
+						inpho.eval.showOnlyNewEvals();
 						
 						if(callback)
 							callback(inpho.eval.numEvalsToDo);

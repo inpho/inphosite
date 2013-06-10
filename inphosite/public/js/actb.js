@@ -35,12 +35,19 @@ inpho.actb.init = function(elt, api_call) {
         });
         
         process(labels);
+        this.$menu.find('.active').removeClass('active');
       }); },
     highlighter: function(item) {
-      return '<a href="' + mapped[item].url + '">' + item + '</a>';
+      var link = '<a href="' + mapped[item].url + '">';
+      var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+      var formatted = item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                            return '<strong>' + match + '</strong>'
+                                  });
+      return  link + formatted + '</a>';
     },
     updater: function(item) {
-      window.location = inpho.util.url(mapped[item].url);
+      if (!item) return this.$element.val();
+      else window.location = inpho.util.url(mapped[item].url);
       return item;
       }
   });

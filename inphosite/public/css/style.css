@@ -107,6 +107,10 @@ body {
 }
 
 /* TERM LIST STYLES */
+#tabnav {
+    margin-top: 10px;
+}
+
 .terms {
     float: left;    
     margin-right: 70px;

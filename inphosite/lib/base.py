@@ -9,6 +9,10 @@ from inpho.model import Session
 
 class BaseController(WSGIController):
 
+    def __before__(self):
+        response.headers['Access-Control-Allow-Origin'] =\
+            request.headers.get('Origin', '*')
+
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
         # WSGIController.__call__ dispatches to the Controller method

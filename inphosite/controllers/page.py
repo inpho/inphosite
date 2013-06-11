@@ -13,10 +13,9 @@ log = logging.getLogger(__name__)
 
 class PageController(BaseController):
     def options(self):
-        response.headers['Access-Control-Allow-Origin'] = '*'
         response.headers['Access-Control-Allow-Methods'] = '*'
         response.headers['Access-Control-Allow-Headers'] =\
-            'origin, c-csrftoken, content-type, authorization, accept'
+            'origin, c-csrftoken, content-type, authorization, accept, cookie, user-agent, referer, host'
         response.headers['Access-Control-Max-Age'] = '1000'
         response.status = 200
         return ''

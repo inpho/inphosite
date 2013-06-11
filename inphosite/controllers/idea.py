@@ -48,9 +48,6 @@ class IdeaController(EntityController):
     _type = Idea
     _controller = 'idea'
 
-    def __before__(self):
-        response.headers['Access-Control-Allow-Origin'] = '*'
-
     def data_integrity(self, filetype="html", redirect=False):
         if not h.auth.is_logged_in():
             abort(401)
@@ -502,7 +499,7 @@ class IdeaController(EntityController):
             uid = h.fetch_obj(User, uid).ID
         elif username:
             user = h.get_user(username)
-            uid = user.ID if user else abort(404)
+            uid = user.ID if user else abort(403)
         else:
             uid = h.get_user(request.environ['REMOTE_USER']).ID
 

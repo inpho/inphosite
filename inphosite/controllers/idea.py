@@ -443,7 +443,7 @@ class IdeaController(EntityController):
 
         idea = Idea(label)
         Session.add(idea)
-        Session.flush()
+        Session.commit()
 
         # Issue an HTTP success
         response.status_int = 302

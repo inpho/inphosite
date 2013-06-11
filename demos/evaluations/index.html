@@ -17,7 +17,7 @@
 			max-width: 475px;
 		}
 
-		#actionsAlert .btn {
+		.submitAllAlert .btn {
 			margin-right: 5px;
 		}
 	</style>
@@ -31,12 +31,14 @@
 			<div class="submitAllAlert alert alert-info alert-block hide">
 				<h4>Note:</h4>
 				<p>You may submit all evaluations at once, or individually.</p><br /><br />
-				<button type="button" class="btn btn-primary btn-large" onclick="submitAllEvals()"><i class="icon-arrow-right icon-white"></i> Submit All Evaluations</button><br /><br />
+				<button type="button" class="btn btn-primary btn-large" onclick="submitAllEvals()"><i class="icon-arrow-right icon-white"></i> Submit All</button>
+				<button id="crossRefBtn" type="button" class="btn btn-large hide" onclick="$('#modalAlert').modal('show');"><i class="icon-arrow-right"></i> Cross References</button>
+				<br /><br />
 			</div>
 
 			<ol id="evalList" class="unstyled"></ol>
 
-			<div id="actionsAlert" class="submitAllAlert alert alert-info alert-block hide">
+			<div class="submitAllAlert alert alert-info alert-block hide">
 				<h4>Options:</h4><br />
 				<button id="loadMoreBtn" type="button" class="btn" onclick="loadMoreEvals()"><i class="icon-list"></i> Load More</button>
 				<button type="button" class="btn btn" onclick="showPreviousEvals()"><i class="icon-pencil"></i> Show Previous</button>
@@ -54,8 +56,9 @@
 				<p>You are now ready to select cross references for your article.</p>
 			</div>
 			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true" onclick="reviewEvaluations()"><i class="icon-pencil"></i> Review Evaluations</button>
 				<a id="crossRefLink" href="">
-					<button class="btn btn-primary">Go to cross references</button>
+					<button class="btn btn-primary"><i class="icon-arrow-right icon-white"></i> Cross References</button>
 				</a>
 			</div>
 		</div>
@@ -180,6 +183,11 @@
 
 			function showPreviousEvals() {
 				inpho.eval.showAllEvals();
+			}
+
+			function reviewEvaluations() {
+				showPreviousEvals();
+				$('#crossRefBtn').fadeIn('fast', null);
 			}
 
 			function displayInvalidCookieWarningInDiv(divID, sepdir) {

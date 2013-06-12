@@ -148,12 +148,13 @@
 								});
 							}
 							else {
-								if(numEvalsToDo != inpho.eval.numEvalsToDo) {
+								if(numEvalsToDo < inpho.eval.evalQueryLimit) {
 									console.log("Need more evals...");
-									var newStart = start + limit;
+									var newLimit = inpho.eval.evalQueryLimit - numEvalsToDo;
+									var newStart = start + newLimit;
 									
-									if(newStart + limit < json.responseData.total)
-										getRelatedTermsForIdea(url, anteID, limit, newStart);
+									if(newStart + newLimit < json.responseData.total)
+										getRelatedTermsForIdea(url, anteID, newLimit, newStart);
 									else {
 										var extra = json.responseData.total - newStart;
 										inpho.eval.numEvalsToDo -= extra;

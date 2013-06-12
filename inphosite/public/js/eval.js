@@ -54,12 +54,9 @@ inpho.eval.showAllEvals = function() {
 
 inpho.eval.showOnlyNewEvals = function() {
 	$('.evalItem-eval').find('form').each(function(index) {
-		var form = this;
-		var relDiv = $('.relatednessSelect', form);
-		var relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
-		
-		if(relVal == -1)
-			$('.evalItem-eval').fadeIn('slow', null);
+		if(!$(this).data('isthanksform')) {
+			$(this).parent().parent().fadeIn('slow', null);
+		}
 	});
 }
 
@@ -93,6 +90,7 @@ inpho.eval.getEvalForm = function(anteID, consID, results, currIndex, incomplete
 
 			if(results) {
 				var li = '<li class="evalItem-eval hide"><div id=i' + consID + '-eval></div></li>';
+				
 				var relDiv = $('<div />').append(data).find('.relatednessSelect');
 				relVal = inpho.eval.getValueFromButtonGroupDiv(relDiv);
 
@@ -329,7 +327,7 @@ inpho.eval.getValueFromButtonGroupDiv = function(btnGroupDiv) {
 	for(var i = 0; i < $(btnGroupDiv).children().length; i++) {
 		var btn = $($(btnGroupDiv).children()[i]);
 		if(btn.hasClass('active')) {
-				return $(btn).val();
+			return $(btn).val();
 		}
 	}
 	return -1;

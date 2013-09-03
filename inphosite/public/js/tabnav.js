@@ -35,6 +35,22 @@ inpho.tabnav.appendTab = function(tabNav, id, title, url) {
   inpho.tabnav.switchTab(tabNav, id);
 }
 
+inpho.tabnav.lazyLoad = function(tabNav, id, url) {
+  if ($('#'+id).html().length == 0) {
+    // append temporary loading pane
+    $('#'+id).html('Loading content... <img src="/img/loading.gif" />');
+  
+    // append new tab content
+    // make an AJAX call to grab the panel
+    $.get(url, function(data){
+      $('#'+id).html(data);
+    });
+  }
+
+  inpho.tabnav.switchTab(tabNav, id);
+  
+}
+
 inpho.tabnav.switchTab = function(tabNav, id) {
   // flip to new tab, regardless of existence
   $('#'+tabNav+' .active').removeClass('active');

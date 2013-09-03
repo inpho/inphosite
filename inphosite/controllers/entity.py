@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect
@@ -126,7 +127,8 @@ class EntityController(BaseController):
                                label=titles[sep_dir], sep_dir=sep_dir)
             c.entries.append({ 'sep_dir' : sep_dir, 
                                'title' : titles[sep_dir], 
-                               'link' : link })
+                               'link' : link,
+                               'published' : sep.published(sep_dir)})
 
         return render ('admin/newentries.html')
 
@@ -145,10 +147,15 @@ class EntityController(BaseController):
         c.sep_dir = request.params.get('sep_dir', None)
 
         c.linklist = []
-        if c.sep_dir and sep.published(c.sep_dir):
-            if not c.label:
+       
+        if c.sep_dir and not c.label:
+            try:
                 c.label = sep.get_title(c.sep_dir)
+            except KeyError:
+                c.message = "Invalid sep_dir: " + c.sep_dir
+                c.sep_dir = ""
 
+        if c.sep_dir:
             fuzzypath = config.get('corpus', 'fuzzy_path')
             fuzzypath = os.path.join(fuzzypath, c.sep_dir)
             if os.path.exists(fuzzypath):
@@ -156,12 +163,10 @@ class EntityController(BaseController):
                     matches = csv.reader(f)
                     for row in matches:
                         c.linklist.append(row)
+            else:
+                c.message = "Fuzzy match for " + c.sep_dir + " not yet complete."
 
             c.linklist.sort(key=lambda x: x[2], reverse=True)
-
-        elif c.sep_dir and not sep.published(c.sep_dir):
-            c.message = "Invalid sep_dir: " + c.sep_dir
-            c.sep_dir = ""
 
         return render('entity/new.html')
 
@@ -173,6 +178,11 @@ class EntityController(BaseController):
         entity_type = int(request.params.get('entity_type', entity_type))
         label = request.params.get('label')
         sep_dir = request.params.get('sep_dir')
+
+        c.entity = Session.query(Entity).filter(Entity.label==label).first()
+        if c.entity:
+            redirect(c.entity.url(filetype, action="view"), code=303)
+
 
         if entity_type == 1:
             c.entity = Idea(label, sep_dir=sep_dir)
@@ -188,6 +198,7 @@ class EntityController(BaseController):
         Session.add(c.entity)
         Session.commit()
         if redirect: 
+            sleep(5) # TODO: figure out database slowness so this can be removed
             redirect(c.entity.url(filetype, action="view"), code=303)
         else:
             return "200 OK"
@@ -204,9 +215,16 @@ class EntityController(BaseController):
             c.entity2 = h.fetch_obj(Entity, id2)
 
         # Run searches
-        c.sep = EntityController._search_sep(c.entity, c.entity2)
-        c.noesis = EntityController._search_noesis(c.entity, c.entity2)
-        c.bing = EntityController._search_bing(c.entity, c.entity2)
+        try:
+            c.sep = EntityController._search_sep(c.entity, c.entity2)
+        except:
+            c.sep = None
+
+        try:
+            c.noesis = EntityController._search_noesis(c.entity, c.entity2)
+        except:
+            c.noesis = None
+        # c.bing = EntityController._search_bing(c.entity, c.entity2)
         return render('entity/search.html')
 
     def panel(self, id, id2): 
@@ -237,7 +255,7 @@ class EntityController(BaseController):
             c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
 
         # Put together URL string
-        url = "http://plato.stanford.edu/search/xmlSearcher.py?query=" + \
+        url = "http://plato.stanford.edu/cgi-bin/search/xmlSearcher.py?query=" + \
               c.sep_searchstr
 
         # Get results and parse the XML
@@ -457,10 +475,12 @@ class EntityController(BaseController):
         if not range:
             date = Date(c.entity.ID, id2,
                         year, month, day)
+            date.entity = c.entity 
         else:
             date = Date(c.entity.ID, id2, 
                         year, month, day, 
                         year_end, month_end, day_end)
+            date.entity = c.entity
 
         return date
         

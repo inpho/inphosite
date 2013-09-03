@@ -296,7 +296,22 @@ inpho@indiana.edu
                                     / c.rel_overlap)
 
         return render('account/profile.html')
-    
+
+
+    def review(self):
+        if not request.environ.get('REMOTE_USER', False):
+            abort(401)
+        
+        c.user = h.get_user(request.environ['REMOTE_USER'])        
+
+        ieq = Session.query(IdeaEvaluation).order_by(IdeaEvaluation.time.desc())
+        c.evaluations = ieq.filter(and_(IdeaEvaluation.uid==c.user.ID,
+                                   or_(IdeaEvaluation.generality>-1,
+                                       IdeaEvaluation.relatedness>-1))).all()
+        
+        return render('account/review.html')
+
+
     def edit(self):
         '''Renders the registration form.'''
         if not h.auth.is_logged_in():

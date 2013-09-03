@@ -32,7 +32,9 @@ from formencode import variabledecode
     
 import simplejson
 import re
+import time
 from collections import defaultdict
+import urllib2
 
 #Schema for validating form data from "edit idea" admin interface
 #class IdeaSchema(Schema):
@@ -278,10 +280,30 @@ class IdeaController(EntityController):
             return c.entity.json()
 
         c.count = len(c.entity.nodes) + len(c.entity.instance_of) + len(c.entity.links_to)
-        if len(c.entity.nodes) > 0:
+        c.nodes = list()
+        if c.entity.nodes:
+            c.nodes.extend(c.entity.nodes[:])
+        for idea in c.entity.instance_of:
+            for node in idea.nodes:
+                c.nodes.append(node)
+        for idea in c.entity.links_to:
+            for node in idea.nodes:
+                c.nodes.append(node)
+
+        if c.entity.nodes:
             c.node = c.entity.nodes[0]
-        elif len(c.entity.instance_of) > 0:
+        elif c.entity.instance_of:
             c.node = c.entity.instance_of[0]
+            # just in case of data corruption
+            # instance_of points to idea, need node
+            if c.node.nodes:
+                c.node = c.node.nodes[0]
+        elif c.entity.links_to:
+            c.node = c.entity.links_to[0]
+            # just in case of data corruption
+            # links_to point to idea, need node
+            if c.node.nodes:
+                c.node = c.node.nodes[0]
         else:
             c.node = None
         
@@ -330,24 +352,38 @@ class IdeaController(EntityController):
             return ''
 
         c.edit = True
+        c.alert = request.params.get('alert', True)
+       
         # retrieve evaluation for pair
-        c.identity = request.environ.get('repoze.who.identity')
-        if c.identity:
-            c.uid = c.identity['user'].ID
+        c.generality = int(request.params.get('generality', -1))
+        c.relatedness = int(request.params.get('relatedness', -1))
+        
+        # retrieve user information
+        identity = request.environ.get('repoze.who.identity')
+        c.uid = None if not identity else identity['user'].ID
+        
+        #TODO: Place cookie auth here
+        try:
+            cookie = request.params.get('cookieAuth', 'null')
+            username = h.auth.get_username_from_cookie(cookie) or ''
+            user = h.get_user(username)
+            if user is not None:
+                c.uid = user.ID
 
+        except ValueError:
+            # invalid IP, abort
+            abort(403)
+
+        # use the user's evaluation if present, otherwise a null eval
+        if c.uid and (c.generality == -1 or c.relatedness == -1):
             eval_q = Session.query(IdeaEvaluation.generality, 
-                                   IdeaEvaluation.relatedness)
+                                       IdeaEvaluation.relatedness)
             eval_q = eval_q.filter_by(uid=c.uid, ante_id=id, cons_id=id2)
 
-            # use the user's evaluation if present, otherwise a null eval
             c.generality, c.relatedness = eval_q.first() or\
-                (request.params.get('generality', -1), 
-                 request.params.get('relatedness', -1))
+                (int(request.params.get('generality', -1)), 
+                 int(request.params.get('relatedness', -1)))
 
-        else:
-            c.uid = None
-            c.generality = int(request.params.get('generality', -1))
-            c.relatedness = int(request.params.get('relatedness', -1))
 
         if c.relatedness != -1:
             c.edit = request.params.get('edit', False)
@@ -404,7 +440,7 @@ class IdeaController(EntityController):
 
         idea = Idea(label)
         Session.add(idea)
-        Session.flush()
+        Session.commit()
 
         # Issue an HTTP success
         response.status_int = 302
@@ -449,6 +485,7 @@ class IdeaController(EntityController):
             id=id
         )
 
+        response.headers['Access-Control-Allow-Origin'] = '*' 
 
         return render('idea/idea-edit.html')
 
@@ -462,7 +499,7 @@ class IdeaController(EntityController):
             uid = h.fetch_obj(User, uid).ID
         elif username:
             user = h.get_user(username)
-            uid = user.ID if user else abort(404)
+            uid = user.ID if user else abort(403)
         else:
             uid = h.get_user(request.environ['REMOTE_USER']).ID
 
@@ -526,23 +563,31 @@ class IdeaController(EntityController):
         """
         id2 = request.params.get('id2', id2)
         uid = request.params.get('uid', uid)
+        try:
+            username = h.auth.get_username_from_cookie(request.params.get('cookieAuth', ''))
+        except ValueError:
+            # invalid IP, abort
+            abort(403)
 
         print "grabbing eval for", username, uid
 
         if request.environ.get('REMOTE_USER', False):
             username = request.environ.get('REMOTE_USER', username)
             evaluation = self._get_evaluation(id, id2, None, username)
+        elif username:
+            evaluation = self._get_evaluation(id, id2, None, username)
         else:
             evaluation = self._get_anon_evaluation(id, id2, request.environ.get('REMOTE_ADDR', '0.0.0.0'))
 
         # Populate proper generality, relatedness, hyperrank and hyporank values
+        evaluation.time = time.time()
+
         # Attempt to convert to integers, if unable, throw HTTP 400
         try: 
             setattr(evaluation, evaltype, 
                     int(request.params.get('degree', getattr(evaluation, evaltype))))
         except TypeError:
             abort(400)
-
 
         # Create and commit evaluation
         try:

@@ -1,10 +1,6 @@
 <%inherit file="/base-tree.html" />
 <%def name="title()">${parent.title()} - Error ${c.code}</%def>
 <%def name="head_title()">Error</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 
 <div id="content">
 <h1>Error!</h1>
@@ -20,7 +16,7 @@ page type. Follow <a href="${url}">${url}</a> to get the proper location of ID $
 
 ## Entity does not even exist
 %elif c.code == '404':
-<p>The requested page could not be found. Use the search box on the left to
+<p>The requested page could not be found. Use the search box above to
 continue.</p>
 
 ## Bad request

@@ -1,0 +1,79 @@
+/* full page eval */
+/*----------------*/
+#evalContent h1 {
+	margin-bottom: 8px;
+}
+
+#evalContent h3 {
+	margin-bottom: 12px;
+}
+
+#evalContent li {
+	font-size: 15px;
+	margin-bottom: 40px;
+}
+
+li p, #loading {
+	color: #666666;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	font-style: italic;
+}
+
+.spinner {
+	margin-bottom: 15px;
+}
+
+.spinner p:after {
+	content: url('/img/loading.gif');
+}
+
+#loading:after {
+	content: url('/img/loading.gif');
+}
+
+
+/* individual eval */
+/*-----------------*/
+p {
+	display: inline;
+}
+
+.btn-group {
+	margin-bottom: 7px;
+}
+
+form, .btn-group + .btn-group {
+    margin-left: 0px; 
+}
+
+.description {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+#result p {
+	font-style: italic;
+	color: #468847;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+#result a {
+	font-style: italic;
+	color: #468847;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+
+/* alert eval */
+/*------------*/
+.alert-heading {
+	margin-bottom: 7px;
+}
+
+.alert .description {
+	margin-bottom: 8px;
+}
+
+.alert {
+	padding-bottom: 0px;
+}

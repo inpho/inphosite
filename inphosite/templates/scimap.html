@@ -1,0 +1,20 @@
+<%inherit file="/base-nosidebar.html"/>
+<%namespace file="/actb.html" name="actb" /> 
+<%def name="title()">Map of Science - The Indiana Philosophy Ontology Project</%def>
+<%def name="head_title()"></%def>
+<div class="span8">
+<h3>Mapping the Intersection of Philosophy and Science</h3>
+<p>This interactive visualization presents the cross-pollination of science and philosophy through citation patterns. Using the Stanford Encyclopedia of Philosophy as a proxy for the philosophical literature, we plot SEP citations onto the UCSD Map of Science to highlight areas of science which overlap with philosophical discussion. More details can be found in the <a href="/papers/jcdl2013.pdf">JCDL 2013</a> paper.</p>
+</div>
+            <input id="weightSlider"
+                   style="display: none;"
+                   type="range"
+                   name="scale"
+                   min="0"
+                   max="20"
+                   step="1"
+                   value="0" />
+<div id="chart"> </div>
+<script src="/scimap/d3.v3.min.js"></script>
+<script src="/scimap/mapOfScience.js"></script>
+

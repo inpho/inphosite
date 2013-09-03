@@ -1,21 +1,14 @@
-<%inherit file="/base-tree.html" />
+<%inherit file="/base-nosidebar.html" />
 <%def name="title()">${parent.title()} - Taxonomy</%def>
 <%def name="head_title()">Taxonomy</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
-<div id="content">
-<h1>The InPhO Taxonomy</h1>
-
-<p>This is the page for the node <em>Philosophy</em>.</p>
-
-<p>This taxonomy of ideas is the outcome of the first iteration of our cycle of
-expert-provided structure, statistical analysis of the articles in the <a
-href="http://plato.stanford.edu/">Stanford Encyclopedia of Philosophy</a>, and a
-small amount of human feedback. Iterations of this cycle will be used to develop
-the taxonomy. The approach is explained in more detail in <a href="/papers">our
-papers</a>.</p>
-
-<p>Click on any of the links on the left to explore the topics in the taxonomy.</p>
+<div class="span12">
+<h1>
+<a href="/"><img src="/img/newlogo.png" width="185" style="margin-top: -11px; margin-bottom:-22px;"></a>
+<span style="color: #999;">:</span> The Taxonomy</h1>
+<div id="chart">
+<div class="alert alert-info pull-right" style="position: relative; right: 150px; top: 60px; margin-left: -400px;">
+Click a blue node <svg class="node" id="demoNode" width="20" height="20"><g transform="translate(10,15)"><circle r="4.5" style="fill: #b0c4de;"></circle></g></svg> to expand.<br />
+Click a term to see the InPhO page for that idea. </div>
+</div>
+<script type="text/javascript" src="/js/tree-collapse.js"></script>
 </div>

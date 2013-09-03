@@ -1,26 +1,14 @@
 <%! import urllib %>
 <%inherit file="/base-tree.html" />
+<%namespace name="actb" file="/actb.html" />
 
 ## Header
 <%def name="title()">${parent.title()} - New Entity</%def>
 <%def name="head_title()">New Entity</%def>
-## Sidebar
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 
-%if c.message:
-<p>${c.message}</p>
-%endif
 
 <form class="form-horizontal" action="/entity" method="POST">
   <fieldset>
-    <legend>New Entity Form</legend>
-    
-    <div class="control-group">
-      <input type="hidden" name="redirect" id="redirect" value="True" />
-    </div>
 
     <div class="control-group">
       %if c.sep_dir and c.linklist:
@@ -30,22 +18,22 @@ ${parent.draw()}</%def>
 	<li><a href="${url(controller='entity', action='update', id=entity[0], sep_dir=c.sep_dir, _method='PUT', redirect='true')}">${entity[1]}</a> (${entity[2]})</li>
 	%endfor
       </ul>
-      <p>&nbsp;</p>
       %elif c.sep_dir:
-      <p>This entry does not have a corresponding InPhO Entity, as determined by the fuzzymatch algorithm.</p>
+      <p>This entry does not have a corresponding InPhO Entity.</p>
+      %endif
+      
+      %if c.message:
+      <p>${c.message}</p>
       %endif
     </div>
     
-    
+    <legend>New Entity Form</legend>
     <div class="control-group">
+      <input type="hidden" name="redirect" id="redirect" value="True" />
       <label class="control-label" for="label">Label</label>
 
       <div class="controls">
-	%if c.label:
-	<input id="label" name="label" size="80" type="text" value="${c.label}" />
-	%else:
-	<input id="label" name="label" size="80" type="text" />
-	%endif
+        ${actb.actb("label", value=c.label)}
       </div>
     </div>
     
@@ -78,7 +66,8 @@ ${parent.draw()}</%def>
     
     <div class="form-actions">
       <button type="submit" class="btn btn-primary" value="Create Entry">Create Entry</button>
-      <button type="reset" class="btn">Reset</button>
+      <button type="reset" class="btn">Reset</button><br />
+      <p><em>Note:</em> If term already exists, you will be redirected.</p>
     </div>  
   </fieldset>
 </form>

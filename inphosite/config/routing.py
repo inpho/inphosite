@@ -27,6 +27,7 @@ def make_map(config):
     map.connect('/docs/', controller='page', action='docs')
     map.connect('/about/', controller='page', action='about')
     map.connect('/privacy/', controller='page', action='privacy')
+    map.connect('/scimap/', controller='page', action='scimap')
     map.connect('/{controller}', action='list', 
         conditions=dict(method=["GET"]))
     map.connect('/admin', controller='admin', action='index', 
@@ -58,6 +59,10 @@ def make_map(config):
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
     map.connect('/{controller}/{id:\d+}/{action}/{id2:\d+}.{filetype:html|json|xml|txt}',
         conditions=dict(method=["GET", "POST", "PUT", "DELETE"]))
+    map.connect('/{actual_controller}/{id:\d+}/{actual_action}/{id2:\d+}', 
+        controller='page', action='options', conditions=dict(method=["OPTIONS"]))
+    map.connect('/{actual_controller}/{id:\d+}/{actual_action}/{id2:\d+}.{filetype:html|json|xml|txt}', 
+        controller='page', action='options', conditions=dict(method=["OPTIONS"]))
 
     # Generic Routes
     map.connect('/{controller}', action='create', 

@@ -1,10 +1,6 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">${parent.title()} - Entities</%def>
 <%def name="head_title()">Entities</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 
 <%def name="getIcon(entity)">
 %if type(entity).__name__ == 'Thinker':

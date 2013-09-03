@@ -80,7 +80,7 @@ if icon:
 
 <%def name="printSEPResults()">
 <div class="search-results" id="SEPSearch">
-  %if not c.sep:
+  %if c.sep is None:
   <p>Error loading results.</p>
   %elif len(c.sep) == 0:
   <p>No search results.</p>

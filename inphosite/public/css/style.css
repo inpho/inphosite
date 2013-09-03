@@ -3,19 +3,58 @@ body {
     }
 
 .footer {
-    padding-top: 50px;    
+    clear: both;
+    padding-top: 10px;    
     padding-bottom: 100px;
 }
-.brand {
+/*.brand {
     margin-left: -10px !important;    
+}*/
+
+.navbar-search .search-query {
+    background-image: url('../img/icon-search-white.png');
+    background-repeat: no-repeat;
+    background-position: 8px 6px;
+    padding-left: 28px; 
 }
+
+.search-query, .navbar-search .search-query:focus {
+    background-image: url('../img/icon-search.png');
+    background-repeat: no-repeat;
+    background-position: 8px 6px;
+    padding-left: 28px !important; 
+    }
+
+.logo-word {
+    background-image: url('../img/newlogo.png');
+    background-size: 172px 92px;
+    width: 172px;    
+    height: 84px;
+    padding-top: 6px;
+    margin-top: 14px;
+    margin-bottom: 5px;
+    margin-left: -6px;
+    display: inline-block;
+    text-indent: -3000px;
+}
+
+.graph-bg {
+    background-image: url('../img/hero-unit.png');
+    /*background-repeat: no-repeat;
+    background-position: 0 0; 
+    background-color: transparent;*/
+    }
+.graph-content {
+    background-color: rgba(255,255,255,0.6);
+    }
+
 #logo-container {
     width: 940px; margin:0 auto; zoom: 1; z-index: -1;
 }
 #logo {
         /* float: left; */
         position: absolute;
-        top: 0;
+        top: 45px;
         margin-top: 0px;
         z-index: 100000;
 		height:147px;
@@ -23,10 +62,18 @@ body {
 	}
 
 #sidebar {
-    margin-top: 87px;
 }
-.yuitree-hl, .yuitree-hl .ygtvcontent a {
-    background-color: #C0E0E0 !important;    
+
+.taxonomy-breadcrumb {
+    padding: 0 0;
+    margin: 0 0 0;
+    color: #999;
+    border: 0;
+    background: none;
+    font-size: x-small;
+}
+.taxonomy-breadcrumb a {
+    color: #999;    
 }
 
 .icon {
@@ -60,6 +107,10 @@ body {
 }
 
 /* TERM LIST STYLES */
+#tabnav {
+    margin-top: 10px;
+}
+
 .terms {
     float: left;    
     margin-right: 70px;
@@ -78,7 +129,7 @@ body {
   background-image: url("../img/loading.gif");
   background-position: 0px 0px;
   background-repeat: no-repeat;
-  *margin-right: .3em;
+  margin-right: .3em;
 }
 
 .terms .tablink {
@@ -86,8 +137,70 @@ body {
 }
 .terms h3 {
     margin-left: -20px;    
+    margin-bottom: 0;
+    margin-top: 0;
+    line-height: 27px;
+    font-size: 18px;
 }
 
+.terms h3 img {
+    margin-top: 7px;
+    }
+
+.taxonomy {
+    background-image: url('../img/taxo-thumbnail.png');
+    background-repeat: no-repeat;
+    background-position: 220px 15px;
+    padding-bottom: 50px;
+}
+
+.centered {
+    text-align: center;
+    margin: auto 0;
+    }
+
+#search-form {
+    display: none;
+}
+.typeahead li>a {
+    color: #333;    
+}
+.navbar .nav .typeahead .active a, .navbar .nav .typeahead .active a:hover {
+    color: #fff;
+    background: #08c;    
+}
+
+.person {
+    clear: both;
+}
+
+.person img {
+    float: left;    
+    padding: 2px 5px;
+    width: 48px;
+}
+
+.iumail:after {
+    content: "@indiana.edu";    
+}
+
+
+/*
+.person:nth-child(even) {
+    float: right;
+    text-align: right;
+    clear: right;
+}
+.person:nth-child(even) img {
+    float: right;
+}
+.person:nth-child(odd) {
+    clear: both;
+}*/
+
+.grants dd {
+    padding-bottom: 4px;
+}
 /* QUICK FIX for Thinker alignment bugs*/
 .dl-horizontal dt {
     width: 150px;

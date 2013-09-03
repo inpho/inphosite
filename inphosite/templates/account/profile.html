@@ -2,23 +2,13 @@
 
 <%def name="title()">${parent.title()} - myInPhO</%def>
 <%def name="head_title()">myInPhO</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 
-
-<div class="yui-gd">
-<div id="content">
 <h1>Welcome to InPhO!</h1>
-</div>
-
-<div id="contentLeft2">
 
 %if c.message == 'edited':
 <p>Profile successfully edited!</p>
 %endif
-
+<br />
 <p>Thank you, ${c.user.fullname}, for registering with the Indiana Philosophy Ontology (InPhO)
 Project! As a registered user, you gain faster access to our evaluation
 interfaces. By completing your expertise profile, you can help us train our
@@ -27,9 +17,7 @@ and bibliography management tools, powered by the underlying machine
 representation.</p>
 
 <p><a href="${h.url(controller='account', action='edit')}">Edit your profile</a></p>
-
-</div>
-<div id="moreInfo2">
+<br /><br />
 <h3>Your recent InPhO contributions</h3>
 <ol>
 %for evaluation in c.recent:
@@ -38,10 +26,12 @@ representation.</p>
 <a href="${evaluation.cons.url()}">${evaluation.cons}</a></li>
 %endfor
 </ol>
+<br />
 <h3>Generality agreement:</h3>
 ${c.gen_agree_str} (std dev: ${"%.3f" % c.gen_stddev})
 
 <h3>Relatedness agreement:</h3>
 ${c.rel_agree_str} (std dev: ${"%.3f" % c.rel_stddev})
-</div>
-</div>
+
+<br /><br />
+<a href="/account/review"><button type="button" class="btn btn-success"><i class="icon-pencil icon-white"></i>  Review My Evaluations</button></a>

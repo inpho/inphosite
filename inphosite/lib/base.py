@@ -4,10 +4,15 @@ Provides the BaseController class for subclassing.
 """
 from pylons.controllers import WSGIController
 from pylons.templating import render_mako as render
+from pylons import request, response
 
 from inpho.model import Session
 
 class BaseController(WSGIController):
+
+    def __before__(self):
+        response.headers['Access-Control-Allow-Origin'] =\
+            request.headers.get('Origin', '*')
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""

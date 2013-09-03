@@ -81,6 +81,10 @@
       ${entity.printList('teachers', type="thinker")}
       ${entity.printList('related', 'Related Thinkers', statistical=True, type="thinker")}
       ${entity.printList('related_ideas', 'Related Terms', statistical=True, type="thinker")}
+
+%if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
+${entity.printMissing()}
+%endif
     </div>
 ## If user is authorised, show admin panel
 %if h.auth.is_admin():

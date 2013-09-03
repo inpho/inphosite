@@ -1,21 +1,13 @@
 <%inherit file="/base-tree.html"/>
 <%def name="title()">${parent.title()} - The Indiana Philosophy Ontology Project</%def>
 <%def name="head_title()">OWL File</%def>
-<%def name="sidebar()">
-${parent.sidebar()}
-<br />
-${parent.draw()}</%def>
 
-<div class="yui-gd"
+<h1>OWL Files</h1>
+<p>The ontology is made available as an XML file using the <a href="http://www.w3.org/TR/owl-features/">OWL (Web Ontology Language)</a>.</p>
 
-<div id="content">
-<p>The ontology is made available as an XML file using the <a
-href="http://www.w3.org/TR/owl-features/">OWL (Web Ontology
-Language)</a>.</p>
+<p>Public versions of the ontology are created monthly, and contain all new properties and asserted facts, derived from the feedback obtained as of the timestamp.</p>
 
-<p>Public versions of the ontology are created monthly, and contain all new
-properties and asserted facts, derived from the feedback obtained as of the
-timestamp.</p>
+<p>We are committed to open access, with this OWL archive released under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons BY-NC-SA 3.0 license</a>.
 
 <h3>Monthly Archives</h3>
 <%
@@ -44,11 +36,4 @@ day = file[14:16]
 <li><a href="SEPv8.5.owl">2007-10-08 version</a></li> 
 <li><a href="inpho.owl">2007-03-14 version</a> (Note: This version does not completely match the browsable taxonomy since it was partly populated by hand instead of using the automated reasoning techniques.)</li> 
 </ol> 
-
-##</div> <!-- contentLeft2 -->
-
-##<div id="moreInfo2">
-##</div
-
-</div> <!-- yui-gd -->
 

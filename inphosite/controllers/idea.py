@@ -419,36 +419,9 @@ class IdeaController(EntityController):
 
     @restrict('POST')
     def create(self):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
         valid_params = ["sep_dir", "searchstring", "searchpattern"]
-        params = request.params.mixed()
-
-        if '_method' in params:
-            del params['_method']
-        if 'label' in params:
-            label = params['label']
-            del params['label']
-        else:
-            abort(400)
-        for k in params.keys():
-            if k not in valid_params:
-                abort(400)
-
-        idea = Idea(label)
-        Session.add(idea)
-        Session.commit()
-
-        # Issue an HTTP success
-        response.status_int = 302
-        response.headers['location'] = h.url(controller='idea',
-                                                 action='view', id=idea.ID)
-        return "Moved temporarily"
-
-
+        EntityController.create(entity_type=1, valid_params=valid_params)
+        
 
     ##################
     ### EVALUATION ###

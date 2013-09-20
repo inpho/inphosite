@@ -127,40 +127,9 @@ class JournalController(EntityController):
 
     @restrict('POST')
     def create(self):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
         valid_params = ["ISSN", "noesisInclude", "URL", "source", 
                         "abbr", "language", "student", "active"]
-        params = request.params.mixed()
-
-        if '_method' in params:
-            del params['_method']
-        
-        if 'label' in params:
-            label = params['label']
-            del params['label']
-        elif 'name' in params:
-            label = params['name']
-            del params['name']
-        else:
-            abort(400)
-        
-        for k in params.keys():
-            if k not in valid_params:
-                abort(400)
-
-        journal = Journal(label, **params)
-        Session.add(journal)
-        Session.flush()
-
-        # Issue an HTTP success
-        response.status_int = 302
-        response.headers['location'] = h.url(controller='journal',
-                                                 action='view', id=journal.ID)
-        return "Moved temporarily"
+        EntityController.create(entity_type=4,valid_params=valid_params)
     
     def _delete_abbrs(self, id):
         c.entity = h.fetch_obj(Journal, id, new_id=True)

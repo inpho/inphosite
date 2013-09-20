@@ -50,6 +50,7 @@ d3.json("/inpho.json", function(json) {
 
     // recursive call
     if (d.children) {
+      d.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
       d.children.forEach(toggleAll);
     }
 
@@ -69,6 +70,7 @@ d3.json("/inpho.json", function(json) {
   root.partOfPath = true; // root is always part of path
 
   // toggle nodes and update visualization
+  root.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
   root.children.forEach(toggleAll);
   update(root);
   

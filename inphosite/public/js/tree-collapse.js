@@ -23,11 +23,13 @@ d3.json("/inpho.json", function(json) {
 
   function toggleAll(d) {
     if (d.children) {
+      d.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
       d.children.forEach(toggleAll);
       toggle(d);
     }
   }
 
+  root.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
   root.children.forEach(toggleAll);
   update(root);
   $('#chart .node:not(#demoNode)').click(function() {$('#chart .alert').hide()});

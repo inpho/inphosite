@@ -195,40 +195,9 @@ class ThinkerController(EntityController):
 
     @restrict('POST')
     def create(self):
-        if not h.auth.is_logged_in():
-            abort(401)
-        if not h.auth.is_admin():
-            abort(403)
-
         valid_params = ["sep_dir", "wiki"]
-        params = request.params.mixed()
-
-        if '_method' in params:
-            del params['_method']
-        if 'name' in params:
-            name = params['name']
-            del params['name']
-        else:
-            abort(400)
-        for k in params.keys():
-            if k not in valid_params:
-                abort(400)
-
-        thinker = Thinker(name, **params)
-        Session.add(thinker)
-        Session.flush()
-
-        # Issue an HTTP success
-        response.status_int = 302
-        response.headers['location'] = h.url(controller='thinker',
-                                                 action='view', id=thinker.ID)
-        return "Moved temporarily"
-
-
-
-
-
-
+        EntityController.create(entity_type=3,valid_params=valid_params)
+    
     def _thinker_evaluate(self, evaltype=None, id=None, id2=None, 
                             uid=None, username=None,
                             degree=1, maxdegree=1):

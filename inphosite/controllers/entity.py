@@ -170,39 +170,71 @@ class EntityController(BaseController):
 
         return render('entity/new.html')
 
-    def create(self, entity_type=None, filetype='html'):
+    def create(self, entity_type=None, filetype='html', valid_params=None): 
+        # check if user is logged in
         if not h.auth.is_logged_in():
             abort(401)
         if not h.auth.is_admin():
             abort(403)
-        entity_type = int(request.params.get('entity_type', entity_type))
-        label = request.params.get('label')
-        sep_dir = request.params.get('sep_dir')
+    
+        params = request.params.mixed()
+        entity_type = int(params['entity_type'])
+        del params['entity_type']
 
+        if valid_params is None:
+            if entity_type == 1: # Idea
+                valid_params = ["sep_dir", "searchstring", "searchpattern"]
+            elif entity_type == 3 or entity_type == 5: # Thinker or Work
+                valid_params = ["sep_dir", "wiki"]
+            elif entity_type == 4: # Journal
+                valid_params = ["ISSN", "noesisInclude", "URL", "source", "abbr", "language", "student", "active"]
+
+        if '_method' in params:
+            del params['_method']
+        if 'redirect' in params:
+            del params['redirect']
+        
+        if 'sep_dir' in params:
+            sep_dir = params['sep_dir']
+            del params['sep_dir']
+        if 'label' in params:
+            label = params['label']
+            del params['label']
+        elif 'name' in params:
+            label = params['name']
+            del params['name']
+        else:
+            abort(400)
+        for k in params.keys():
+            if k not in valid_params:
+                abort(400)
+
+
+        # If entity exists, redirect and return HTTP 302
         c.entity = Session.query(Entity).filter(Entity.label==label).first()
         if c.entity:
-            redirect(c.entity.url(filetype, action="view"), code=303)
-
-
-        if entity_type == 1:
-            c.entity = Idea(label, sep_dir=sep_dir)
-        elif entity_type == 3:
-            c.entity = Thinker(label, sep_dir=sep_dir)
-        elif entity_type == 4:
-            c.entity = Journal(label, sep_dir=sep_dir)
-        elif entity_type == 5:
-            c.entity = Work(label, sep_dir=sep_dir)
+            redirect(c.entity.url(filetype, action="view"), code=302)
         else:
-            raise NotImplementedError
+            # Entity doesn't exist, create a new one.
+            if entity_type == 1:
+                c.entity = Idea(label, sep_dir=sep_dir)
+            elif entity_type == 3:
+                c.entity = Thinker(label, sep_dir=sep_dir)
+            elif entity_type == 4:
+                c.entity = Journal(label, sep_dir=sep_dir)
+            elif entity_type == 5:
+                c.entity = Work(label, sep_dir=sep_dir)
+            else:
+                raise NotImplementedError
 
-        Session.add(c.entity)
-        Session.commit()
-        if redirect: 
-            sleep(5) # TODO: figure out database slowness so this can be removed
-            redirect(c.entity.url(filetype, action="view"), code=303)
-        else:
-            return "200 OK"
-            
+            Session.add(c.entity)
+            Session.commit()
+            if redirect: 
+                sleep(5) # TODO: figure out database slowness so this can be removed
+                redirect(c.entity.url(filetype, action="view"), code=303)
+            else:
+                return "200 OK"
+                
 
 
 

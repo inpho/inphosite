@@ -38,4 +38,4 @@ class WorkController(EntityController):
     @restrict('POST')
     def create(self):
         valid_params = ["sep_dir", "wiki"]
-        EntityController.create(entity_type=5,valid_params=valid_params)
+        EntityController.create(self,entity_type=5,valid_params=valid_params)

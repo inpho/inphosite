@@ -129,7 +129,7 @@ class JournalController(EntityController):
     def create(self):
         valid_params = ["ISSN", "noesisInclude", "URL", "source", 
                         "abbr", "language", "student", "active"]
-        EntityController.create(entity_type=4,valid_params=valid_params)
+        EntityController.create(self,entity_type=4,valid_params=valid_params)
     
     def _delete_abbrs(self, id):
         c.entity = h.fetch_obj(Journal, id, new_id=True)

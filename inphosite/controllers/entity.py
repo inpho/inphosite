@@ -176,10 +176,12 @@ class EntityController(BaseController):
             abort(401)
         if not h.auth.is_admin():
             abort(403)
-    
+        
+        sep_dir = None 
         params = request.params.mixed()
-        entity_type = int(params['entity_type'])
-        del params['entity_type']
+        if entity_type is None:
+            entity_type = int(params['entity_type'])
+            del params['entity_type']
 
         if valid_params is None:
             if entity_type == 1: # Idea

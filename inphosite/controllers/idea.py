@@ -420,7 +420,7 @@ class IdeaController(EntityController):
     @restrict('POST')
     def create(self):
         valid_params = ["sep_dir", "searchstring", "searchpattern"]
-        EntityController.create(entity_type=1, valid_params=valid_params)
+        EntityController.create(self, entity_type=1, valid_params=valid_params)
         
 
     ##################

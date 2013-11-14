@@ -540,7 +540,7 @@ class IdeaController(EntityController):
             username = h.auth.get_username_from_cookie(request.params.get('cookieAuth', ''))
         except ValueError:
             # invalid IP, abort
-            abort(403)
+            username = None
 
         print "grabbing eval for", username, uid
 

@@ -114,13 +114,16 @@ class IdeaController(EntityController):
             elif idea_q.count() == 0:
                 h.redirect(h.url(controller='entity', action='list', filetype=filetype, sep=request.params['sep'], redirect=redirect))
         
+        '''
+        ### This block of code filters out nodes and instances, reduces occurances of 'ism's
+        ### It is not currently necessary and causes an error in the middle 'elif' block.
         all_param = request.params.get('all', False)
         node_param = request.params.get('nodes', True)
         instance_param = request.params.get('instances', True)
         
         node_q = idea_q.join((Node,Node.concept_id==Idea.ID))
         instance_q = idea_q.join(Instance.idea)
-
+        
         if all_param:
             idea_q = idea_q
             if not node_param:
@@ -130,10 +133,12 @@ class IdeaController(EntityController):
         elif node_param:
             idea_q = node_q
             if instance_param:
+                # ISSUE!!! This union causes an error when executing the query!... why?
                 idea_q = idea_q.union(instance_q)
         elif instance_param:
             idea_q = instance_q
-
+        '''
+        
         c.total = idea_q.count()
         c.entities = idea_q.limit(limit)
 

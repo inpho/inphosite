@@ -94,7 +94,7 @@ class EntityController(BaseController):
         c.total = entity_q.count()
         # limit must be the last thing applied to the query
         entity_q = entity_q.limit(request.params.get('limit', None))
-        c.entities = entity_q.all()
+        c.entities = entity_q.order_by(Entity.label).all()
 
         if filetype=='json':
             response.content_type = 'application/json'

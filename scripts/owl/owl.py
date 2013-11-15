@@ -15,7 +15,7 @@ if __name__ == "__main__":
     professions = profession_q.all()
     nationalities = nationality_q.all()
     
-    owl = Template(filename='/Users/inpho/api/scripts/owl/owl.xml',
+    owl = Template(filename='/var/inpho/inphosite/scripts/owl/owl.xml',
                    default_filters=['decode.utf8', 'u', 'x'])
     print owl.render_unicode(nodes=nodes, thinkers=thinkers, 
                professions=professions, nationalities=nationalities).encode('utf-8',

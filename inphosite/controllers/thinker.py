@@ -175,9 +175,33 @@ class ThinkerController(EntityController):
     def teacher_of(self, id=None, id2=None, degree=1):
         if not h.auth.is_logged_in():
             abort(401)
+       
 
-        return _thinker_evaluate(ThinkerTeacherEvaluation,
-                                 id, id2, degree)
+        # TODO: verify that this keeps bad teacher-student relationships from happening
+        teacher = fetch_obj(Thinker, id)
+        student = fetch_obj(Thinker, id2)
+        
+        pass_teacher_check = False
+
+        # Missing birth dates
+        if not getattr(student, 'birth_dates'):
+            pass_teacher_check = True
+        
+        # Missing death dates
+        if not getattr(student, 'death_dates'):
+            pass_teacher_check = True
+        
+        if pass_teacher_check != True:
+            student_birth = student.birth_dates[0]
+            student_death = student.death_dates[0]
+            if getattr(teacher, 'birth_dates') and getattr(teacher, 'death_dates'):
+                teacher_birth = teacher.birth_dates[0]
+                teacher_death = teacher.death_dates[0]
+                if student_birth.year > teacher_death.year or student_death.year < teacher_birth.year:
+                    abort(400)
+                
+        return _thinker_evaluate(ThinkerTeacherEvaluation, id, id2, degree)
+
 
     # render the editing GUI
     def edit(self, id=None):

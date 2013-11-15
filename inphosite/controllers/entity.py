@@ -88,7 +88,9 @@ class EntityController(BaseController):
             entity_q = entity_q.filter(Entity.sep_dir == c.sep) 
 
         if c.query:
-            o = or_(Entity.label.like(c.query+'%'), Entity.label.like('% '+c.query+'%'))
+            o = or_(Entity.label.like(c.query+'%'), 
+                    Entity.label.like('% '+c.query+'%'),
+                    Entity.label.like('%-'+c.query+'%'))
             entity_q = entity_q.filter(o).order_by(func.length(Entity.label))
 
         c.total = entity_q.count()

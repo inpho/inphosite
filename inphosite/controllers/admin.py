@@ -53,15 +53,19 @@ class AdminController(BaseController):
         result = unittest2.TestResult()
         suite.run(result)
         current_fails = len(result.errors) + len(result.failures)
-        if current_fails == 0:
-            success = True
-        else:
-            message = "Test Failed"
 
-        if success:
+        if current_fails == 0:
             response.status = 200
             return test
         else:
+            message = 'We have issues. '
+            if result.errors:
+                message += "ERRORS: "
+                message += ' '.join([" ::: " + error[1] for error in result.errors])
+            if result.failures:
+                message += "FAILURES: "
+                message += ' '.join([" ::: " + fail[1] for fail in result.failures])
+
             response.status = 500
             return message
 

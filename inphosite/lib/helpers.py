@@ -179,3 +179,11 @@ def json(*args):
     '''
     return ExtJsonEncoder(sort_keys=False, ensure_ascii=False, 
             skipkeys=True).encode(*args)
+
+from pylons.decorators.util import get_pylons
+def jsonify(fn):
+    def inner (*args, **kwargs):
+        #get_pylons(args).response.content_type == 'application/json' 
+        return json(fn(*args, **kwargs))
+    return inner
+    

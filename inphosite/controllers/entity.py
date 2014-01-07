@@ -378,7 +378,21 @@ class EntityController(BaseController):
         else:
             return render('{type}/{type}.'.format(type=self._controller) + 
                           filetype)
+    
+### creating new view() function for mustache refactor
+    @h.jsonify
+    def mustache_view(self, id=None, filetype='html', format=None):
+        c.sep_filter = request.params.get('sep_filter', False)
 
+        c.entity = h.fetch_obj(self._type, id, new_id=True)
+
+        struct = { 'ID' : c.entity.ID, 
+                  'type' : 'entity',
+                  'label' : c.entity.label, 
+                  'sep_dir' : c.entity.sep_dir,
+                  'url' : c.entity.url()}
+
+        return struct
 
     def graph(self, id=None, id2=None, filetype='json'):
         c.entity = h.fetch_obj(Entity, id, new_id=True)

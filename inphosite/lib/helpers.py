@@ -183,7 +183,9 @@ def json(*args):
 from pylons.decorators.util import get_pylons
 def jsonify(fn):
     def inner (*args, **kwargs):
-        #get_pylons(args).response.content_type == 'application/json' 
+        get_pylons(args).response.content_type = 'application/json'
+        # TODO: This doesn't work yet, it doesn't like pylons for some reason...
+        # TypeError: unexpected keyword argument 'pylons'
         return json(fn(*args, **kwargs))
     return inner
     

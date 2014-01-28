@@ -44,6 +44,11 @@ ${entity.breadcrumbs(node)}
 %if c.entity.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/" target="_blank"><img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
+%if c.entity.wiki:
+<p><a href="http://wikipedia.org/wiki/${c.entity.wiki.decode('utf-8')}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
+%endif
+
+<p>Search for <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}">${c.entity.label}</a> on PhilPapers.</p>
 
 
 ## MODAL DIALOG FOR MULTIPLE PLACES

@@ -419,12 +419,12 @@ class IdeaController(EntityController):
         
     #UPDATE
     def update(self, id=None):
-        terms = ['sep_dir', 'searchstring', 'label']
+        terms = ['sep_dir', 'searchstring', 'label', 'wiki']
         super(IdeaController, self).update(id, terms)
 
     @restrict('POST')
     def create(self):
-        valid_params = ["sep_dir", "searchstring", "searchpattern"]
+        valid_params = ["sep_dir", "searchstring", "searchpattern", 'wiki']
         EntityController.create(self, entity_type=1, valid_params=valid_params)
         
 

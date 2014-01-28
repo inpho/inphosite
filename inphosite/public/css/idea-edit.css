@@ -34,30 +34,30 @@ li p, #loading {
 
 /* individual eval */
 /*-----------------*/
-p {
+#evalContent p {
 	display: inline;
 }
 
-.btn-group {
+#evalContent .btn-group {
 	margin-bottom: 7px;
 }
 
-form, .btn-group + .btn-group {
+#evalContent form, #evalContent .btn-group + .btn-group {
     margin-left: 0px; 
 }
 
-.description {
+#evalContent .description {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 
-#result p {
+#evalContent #result p {
 	font-style: italic;
 	color: #468847;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-#result a {
+#evalContent #result a {
 	font-style: italic;
 	color: #468847;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);

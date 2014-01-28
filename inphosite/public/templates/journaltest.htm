@@ -1,0 +1,34 @@
+  <dl>
+    {{#URL}}
+    <dt>Web Site</dt>
+    <dd><a href="{{URL.decode('utf-8')}}">{{label}}</a></dd>
+    {{/URL}}
+
+    {{#language}}
+    <dt>Language:</dt>
+    <dd>{{language}}</dd>
+    {{/language}}
+
+    {{#ISSN}}
+    <dt>ISSN:</dt>
+    <dd>{{ISSN}}</dd>
+    {{/ISSN}}
+    
+    {{#abbrs.length}}
+    <dt>Abbreviations:</dt>
+    {{#abbrs}}
+    <dd>{{.}}</dd>
+    {{/abbrs}}
+    {{/abbrs.length}}
+
+    {{#openAccess}}
+    <dd>Open Access</dd>
+    {{/openAccess}}
+    {{#student}}
+    <dd>Student Journal</dd>
+    {{/student}}
+    {{#active}}
+    <dd>Inactive</dd>
+    {{/active}}
+
+  </dl>

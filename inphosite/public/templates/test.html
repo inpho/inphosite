@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InPhObox Demo</title>
+    <!-- Stylesheet Imports -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+
+    <!-- Javascript Imports -->
+    <script src="../jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../js/mustache.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="renderHere"></div>
+    <script type="text/javascript">
+    var journaljson = {"website": "http://fulgur.co.uk/shop/abraxas/abraxas-issue-2/", "openAccess": 0, "abbrs": ["Abraxas*"], "language": "en", "url": "/journal/4697", "ISSN": "0360-1404", "sep_dir": null, "student": 0, "queries": [], "active": 1, "label": "Abraxas\r", "type": "journal", "ID": 4697};
+    var partials = {"partial1": "partial1.htm", "partial2": "partial2.htm"};
+
+    var functions = new Array();
+
+    for (var name in partials) {
+        var xhr = $.get(partials[name], function(p) {
+            partials[name] = $(p).html();
+            //alert(partials[name]);
+            });
+        //alert(xhr);
+        functions.push(xhr);
+    }
+/*
+    for (var partial in partials) {
+        functions.push((function(name) {
+            return function() {
+                $.get(partials[name], function(p) {
+                    partials[name] = $(p).html();
+                    alert(partials[name]);
+                });
+            }
+        })(partial));
+    }
+  */  
+
+    // THIS DOES NOTHING!!!!! WHY DOES THIS DO NOTHING!!!!!!!!!!!!
+    $.when.apply($, functions).done(alert(partials['partial1'] + "..." + partials['partial2']));
+
+    $.get('journaltest.htm', function(templates) {
+        var template = $(templates).html();
+        var html = Mustache.to_html(template, journaljson);
+        $('#renderHere').html(html);
+    });
+    </script>
+
+</body>
+</html>

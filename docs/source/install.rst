@@ -3,13 +3,6 @@ Developing inphosite
 The inphosite module contains all materials pertaining to the Indiana Philsophy
 Ontology (InPhO) Project's online presence, including the API.
 
-For work pretaining to dynamic ontology, we have started work on the `CodEx
-(Coding Expertise) project <http://github.com/inpho/codex>`_. The scripts
-directory of the inphosite project contains temporary code relating to dynamic
-ontology construction, evaluation and maintainence tasks for the InPhO. We hope
-to separate this code and the data model out from the web framework in the
-upcoming months.
-
 GitHub
 --------
 The inphosite code is hosted on GitHub at `http://github.com/inpho/inphosite`.
@@ -23,6 +16,7 @@ To begin working with the inphosite code:
 
 .. note::
     If you have not yet done so, please `Copy the Database`_ before begining!
+    (This step is not necessary if you are working on an inpho machine.)
 
 1.  `Create a GitHub account <https://github.com/signup/free>`_
 
@@ -31,8 +25,9 @@ To begin working with the inphosite code:
     `Mac OS X <http://help.github.com/mac-set-up-git/>`_,
     `Windows <http://help.github.com/win-set-up-git/>`_
 
-#.  Fork the inphosite project, `using these instructions
-    <http://help.github.com/fork-a-repo/>`_.
+#.  Clone the inphosite project::
+        
+        git clone git@github.com:inpho/inphosite.git
 
 #.  Enter the git repository directory::
 
@@ -60,11 +55,7 @@ To begin working with the inphosite code:
 
 #.  Activate the sandbox environment::
 
-        source sandbox/bin/activate
-
-#.  Use the ``websetup.py`` to finish initializing the database::
-
-        paster setup-app development.ini
+        source ../sandbox/bin/activate
 
 #.  You are now ready to go! You can start a paster server from the command::
     

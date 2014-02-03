@@ -20,35 +20,36 @@
 
     var functions = new Array();
 
-    for (var name in partials) {
-        var xhr = $.get(partials[name], function(p) {
-            partials[name] = $(p).html();
-            //alert(partials[name]);
-            });
-        //alert(xhr);
-        functions.push(xhr);
-    }
-/*
-    for (var partial in partials) {
-        functions.push((function(name) {
-            return function() {
+    var partLoad = loadPartials(partials);
+
+    $.when(partLoad).done(function(data){
+        $.get('journaltest.htm', function(templates) {
+            var template = "{{label}}<br/>{{> partial1}}<br/>{{> partial2}}";//$(templates).html();
+            var html = Mustache.to_html(template, journaljson, partials);
+            $('#renderHere').html(html);
+        });   
+    });
+
+    function loadPartials(partials) {
+        var dfd = $.Deferred();
+        
+        for (var name in partials) {
+            var xhr = function(name) {
                 $.get(partials[name], function(p) {
                     partials[name] = $(p).html();
-                    alert(partials[name]);
+                    //alert(partials[name] + name);
                 });
-            }
-        })(partial));
+                functions.push(xhr);
+            }(name);
+        }
+        
+        $.when.apply($, functions).then(function(data) {
+            //alert(data);
+            dfd.resolve();
+        });
+
+        return dfd.promise();
     }
-  */  
-
-    // THIS DOES NOTHING!!!!! WHY DOES THIS DO NOTHING!!!!!!!!!!!!
-    $.when.apply($, functions).done(alert(partials['partial1'] + "..." + partials['partial2']));
-
-    $.get('journaltest.htm', function(templates) {
-        var template = $(templates).html();
-        var html = Mustache.to_html(template, journaljson);
-        $('#renderHere').html(html);
-    });
     </script>
 
 </body>

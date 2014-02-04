@@ -1,18 +1,16 @@
-<script id="journal_template" type="text/html">
-{{! MAKO FUNCTION TO REMOVE
-<%def name="label()">
-%if c.entity.abbrs and len(c.entity.label) > 50:
-${c.entity.abbrs[0]}
-%else:
-${c.entity.label}
-%endif
-</%def>
-}}
+<div>
+<script type="text/javascript" id="label">
+    if ({{abbrs}} && ({{label}} > 50)) {
+        {{abbrs}};
+    }else {
+        {{label}};
+</script>
 
-{{! convert these lines to injected javascript
-<%def name="title()">Journal - ${label()}</%def>
-<%def name="head_title()">${label()}</%def>
-}}
+<script type="text/javascript" id="title_header">
+    document.title = "Journal - {{label}}";
+</script>
+
+
 <script type="text/javascript">
 function srch(id) {
     var src  = '/entity/' + id + '/search';
@@ -32,14 +30,7 @@ $(document).ready(function () {
 
 <h1>{{label}}</h1>
 
-{{! AUTHORIZATION 
-<ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
-    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
-    %if h.auth.is_admin():
-    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
-    %endif
-</ul>
-}}
+{{! INSERT AUTHORIZATION HERE }}
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
@@ -61,7 +52,7 @@ $(document).ready(function () {
     {{#language}}
     <dt>Language:</dt>
     <dd>{{language}}</dd>
-    {{/URL}}
+    {{/language}}
 
     {{#ISSN}}
     <dt>ISSN:</dt>
@@ -99,4 +90,4 @@ $(document).ready(function () {
 %endif 
 }}
 </div> <!-- tab-content -->
-</script>
+</div>

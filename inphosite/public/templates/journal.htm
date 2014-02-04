@@ -1,31 +1,22 @@
 <div>
-<script type="text/javascript" id="label">
-    if ({{abbrs}} && ({{label}} > 50)) {
-        {{abbrs}};
-    }else {
-        {{label}};
-</script>
-
-<script type="text/javascript" id="title_header">
-    document.title = "Journal - {{label}}";
-</script>
-
-
 <script type="text/javascript">
-function srch(id) {
-    var src  = '/entity/' + id + '/search';
-    $.get(src, function(data){
-          $("#searches").html(data);
-        });
-}
-$(document).ready(function () {
-    srch({{ID}}); 
-    $('#tabnav').tab();
-    if (window.location.hash != "") {
-        inpho.tabnav.switchTab('tabnav', window.location.hash.substring(1));  
-        $('body').scrollTop(0);
-    }
-});
+    $(document).ready(function () {
+        srch({{ID}}); 
+        $('#tabnav').tab();
+        if (window.location.hash != "") {
+            inpho.tabnav.switchTab('tabnav', window.location.hash.substring(1));  
+            $('body').scrollTop(0);
+        }
+    });
+
+    function srch(id) {
+        var src  = '/entity/' + id + '/search';
+        $.get(src, function(data){
+              $("#searches").html(data);
+            });
+    }   
+
+    // there is a label function missing that would replace long labels with an abbreviation
 </script>
 
 <h1>{{label}}</h1>

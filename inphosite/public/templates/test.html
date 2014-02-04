@@ -15,7 +15,7 @@
 <body>
     <div id="renderHere"></div>
     <script type="text/javascript">
-    var journaljson = {"website": "http://fulgur.co.uk/shop/abraxas/abraxas-issue-2/", "openAccess": 0, "abbrs": ["Abraxas*"], "language": "en", "url": "/journal/4697", "ISSN": "0360-1404", "sep_dir": null, "student": 0, "queries": [], "active": 1, "label": "Abraxas\r", "type": "journal", "ID": 4697};
+    var journaljson = {"website": "http://analysis.oxfordjournals.org/", "openAccess": 0, "abbrs": [], "language": "en", "url": "/journal/4717", "ISSN": "0003-2638", "sep_dir": null, "student": 0, "queries": ["http://www.nottingham.ac.uk/journals/analysis/preprints/*"], "active": 1, "label": "Analysis", "type": "journal", "ID": 4717};
     var partials = {"partial1": "partial1.htm", "partial2": "partial2.htm"};
 
     var functions = new Array();
@@ -24,8 +24,7 @@
 
     $.when(partLoad).done(function(data){
         $.get('journal.htm', function(templates) {
-            var template = $(templates).html();
-            var html = Mustache.to_html(template, journaljson, partials);
+            var html = Mustache.to_html(templates, journaljson, partials);
             $('#renderHere').html(html);
         });   
     });

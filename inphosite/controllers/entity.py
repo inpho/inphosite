@@ -380,7 +380,7 @@ class EntityController(BaseController):
                           filetype)
     
 ### creating new view() function for mustache refactor
-    @h.jsonify
+    #@h.jsonify
     def mustache_view(self, id=None, filetype='html', format=None):
         c.sep_filter = request.params.get('sep_filter', False)
 
@@ -388,11 +388,11 @@ class EntityController(BaseController):
 
         struct = { 'ID' : c.entity.ID, 
                   'type' : 'entity',
-                  'label' : c.entity.label, 
+                  'label' : h.titlecase(c.entity.label), 
                   'sep_dir' : c.entity.sep_dir,
                   'url' : c.entity.url()}
 
-        return struct
+        return h.json(struct)
 
     def graph(self, id=None, id2=None, filetype='json'):
         c.entity = h.fetch_obj(Entity, id, new_id=True)

@@ -23,8 +23,8 @@
     var partLoad = loadPartials(partials);
 
     $.when(partLoad).done(function(data){
-        $.get('journaltest.htm', function(templates) {
-            var template = "{{label}}<br/>{{> partial1}}<br/>{{> partial2}}";//$(templates).html();
+        $.get('journal.htm', function(templates) {
+            var template = $(templates).html();
             var html = Mustache.to_html(template, journaljson, partials);
             $('#renderHere').html(html);
         });   

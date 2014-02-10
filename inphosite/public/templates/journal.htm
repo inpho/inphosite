@@ -1,5 +1,7 @@
 <div>
 <script type="text/javascript">
+    document.title = "Journal - {{label}}";
+
     $(document).ready(function () {
         srch({{ID}}); 
         $('#tabnav').tab();
@@ -8,6 +10,7 @@
             $('body').scrollTop(0);
         }
     });
+//    alert(document.cookie);
 
     function srch(id) {
         var src  = '/entity/' + id + '/search';
@@ -15,6 +18,7 @@
               $("#searches").html(data);
             });
     }   
+
 
     // there is a label function missing that would replace long labels with an abbreviation
 </script>

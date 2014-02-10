@@ -30,6 +30,7 @@
       var shiftWindow = function() { scrollBy(0, -50) };
       if (location.hash) shiftWindow();
       window.addEventListener("hashchange", shiftWindow);
+        $("[.pull-right]").tooltip();
     </script>
   </head>
 
@@ -78,7 +79,7 @@
             <input class="search-query input-medium" type="text" id="nav-search" name="q" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
           </form>
           <script src="/js/actb.js"></script>
-          <script>inpho.actb.init('#nav-search', '/entity.json');</script>
+          <script>inpho.actb.init('#nav-search', '/entity.json'); </script>
         </li>
 
         <li class="divider-vertical"></li>

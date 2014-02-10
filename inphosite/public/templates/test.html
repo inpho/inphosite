@@ -15,6 +15,7 @@
 <body>
     <div id="renderHere"></div>
     <script type="text/javascript">
+    var sotjson = {"url": "/school_of_thought/5397", "sep_dir": "dialectical-school", "type": "entity", "ID": 5397, "label": "dialectical school"};
     var journaljson = {"website": "http://analysis.oxfordjournals.org/", "openAccess": 0, "abbrs": [], "language": "en", "url": "/journal/4717", "ISSN": "0003-2638", "sep_dir": null, "student": 0, "queries": ["http://www.nottingham.ac.uk/journals/analysis/preprints/*"], "active": 1, "label": "Analysis", "type": "journal", "ID": 4717};
     var partials = {"partial1": "partial1.htm", "partial2": "partial2.htm"};
 
@@ -23,8 +24,8 @@
     var partLoad = loadPartials(partials);
 
     $.when(partLoad).done(function(data){
-        $.get('journal.htm', function(templates) {
-            var html = Mustache.to_html(templates, journaljson, partials);
+        $.get('school_of_thought.mustache', function(templates) {
+            var html = Mustache.to_html(templates, sotjson, partials);
             $('#renderHere').html(html);
         });   
     });

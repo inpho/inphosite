@@ -30,7 +30,6 @@
       var shiftWindow = function() { scrollBy(0, -50) };
       if (location.hash) shiftWindow();
       window.addEventListener("hashchange", shiftWindow);
-        $("[.pull-right]").tooltip();
     </script>
   </head>
 
@@ -42,6 +41,9 @@
       </div>
       ${self.footer()}
     </div>
+    <script type="text/javascript">
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
   </body>
 </html>
 

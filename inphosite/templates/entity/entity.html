@@ -63,7 +63,7 @@ while current:
     %else:
     <img src="/img/empty.gif" class="pull-right" width="16" />
     %endif
-    <a href="${idea.url()}" data-toggle="tooltip" title="Search for ${h.titlecase(idea.label)}">
+    <a href="${idea.url()}" class="term-label" data-toggle="tooltip" title="Search for ${h.titlecase(idea.label)}">
     ${h.titlecase(idea.label)}</a>
     </li>
 %endfor

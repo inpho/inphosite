@@ -1,3 +1,4 @@
+<div>
 <h1>${{label}}</h1>
 {{! removed for loop over c.nodes }}
 
@@ -7,14 +8,6 @@
 
 
 {{! THE REST STILL NEEDS CONVERTED }}
-
-## MODAL DIALOG FOR MULTIPLE PLACES
-%if c.entity.nodes:
-<div id="dialog"> <!-- DIALOG BOX -->
-<p>${h.titlecase(c.entity.label)} is classified in \
-%if len(c.entity.nodes) > 1:
-<em>multiple places</em> in \
-%endif
 the taxonomy. You may either go to the following context-specific taxonomy pages or <a href="#" onClick="$('#dialog').dialog('close')">stay on this general concept page</a>.</p>
 
 <ul>
@@ -87,3 +80,4 @@ ${entity.printMissing()}
     </div>
 %endif
 </div> <!-- tab-content -->
+</div>

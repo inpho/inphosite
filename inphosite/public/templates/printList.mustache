@@ -1,0 +1,17 @@
+<div>
+  {{#results}}
+  <li>
+    <a onClick="inpho.tabnav.appendTab('tabnav', 'i{{ID}}', {{label}}, '/entity/{{ID}}/panel/{{id}}')" href=#i{{ID}}" data-toggle="tab" class="tablink"><i class="icon-search"</i></a>
+    
+    {{#sep_dir}}
+      <a href="http://plato.stanfor d.edu/entries/{{sep_dir}}"><img src="/img/sepmanicon.png" class="pull-right" /></a>
+    {{/sep_dir}}
+    
+    {{#wiki}}
+      <a href="http://wikipedia.org/wiki/{{wiki}}"><img src="/img/wikiicon.png" class="pull-right" /></a>
+    {{/wiki}}
+
+    <a href="{{url}}">{{label}}</a>
+  </li>
+  {{/results}}
+</div>

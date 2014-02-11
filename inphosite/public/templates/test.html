@@ -15,9 +15,15 @@
 <body>
     <div id="renderHere"></div>
     <script type="text/javascript">
+    var thinkerjson = {"wiki": "Immanuel_Kant", "influenced": [2458, 2467, 2478, 2479, 2549, 2578, 2581, 2637, 2697, 2883, 2953, 3179, 3206, 3448, 4132, 4175], "death": {"month": "February", "day": "12", "year": "1804"}, "teachers": [3379], "url": "/thinker/3345", "influenced_by": [2638, 2905, 3132, 3256, 3974, 4134], "death_string": "1804- 2-12 CE", "related_thinkers": [3256, 3177, 3510, 2830, 3439, 4134, 4198, 3780, 3002], "sep_dir": "kant", "students": [3793], "birth_string": "1724- 4-22 CE", "birth": {"month": "April", "day": "22", "year": "1724"}, "nationalities": ["German"], "related_ideas": [1734, 1545, 1511, 681, 602, 2166, 1488, 1401, 1499], "label": "Immanuel Kant", "type": "thinker", "ID": 3345, "professions": ["Philosopher"], "aliases": []};
     var workjson = {"url": "/work/5414", "sep_dir": "aristotle-categories", "type": "entity", "ID": 5414, "label": "aristotle's categories"}
     var sotjson = {"url": "/school_of_thought/5397", "sep_dir": "dialectical-school", "type": "entity", "ID": 5397, "label": "dialectical school"};
     var journaljson = {"website": "http://analysis.oxfordjournals.org/", "openAccess": 0, "abbrs": [], "language": "en", "url": "/journal/4717", "ISSN": "0003-2638", "sep_dir": null, "student": 0, "queries": ["http://www.nottingham.ac.uk/journals/analysis/preprints/*"], "active": 1, "label": "Analysis", "type": "journal", "ID": 4717};
+
+    var scopetest = {"id": 123, "list":[{"ID": 4, "name": "A"}, {"ID": 5, "name": "B"}, {"ID": 6, "name": "C"}]};
+    var scopetemplate = "{{id}} <ul>{{#list}}<li>{{ID}},{{id}},{{name}}</li>{{/list}}</ul>";
+
+
     var partials = {"partial1": "partial1.htm", "partial2": "partial2.htm"};
 
     var functions = new Array();
@@ -25,8 +31,8 @@
     var partLoad = loadPartials(partials);
 
     $.when(partLoad).done(function(data){
-        $.get('work.mustache', function(templates) {
-            var html = Mustache.to_html(templates, workjson, partials);
+        $.get('thinker.mustache', function(templates) {
+            var html = Mustache.to_html(scopetemplate, scopetest, partials);
             $('#renderHere').html(html);
         });   
     });

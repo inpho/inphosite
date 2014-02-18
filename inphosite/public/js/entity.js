@@ -42,35 +42,44 @@ inpho.entity.showMore = function (attr, id, n, start) {
   });
 }
 
-inpho.entity.showMoreMustache = function (attr, parent_id, n, start) {
+inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_title, statistical) {
+  // set default values for variables if values are not passed in.
+  if (!alt_title)
+      var alt_title = null; 
+  if (!limit)
+      var limit = 10;
+  if (!statistical)
+      var statistical = "false";
+  if (!type)
+    var type = "idea"; 
+  
   // build url to grab attribute
-  var url = $('#' + attr).attr('data-source');
-  url += "?limit=" + n + "&start=" + start;
+  var url = "/" + type + "/" + parent_id + "/" + attr + ".json?limit" + limit;
 
   // get attribute data
-  $.getJSON(url, function (data) {
+  return $.getJSON(url, function (data) {
     $.get('../templates/printList.mustache', function(template) {
       // append each item to the list
       var json = {
                     "attr": attr,
                     "parent_id": parent_id,
-                    "n": n,
-                    "start": start,
+                    "type": type,
+                    "alt_title": alt_title,
                     "results": data.responseData.results
                  };
       var html = Mustache.to_html(template, json);// set item as printList.mustache template in the public/template directory
-      $('#' + attr + ' ol .more').before(item);
-      
 
       // if there are still more entries, correct the "show more" button,
       // otherwise remove the "show more" button.
-      if (data.responseData.total > (start + n)) {
-        var onClick =  "inpho.entity.showMore('"+attr+"', " + id + ", " + n + ", " + (start + n) + ")";
-        $('#' + attr + ' ol .more a').attr('onClick', onClick);
-        $('#' + attr + ' ol .more a').text('Show more… (' + (data.responseData.total - start - n) + ')');
+      if (data.responseData.total > (limit)) {
+        var onClick =  "inpho.entity.showMoreMustache('"+attr+"', " + parent_id + ", " + type + ", " + (limit+10) + ", " + alt_title + ", " + statistical + ")";
+        $(html).find('#' + attr + ' ol .more a').attr('onClick', onClick);
+        $(html).find('#' + attr + ' ol .more a').text('Show more… (' + (data.responseData.total - limit) + ')');
       } else {
-        $('#' + attr + ' ol .more').remove();
+        $(html).find('#' + attr + ' ol .more').remove();
       }
+      alert(html);
+      $('#fill').html(html);
     });
   });
 }

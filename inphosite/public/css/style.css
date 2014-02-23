@@ -212,3 +212,7 @@ body {
     width: 150px;
     padding-right: 10px;
 }
+/* Allows space between the two PDF images on taxonomy results */
+.pdf2 {
+margin-right:10px;
+}

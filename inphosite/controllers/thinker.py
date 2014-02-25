@@ -158,6 +158,15 @@ class ThinkerController(EntityController):
     
     def influenced(self, id=None, filetype='html', limit=20, sep_filter=False):
         return self._list_property('influenced', id, filetype, limit, sep_filter)
+    
+    def influenced_by(self, id=None, filetype='html', limit=20, sep_filter=False):
+        return self._list_property('influenced_by', id, filetype, limit, sep_filter)
+    
+    def students(self, id=None, filetype='html', limit=20, sep_filter=False):
+        return self._list_property('students', id, filetype, limit, sep_filter)
+    
+    def teachers(self, id=None, filetype='html', limit=20, sep_filter=False):
+        return self._list_property('teachers', id, filetype, limit, sep_filter)
 
     def related_ideas(self, id=None, filetype='html', limit=20, sep_filter=False):
         return self._list_property('related_ideas', id, filetype, limit, sep_filter)

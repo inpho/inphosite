@@ -49,7 +49,7 @@ inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_titl
   if (!limit)
       var limit = 10;
   if (!statistical)
-      var statistical = "false";
+      var statistical = false;
   if (!type)
     var type = "idea"; 
   

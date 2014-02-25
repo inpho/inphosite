@@ -16,10 +16,7 @@
 <body>
 <script type="text/javascript">
 url = "/thinker/3345/influenced.json";
-//listAttr('influenced', 3345, 10, 10);
-var html=inpho.entity.showMoreMustache('influenced', 3345, 'thinker', 10);
-alert("done running showmore!!!\n"+JSON.stringify(html));
-//$('#fill').html(html);
+inpho.entity.showMoreMustache('related', 3345, 'thinker', 10);
 
 function listAttr(attr, id, n, start) {
     $.getJSON(url, function(data) {

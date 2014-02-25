@@ -70,6 +70,20 @@
           {{/aliases.length}}
       </dl>
 
+      <script type="text/javascript">
+          inpho.entity.showMoreMustache('influenced', "{{ID}}", "thinker", 10);
+          inpho.entity.showMoreMustache('influenced_by', "{{ID}}", "thinker", 10); 
+          inpho.entity.showMoreMustache('students', "{{ID}}", "thinker", 10); 
+          inpho.entity.showMoreMustache('teachers', "{{ID}}", "thinker", 10); 
+          inpho.entity.showMoreMustache('related', "{{ID}}", "thinker", 10, null, true); 
+          inpho.entity.showMoreMustache('related_ideas', "{{ID}}", "thinker", 10, null, true); 
+      </script>
+      <div id="influenced"></div>
+      <div id="influenced_by"></div>
+      <div id="students"></div>
+      <div id="teachers"></div>
+      <div id="related"></div>
+      <div id="related_ideas"></div>
 {{! CONVERT TO MUSTACHE
       ${entity.printList('influenced', type="thinker")}
       ${entity.printList('influenced_by', type="thinker")}

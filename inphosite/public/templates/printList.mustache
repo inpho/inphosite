@@ -1,5 +1,5 @@
-<script id="printList" type="text/template">
-  <div class="terms span3" id={{attr}}
+<div id="printList" type="text/template">
+  <div class="terms span3" id={{attr}}>
     <h3>
     {{#alt_title}}
       {{alt_title}}
@@ -26,8 +26,7 @@
         <a href="{{url}}">{{label}}</a>
       </li>
       {{/results}}
-      <li> class="more"></li>
+      {{{more}}}
     </ol>
   </div>
-</script>
-
+</div>

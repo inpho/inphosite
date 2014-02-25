@@ -58,8 +58,8 @@ inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_titl
   var more = "";
 
   // get attribute data
-  return $.getJSON(url, function (data) {
-    $.get('../templates/printList.mustache', function(template) {
+  $.getJSON(url, function (data) {
+    $.get('/templates/printList.mustache', function(template) {
       // append each item to the list
       if (data.responseData.total > limit) {
         more += "<li class='more'><a Onclick=\"inpho.entity.showMoreMustache('" + attr + "', '" + parent_id + "', '" + type + "', " + (limit + 10) + ", " + alt_title + ", '" + statistical + "')\">Show more... (" + (data.responseData.total - limit) + ")</a></li>";

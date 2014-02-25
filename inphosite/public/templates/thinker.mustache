@@ -13,10 +13,6 @@
     inpho.entity.showMoreMustache('teachers', "{{ID}}", "thinker", 10); 
     inpho.entity.showMoreMustache('related', "{{ID}}", "thinker", 10, null, true); 
     inpho.entity.showMoreMustache('related_ideas', "{{ID}}", "thinker", 10, null, true); 
-
-    var str = "{{label}}";
-    var label = str.replace(' ', '%20');
-
 </script>
 
 <h1>{{label}}</h1>
@@ -25,10 +21,10 @@
 <p><a href="http://plato.stanford.edu/entries/{{sep_dir}}/" target="_blank"><img src="/img/sepmanicon.png" /> {{label}}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
 {{/sep_dir}}
 {{#wiki}}
-<p><a href="http://wikipedia.org/wiki/{{wiki.decode('utf-8')}}" target="_blank"><img src="/img/wikiicon.png" /> {{label}}</a> also has a Wikipedia article.</p>
+<p><a href="http://wikipedia.org/wiki/{{wiki}}" target="_blank"><img src="/img/wikiicon.png" /> {{label}}</a> also has a Wikipedia article.</p>
 {{/wiki}}
 
-<p>Search for <a href="http://philpapers.org/s/{{label.replace(' ', '%20')}}">{{label}}</a> on PhilPapers.</p>
+<p>Search for <a id="philsearch" href="http://philpapers.org/s/{{label}}">{{label}}</a> on PhilPapers.</p>
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
     <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
@@ -86,15 +82,9 @@
       <div id="teachers"></div>
       <div id="related"></div>
       <div id="related_ideas"></div>
-{{! CONVERT TO MUSTACHE
-      ${entity.printList('influenced', type="thinker")}
-      ${entity.printList('influenced_by', type="thinker")}
-      ${entity.printList('students', type="thinker")}
-      ${entity.printList('teachers', type="thinker")}
-      ${entity.printList('related', 'Related Thinkers', statistical=True, type="thinker")}
-      ${entity.printList('related_ideas', 'Related Terms', statistical=True, type="thinker")}
+{{! CONVERT TO MUSTACH
 
-%if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
+if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
 ${entity.printMissing()}
 %endif
 }}

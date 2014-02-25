@@ -48,8 +48,7 @@ ${entity.breadcrumbs(node)}
 <p><a href="http://wikipedia.org/wiki/${c.entity.wiki.decode('utf-8')}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
 %endif
 
-<p>Search for <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}">${c.entity.label}</a> on PhilPapers.</p>
-
+<p> <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${c.entity.label}</a> can be searched on PhilPapers.</p>
 
 ## MODAL DIALOG FOR MULTIPLE PLACES
 %if c.entity.nodes:

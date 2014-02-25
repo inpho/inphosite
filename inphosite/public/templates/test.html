@@ -32,7 +32,7 @@
 
     $.when(partLoad).done(function(data){
         $.get('thinker.mustache', function(templates) {
-            var html = Mustache.to_html(scopetemplate, scopetest, partials);
+            var html = Mustache.to_html(templates, thinkerjson, partials);
             $('#renderHere').html(html);
         });   
     });

@@ -54,32 +54,30 @@ inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_titl
     var type = "idea"; 
   
   // build url to grab attribute
-  var url = "/" + type + "/" + parent_id + "/" + attr + ".json?limit" + limit;
+  var url = "/" + type + "/" + parent_id + "/" + attr + ".json?limit=" + limit;
+  var more = "";
 
   // get attribute data
   return $.getJSON(url, function (data) {
     $.get('../templates/printList.mustache', function(template) {
       // append each item to the list
+      if (data.responseData.total > limit) {
+        more += "<li class='more'><a Onclick=\"inpho.entity.showMoreMustache('" + attr + "', '" + parent_id + "', '" + type + "', " + (limit + 10) + ", " + alt_title + ", '" + statistical + "')\">Show more... (" + (data.responseData.total - limit) + ")</a></li>";
+      }
+
       var json = {
                     "attr": attr,
                     "parent_id": parent_id,
                     "type": type,
                     "alt_title": alt_title,
+                    "new_limit": limit+10,
+                    "statistical": statistical,
+                    "more": more,
                     "results": data.responseData.results
                  };
       var html = Mustache.to_html(template, json);// set item as printList.mustache template in the public/template directory
 
-      // if there are still more entries, correct the "show more" button,
-      // otherwise remove the "show more" button.
-      if (data.responseData.total > (limit)) {
-        var onClick =  "inpho.entity.showMoreMustache('"+attr+"', " + parent_id + ", " + type + ", " + (limit+10) + ", " + alt_title + ", " + statistical + ")";
-        $(html).find('#' + attr + ' ol .more a').attr('onClick', onClick);
-        $(html).find('#' + attr + ' ol .more a').text('Show more… (' + (data.responseData.total - limit) + ')');
-      } else {
-        $(html).find('#' + attr + ' ol .more').remove();
-      }
-      alert(html);
-      $('#fill').html(html);
+      $('#'+attr).html(html);
     });
   });
 }

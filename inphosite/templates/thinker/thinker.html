@@ -22,7 +22,7 @@
 %endif
 
 
-<p> <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${c.entity.label}</a> can be searched on PhilPapers.</p>
+<p><a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${h.titlecase(c.entity.label)}</a> can be searched on PhilPapers.</p>
 
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
@@ -77,12 +77,12 @@
           %endif
       </dl>
 
-      ${entity.printList('influenced', type="thinker")}
-      ${entity.printList('influenced_by', type="thinker")}
-      ${entity.printList('students', type="thinker")}
-      ${entity.printList('teachers', type="thinker")}
-      ${entity.printList('related', 'Related Thinkers', statistical=True, type="thinker")}
-      ${entity.printList('related_ideas', 'Related Terms', statistical=True, type="thinker")}
+      ${entity.printList('influenced', type="thinker", method='manual')}
+      ${entity.printList('influenced_by', type="thinker", method='manual')}
+      ${entity.printList('students', type="thinker", method='manual')}
+      ${entity.printList('teachers', type="thinker", method='manual')}
+      ${entity.printList('related', 'Related Thinkers', method='statistical', type="thinker")}
+      ${entity.printList('related_ideas', 'Related Terms', method='statistical', type="thinker")}
 
 %if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
 ${entity.printMissing()}

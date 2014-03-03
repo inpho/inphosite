@@ -44,7 +44,7 @@ ${entity.breadcrumbs(c.node)}
 %endif
 
 
-<p> <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${c.entity.label}</a> can be searched on PhilPapers.</p>
+<p><a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${h.titlecase(c.entity.label)}</a> can be searched on PhilPapers.</p>
 
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
@@ -59,13 +59,13 @@ ${entity.breadcrumbs(c.node)}
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
-    	${entity.printList('instances')}
+    	${entity.printList('instances', method='reasoning')}
         ##${entity.printList('children', 'Subclasses')}  
-    	${entity.printList('links')}
-        ${entity.printList('related', 'Related Terms', statistical=True)}
-        ${entity.printList('related_thinkers', statistical=True)}
-        ${entity.printList('hyponyms', statistical=True)}
-        ${entity.printList('occurrences', statistical=True)}
+    	${entity.printList('links', method='reasoning')}
+        ${entity.printList('related', 'Related Terms', method='statistical')}
+        ${entity.printList('related_thinkers', method='statistical')}
+        ${entity.printList('hyponyms', method='statistical')}
+        ${entity.printList('occurrences', method='statistical')}
 
 %if not (c.entity.links[:10] or c.entity.instances[:10] or c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
 ${entity.printMissing()}

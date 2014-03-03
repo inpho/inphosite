@@ -1,3 +1,5 @@
+import pystache
+
 import logging
 from time import sleep
 
@@ -392,7 +394,8 @@ class EntityController(BaseController):
                   'sep_dir' : c.entity.sep_dir,
                   'url' : c.entity.url()}
 
-        return h.json(struct)
+        renderer = pystache.Renderer()
+        return renderer.render_path('/Users/alefrost/workspace/inphosite/inphosite/public/templates/thinker.mustache', struct) #h.json(struct)
 
     def graph(self, id=None, id2=None, filetype='json'):
         c.entity = h.fetch_obj(Entity, id, new_id=True)

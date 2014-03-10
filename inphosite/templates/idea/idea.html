@@ -36,7 +36,7 @@ $(document).ready(function() {
 });
 </script>
 
-<h1>${h.titlecase(c.entity.label)}</h1>
+<h1 id="label">${h.titlecase(c.entity.label)}</h1>
 %for node in c.nodes:
 ${entity.breadcrumbs(node)}
 %endfor

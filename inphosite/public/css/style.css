@@ -115,10 +115,16 @@ body {
     float: left;    
     margin-right: 70px;
 }
-.terms li {
+.terms li a.term-label {
+    /* hanging indent*/
     padding-left: 2em;
     text-indent: -2em;
+    display: inline-block;
+    width: 160px;
     }
+.terms li .icon-search {
+    vertical-align: top;    
+}
 
 .icon-loading {
   display: inline-block;
@@ -205,4 +211,8 @@ body {
 .dl-horizontal dt {
     width: 150px;
     padding-right: 10px;
+}
+/* Allows space between the two PDF images on taxonomy results */
+.pdf2 {
+margin-right:10px;
 }

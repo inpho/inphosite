@@ -36,7 +36,7 @@ $(document).ready(function() {
 });
 </script>
 
-<h1>${h.titlecase(c.entity.label)}</h1>
+<h1 id="label">${h.titlecase(c.entity.label)}</h1>
 %for node in c.nodes:
 ${entity.breadcrumbs(node)}
 %endfor
@@ -48,8 +48,7 @@ ${entity.breadcrumbs(node)}
 <p><a href="http://wikipedia.org/wiki/${c.entity.wiki.decode('utf-8')}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
 %endif
 
-<p>Search for <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}">${c.entity.label}</a> on PhilPapers.</p>
-
+<p><a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${h.titlecase(c.entity.label)}</a> can be searched on PhilPapers.</p>
 
 ## MODAL DIALOG FOR MULTIPLE PLACES
 %if c.entity.nodes:
@@ -107,11 +106,11 @@ if c.entity.instance_of:
 %>
 
 ##${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
-##${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
-${entity.printList('related', 'Related Terms', statistical=True)}
-${entity.printList('related_thinkers', statistical=True)}
-${entity.printList('hyponyms', statistical=True)}
-${entity.printList('occurrences', statistical=True)}
+##${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink', method='reasoning')}
+${entity.printList('related', 'Related Terms', method='statistical')}
+${entity.printList('related_thinkers', method='statistical')}
+${entity.printList('hyponyms', method='statistical')}
+${entity.printList('occurrences', method='statistical')}
 
 %if not (c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
 ${entity.printMissing()}

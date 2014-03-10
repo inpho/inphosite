@@ -13,7 +13,10 @@
     ## BOOTSTRAP
     ${h.stylesheet_link(h.url('/bootstrap/css/bootstrap.min.css'))}
     ${h.javascript_link(h.url('/bootstrap/js/bootstrap.min.js'))}
-    
+   
+    ## Font Awesome
+    ${h.stylesheet_link(h.url('/css/font-awesome-4.0.3/css/font-awesome.min.css'))}
+
     ## D3
     ${h.javascript_link(h.url('/js/d3/d3.js'))}
     ${h.javascript_link(h.url('/js/d3/d3.layout.js'))}
@@ -41,6 +44,9 @@
       </div>
       ${self.footer()}
     </div>
+    <script type="text/javascript">
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
   </body>
 </html>
 
@@ -78,7 +84,7 @@
             <input class="search-query input-medium" type="text" id="nav-search" name="q" ${'value="'+q+'"' if q else ''} data-provide="typeahead" autocomplete="off" />
           </form>
           <script src="/js/actb.js"></script>
-          <script>inpho.actb.init('#nav-search', '/entity.json');</script>
+          <script>inpho.actb.init('#nav-search', '/entity.json'); </script>
         </li>
 
         <li class="divider-vertical"></li>

@@ -1,3 +1,4 @@
+import pystache
 import logging
 
 from pylons import request, response, session, config, tmpl_context as c, url
@@ -34,9 +35,14 @@ class PageController(BaseController):
         return render('scimap.html')
 
     def papers(self):
+        #with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
+        #    c.papers = json.load(publications)
+        #return render('mustache_papers.html')
         with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
-            c.papers = json.load(publications)
-        return render('papers.html')
+            papers = json.load(publications)
+        renderer = pystache.Renderer()
+        return renderer.render_path(config['mustache_path'] + 'papers.mustache', papers)
+
 
     def owl(self):
         return render('owl.html')

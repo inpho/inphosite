@@ -204,8 +204,8 @@ inpho.admin.submit_form = function(form, url) {
     });
 }
 
-inpho.admin.submitPluralizations = function(url) {
-  $(':checked').each(function(idx, elt) {
+inpho.admin.submitPluralizations = function(url,modal) {
+  $('#'+modal).find(':checked').each(function(idx, elt) {
     var val = $(elt).attr("value");
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {

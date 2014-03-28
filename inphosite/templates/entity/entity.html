@@ -87,6 +87,24 @@ while current:
     %for attr in attrs:
     ${printAttr(attr)}
     %endfor
+  <a class=" btn btn-warning" style="margin-bottom: 20px;" data-toggle="modal" href="#rdfdata" id="rdfselection" data-url="${c.entity.url(action='query_lode')}" >LODE Import</a>
+  <div class="modal hide" id="rdfdata">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal">x</button>
+       <h3>RDFDATA</h3>
+     </div>
+     <div class="modal-body">
+       <div id = "addThinker">
+         <p>DEMO</p>
+         <label  name="demo" id="demo"></label><hr>
+      </div>
+     </div>
+     <div class="modal-footer">
+       <a href="#" class="btn" data-dismiss="modal">Close</a>
+       <a href="#" class="btn btn-primary" data-dismiss="modal">Add to Database</a>
+     </div>
+   </div>
+
   </fieldset>
 <!-- <fieldset>
     <input type="hidden" name="_method" value="PUT" />
@@ -133,7 +151,7 @@ while current:
       </div>
       <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="inpho.admin.submitPluralizations('${c.entity.url(action="searchpatterns")}')">Add Pluralizations</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="inpho.admin.submitPluralizations('${c.entity.url(action="searchpatterns")}','plurals')">Add Pluralizations</a>
       </div>
     </div>
     %endif

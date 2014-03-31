@@ -3,7 +3,7 @@ import pystache
 import logging
 from time import sleep
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, response, session, config, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons import url
 import re
@@ -13,7 +13,7 @@ import csv
 from inphosite.lib.base import BaseController, render
 from inphosite.lib.rest import restrict, dispatch_on
 
-from inpho import config
+import inpho.config
 import inpho.model as model
 from inpho.model import Session
 from inpho.model import Entity, Node, Idea, Journal, Work, SchoolOfThought, Thinker
@@ -160,7 +160,7 @@ class EntityController(BaseController):
                 c.sep_dir = ""
 
         if c.sep_dir:
-            fuzzypath = config.get('corpus', 'fuzzy_path')
+            fuzzypath = inpho.config.get('corpus', 'fuzzy_path')
             fuzzypath = os.path.join(fuzzypath, c.sep_dir)
             if os.path.exists(fuzzypath):
                 with open(fuzzypath) as f:
@@ -378,10 +378,18 @@ class EntityController(BaseController):
         if self._type == Entity:
             h.redirect(c.entity.url(filetype), code=303)
         else:
-            return render('{type}/{type}.'.format(type=self._controller) + 
-                          filetype)
-    
+            struct = { 'ID' : c.entity.ID, 
+                  'type' : 'entity',
+                  'label' : h.titlecase(c.entity.label), 
+                  'sep_dir' : c.entity.sep_dir,
+                  'url' : c.entity.url()}
+
+            renderer = pystache.Renderer()
+            return renderer.render_path(config['mustache_path'] + self._controller + '.mustache', struct) #h.json(struct)
+
+
 ### creating new view() function for mustache refactor
+    # shouldn't be necessary anymore and possibly deleted
     #@h.jsonify
     def mustache_view(self, id=None, filetype='html', format=None):
         c.sep_filter = request.params.get('sep_filter', False)
@@ -395,7 +403,7 @@ class EntityController(BaseController):
                   'url' : c.entity.url()}
 
         renderer = pystache.Renderer()
-        return renderer.render_path('/Users/alefrost/workspace/inphosite/inphosite/public/templates/thinker.mustache', struct) #h.json(struct)
+        return renderer.render_path(config['mustache_path'] + self._controller + '.mustache', struct) #h.json(struct)
 
     def graph(self, id=None, id2=None, filetype='json'):
         c.entity = h.fetch_obj(Entity, id, new_id=True)

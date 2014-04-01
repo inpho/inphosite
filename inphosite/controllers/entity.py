@@ -382,7 +382,8 @@ class EntityController(BaseController):
                   'type' : 'entity',
                   'label' : h.titlecase(c.entity.label), 
                   'sep_dir' : c.entity.sep_dir,
-                  'url' : c.entity.url()}
+                  'url' : c.entity.url(),
+                  'wiki' : c.wiki}
 
             renderer = pystache.Renderer()
             return renderer.render_path(config['mustache_path'] + self._controller + '.mustache', struct) #h.json(struct)

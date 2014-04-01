@@ -1,6 +1,7 @@
+import pystache
 import logging
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, response, config, session, tmpl_context as c
 import inphosite.lib.helpers as h
 from pylons.controllers.util import abort, redirect
 
@@ -334,7 +335,17 @@ class IdeaController(EntityController):
             h.redirect(h.url(controller='taxonomy', action='view',
                              id=c.entity.nodes[0].ID,filetype=filetype), code=303)
 
-        return render('idea/idea.' + filetype)
+        renderer = pystache.Renderer()
+
+        struct = { 'ID' : c.entity.ID,
+            'type' : 'idea',
+            'label' : h.titlecase(c.entity.label),
+            'sep_dir' : c.entity.sep_dir,
+            'url' : c.entity.url(),
+            'wiki' : c.entity.wiki}
+        
+        return renderer.render_path(config['mustache_path'] + 'idea.mustache', struct) #h.json(struct)
+#        return render('idea/idea.' + filetype)
 
     def panel(self, id, id2):
         evaluation = self.evaluation(id, id2)

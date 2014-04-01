@@ -1,69 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>... hmmm</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="/js/eval.js" type="text/javascript"></script>
+<script src="/js/admin.js" type="text/javascript"></script>
+<script src="/js/tabnav.js" type="text/javascript"></script>
+<script src="/js/entity.js" type="text/javascript"></script>
+<script src="/js/mustache.js" type="text/javascript"></script>
+<script type="text/javascript">
+    document.title = "Idea - {{label}}";
+    
+    $(document).ready(function() {
+        $("#dialog").dialog({position: [490,380], modal : true, title : 'Multiple Results'});
+        $('#tabnav').tab();
+        if (window.location.hash != "") {
+            if (window.location.hash.substring(1,2) == 'i') {
+                var id = window.location.hash.substring(2);
+                $.getJSON('/idea/'+id+'.json',
+                  function(data) {
+                      var title = data.responseData.result.label;
+                      inpho.tabnav.appendTab('tabnav', 'i' + id, title, '/idea/{{ID}}/panel/' + id);
+                    });
+            }
+            inpho.tabnav.switchTab('tabnav', window.location.hash.substring(1));  
+            $('body').scrollTop(0);
+        }
+    });
+
+    // Generate Lists
+    inpho.entity.showMoreMustache('related', "{{ID}}", 'idea', 10, 'Related Terms', true);
+    inpho.entity.showMoreMustache('related_thinkers', "{{ID}}", 'idea', 10, null, true);
+    inpho.entity.showMoreMustache('hyponyms', "{{ID}}", 'idea', 10, null, true);
+    inpho.entity.showMoreMustache('occurrences', "{{ID}}", 'idea', 10, null, true);
+</script>
+</head>
+
+
+<body>
 <div>
-<h1>${{label}}</h1>
+<h1>{{label}}</h1>
 {{! removed for loop over c.nodes }}
 
 {{#sep_dir}}
-<p><a href="http://plato.stanford.edu/entries/${{sep_dir}}/" target="_blank"><img src="/img/sepmanicon.png" /> ${{label}}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
+<p><a href="http://plato.stanford.edu/entries/{{sep_dir}}/" target="_blank"><img src="/img/sepmanicon.png" />{{label}}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
 {{/sep_dir}}
+{{#wiki}}
+<p><a href="http://wikipedia.org/wiki/{{wiki}}" target="_blank"><img src="/img/wikiicon.png" />{{label}}</a> also has a Wikipedia article.</p>
+{{/wiki}}
 
-
-{{! THE REST STILL NEEDS CONVERTED }}
-the taxonomy. You may either go to the following context-specific taxonomy pages or <a href="#" onClick="$('#dialog').dialog('close')">stay on this general concept page</a>.</p>
-
-<ul>
-<!-- Print out paths to the nodes -->
-%for node in c.entity.nodes:
-<li>\
-<% curParent = node.parent 
-parents = []
-while curParent:
-    parents.insert(0, curParent)
-    curParent = curParent.parent
-%>
-%for parent in parents:
-<a class="idea" href="${parent.url()}">${parent.label}</a> -&gt; \
-%endfor
-<a class="idea" href="${node.url()}">${node.label}</a> \
-</li>
-%endfor
-
-<li><a href="#" onClick="$('#dialog').dialog('close')">Stay on the current page</a></li>
-</ul>
-
-</div> <!-- END DIALOG -->
-%endif
-
-
-<ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
-    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
-{{! WHAT ABOUT h.auth }}
-    %if h.auth.is_logged_in():
-    <li id="evaluate-tab" onclick="inpho.tabnav.lazyLoad('tabnav','evaluate', '/idea/'+${{ID}}+'/evaluate')"><a href="#evaluate" data-toggle="tab"><i class="icon-pencil"></i> Evaluate</a></li>
-    %endif
-    %if h.auth.is_admin():
-    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
-    %endif
-</ul>
+<p><img src="/img/pp.gif"/> <a id="philsearch" href="http://philpapers.org/s/{{label}}">{{label}}</a> can be searched on PhilPapers.</p>
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
-<%
-taxonomic = []
-parents = [node.parent or c.entity for node in c.entity.nodes]
-if c.entity.nodes and parents:
-    taxonomic.extend(zip(parents, itertools.repeat(c.entity)))
 
-if c.entity.instance_of:
-    taxonomic.extend(zip(c.entity.instance_of, itertools.repeat(c.entity)))
-%>
+<div id="related"></div>
+<div id="related_thinkers"></div>
+<div id="hyponyms"></div>
+<div id="occurrences"></div>
 
-##${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
-##${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink')}
-${entity.printList('related', 'Related Terms', statistical=True)}
-${entity.printList('related_thinkers', statistical=True)}
-${entity.printList('hyponyms', statistical=True)}
-${entity.printList('occurrences', statistical=True)}
-
+{{!
 %if not (c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
 ${entity.printMissing()}
 %endif
@@ -79,5 +77,8 @@ ${entity.printMissing()}
         ${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "searchpatterns", "in-degree", "out-degree", "entropy"])}
     </div>
 %endif
+}}
 </div> <!-- tab-content -->
 </div>
+</body>
+</html>

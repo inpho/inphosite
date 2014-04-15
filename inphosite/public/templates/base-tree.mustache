@@ -1,17 +1,12 @@
-<%inherit file="/base.html" />
-<%namespace file="/actb.html" name="actb" />
-
-<%def name="sidebar(node=None)">
+<div>
+    <script type='text/javascript' src='/jquery/jquery-1.7.2.min.js'></script>
+    <script type='text/javascript' src='/js/d3/d3.js'></script>
+    <script type='text/javascript' src='/js/d3/d3.layout.js'></script>
+    <link rel='stylesheet' type='text/css' href='/css/tree.css'>
 <a href="/"><img src="/img/newlogo.png" width="185" style="margin-top: -11px; margin-bottom:10px;"></a>
-${draw(getattr(c, "node", None))}
-</%def>
 
-<%def name="draw(node=None)">
-<div id="chart" data-selected=${node.ID if node is not None else 0}></div>
+<div id="chart" data-selected="0"></div>
 <script type="text/javascript" src="/js/tree-vertical.js"></script>
-</%def>
 
-<%def name="head_title()">
-${next.head_title()}
-</%def>
+</div>
 

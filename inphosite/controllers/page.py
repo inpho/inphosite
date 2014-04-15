@@ -1,3 +1,4 @@
+from inphosite.lib.partialDelegate import PartialDelegate
 import pystache
 import logging
 
@@ -11,6 +12,9 @@ import os.path
 import json
 
 log = logging.getLogger(__name__)
+
+partials = PartialDelegate(config['mustache_path'])
+renderer = pystache.Renderer(partials=partials)
 
 class PageController(BaseController):
     def options(self):
@@ -29,6 +33,7 @@ class PageController(BaseController):
         return render('index.html')
     
     def about(self):
+        return renderer.render_path(config['mustache_path'] + "base-nosidebar.mustache", {"nosidebar": False})
         return render('about.html')
 
     def scimap(self):
@@ -40,11 +45,10 @@ class PageController(BaseController):
         #return render('mustache_papers.html')
         with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
             papers = json.load(publications)
-        renderer = pystache.Renderer()
         return renderer.render_path(config['mustache_path'] + 'papers.mustache', papers)
 
 
-    def owl(self):
+    def owl(self): # need sidebar
         return render('owl.html')
     
     def json(self):
@@ -56,5 +60,7 @@ class PageController(BaseController):
     def graph(self):
         return render('graph.html')
 
-    def privacy(self):
+    def privacy(self): # need sidebar
+        renderer = pystache.Renderer()
+        return renderer.render_path('privacy.html')
         return render('privacy.html')

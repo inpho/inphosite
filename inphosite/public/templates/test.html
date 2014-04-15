@@ -24,14 +24,14 @@
     var scopetemplate = "{{id}} <ul>{{#list}}<li>{{ID}},{{id}},{{name}}</li>{{/list}}</ul>";
 
 
-    var partials = {"partial1": "partial1.htm", "partial2": "partial2.htm"};
+    var partials = {"base-tree": "base-tree.mustache", "about": "about.mustache", "navbar": "navbar.mustache", "footer": "footer.mustache"};
 
     var functions = new Array();
 
     var partLoad = loadPartials(partials);
 
     $.when(partLoad).done(function(data){
-        $.get('thinker.mustache', function(templates) {
+        $.get('base-nosidebar.mustache', function(templates) {
             var html = Mustache.to_html(templates, thinkerjson, partials);
             $('#renderHere').html(html);
         });   

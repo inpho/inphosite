@@ -31,7 +31,7 @@
     var partLoad = loadPartials(partials);
 
     $.when(partLoad).done(function(data){
-        $.get('base-nosidebar.mustache', function(templates) {
+        $.get('navbar.mustache', function(templates) {
             var html = Mustache.to_html(templates, thinkerjson, partials);
             $('#renderHere').html(html);
         });   

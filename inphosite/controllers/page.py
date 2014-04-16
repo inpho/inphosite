@@ -14,7 +14,7 @@ import json
 log = logging.getLogger(__name__)
 
 partials = PartialDelegate(config['mustache_path'])
-renderer = pystache.Renderer(partials=partials)
+renderer = pystache.Renderer(file_encoding='utf-8',string_encoding='utf-8',partials=partials)
 
 class PageController(BaseController):
     def options(self):
@@ -33,8 +33,8 @@ class PageController(BaseController):
         return render('index.html')
     
     def about(self):
-        return renderer.render_path(config['mustache_path'] + "base-nosidebar.mustache", {"nosidebar": False})
-        return render('about.html')
+        content = {'content': str(renderer.render_path(config['mustache_path']+"about.mustache")), 'sidebar': False}
+        return renderer.render_path(config['mustache_path'] + "base.mustache", content)
 
     def scimap(self):
         return render('scimap.html')

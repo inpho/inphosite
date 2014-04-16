@@ -7,10 +7,10 @@
     <!-- JQUERY -->
     <script type='text/javascript' src='/jquery/jquery-1.7.2.min.js'></script>
     <script type='text/javascript' src='/jqueryui/js/jquery-ui-1.8.10.custom.min.js'></script>
-    <!--script type='text/javascript' src='/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'></script -->
+    <script type='text/javascript' src='/jqueryui/css/blitzer/jquery-ui-1.8.10.custom.css'></script>
     
     <!-- BOOTSTRAP -->
-    <!-- script type='text/javascript' src='/bootstrap/css/bootstrap.min.css'></script -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
     <script type='text/javascript' src='/bootstrap/js/bootstrap.min.js'></script>
     
     <!-- D3 -->
@@ -35,10 +35,13 @@
     {{> navbar}}
     <div class="container" id="container">
       <div class="row">
-        {{> base-tree}}
-        {{> partial1}}
-        lolololololol please
-        {{> about}}
+        {{#sidebar}}
+          <div class="span4" id="sidebar">{{> base-tree}}</div>
+          <div class="span8" id="content">{{{content}}}</div>
+        {{/sidebar}}
+        {{^sidebar}}
+          {{{content}}}
+        {{/sidebar}}
       </div>
       {{> footer}}
     </div>

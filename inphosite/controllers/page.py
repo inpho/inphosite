@@ -8,6 +8,7 @@ from pylons.controllers.util import abort, redirect
 from inphosite.lib.base import BaseController, render
 
 import os.path
+import glob, os
 
 import json
 
@@ -26,41 +27,54 @@ class PageController(BaseController):
         return ''
 
 
-    def amt_taxonomy(self):
+    def amt_taxonomy(self): # is this used???
         redirect('http://inpho2.cogs.indiana.edu/amt_taxonomy/')
 
     def index(self):
-        return render('index.html')
+        content = {'content': renderer.render_path(config['mustache_path']+"index.mustache"), 'sidebar': False}
+        return renderer.render_path(config['mustache_path'] + "base.mustache", content)
     
     def about(self):
-        content = {'content': str(renderer.render_path(config['mustache_path']+"about.mustache")), 'sidebar': False}
+        content = {'content': renderer.render_path(config['mustache_path']+"about.mustache"), 'sidebar': False}
         return renderer.render_path(config['mustache_path'] + "base.mustache", content)
 
     def scimap(self):
-        return render('scimap.html')
+        content = {'content': renderer.render_path(config['mustache_path']+"scimap.mustache"), 'sidebar': False}
+        return renderer.render_path(config['mustache_path'] + "base.mustache", content)
 
     def papers(self):
-        #with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
-        #    c.papers = json.load(publications)
-        #return render('mustache_papers.html')
+        # load in publications json file
         with open(os.path.join(config['pylons.paths']['root'], 'templates/publications.json')) as publications: 
             papers = json.load(publications)
-        return renderer.render_path(config['mustache_path'] + 'papers.mustache', papers)
+        content = {'content': renderer.render_path(config['mustache_path'] + 'papers.mustache', papers), 'sidebar': False}
+        return renderer.render_path(config['mustache_path'] + "base.mustache", content)
 
+    def owl(self):
+        # compile monthly archives
+        files = glob.glob(os.path.join(config['owl_path'], 'db-arch_*.owl'))
+        files = [os.path.split(file)[1] for file in files]
+        files.sort(reverse=True)
+        
+        archives = {"files": []}
+        for file in files:
+            year = file[8:12]
+            month = file[12:14]
+            day = file[14:16]
+            archives['files'].append({"file": file, "year": year, "month": month, "day": day})
+        
+        content = {'content': renderer.render_path(config['mustache_path']+"owl.mustache", archives), 'sidebar': True}
+        return renderer.render_path(config['mustache_path'] + "base.mustache", content)
 
-    def owl(self): # need sidebar
-        return render('owl.html')
-    
-    def json(self):
+    def json(self): # is this used???
         return render('json.html')
 
     def docs(self):
-        return render('docs.html')
+        content = {'content': renderer.render_path(config['mustache_path']+"docs.mustache"), 'sidebar': False}
+        return renderer.render_path(config['mustache_path'] + 'base.mustache', content)
     
-    def graph(self):
+    def graph(self): # is this used???
         return render('graph.html')
 
-    def privacy(self): # need sidebar
-        renderer = pystache.Renderer()
-        return renderer.render_path('privacy.html')
-        return render('privacy.html')
+    def privacy(self):
+        content = {'content': renderer.render_path(config['mustache_path']+"privacy.mustache"), 'sidebar': True}
+        return renderer.render_path(config['mustache_path'] + "base.mustache", content)

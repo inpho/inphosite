@@ -1,7 +1,10 @@
+from inphosite.lib.partialDelegate import PartialDelegate
+import pystache
+
 import logging
 from collections import defaultdict
 
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, response, session, config, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 
 from inphosite.controllers.entity import EntityController
@@ -12,6 +15,9 @@ from inpho.model.taxonomy import *
 from inpho.model import Session
 
 log = logging.getLogger(__name__)
+
+partials = PartialDelegate(config['mustache_path'])
+renderer = pystache.Renderer(file_encoding='utf-8',string_encoding='utf-8',partials=partials)
 
 class TaxonomyController(EntityController):
     _type = Node
@@ -46,8 +52,19 @@ class TaxonomyController(EntityController):
 
         if filetype=='json':
             response.content_type = 'application/json'
+        
+        
+        struct = { 'ID' : c.entity.ID, 
+                  'type' : 'node',
+                  'label' : h.titlecase(c.entity.label), 
+                  'sep_dir' : c.entity.sep_dir,
+                  'url' : c.entity.url(),
+                  #'wiki' : c.wiki
+                  }
 
-        return render('taxonomy/node.%s' % filetype)
+        content = {'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", struct), 'sidebar': True} 
+        return renderer.render_path(config['mustache_path']+'base.mustache', content)
+        #return render('taxonomy/node.%s' % filetype)
         #if filetype=='html':
         #    c.entity = c.node.idea
         #    return render('idea/idea.html')

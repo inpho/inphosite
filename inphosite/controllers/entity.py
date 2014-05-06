@@ -1,4 +1,5 @@
 import pystache
+from inphosite.lib.partialDelegate import PartialDelegate
 
 import logging
 from time import sleep
@@ -33,6 +34,9 @@ from xml.etree import ElementTree as ET
 from sqlalchemy.exc import IntegrityError
 
 log = logging.getLogger(__name__)
+
+partials = PartialDelegate(config['mustache_path'])
+renderer = pystache.Renderer(file_encoding='utf-8',string_encoding='utf-8',partials=partials)
 
 class DateException(Exception):
     pass
@@ -383,10 +387,12 @@ class EntityController(BaseController):
                   'label' : h.titlecase(c.entity.label), 
                   'sep_dir' : c.entity.sep_dir,
                   'url' : c.entity.url(),
-                  'wiki' : c.wiki}
+                  #'wiki' : c.wiki
+                  }
 
-            renderer = pystache.Renderer()
-            return renderer.render_path(config['mustache_path'] + self._controller + '.mustache', struct) #h.json(struct)
+            content = {'content': renderer.render_path(config['mustache_path'] + self._controller + '.mustache', struct), 'sidebar': True}
+            return renderer.render_path(config['mustache_path'] + "base.mustache", content)
+
 
 
 ### creating new view() function for mustache refactor

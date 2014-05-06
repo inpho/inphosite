@@ -1,0 +1,71 @@
+<script type="text/javascript">
+document.title = "InPhO - Idea - {{label}}";
+
+inpho.eval.alert = true;
+
+$(document).ready(function() {
+    $('#tabnav').tab();
+    if (window.location.hash != "") {
+        if (window.location.hash.substring(1,2) == 'i') {
+            var id = window.location.hash.substring(2);
+            $.getJSON('/idea/'+id+'.json',
+              function(data) {
+                  var title = data.responseData.result.label;
+                  inpho.tabnav.appendTab('tabnav', 'i' + id, title, '/idea/${c.entity.ID}/panel/' + id);
+                });
+        }
+        inpho.tabnav.switchTab('tabnav', window.location.hash.substring(1));  
+        $('body').scrollTop(0);
+    }
+});
+</script>
+
+{{!${entity.breadcrumbs(c.node)} }}
+
+<h1>{{label}}</h1>
+
+{{#sep_dir}}
+<p><a href="http://plato.stanford.edu/entries/{{sep_dir}}/"><img src="/img/sepmanicon.png" /> {{label}}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
+{{/sep_dir}}
+{{#wiki}}
+<p><a href="http://wikipedia.org/wiki/{{wiki}}" target="_blank"><img src="/img/wikiicon.png" /> {{label}}</a> also has a Wikipedia article.</p>
+{{/wiki}}
+
+<p>Search for <a href="http://philpapers.org/s/{{label}}">{{label}}</a> on PhilPapers.</p>
+
+{{! insert authorization code here}}
+
+<div class="tab-content" id="tabnav-content">
+    <div class="tab-pane active" id="home">
+        <script type="text/javascript">
+          inpho.entity.showMoreMustache('instances', '{{ID}}', 'idea', 10);
+          inpho.entity.showMoreMustache('links', '{{ID}}', 'idea', 10);
+          inpho.entity.showMoreMustache('related', '{{ID}}', 'idea', 10, 'Related Terms', true);
+          inpho.entity.showMoreMustache('related_thinkers', '{{ID}}', 'idea', 10, null, true);
+          inpho.entity.showMoreMustache('hyponyms', '{{ID}}', 'idea', 10, null, true);
+          inpho.entity.showMoreMustache('occurrences', '{{ID}}', 'idea', 10, null, true);
+        </script>
+        <div id="instances"></div>
+        <div id="links"></div>
+        <div id="related"></div>
+        <div id="related_thinkers"></div>
+        <div id="hyponyms"></div>
+        <div id="occurrences"></div>
+{{!
+%if not (c.entity.links[:10] or c.entity.instances[:10] or c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
+${entity.printMissing()}
+%endif
+
+</div>
+## If user is logged in, show evaluations
+%if h.auth.is_logged_in():
+    <div class="tab-pane" id="evaluate"></div>
+%endif
+## If user is authorised, show admin panel
+%if h.auth.is_admin():
+    <div class="tab-pane" id="admin">
+        ${entity.printAdminPanel(["id", "label", "sep_dir", "wiki", "searchstring", "searchpatterns", "in-degree", "out-degree", "entropy"])}
+    </div>
+%endif
+}}
+</div> <!-- tab-content -->

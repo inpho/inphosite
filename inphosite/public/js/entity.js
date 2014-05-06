@@ -59,13 +59,14 @@ inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_titl
 
   // get attribute data
   $.getJSON(url, function (data) {
-    $.get('/templates/printList.mustache', function(template) {
-      // append each item to the list
-      if (data.responseData.total > limit) {
-        more += "<li class='more'><a Onclick=\"inpho.entity.showMoreMustache('" + attr + "', '" + parent_id + "', '" + type + "', " + (limit + 10) + ", " + alt_title + ", '" + statistical + "')\">Show more... (" + (data.responseData.total - limit) + ")</a></li>";
-      }
+    if (data.responseData.total > 0) {
+      $.get('/templates/printList.mustache', function(template) {
+        // append each item to the list
+        if (data.responseData.total > limit) {
+          more += "<li class='more'><a Onclick=\"inpho.entity.showMoreMustache('" + attr + "', '" + parent_id + "', '" + type + "', " + (limit + 10) + ", " + alt_title + ", '" + statistical + "')\">Show more... (" + (data.responseData.total - limit) + ")</a></li>";
+        }
 
-      var json = {
+        var json = {
                     "attr": attr,
                     "parent_id": parent_id,
                     "type": type,
@@ -74,10 +75,10 @@ inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_titl
                     "statistical": statistical,
                     "more": more,
                     "results": data.responseData.results
-                 };
-      var html = Mustache.to_html(template, json);// set item as printList.mustache template in the public/template directory
-
-      $('#'+attr).html(html);
-    });
+                   };
+        var html = Mustache.to_html(template, json);// set item as printList.mustache template in the public/template directory
+        $('#'+attr).html(html);
+      });
+    }
   });
 }

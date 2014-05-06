@@ -1,52 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>InPhObox Demo</title>
-    <!-- Stylesheet Imports -->
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<%! import urllib %>
+<%inherit file="/base-tree.html" />
+<%namespace name="entity" file="/entity/entity.html" />
+<%def name="head()">
+<script src="/js/eval.js" type="text/javascript"></script>
+<script src="/js/admin.js" type="text/javascript"></script>
+<script src="/js/tabnav.js" type="text/javascript"></script>
+<script src="/js/entity.js" type="text/javascript"></script>
+</%def>
 
-    <!-- Javascript Imports -->
-    <script src="/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="/js/mustache.js" type="text/javascript"></script>
-</head>
+## Header
+<%def name="title()">Thinker - ${c.entity.label}</%def>
+<%def name="head_title()">${c.entity.label}</%def>
 
-<body>
-    <div id="renderHere"></div>
-    <script type="text/javascript">
-    var thinkerjson = {"wiki": "Immanuel_Kant", "influenced": [2458, 2467, 2478, 2479, 2549, 2578, 2581, 2637, 2697, 2883, 2953, 3179, 3206, 3448, 4132, 4175], "death": {"month": "February", "day": "12", "year": "1804"}, "teachers": [3379], "url": "/thinker/3345", "influenced_by": [2638, 2905, 3132, 3256, 3974, 4134], "death_string": "1804- 2-12 CE", "related_thinkers": [3256, 3177, 3510, 2830, 3439, 4134, 4198, 3780, 3002], "sep_dir": "kant", "students": [3793], "birth_string": "1724- 4-22 CE", "birth": {"month": "April", "day": "22", "year": "1724"}, "nationalities": ["German"], "related_ideas": [1734, 1545, 1511, 681, 602, 2166, 1488, 1401, 1499], "label": "Immanuel Kant", "type": "thinker", "ID": 3345, "professions": ["Philosopher"], "aliases": []};
-    var partials = {"partial1": "/templates/partial1.htm"};
+## Body
+<h1>${h.titlecase(c.entity.label)}</h1>
+%if c.entity.sep_dir:
+<p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/" target="_blank"><img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
+%endif
+%if c.entity.wiki:
+<p><a href="http://wikipedia.org/wiki/${c.entity.wiki.decode('utf-8')}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
+%endif
 
-    var functions = new Array();
+<p>Search for <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}">${c.entity.label}</a> on PhilPapers.</p>
 
-    var partLoad = loadPartials(partials);
+<ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
+    <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
+    %if h.auth.is_admin():
+    <li id="admin-tab"><a href="#admin" data-toggle="tab"><i class="icon-pencil"></i> Admin </a></li>
+    %endif
+</ul>
 
-    $.when(partLoad).done(function(data){
-        $.get('/templates/thinker.mustache', function(templates) {
-            var html = Mustache.to_html(templates, thinkerjson, partials);
-            $('#renderHere').html(html);
-        });   
-    });
 
-    function loadPartials(partials) {
-        var dfd = $.Deferred();
-        
-        for (var name in partials) {
-            var xhr = function(name) {
-                $.get(partials[name], function(p) {
-                    partials[name] = $(p).html();
-                });
-                functions.push(xhr);
-            }(name);
-        }
-        
-        $.when.apply($, functions).then(function(data) {
-            dfd.resolve();
-        });
 
-        return dfd.promise();
-    }
-    </script>
+<div class="tab-content" id="tabnav-content">
+    <div class="tab-pane active" id="home">
+      <dl class="dl-horizontal">
+          %if c.entity.birth_dates:
+          <dt>Birth Dates:</dt>
+          %for date in c.entity.birth_dates:
+          <dd>
+          ${date}
+          </dd>
+          %endfor
+          %endif
+      
+          %if c.entity.death_dates:
+          <dt>Death Dates:</dt>
+          %for date in c.entity.death_dates:
+          <dd>
+          ${date}
+          </dd>
+          %endfor
+          %endif
 
-</body>
-</html>
+          %if len(c.entity.nationalities):
+          <dt>Nationality/ethnicity:</dt>
+          %for nationality in c.entity.nationalities:
+          <dd>${nationality.name}</dd>
+          %endfor
+          %endif
+      
+          %if len(c.entity.professions):
+          <dt>Profession:</dt>
+          %for profession in c.entity.professions:
+          <dd>${profession.name}</dd>
+          %endfor
+          %endif
+      
+          %if len(c.entity.aliases):
+          <dt>Alias:</dt>
+          %for alias in c.entity.aliases:
+          <dd>${alias}</dd>
+          %endfor
+          %endif
+      </dl>
+
+      ${entity.printList('influenced', type="thinker")}
+      ${entity.printList('influenced_by', type="thinker")}
+      ${entity.printList('students', type="thinker")}
+      ${entity.printList('teachers', type="thinker")}
+      ${entity.printList('related', 'Related Thinkers', statistical=True, type="thinker")}
+      ${entity.printList('related_ideas', 'Related Terms', statistical=True, type="thinker")}
+
+%if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
+${entity.printMissing()}
+%endif
+    </div>
+## If user is authorised, show admin panel
+%if h.auth.is_admin():
+    <div class="tab-pane" id="admin">
+${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "wiki", "searchpatterns", "birth", "death", "influenced_by", "influenced", "teachers", "students"])}
+    </div>
+%endif
+</div> <!-- tab-content -->

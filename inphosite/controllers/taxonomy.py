@@ -31,18 +31,6 @@ class TaxonomyController(EntityController):
             'origin, c-csrftoken, content-type, authorization, accept'
         response.headers['Access-Control-Max-Age'] = '1000'
 
-    def path(self, id):
-        #id = request.params.get('id', None)
-        node = h.fetch_obj(Node, id, new_id=True)
-        path = list()
-
-        current = node
-        while current:
-            path.append({'label': h.titlecase(current.label), 'url': current.url()})
-            current = current.parent
-
-        return {'path': path, 'head': {'label': h.titlecase(node.label), 'url': node.url()}}
-
     def view(self, id=None, filetype='html'):
         c.node = h.fetch_obj(Node, id, new_id=True)
         c.entity = c.node.idea
@@ -65,28 +53,26 @@ class TaxonomyController(EntityController):
 
         if filetype=='json':
             response.content_type = 'application/json'
-        
-        
-        struct = { 'ID' : c.entity.ID, 
-                  'type' : 'node',
-                  'label' : h.titlecase(c.entity.label), 
-                  'sep_dir' : c.entity.sep_dir,
-                  'url' : c.entity.url(),
-                  #'wiki' : c.wiki
-                  }
-        
+       
+        # create breadcrumb html
         breadcrumbs = list()
         current = c.node.parent
         while current:
                 breadcrumbs.append({'label': h.titlecase(current.label), 'url': current.url()})
                 current = current.parent
         path = {'path': breadcrumbs, 'head': {'label': h.titlecase(c.node.label), 'url': c.node.url()}} 
-
         pathhtml = renderer.render_path(config['mustache_path']+'breadcrumbs.mustache', path)
 
-        details = {'main': struct, 'breadcrumbs':pathhtml}
-
-        content = {'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", details), 'sidebar': True} 
+        struct = { 'ID' : c.entity.ID, 
+                  'type' : 'node',
+                  'label' : h.titlecase(c.entity.label), 
+                  'sep_dir' : c.entity.sep_dir,
+                  'url' : c.entity.url(),
+                  'wiki': c.entity.wiki,
+                  'breadcrumbs': pathhtml
+                  }
+ 
+        content = {'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", struct), 'sidebar': True} 
         return renderer.render_path(config['mustache_path']+'base.mustache', content)
   
     def list(self, filetype='html'):

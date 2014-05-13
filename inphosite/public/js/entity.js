@@ -43,14 +43,18 @@ inpho.entity.showMore = function (attr, id, n, start) {
   });
 }
 
-inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_title, statistical) {
+inpho.entity.showMoreMustache = function (attr, parent_id, parent_label, type, limit, alt_title, manual, statistical, reasoning) {
   // set default values for variables if values are not passed in.
   if (!alt_title)
       var alt_title = null; 
   if (!limit)
       var limit = 10;
-  if (!statistical)
+  if (manual == undefined)
+      var manual = true;
+  if (statistical == undefined)
       var statistical = false;
+  if (reasoning == undefined)
+      var reasoning = false;
   if (!type)
     var type = "idea"; 
   
@@ -64,16 +68,19 @@ inpho.entity.showMoreMustache = function (attr, parent_id, type, limit, alt_titl
       $.get('/templates/printList.mustache', function(template) {
         // append each item to the list
         if (data.responseData.total > limit) {
-          more += "<li class='more'><a Onclick=\"inpho.entity.showMoreMustache('" + attr + "', '" + parent_id + "', '" + type + "', " + (limit + 10) + ", " + alt_title + ", '" + statistical + "')\">Show more... (" + (data.responseData.total - limit) + ")</a></li>";
+          more += "<li class='more'><a Onclick=\"inpho.entity.showMoreMustache('" + attr + "', '" + parent_id + "', '" + parent_label + "', '" + type + "', " + (limit + 10) + ", " + alt_title + ", '" + manual + "', '" + statistical + "', '" + reasoning + "')\">Show more... (" + (data.responseData.total - limit) + ")</a></li>";
         }
 
         var json = {
                     "attr": attr,
                     "parent_id": parent_id,
+                    "parent_label": parent_label,
                     "type": type,
                     "alt_title": alt_title,
                     "new_limit": limit+10,
+                    "manual": manual,
                     "statistical": statistical,
+                    "reasoning": reasoning,
                     "more": more,
                     "results": data.responseData.results
                    };

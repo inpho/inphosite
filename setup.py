@@ -26,7 +26,7 @@ setup(
         "BeautifulSoup>=3.2.0,<=3.2.99",
         "unittest2>=0.5.0",
         "distribute>= 0.6.0",
-        "pystache>=0.5.0"
+        "pystache>=0.5.0",
 	    "SPARQLWrapper>=1.5.2",
  	    "rdfextras>=0.4"
         # "nltk>=2.0.0"

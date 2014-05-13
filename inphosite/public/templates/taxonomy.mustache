@@ -23,7 +23,7 @@ $(document).ready(function() {
 
 {{{breadcrumbs}}}
 
-<h1>{{label}}</h1>
+<h1 id="label">{{label}}</h1>
 
 {{#sep_dir}}
 <p><a href="http://plato.stanford.edu/entries/{{sep_dir}}/"><img src="/img/sepmanicon.png" /> {{label}}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
@@ -32,19 +32,19 @@ $(document).ready(function() {
 <p><a href="http://wikipedia.org/wiki/{{wiki}}" target="_blank"><img src="/img/wikiicon.png" /> {{label}}</a> also has a Wikipedia article.</p>
 {{/wiki}}
 
-<p>Search for <a href="http://philpapers.org/s/{{label}}">{{label}}</a> on PhilPapers.</p>
+<p><a href="http://philpapers.org/s/{{label}}"> <img src="/img/pp.gif"/> {{label}}</a> can be searched on PhilPapers.</p>
 
 {{! insert authorization code here}}
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">
         <script type="text/javascript">
-          inpho.entity.showMoreMustache('instances', '{{ID}}', 'idea', 10);
-          inpho.entity.showMoreMustache('links', '{{ID}}', 'idea', 10);
-          inpho.entity.showMoreMustache('related', '{{ID}}', 'idea', 10, 'Related Terms', true);
-          inpho.entity.showMoreMustache('related_thinkers', '{{ID}}', 'idea', 10, null, true);
-          inpho.entity.showMoreMustache('hyponyms', '{{ID}}', 'idea', 10, null, true);
-          inpho.entity.showMoreMustache('occurrences', '{{ID}}', 'idea', 10, null, true);
+          inpho.entity.showMoreMustache('instances', '{{ID}}', '{{label}}', 'idea', 10, null, false, false, true);         // reasoning
+          inpho.entity.showMoreMustache('links', '{{ID}}', '{{label}}', 'idea', 10, null, false, false, true);             // reasoning
+          inpho.entity.showMoreMustache('related', '{{ID}}', '{{label}}', 'idea', 10, 'Related Terms', false, true); // statistical
+          inpho.entity.showMoreMustache('related_thinkers', '{{ID}}', '{{label}}', 'idea', 10, null, false, true);   // statistical
+          inpho.entity.showMoreMustache('hyponyms', '{{ID}}', '{{label}}', 'idea', 10, null, false, true);           // statistical
+          inpho.entity.showMoreMustache('occurrences', '{{ID}}', '{{label}}', 'idea', 10, null, false, true);        // statistical
         </script>
         <div id="instances"></div>
         <div id="links"></div>

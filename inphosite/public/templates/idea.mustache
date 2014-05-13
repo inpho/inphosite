@@ -19,14 +19,14 @@
     });
 
     // Generate Lists
-    inpho.entity.showMoreMustache('related', "{{ID}}", 'idea', 10, 'Related Terms', true);
-    inpho.entity.showMoreMustache('related_thinkers', "{{ID}}", 'idea', 10, null, true);
-    inpho.entity.showMoreMustache('hyponyms', "{{ID}}", 'idea', 10, null, true);
-    inpho.entity.showMoreMustache('occurrences', "{{ID}}", 'idea', 10, null, true);
+    inpho.entity.showMoreMustache('related', "{{ID}}", '{{label}}', 'idea', 10, 'Related Terms', true);
+    inpho.entity.showMoreMustache('related_thinkers', "{{ID}}", '{{label}}', 'idea', 10, null, false, true);
+    inpho.entity.showMoreMustache('hyponyms', "{{ID}}", '{{label}}', 'idea', 10, null, false, true);
+    inpho.entity.showMoreMustache('occurrences', "{{ID}}", '{{label}}', 'idea', 10, null, false, true);
 </script>
 
 <div>
-<h1>{{label}}</h1>
+<h1 id="label">{{label}}</h1>
 {{! removed for loop over c.nodes }}
 
 {{#sep_dir}}
@@ -36,7 +36,7 @@
 <p><a href="http://wikipedia.org/wiki/{{wiki}}" target="_blank"><img src="/img/wikiicon.png" />{{label}}</a> also has a Wikipedia article.</p>
 {{/wiki}}
 
-<p><img src="/img/pp.gif"/> <a id="philsearch" href="http://philpapers.org/s/{{label}}">{{label}}</a> can be searched on PhilPapers.</p>
+<p><a id="philsearch" href="http://philpapers.org/s/{{label}}"> <img src="/img/pp.gif"/> {{label}}</a> can be searched on PhilPapers.</p>
 
 <div class="tab-content" id="tabnav-content">
     <div class="tab-pane active" id="home">

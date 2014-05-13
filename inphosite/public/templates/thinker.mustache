@@ -2,16 +2,16 @@
     document.title = "Thinker - {{label}}";
 
     // Generate Lists
-    inpho.entity.showMoreMustache('influenced', "{{ID}}", "thinker", 10);
-    inpho.entity.showMoreMustache('influenced_by', "{{ID}}", "thinker", 10); 
-    inpho.entity.showMoreMustache('students', "{{ID}}", "thinker", 10); 
-    inpho.entity.showMoreMustache('teachers', "{{ID}}", "thinker", 10); 
-    inpho.entity.showMoreMustache('related', "{{ID}}", "thinker", 10, null, true); 
-    inpho.entity.showMoreMustache('related_ideas', "{{ID}}", "thinker", 10, null, true); 
+    inpho.entity.showMoreMustache('influenced', "{{ID}}", "{{label}}", "thinker", 10);
+    inpho.entity.showMoreMustache('influenced_by', "{{ID}}", "{{label}}", "thinker", 10); 
+    inpho.entity.showMoreMustache('students', "{{ID}}", "{{label}}", "thinker", 10); 
+    inpho.entity.showMoreMustache('teachers', "{{ID}}", "{{label}}", "thinker", 10); 
+    inpho.entity.showMoreMustache('related', "{{ID}}", "{{label}}", "thinker", 10, null, false, true); 
+    inpho.entity.showMoreMustache('related_ideas', "{{ID}}", "{{label}}", "thinker", 10, null, false, true); 
 </script>
 
 
-<h1>{{label}}</h1>
+<h1 id="label">{{label}}</h1>
 
 {{#sep_dir}}
 <p><a href="http://plato.stanford.edu/entries/{{sep_dir}}/" target="_blank"><img src="/img/sepmanicon.png" /> {{label}}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
@@ -20,7 +20,7 @@
 <p><a href="http://wikipedia.org/wiki/{{wiki}}" target="_blank"><img src="/img/wikiicon.png" /> {{label}}</a> also has a Wikipedia article.</p>
 {{/wiki}}
 
-<p><img src="/img/pp.gif"/> <a id="philsearch" href="http://philpapers.org/s/{{label}}">{{label}}</a> can be searched on PhilPapers.</p>
+<p><a id="philsearch" href="http://philpapers.org/s/{{label}}"> <img src="/img/pp.gif"/> {{label}}</a> can be searched on PhilPapers.</p>
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
     <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>

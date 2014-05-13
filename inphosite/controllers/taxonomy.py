@@ -60,7 +60,7 @@ class TaxonomyController(EntityController):
         while current:
                 breadcrumbs.append({'label': h.titlecase(current.label), 'url': current.url()})
                 current = current.parent
-        path = {'path': breadcrumbs, 'head': {'label': h.titlecase(c.node.label), 'url': c.node.url()}} 
+        path = {'path': breadcrumbs[::-1], 'head': {'label': h.titlecase(c.node.label), 'url': c.node.url()}} 
         pathhtml = renderer.render_path(config['mustache_path']+'breadcrumbs.mustache', path)
 
         struct = { 'ID' : c.entity.ID, 

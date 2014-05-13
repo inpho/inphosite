@@ -19,18 +19,10 @@ $(document).ready(function() {
     }
 });
 
-//$.post("/thinker", {'id': '{{ID}}'}, function(json) {
-//    alert(json);
-//    $.get('/templates/breadcrumbs.mustache', function(template) {
-//        var html = Mustache.to_html(template, json);
-//        $('#breadcrumbs').html(html);
-//    })
-//})
 </script>
 
 {{{breadcrumbs}}}
 
-{{#main}}
 <h1>{{label}}</h1>
 
 {{#sep_dir}}
@@ -77,5 +69,4 @@ ${entity.printMissing()}
     </div>
 %endif
 }}
-{{/main}}
 </div> <!-- tab-content -->

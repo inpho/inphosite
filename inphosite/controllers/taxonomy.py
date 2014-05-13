@@ -71,8 +71,8 @@ class TaxonomyController(EntityController):
                   'wiki': c.entity.wiki,
                   'breadcrumbs': pathhtml
                   }
- 
-        content = {'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", struct), 'sidebar': True} 
+        content = {'ID': c.node.ID , 'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", struct), 'sidebar': True} 
+        #raise Exception
         return renderer.render_path(config['mustache_path']+'base.mustache', content)
   
     def list(self, filetype='html'):

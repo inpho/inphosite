@@ -25,6 +25,19 @@ To begin working with the inphosite code:
     `Mac OS X <http://help.github.com/mac-set-up-git/>`_,
     `Windows <http://help.github.com/win-set-up-git/>`_
 
+#.  Clone the inpho project::
+        
+        git clone git@github.com:inpho/inpho.git
+
+#.  Enter the inpho project directory and setup the project::
+
+        cd inpho
+        virtualenv --no-site-packages ../sandbox
+
+#.  Activate the sandbox::
+
+        source ../sandbox/bin/activate
+
 #.  Clone the inphosite project::
         
         git clone git@github.com:inpho/inphosite.git

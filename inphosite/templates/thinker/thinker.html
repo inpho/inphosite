@@ -13,7 +13,7 @@
 <%def name="head_title()">${c.entity.label}</%def>
 
 ## Body
-<h1>${h.titlecase(c.entity.label)}</h1>
+<h1 id="label">${h.titlecase(c.entity.label)}</h1>
 %if c.entity.sep_dir:
 <p><a href="http://plato.stanford.edu/entries/${c.entity.sep_dir}/" target="_blank"><img src="/img/sepmanicon.png" /> ${h.titlecase(c.entity.label)}</a> is also an article in the Stanford Encyclopedia of Philosophy.</p>
 %endif
@@ -21,7 +21,9 @@
 <p><a href="http://wikipedia.org/wiki/${c.entity.wiki.decode('utf-8')}" target="_blank"><img src="/img/wikiicon.png" /> ${h.titlecase(c.entity.label)}</a> also has a Wikipedia article.</p>
 %endif
 
-<p>Search for <a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}">${c.entity.label}</a> on PhilPapers.</p>
+
+<p><a href="http://philpapers.org/s/${c.entity.label.replace(' ', '%20')}"> <img src="/img/pp.gif"/> ${h.titlecase(c.entity.label)}</a> can be searched on PhilPapers.</p>
+
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
     <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
@@ -75,12 +77,12 @@
           %endif
       </dl>
 
-      ${entity.printList('influenced', type="thinker")}
-      ${entity.printList('influenced_by', type="thinker")}
-      ${entity.printList('students', type="thinker")}
-      ${entity.printList('teachers', type="thinker")}
-      ${entity.printList('related', 'Related Thinkers', statistical=True, type="thinker")}
-      ${entity.printList('related_ideas', 'Related Terms', statistical=True, type="thinker")}
+      ${entity.printList('influenced', type="thinker", method='manual')}
+      ${entity.printList('influenced_by', type="thinker", method='manual')}
+      ${entity.printList('students', type="thinker", method='manual')}
+      ${entity.printList('teachers', type="thinker", method='manual')}
+      ${entity.printList('related', 'Related Thinkers', method='statistical', type="thinker")}
+      ${entity.printList('related_ideas', 'Related Terms', method='statistical', type="thinker")}
 
 %if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
 ${entity.printMissing()}

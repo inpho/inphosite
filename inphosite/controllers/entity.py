@@ -387,7 +387,7 @@ class EntityController(BaseController):
                   'label' : h.titlecase(c.entity.label), 
                   'sep_dir' : c.entity.sep_dir,
                   'url' : c.entity.url(),
-                  #'wiki' : c.wiki
+                  'wiki' : c.entity.wiki
                   }
 
             content = {'content': renderer.render_path(config['mustache_path'] + self._controller + '.mustache', struct), 'sidebar': True}

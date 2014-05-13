@@ -1,4 +1,5 @@
 from inphosite.lib.partialDelegate import PartialDelegate
+from inphosite.lib.rest import restrict, dispatch_on
 import pystache
 
 import logging
@@ -29,6 +30,18 @@ class TaxonomyController(EntityController):
         response.headers['Access-Control-Allow-Headers'] =\
             'origin, c-csrftoken, content-type, authorization, accept'
         response.headers['Access-Control-Max-Age'] = '1000'
+
+    def path(self, id):
+        #id = request.params.get('id', None)
+        node = h.fetch_obj(Node, id, new_id=True)
+        path = list()
+
+        current = node
+        while current:
+            path.append({'label': h.titlecase(current.label), 'url': current.url()})
+            current = current.parent
+
+        return {'path': path, 'head': {'label': h.titlecase(node.label), 'url': node.url()}}
 
     def view(self, id=None, filetype='html'):
         c.node = h.fetch_obj(Node, id, new_id=True)
@@ -61,16 +74,21 @@ class TaxonomyController(EntityController):
                   'url' : c.entity.url(),
                   #'wiki' : c.wiki
                   }
+        
+        breadcrumbs = list()
+        current = c.node.parent
+        while current:
+                breadcrumbs.append({'label': h.titlecase(current.label), 'url': current.url()})
+                current = current.parent
+        path = {'path': breadcrumbs, 'head': {'label': h.titlecase(c.node.label), 'url': c.node.url()}} 
 
-        content = {'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", struct), 'sidebar': True} 
+        pathhtml = renderer.render_path(config['mustache_path']+'breadcrumbs.mustache', path)
+
+        details = {'main': struct, 'breadcrumbs':pathhtml}
+
+        content = {'content': renderer.render_path(config['mustache_path']+"taxonomy.mustache", details), 'sidebar': True} 
         return renderer.render_path(config['mustache_path']+'base.mustache', content)
-        #return render('taxonomy/node.%s' % filetype)
-        #if filetype=='html':
-        #    c.entity = c.node.idea
-        #    return render('idea/idea.html')
-        #else:
-        #    return render('taxonomy/node.%s' % filetype)
-   
+  
     def list(self, filetype='html'):
         c.nodes = Session.query(Node).all()
         

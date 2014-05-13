@@ -1,0 +1,17 @@
+{{!
+    JSON FORMAT:
+    {path: [{label, url}, ...], head: {label, url} } 
+}}
+
+<ul class="breadcrumb taxonomy-breadcrumb">
+  <li><a href="/taxonomy">Philosophy</a> <span class="divider">&rarr;</span></li> 
+  {{#path}}
+    <li><a href="{{url}}">{{label}}</a>
+    <span class="divider">&rarr;</span>
+    </li>
+  {{/path}}
+  {{#head}}
+    <li><a href="{{url}}">{{label}}</a></li>
+  {{/head}}
+</ul>
+

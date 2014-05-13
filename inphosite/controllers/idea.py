@@ -1,4 +1,5 @@
 import pystache
+from inphosite.lib.partialDelegate import PartialDelegate
 import logging
 
 from pylons import request, response, config, session, tmpl_context as c
@@ -36,6 +37,9 @@ import re
 import time
 from collections import defaultdict
 import urllib2
+
+partials = PartialDelegate(config['mustache_path'])
+renderer = pystache.Renderer(file_encoding='utf-8',string_encoding='utf-8',partials=partials)
 
 #Schema for validating form data from "edit idea" admin interface
 #class IdeaSchema(Schema):
@@ -335,8 +339,6 @@ class IdeaController(EntityController):
             h.redirect(h.url(controller='taxonomy', action='view',
                              id=c.entity.nodes[0].ID,filetype=filetype), code=303)
 
-        renderer = pystache.Renderer()
-
         struct = { 'ID' : c.entity.ID,
             'type' : 'idea',
             'label' : h.titlecase(c.entity.label),
@@ -344,8 +346,8 @@ class IdeaController(EntityController):
             'url' : c.entity.url(),
             'wiki' : c.entity.wiki}
         
-        return renderer.render_path(config['mustache_path'] + 'idea.mustache', struct) #h.json(struct)
-#        return render('idea/idea.' + filetype)
+        content = {'content': renderer.render_path(config['mustache_path'] + 'idea.mustache', struct), 'sidebar': True}
+        return renderer.render_path(config['mustache_path'] + 'base.mustache', content)
 
     def panel(self, id, id2):
         evaluation = self.evaluation(id, id2)

@@ -7,7 +7,7 @@
 <%def name="title()">${parent.title()} - Entity - ${c.entity.label}</%def>
 <%def name="head_title()">${c.entity.label}</%def>
 
-<h1 id="label">${c.entity.label}</h1>
+<h1 id="label" data-id="${c.entity.ID}">${c.entity.label}</h1>
 
 <%def name="breadcrumbs(node)">
 <ul class="breadcrumb taxonomy-breadcrumb">

@@ -203,7 +203,28 @@ inpho.admin.submit_form = function(form, url) {
         }
     });
 }
-
+inpho.admin.submitTriples = function(url,modal) {
+ // alert("Checking the call");
+   $('#'+modal).find(':checked').each(function(idx, elt) {
+       //alert("here before the second alerrt");
+       var val = $(elt).attr("value");
+      // alert("Before new call "+ val);
+       //var thinker = inpho.admin.getThinkerFromIdNew("3501");
+      // alert("After new call"+ thinker);
+           $.ajax({
+                    type: "POST",
+                    url: url, 
+                    data : {'triple' : val}, 
+                    success : function(data) {
+                        
+                       },
+                    failure : function(data) {
+                      // alert("In failure "+data);
+                     }
+                 });
+      });
+      inpho.admin.removeTriples(modal);
+}
 inpho.admin.submitPluralizations = function(url,modal) {
   $('#'+modal).find(':checked').each(function(idx, elt) {
     var val = $(elt).attr("value");
@@ -355,4 +376,66 @@ inpho.admin.reset_field = function(attr, url) {
 
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;
+}
+
+
+
+//for query_lode
+ $(document).ready(function() {
+  $('#rdfselection').click(function () {
+    var url = $(this).attr('data-url');
+   var request =  $.get(url, function(rdfdata) {
+     //  for (i in rdfdata)
+       alert(rdfdata+"check man!!!");
+          var  xmlDoc = $.parseXML(rdfdata )
+          var $xml = $( xmlDoc );
+          var $check = $xml.find('Description');
+          $check.each(function(){
+            var $entry = $(this);
+            var thinker = $entry.attr('rdf:about');
+              $entry.children().each(function(){
+                var db_prop = $(this).attr('rdf:resource');
+               var thinkerSplit = thinker.split('/');
+               var thinker_d = thinkerSplit[thinkerSplit.length -1];
+               thinker_d = thinker_d.split('_').join(' ');
+               var predicateSplit = db_prop.split('/');
+               var db_prop_d = predicateSplit[predicateSplit.length -1];
+               db_prop_d =  db_prop_d.split('_').join(' ');
+               var isNumeric = isNaN(db_prop_d);
+               var url_json = "https://inpho.cogs.indiana.edu/thinker/"+db_prop_d+".json";
+               var subjectSplit = $(this).prop("tagName").split(':');
+               var subject_d = subjectSplit[1];
+               var subject = $(this).prop("tagName");
+               subject_d = subject_d.split('_').join(' ');
+               if(isNumeric){
+                 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
+               }
+               else{
+               $.getJSON(url_json,function(data_json){
+                  db_prop_d = data_json.label;
+                  inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
+               });
+               }
+           });
+          });
+    });
+   //alert ("request obj "+request);
+      request.success(function(result){
+       $(".modal-body #lode_import_spinner").removeClass('icon-loading'); 
+      });
+  });
+ });
+  inpho.admin.add_triple = function(value,valueDisplay) {
+     // alert(value);
+     $(".modal-body #addThinker").append('<p><input id= "thinkers" type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+valueDisplay+'</strong></p>');
+     // alert("ended");
+  }
+  inpho.admin.removeTriples = function(modal) {
+ // alert("Checking the call");
+   $('#'+modal).find('#addThinker').each(function(idx, elt) {
+       //alert("here in remove alerrt");
+       $(elt).empty();
+       //alert("after remove");
+      });
+  // location.reload();
 }

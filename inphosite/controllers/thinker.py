@@ -377,4 +377,50 @@ class ThinkerController(EntityController):
             return self._delete_evaluation(type['object'], id2, id)
         else:
             return self._delete_evaluation(type['object'], id, id2)
+        
+    def triple(self, id):
+    
+        c.entity = h.fetch_obj(Thinker, id)
+        #parese the triple
+        triple = request.params.get('triple').split()
+        subject_t = triple[0]
+        predicate_t = triple[1]
+        objectURLComponents = triple[2].split('/')#parse triple for last
+        check = "no teacher or student"
+        #lastComponentIndex = objectURLComponents.__len__()-1
+        object_t = objectURLComponents[-1]
+        #- subject is the same as the id
+        #- predicate is from the list and will be used in a if/elif/elif/elif/elif ... to see what database to add it to
+        if "dbpedia.org" in objectURLComponents:
+            object_t_label = object_t.replace("_"," ")
+            obj = Thinker(object_t_label)
+            obj.wiki = object_t
+        elif "inpho.cogs.indiana.edu" in objectURLComponents:
+            obj = h.fetch_obj(Thinker, object_t) 
+        '''if(inpho):
+
+            obj = h.fetch_obj(Thinker, object_t) # returns the SQLAlchemy object
+           elif(dbpedia)
+            obj = Thinker(object_t) # returns the SQLAlchemy object
+        '''
+        if predicate_t == 'ns1:influenced':
+             c.entity.influenced.append(obj)
+        elif predicate_t == 'ns1:influenced_by':
+            c.entity.influenced_by.append(obj)
+        elif predicate_t =='ns1:student':
+            c.entity.students.append(obj)
+        elif predicate_t == 'ns1:teacher':
+            c.entity.teachers.append(obj)
+        '''
+        elif predicate == 'profession':
+
+        elif predicate == 'birth_date':
+
+        elif predicate == 'death_date':
+
+        else predicate == 'nationality':
+        '''
+        Session.commit()
+        return "OK DDE "++subject_t+" "+predicate_t+" "+object_t+" "+check+"  ok grat"
+    
 

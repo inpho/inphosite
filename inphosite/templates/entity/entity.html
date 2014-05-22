@@ -90,18 +90,18 @@ while current:
   <a class=" btn btn-warning" style="margin-bottom: 20px;" data-toggle="modal" href="#rdfdata" id="rdfselection" data-url="${c.entity.url(action='query_lode')}" >LODE Import</a>
   <div class="modal hide" id="rdfdata">
      <div class="modal-header">
-       <button type="button" class="close" data-dismiss="modal">x</button>
+       <button type="button" class="close" data-dismiss="modal" onclick="inpho.admin.removeTriples('rdfdata')">x</button>
        <h3>RDFDATA</h3>
      </div>
      <div class="modal-body">
-       <div id = "addThinker">
-         <p>DEMO</p>
-         <label  name="demo" id="demo"></label><hr>
-      </div>
+        <div id= 'lode_import_spinner' class = 'icon-loading'> </div>
+        <div id = "addThinker">
+         <!--<label  name="demo" id="demo"></label><hr>-->
+        </div>
      </div>
      <div class="modal-footer">
-       <a href="#" class="btn" data-dismiss="modal">Close</a>
-       <a href="#" class="btn btn-primary" data-dismiss="modal">Add to Database</a>
+       <a href="#" class="btn" data-dismiss="modal" onclick="inpho.admin.removeTriples('rdfdata')">Close</a>
+       <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="inpho.admin.submitTriples('${c.entity.url(action="triple")}','rdfdata')">Add to Database</a>
      </div>
    </div>
 

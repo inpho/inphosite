@@ -228,24 +228,22 @@ inpho.admin.submitTriples = function(url,modal) {
 inpho.admin.submitPluralizations = function(url,modal) {
   $('#'+modal).find(':checked').each(function(idx, elt) {
     var val = $(elt).attr("value");
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4) {
-        if (xhr.status < 400) {
+
+    $.ajax({
+      type: "POST",
+      url: url, 
+      data : {'pattern' : val}, 
+      success : function(data) {
           $('#searchpatterns').parents('.control-group').addClass('success');
           val = val.replace("<", "&lt;")
           val = val.replace(">", "&gt;")
           var new_entry = '<label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, searchpatterns, \'' + url + '\')" data-url="' + url + '"></i> ' + val + ' </label>';
           $('#searchpatterns').before(new_entry);
           $('#searchpatterns').val('');
-        }else{
+      },
+      failure : function(data) {
           $('#searchpatterns').parents('.control-group').addClass('error');
-        }
-      }
-    }
-    xhr.open('PUT', url, true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("pattern=" + $(elt).attr("value"));
+        }});
   });
 }
 

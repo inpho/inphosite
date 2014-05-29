@@ -203,26 +203,24 @@ inpho.admin.submit_form = function(form, url) {
         }
     });
 }
+//invoked when triples are addded from database
 inpho.admin.submitTriples = function(url,modal) {
- // alert("Checking the call");
+  //retrieve checked elements and for each checked , insert into database.
    $('#'+modal).find(':checked').each(function(idx, elt) {
-       //alert("here before the second alerrt");
        var val = $(elt).attr("value");
-      // alert("Before new call "+ val);
-       //var thinker = inpho.admin.getThinkerFromIdNew("3501");
-      // alert("After new call"+ thinker);
            $.ajax({
                     type: "POST",
                     url: url, 
                     data : {'triple' : val}, 
                     success : function(data) {
-                        
                        },
                     failure : function(data) {
-                      // alert("In failure "+data);
                      }
                  });
       });
+      //once added to db, remove the triples from the modal body to avoid
+      //repeating the elements when modal is opened again as again new request
+      //will add the ssame elements again.
       inpho.admin.removeTriples(modal);
 }
 inpho.admin.submitPluralizations = function(url,modal) {
@@ -375,26 +373,31 @@ inpho.admin.reset_field = function(attr, url) {
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;
 }
+
+//invoked when the wiki link button is clicked in admin interface
 $(document).ready(function(){
   $('#wiki_link').click(function(){
+    //retrieve the thinker id 
      var thinkerid = $("#label").data("id");
+     //create the url based on thinker id
      var url = "http://linkedhumanities.org/link/dbpedia/entity:e"+thinkerid;
     window.open(url,'_blank');
  });
 });
 
 
-//for query_lode
+//invoked when the loade inport button is clicked 
  $(document).ready(function() {
   $('.rdfselection').click(function () {
+    //query_lode function url 
     var url = $(this).attr('data-url');
-   // alert("Urlenge is "+url);
+    //invokes the query_lode function
     var request =  $.get(url, function(rdfdata) {
-     //  for (i in rdfdata)
-       alert(rdfdata+"check man changed final :p!!!");
+      //parsing the returned xml data to retrieve triples.
           var  xmlDoc = $.parseXML(rdfdata )
           var $xml = $( xmlDoc );
           var $check = $xml.find('Description');
+          //if xml data is not empty
           if($check.length != 0){
           $check.each(function(){
             var $entry = $(this);
@@ -413,9 +416,12 @@ $(document).ready(function(){
                var subject_d = subjectSplit[1];
                var subject = $(this).prop("tagName");
                subject_d = subject_d.split('_').join(' ');
+               //if dbpedia data add triple to modal 
                if(isNumeric){
                  inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
                }
+               //if inpho data then retrieve label from thinker id and display
+               //the label in modal
                else{
                $.getJSON(url_json,function(data_json){
                   db_prop_d = data_json.label;
@@ -425,26 +431,24 @@ $(document).ready(function(){
            });
           });
           }
+          //if xml data is empty
           else{
                $(".modal-body #addThinker").append('<h3>No Data found for the thinker</h3>');
           }
           });
+    //remove loading icon
       request.success(function(result){
        $(".modal-body #lode_import_spinner").removeClass('icon-loading'); 
       });
   });
  });
+ //function to addd the triple into modal pop up
   inpho.admin.add_triple = function(value,valueDisplay) {
-     // alert(value);
      $(".modal-body #addThinker").append('<p><input id= "thinkers" type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+valueDisplay+'</strong></p>');
-     // alert("ended");
   }
+  //function to remove the triples  from the modal
   inpho.admin.removeTriples = function(modal) {
- // alert("Checking the call");
    $('#'+modal).find('#addThinker').each(function(idx, elt) {
-       //alert("here in remove alerrt");
        $(elt).empty();
-       //alert("after remove");
       });
-  // location.reload();
 }

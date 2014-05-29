@@ -22,6 +22,32 @@ except AttributeError: ## catches value = None
 </div>
 </%def>
 
+
+<%def name="wiki_textbox(attr, url, value='', search='')">
+<%
+try:
+    value = value.decode('utf-8')
+except UnicodeEncodeError:
+    value = value
+except AttributeError: ## catches value = None
+    value = ''
+%>
+<div class="control-group">
+  <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
+  <div class="controls">
+    <div class="input-append">
+      <input class="admin-text" type="text" id="${attr}" name="${attr}" value="${value}" data-url="${url}" />
+      <span class="add-on"><i class="icon-ok input-status" onclick="return inpho.admin.submit_field('${attr}', '${url}')"></i></span>
+      %if search:
+        <a class="add-on  btn" data-toggle="modal" href="#wiki_link_modal" id="wiki_link" >Wiki Link</a>
+      <a class="add-on btn" id="google_${attr}" href="${search.decode('utf-8')}" target="_blank"><i class="icon-search"></i></a>
+     %endif
+    </div>
+  </div>
+</div>
+</%def>
+
+
 <%def name="url_textbox(attr, url, value='', search='', access_attr='last_accessed')">
 ## workaround for value=None not having a .decode('utf-8') method
 <% value = value if value is not None else 'None' %>

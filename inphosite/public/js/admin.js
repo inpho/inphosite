@@ -375,19 +375,27 @@ inpho.admin.reset_field = function(attr, url) {
   //document.getElementById(attr_edit).style.visibility = 'visible';
   return true;
 }
-
+$(document).ready(function(){
+  $('#wiki_link').click(function(){
+     var thinkerid = $("#label").data("id");
+     var url = "http://linkedhumanities.org/link/dbpedia/entity:e"+thinkerid;
+    window.open(url,'_blank');
+ });
+});
 
 
 //for query_lode
  $(document).ready(function() {
-  $('#rdfselection').click(function () {
+  $('.rdfselection').click(function () {
     var url = $(this).attr('data-url');
-   var request =  $.get(url, function(rdfdata) {
+   // alert("Urlenge is "+url);
+    var request =  $.get(url, function(rdfdata) {
      //  for (i in rdfdata)
-       alert(rdfdata+"check man!!!");
+       alert(rdfdata+"check man changed final :p!!!");
           var  xmlDoc = $.parseXML(rdfdata )
           var $xml = $( xmlDoc );
           var $check = $xml.find('Description');
+          if($check.length != 0){
           $check.each(function(){
             var $entry = $(this);
             var thinker = $entry.attr('rdf:about');
@@ -416,8 +424,11 @@ inpho.admin.reset_field = function(attr, url) {
                }
            });
           });
-    });
-   //alert ("request obj "+request);
+          }
+          else{
+               $(".modal-body #addThinker").append('<h3>No Data found for the thinker</h3>');
+          }
+          });
       request.success(function(result){
        $(".modal-body #lode_import_spinner").removeClass('icon-loading'); 
       });

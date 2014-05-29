@@ -87,7 +87,7 @@ while current:
     %for attr in attrs:
     ${printAttr(attr)}
     %endfor
-  <a class=" btn btn-warning" style="margin-bottom: 20px;" data-toggle="modal" href="#rdfdata" id="rdfselection" data-url="${c.entity.url(action='query_lode')}" >LODE Import</a>
+  <a class=" btn btn-warning rdfselection" style="margin-bottom: 20px;" data-toggle="modal" href="#rdfdata" id="rdfselectionss" data-url="${c.entity.url(action='query_lode')}" >LODE Import</a>
   <div class="modal hide" id="rdfdata">
      <div class="modal-header">
        <button type="button" class="close" data-dismiss="modal" onclick="inpho.admin.removeTriples('rdfdata')">x</button>
@@ -105,6 +105,22 @@ while current:
      </div>
    </div>
 
+     
+     <div class="modal hide" id="wiki_link_modal">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">x</button>
+           <h3>After linking please do the LODE Import</h3>
+         </div>
+         <div class="modal-body">
+           <a class=" btn btn-warning rdfselection" style="margin-bottom: 20px;" data-dismiss = "modal" data-toggle="modal" href="#rdfdata" id="rdfselectionsssss" data-url="${c.entity.url(action='query_lode')}" >LODE Import</a>
+         </div>
+         <div class="modal-footer">
+           <a href="#" class="btn" data-dismiss="modal">Close</a>
+        </div>
+     </div>
+
+
+
   </fieldset>
 <!-- <fieldset>
     <input type="hidden" name="_method" value="PUT" />
@@ -116,8 +132,10 @@ while current:
 </%def>
 
 <%def name="printAttr(attr)"> 
-  %if attr in ["last_accessed", "sep_dir", "language", "searchstring", "wiki"]:
+  %if attr in ["last_accessed", "sep_dir", "language", "searchstring"]:
   ${bootstrap.textbox(attr, c.entity.url(), getattr(c.entity, attr, ''))}
+  %elif attr == 'wiki':
+  ${bootstrap.wiki_textbox(attr, c.entity.url(), getattr(c.entity, attr, ''), search=c.entity.google_url)}
   %elif attr == 'label':
   ${bootstrap.textbox(attr, c.entity.url(), getattr(c.entity, attr, ''), search=c.entity.google_url)}
   %elif attr == 'ISSN':

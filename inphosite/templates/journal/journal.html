@@ -73,7 +73,7 @@ $(document).ready(function () {
     %if c.entity.abbrs:
     <dt>Abbreviations:</dt>
     %for abbr in c.entity.abbrs:
-    <dd>${abbr}</dd>
+    <dd>${abbr.decode('utf-8')}</dd>
     %endfor
     %endif
     

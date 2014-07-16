@@ -522,6 +522,7 @@ class EntityController(BaseController):
                         year_end, month_end, day_end)
             date.entity = c.entity
         return date      
+
     def query_lode(self,id):
         var = "http://inpho.cogs.indiana.edu/thinker/"+id
         dbPropResults = {}
@@ -538,7 +539,9 @@ class EntityController(BaseController):
                     && regex(str(?thinkerDB),"http://dbpedia.org/resource/","i")).
                    }
             """)
-        with open('inpho_db prop mapping.txt','r') as f:
+        
+        prop_map_filename = config.get_data_path('rdf_map.txt')
+        with open(prop_map_filename,'r') as f:
             dbprops=csv.reader(f,delimiter='\t')
             for dbprop in dbprops:
                 dbPropResults[dbprop[1]] = dbprop[0]

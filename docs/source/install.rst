@@ -150,7 +150,7 @@ Copy the Database
         connections from other machines. Very important if you set your
         development.ini's ``host`` directive to ``0.0.0.0``!
 
-Devlopment practices
+Development practices
 ----------------------
 Bugs reports are stored on the `InPhOdev Trac
 <http://inphodev.cogs.indiana.edu:8000>`_. Please coordinate through this

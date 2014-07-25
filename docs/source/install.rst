@@ -61,7 +61,11 @@ To begin working with the inphosite code:
 
         ./setup.sh
     
-    If this does not work see `Manual Installation`_ and return to these
+    If this does not work try::
+    
+        python setup.py develop
+    
+    If that does not work see `Manual Installation`_ and return to these
     instructions.
 
 #.  In development.ini:

@@ -27,6 +27,8 @@ To begin working with the inphosite code:
 
 #.  Clone the inpho project::
         
+        mkdir workspace
+        cd workspace
         git clone git@github.com:inpho/inpho.git
 
 #.  Enter the inpho project directory and setup the project::
@@ -37,6 +39,14 @@ To begin working with the inphosite code:
 #.  Activate the sandbox::
 
         source ../sandbox/bin/activate
+
+#.  Install the inpho project::
+
+        python setup.py develop
+        
+#.  Move up a directory::
+
+        cd ..
 
 #.  Clone the inphosite project::
         

@@ -101,7 +101,7 @@ while current:
      </div>
      <div class="modal-footer">
        <a href="#" class="btn" data-dismiss="modal" onclick="inpho.admin.removeTriples('rdfdata')">Close</a>
-       <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="inpho.admin.submitTriples('${c.entity.url(action="triple")}','rdfdata')">Add to Database</a>
+       <button type="button" id="addToDataBase" href="#" class="btn btn-primary"  onclick="inpho.admin.submitTriples('${c.entity.url(action="triple")}','rdfdata')" >Add to Database</button>
      </div>
    </div>
 

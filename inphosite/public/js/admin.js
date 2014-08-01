@@ -222,7 +222,15 @@ inpho.admin.submitTriples = function(url,modal) {
       //repeating the elements when modal is opened again as again new request
       //will add the ssame elements again.
       inpho.admin.removeTriples(modal);
+
+	$(".modal-body #addThinker").append('<h3>Added to Database Successfully!</h3>');
+	$("#addToDataBase").prop('disabled', true);
+	
+
+
+
 }
+
 inpho.admin.submitPluralizations = function(url,modal) {
   $('#'+modal).find(':checked').each(function(idx, elt) {
     var val = $(elt).attr("value");
@@ -380,7 +388,7 @@ $(document).ready(function(){
     //retrieve the thinker id 
      var thinkerid = $("#label").data("id");
      //create the url based on thinker id
-     var url = "http://linkedhumanities.org/link/dbpedia/entity:e"+thinkerid;
+     var url = "http://linkedhumanities.cogs.indiana.edu/link/dbpedia/entity:e"+thinkerid;
     window.open(url,'_blank');
  });
 });
@@ -388,9 +396,14 @@ $(document).ready(function(){
 
 //invoked when the loade inport button is clicked 
  $(document).ready(function() {
+
+
   $('.rdfselection').click(function () {
     //query_lode function url 
-    var url = $(this).attr('data-url');
+       $("#addToDataBase").prop('disabled', true);
+   
+  
+        var url = $(this).attr('data-url');
     //invokes the query_lode function
     var request =  $.get(url, function(rdfdata) {
       //parsing the returned xml data to retrieve triples.
@@ -399,7 +412,8 @@ $(document).ready(function(){
           var $check = $xml.find('Description');
           //if xml data is not empty
           if($check.length != 0){
-          $check.each(function(){
+    
+	    $check.each(function(){
             var $entry = $(this);
             var thinker = $entry.attr('rdf:about');
               $entry.children().each(function(){
@@ -430,25 +444,40 @@ $(document).ready(function(){
                }
            });
           });
-          }
+	  $("#addToDataBase").prop('disabled',false);
+
+         }
           //if xml data is empty
           else{
-               $(".modal-body #addThinker").append('<h3>No Data found for the thinker</h3>');
+    
+		if(url.split("/")[1].toUpperCase()==="Taxonomy".toUpperCase())
+	              $(".modal-body #addThinker").append('<h3>No Data found for the idea</h3>');
+		else
+		      $(".modal-body #addThinker").append('<h3>No Data found for the '+url.split("/")[1]+'</h3>');
           }
           });
     //remove loading icon
       request.success(function(result){
        $(".modal-body #lode_import_spinner").removeClass('icon-loading'); 
-      });
+      });	
   });
  });
- //function to addd the triple into modal pop up
+
+
+ //function to add the triple into modal pop up
   inpho.admin.add_triple = function(value,valueDisplay) {
-     $(".modal-body #addThinker").append('<p><input id= "thinkers" type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+valueDisplay+'</strong></p>');
+    $(".modal-body #addThinker").append('<p><input id= "thinkers" class="mycheckbox"  type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+valueDisplay+'</strong></p>');
   }
+
   //function to remove the triples  from the modal
   inpho.admin.removeTriples = function(modal) {
    $('#'+modal).find('#addThinker').each(function(idx, elt) {
        $(elt).empty();
       });
+
+
 }
+
+
+ 
+

@@ -416,15 +416,15 @@ $(document).ready(function(){
           var $xml = $( xmlDoc );
           var $check = $xml.find('Description');
           var entityList=[];
-                 $(".entityclass").attr("id",function(value){	
-			var temp_subject=$(this).attr("id");
-			if(temp_subject.indexOf("related")<0){
-				if(temp_subject.indexOf("students")>-1)
-					temp_subject="student";
-				else if(temp_subject.indexOf("teachers")>-1)
-					temp_subject="teacher";
-                        	$("#"+$(this).attr("id")+" li").each(function(){
-                                entityList.push(temp_subject+" "+$(this).data("id"));
+          $(".entityclass").attr("id",function(value){	
+      			var temp_subject=$(this).attr("id");
+			      if(temp_subject.indexOf("related")<0){
+      				if(temp_subject.indexOf("students")>-1)
+			      		temp_subject="student";
+      				else if(temp_subject.indexOf("teachers")>-1)
+			      		temp_subject="teacher";
+              $("#"+$(this).attr("id")+" li").each(function(){
+                  entityList.push(temp_subject+" "+$(this).data("id"));
 				});
 			}
 		});

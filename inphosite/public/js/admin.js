@@ -203,12 +203,17 @@ inpho.admin.submit_form = function(form, url) {
         }
     });
 }
+
 //invoked when triples are addded from database
 inpho.admin.submitTriples = function(url,modal) {
   //retrieve checked elements and for each checked , insert into database.
    $('#'+modal).find(':checked').each(function(idx, elt) {
-       var val = $(elt).attr("value");
-           $.ajax({
+     
+
+ var val = $(elt).attr("value");
+
+
+          $.ajax({
                     type: "POST",
                     url: url, 
                     data : {'triple' : val}, 
@@ -410,6 +415,20 @@ $(document).ready(function(){
           var  xmlDoc = $.parseXML(rdfdata )
           var $xml = $( xmlDoc );
           var $check = $xml.find('Description');
+          var entityList=[];
+                 $(".entityclass").attr("id",function(value){	
+			var temp_subject=$(this).attr("id");
+			if(temp_subject.indexOf("related")<0){
+				if(temp_subject.indexOf("students")>-1)
+					temp_subject="student";
+				else if(temp_subject.indexOf("teachers")>-1)
+					temp_subject="teacher";
+                        	$("#"+$(this).attr("id")+" li").each(function(){
+                                entityList.push(temp_subject+" "+$(this).data("id"));
+				});
+			}
+		});
+	
           //if xml data is not empty
           if($check.length != 0){
     
@@ -417,7 +436,7 @@ $(document).ready(function(){
             var $entry = $(this);
             var thinker = $entry.attr('rdf:about');
               $entry.children().each(function(){
-                var db_prop = $(this).attr('rdf:resource');
+               var db_prop = $(this).attr('rdf:resource');
                var thinkerSplit = thinker.split('/');
                var thinker_d = thinkerSplit[thinkerSplit.length -1];
                thinker_d = thinker_d.split('_').join(' ');
@@ -430,18 +449,24 @@ $(document).ready(function(){
                var subject_d = subjectSplit[1];
                var subject = $(this).prop("tagName");
                subject_d = subject_d.split('_').join(' ');
+		console.log('in here'+subject.split(":")[1]+" "+db_prop_d+" , "+entityList.toString());
+		
+
                //if dbpedia data add triple to modal 
                if(isNumeric){
-                 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
-               }
+		if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0)
+		     	 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d); 
+		}
                //if inpho data then retrieve label from thinker id and display
                //the label in modal
                else{
-               $.getJSON(url_json,function(data_json){
-                  db_prop_d = data_json.label;
-                  inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
+				$.getJSON(url_json,function(data_json){
+	                  	db_prop_d = data_json.label;
+				if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0)
+                    	   	          inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
                });
-               }
+               
+		}
            });
           });
 	  $("#addToDataBase").prop('disabled',false);
@@ -450,7 +475,7 @@ $(document).ready(function(){
           //if xml data is empty
           else{
     
-		if(url.split("/")[1].toUpperCase()==="Taxonomy".toUpperCase())
+			if(url.split("/")[1].toUpperCase()==="Taxonomy".toUpperCase())
 	              $(".modal-body #addThinker").append('<h3>No Data found for the idea</h3>');
 		else
 		      $(".modal-body #addThinker").append('<h3>No Data found for the '+url.split("/")[1]+'</h3>');
@@ -459,14 +484,17 @@ $(document).ready(function(){
     //remove loading icon
       request.success(function(result){
        $(".modal-body #lode_import_spinner").removeClass('icon-loading'); 
-      });	
+     
+});	
   });
  });
 
 
  //function to add the triple into modal pop up
   inpho.admin.add_triple = function(value,valueDisplay) {
-    $(".modal-body #addThinker").append('<p><input id= "thinkers" class="mycheckbox"  type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+valueDisplay+'</strong></p>');
+
+$(".modal-body #addThinker").append('<p><input id= "thinkers" class="mycheckbox"  type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+decodeURI(valueDisplay)+'</strong></p>');
+
   }
 
   //function to remove the triples  from the modal

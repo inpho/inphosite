@@ -525,13 +525,20 @@ class EntityController(BaseController):
 
     def query_lode(self,id):
         var = "http://inpho.cogs.indiana.edu/thinker/"+id
+        # initialize dictionaries to store temporray results
         dbPropResults = {}
         inpho_DB = {}
         DB_inpho = {}
         triples={}
+
+        # init graphs for LODE and mapped data
         gLODE = ConjunctiveGraph()
         gReturn = ConjunctiveGraph()
+        # import InPhO data
         gLODE.parse("http://inphodev.cogs.indiana.edu/~jammurdo/out_n3.20140207.rdf", format="n3")
+
+        # builds a set of triples with the inpho id as the first entry and the
+        # dbpedia id as the second 
         resultsLODE = gLODE.query("""
             SELECT ?thinker_LODE ?thinkerDB
             WHERE { ?thinker_LODE owl:sameAs ?thinkerDB 
@@ -540,14 +547,19 @@ class EntityController(BaseController):
                    }
             """)
         
+        # load in property mapping between inpho-dbpedia
         prop_map_filename = config.get_data_path('rdf_map.txt')
         with open(prop_map_filename,'r') as f:
             dbprops=csv.reader(f,delimiter='\t')
             for dbprop in dbprops:
                 dbPropResults[dbprop[1]] = dbprop[0]
+
+        # iterate through triples and store mappings
         for triple in resultsLODE: 
             inpho_DB[str(triple[0])] = str(triple[1])#store the results in key as inpho url and value as dbpedia url
             DB_inpho[str(triple[1])] = str(triple[0])#store the results in key as dbpedia url and value as inpho url 
+
+        # queries for all relationships in dbpedia
         sparqlDB = SPARQLWrapper("http://inpho-dataserve.cogs.indiana.edu:8890/sparql/")
         sparqlDB.setReturnFormat(JSON)
         for inpho,DB in inpho_DB.iteritems():
@@ -561,15 +573,29 @@ class EntityController(BaseController):
                     resultsDB = sparqlDB.query().convert()
                     predicate[dbprop] = resultsDB["results"]["bindings"]
             triples[DB] = predicate
+        
+        #retrieve native python object
+        c.entity = h.fetch_obj(Entity, id, new_id=True)
+
+        # maps from dbpedia relationships back to inpho relationships
         for subject,predicate in triples.iteritems():
+            attr = getattr(c.entity, predicate)
             for predicate1, objectn in predicate.iteritems():
                 for object1 in objectn:
+                    # returns the inphoid for the object
                     DB_Entry = DB_inpho.get(object1['b']['value'])#reverse lookup for the inpho data check
+                    
+
+                    # if there is not an inpho id, leave it as the dbpedia id
                     if(DB_Entry == None):
                         gReturn.add((URIRef(subject),URIRef(dbPropResults.get(predicate1)),URIRef(object1['b']['value'])))
                     else:
+                        # return the properly mapped id
+                        # TODO: use attr to filter DB_Entry
                         gReturn.add((URIRef(subject),URIRef(dbPropResults.get(predicate1)),URIRef(DB_Entry)))
+
         return gReturn.serialize();
+
     @dispatch_on(DELETE='_delete_date')
     def date(self, id, id2, filetype='json'):
         """

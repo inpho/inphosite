@@ -212,15 +212,29 @@ inpho.admin.submitTriples = function(url,modal) {
 
  var val = $(elt).attr("value");
 
+console.log('value to be added '+val+ ' url: '+url);
 
           $.ajax({
                     type: "POST",
                     url: url, 
                     data : {'triple' : val}, 
                     success : function(data) {
-                       },
-                    failure : function(data) {
-                     }
+			 $(".modal-body #addThinker").append('<h4>Added to Database Successfully!</h4>');
+		         $("#addToDataBase").prop('disabled', true);
+                   
+    },
+            
+		    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	         
+    		       
+			     
+          		     
+
+			 $(".modal-body #addThinker").append('<h4><p>'+textStatus+' : '+errorThrown+'</p></h4>');
+		         $("#addToDataBase").prop('disabled', true);
+                 
+
+    }
                  });
       });
       //once added to db, remove the triples from the modal body to avoid
@@ -228,8 +242,7 @@ inpho.admin.submitTriples = function(url,modal) {
       //will add the ssame elements again.
       inpho.admin.removeTriples(modal);
 
-	$(".modal-body #addThinker").append('<h3>Added to Database Successfully!</h3>');
-	$("#addToDataBase").prop('disabled', true);
+
 	
 
 
@@ -412,24 +425,35 @@ $(document).ready(function(){
     //invokes the query_lode function
     var request =  $.get(url, function(rdfdata) {
       //parsing the returned xml data to retrieve triples.
-          var  xmlDoc = $.parseXML(rdfdata )
+          
+var  xmlDoc = $.parseXML(rdfdata )
           var $xml = $( xmlDoc );
           var $check = $xml.find('Description');
-          var entityList=[];
+  /*        var entityList=[];
           $(".entityclass").attr("id",function(value){	
       			var temp_subject=$(this).attr("id");
+
 			      if(temp_subject.indexOf("related")<0){
       				if(temp_subject.indexOf("students")>-1)
 			      		temp_subject="student";
       				else if(temp_subject.indexOf("teachers")>-1)
 			      		temp_subject="teacher";
               $("#"+$(this).attr("id")+" li").each(function(){
+console.log('being pushed : '+temp_subject+" "+$(this).data("id"));
                   entityList.push(temp_subject+" "+$(this).data("id"));
 				});
 			}
 		});
-	
-          //if xml data is not empty
+
+ $(".entityclass").attr("data-source",function(value)
+{
+ var temp_subject=$(this).attr("id");
+//console.log("data-source : "+$(this).data("label"));
+
+
+});
+	console.log(entityList);
+    */      //if xml data is not empty
           if($check.length != 0){
     
 	    $check.each(function(){
@@ -449,20 +473,28 @@ $(document).ready(function(){
                var subject_d = subjectSplit[1];
                var subject = $(this).prop("tagName");
                subject_d = subject_d.split('_').join(' ');
-		console.log('in here'+subject.split(":")[1]+" "+db_prop_d+" , "+entityList.toString());
+
 		
 
                //if dbpedia data add triple to modal 
                if(isNumeric){
-		if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0)
-		     	 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d); 
+                //console.log('dbpedia compared : '+entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)+' '+subject.split(":")[1]+' '+db_prop_d);
+//		if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0){
+                        
+		     	 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d+ "from dbpedia "); 
+//                    }
 		}
                //if inpho data then retrieve label from thinker id and display
                //the label in modal
                else{
+              
+
 				$.getJSON(url_json,function(data_json){
 	                  	db_prop_d = data_json.label;
-				if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0)
+//  console.log('json compared : '+entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)+' '+subject.split(":")[1]+' '+db_prop_d);
+
+
+//				if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0)
                     	   	          inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
                });
                

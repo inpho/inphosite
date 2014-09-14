@@ -420,7 +420,9 @@ class ThinkerController(EntityController):
 
         else predicate == 'nationality':
         '''
+	
         Session.commit()
-        return "OK DDE "++subject_t+" "+predicate_t+" "+object_t+" "+check+"  ok grat"
-    
-
+	subject_to_display=subject_t.split("/")[len(subject_t.split("/"))-1]
+	predicate_to_display=predicate_t.split(":")[1]
+	object_to_display=object_t
+        return "OK : "+subject_to_display+" "+predicate_to_display+" "+object_to_display

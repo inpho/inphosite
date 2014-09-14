@@ -210,43 +210,41 @@ inpho.admin.submitTriples = function(url,modal) {
    $('#'+modal).find(':checked').each(function(idx, elt) {
      
 
- var val = $(elt).attr("value");
+var val = $(elt).attr("value");
 
-console.log('value to be added '+val+ ' url: '+url);
+
 
           $.ajax({
                     type: "POST",
                     url: url, 
                     data : {'triple' : val}, 
                     success : function(data) {
-			 $(".modal-body #addThinker").append('<h4>Added to Database Successfully!</h4>');
-		         $("#addToDataBase").prop('disabled', true);
+				if (!$('h4').hasClass('success')){
+					 $(".modal-body #addThinker").append('<h4 class="success">Added to Database Successfully!</h4>');
+				}
+		         
                    
     },
             
-		    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	         
-    		       
-			     
-          		     
+		    error: function(XMLHttpRequest, textStatus, errorThrown) {    
+          		 if(XMLHttpRequest.status==400){
+			     	$(".modal-body #addThinker").append('<h4>'+data.split(":")[1]+' <- Could not add to database</h4>');
+						                        
+			}
+			 else{
+			
+			 	$(".modal-body #addThinker").append('<h4><p>'+data.split(":")[1]+' <- '+textStatus+' : '+errorThrown+'</p></h4>');
+		         }	
 
-			 $(".modal-body #addThinker").append('<h4><p>'+textStatus+' : '+errorThrown+'</p></h4>');
-		         $("#addToDataBase").prop('disabled', true);
-                 
+                     }
 
-    }
+			
                  });
-      });
-      //once added to db, remove the triples from the modal body to avoid
+ });
+		$("#addToDataBase").prop('disabled', true);
       //repeating the elements when modal is opened again as again new request
-      //will add the ssame elements again.
+      //will add the same elements again.
       inpho.admin.removeTriples(modal);
-
-
-	
-
-
-
 }
 
 inpho.admin.submitPluralizations = function(url,modal) {
@@ -429,31 +427,7 @@ $(document).ready(function(){
 var  xmlDoc = $.parseXML(rdfdata )
           var $xml = $( xmlDoc );
           var $check = $xml.find('Description');
-  /*        var entityList=[];
-          $(".entityclass").attr("id",function(value){	
-      			var temp_subject=$(this).attr("id");
-
-			      if(temp_subject.indexOf("related")<0){
-      				if(temp_subject.indexOf("students")>-1)
-			      		temp_subject="student";
-      				else if(temp_subject.indexOf("teachers")>-1)
-			      		temp_subject="teacher";
-              $("#"+$(this).attr("id")+" li").each(function(){
-console.log('being pushed : '+temp_subject+" "+$(this).data("id"));
-                  entityList.push(temp_subject+" "+$(this).data("id"));
-				});
-			}
-		});
-
- $(".entityclass").attr("data-source",function(value)
-{
- var temp_subject=$(this).attr("id");
-//console.log("data-source : "+$(this).data("label"));
-
-
-});
-	console.log(entityList);
-    */      //if xml data is not empty
+      //if xml data is not empty
           if($check.length != 0){
     
 	    $check.each(function(){
@@ -478,11 +452,8 @@ console.log('being pushed : '+temp_subject+" "+$(this).data("id"));
 
                //if dbpedia data add triple to modal 
                if(isNumeric){
-                //console.log('dbpedia compared : '+entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)+' '+subject.split(":")[1]+' '+db_prop_d);
-//		if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0){
-                        
-		     	 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d+ "from dbpedia "); 
-//                    }
+                      	     	 inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d); 
+
 		}
                //if inpho data then retrieve label from thinker id and display
                //the label in modal
@@ -491,10 +462,7 @@ console.log('being pushed : '+temp_subject+" "+$(this).data("id"));
 
 				$.getJSON(url_json,function(data_json){
 	                  	db_prop_d = data_json.label;
-//  console.log('json compared : '+entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)+' '+subject.split(":")[1]+' '+db_prop_d);
 
-
-//				if(entityList.indexOf(subject.split(":")[1]+" "+db_prop_d)<0)
                     	   	          inpho.admin.add_triple(thinker+" "+subject+" "+db_prop ,thinker_d +" "+subject_d+" "+db_prop_d);
                });
                
@@ -525,7 +493,7 @@ console.log('being pushed : '+temp_subject+" "+$(this).data("id"));
  //function to add the triple into modal pop up
   inpho.admin.add_triple = function(value,valueDisplay) {
 
-$(".modal-body #addThinker").append('<p><input id= "thinkers" class="mycheckbox"  type="checkbox" name="thinkerpattern" value="'+value+'"/><strong>'+decodeURI(valueDisplay)+'</strong></p>');
+$(".modal-body #addThinker").append('<p><input id= "thinkers" class="mycheckbox"  type="checkbox" name="thinkerpattern" value="'+value+'"/>'+decodeURI(valueDisplay)+'</p>');
 
   }
 

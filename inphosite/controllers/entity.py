@@ -585,15 +585,17 @@ class EntityController(BaseController):
 	existing_predicate_list=[]
 	existing_object_list=[]
 
-        #predicates_to_compare = ['influenced', 'influenced_by', 'teachers', 'students']
+        predicates_to_compare = ['influenced', 'influenced_by', 'teachers', 'students']
 
 
         for subject,predicate in triples.iteritems():
             for predicate1, objectn in predicate.iteritems():
                 predicate_to_match=predicate1.split(":")[1]
 	        attr=getattr(c.entity,dbpedia_web[predicate_to_match])
-                for attr1 in attr:
-               	    existing_predicate_list.append(dbpedia_web[predicate_to_match] +':'+str(attr1))
+              
+		for attr1 in attr:
+               	        if(dbpedia_web[predicate_to_match] in predicates_to_compare) :
+				existing_predicate_list.append(dbpedia_web[predicate_to_match] +':'+attr1.wiki)
 
 
 
@@ -609,10 +611,11 @@ class EntityController(BaseController):
 				
 	
                 for object1 in objectn:                       
-		   temp_str=dbpedia_web[predicate1.split(":")[1]] + ':'+str(object1['b']['value']).split("/")[len(str(object1['b']['value']).split("/"))-1].replace("_"," ")
+		   #temp_str=dbpedia_web[predicate1.split(":")[1]] + ':'+str(object1['b']['value']).split("/")[len(str(object1['b']['value']).split("/"))-1].replace("_"," ")
+		   temp_str=dbpedia_web[predicate1.split(":")[1]] + ':'+str(object1['b']['value']).split("/")[len(str(object1['b']['value']).split("/"))-1]
 
                    
-#		   raise Exception
+	#	   raise Exception
 	           if temp_str not in existing_predicate_list:     
 		  # returns the inphoid for the object
                    	DB_Entry = DB_inpho.get(object1['b']['value'])#reverse lookup for the inpho data check	    

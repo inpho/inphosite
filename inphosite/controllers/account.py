@@ -126,9 +126,12 @@ class AccountController(BaseController):
             if came_from:
                 redirect(str(came_from))
 
+	    else:
+		raise Exception
+
         c.redirect_in_get = request.GET.get('came_from', None)
         c.failed = request.url == request.environ.get('HTTP_REFERER','')
-        c.referer = request.environ.get('HTTP_REFERER','')
+        c.referer = request.environ.get('HTTP_REFERER','/account/profile')
         
         return render('/account/signin.html')
 

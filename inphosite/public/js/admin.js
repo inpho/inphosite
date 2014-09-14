@@ -404,7 +404,7 @@ $(document).ready(function(){
     //retrieve the thinker id 
      var thinkerid = $("#label").data("id");
      //create the url based on thinker id
-     var url = "http://linkedhumanities.cogs.indiana.edu/link/dbpedia/entity:e"+thinkerid;
+     var url = "http://linkedhumanities.cogs.indiana.edu/link/dbpedia/thinker:"+thinkerid;
     window.open(url,'_blank');
  });
 });

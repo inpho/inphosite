@@ -114,6 +114,20 @@ class EntityController(BaseController):
             return render('{type}/{type}-list.'.format(type=self._controller) 
                           + filetype)
 
+    def related_entries(self, id, filetype='html'):
+        c.entity = h.fetch_obj(Entity,id)
+        
+        related = sep.get_related()
+        related = related[c.entity.sep_dir]
+       
+        c.entities = [] 
+        for sep_dir in related:
+            entity = Session.query(Entity).filter(Entity.sep_dir==sep_dir).first()
+            if entity is not None:
+                c.entities.append(entity)
+
+        return render('entity/entity-list.%s' %(filetype))
+
     def list_new(self):
         if not h.auth.is_logged_in():
             response.status_int = 401
@@ -137,7 +151,7 @@ class EntityController(BaseController):
                                'link' : link,
                                'published' : sep.published(sep_dir)})
 
-        return render ('admin/newentries.html')
+        return render('admin/newentries.html')
 
     def new(self):
         """ Form for creating a new entry """

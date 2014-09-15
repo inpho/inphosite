@@ -42,6 +42,8 @@ def make_map(config):
         conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}.{filetype:html|json|xml}', action='view', 
         conditions=dict(method=["GET"]))
+    map.connect('/{controller}/{id:\d+}/related_entries.{filetype:html|json|xml}',
+        action='related_entries', conditions=dict(method=["GET"]))
     map.connect('/{controller}/{id:\d+}', action='update', 
         conditions=dict(method=["PUT"]))
     map.connect('/{controller}/{id:\d+}', action='delete', 

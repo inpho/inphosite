@@ -12,7 +12,7 @@
   %endif
   
   <form class="form-inline" method="post" action="/account/dologin">
-    %if c.redirect_in_get is None:
+    %if c.redirect_in_get is not None :
     <input type="hidden" name="came_from" value="${c.referer}" />
     %endif
 

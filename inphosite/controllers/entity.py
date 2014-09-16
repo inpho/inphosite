@@ -543,6 +543,7 @@ class EntityController(BaseController):
         dbPropResults = {}
         inpho_DB = {}
         DB_inpho = {}
+	dbpedia_web = {}
         triples={}
 
         # init graphs for LODE and mapped data
@@ -567,47 +568,83 @@ class EntityController(BaseController):
             dbprops=csv.reader(f,delimiter='\t')
             for dbprop in dbprops:
                 dbPropResults[dbprop[1]] = dbprop[0]
+		dbpedia_web[dbprop[1].split(":")[1]]=dbprop[2]
+		
 
         # iterate through triples and store mappings
         for triple in resultsLODE: 
             inpho_DB[str(triple[0])] = str(triple[1])#store the results in key as inpho url and value as dbpedia url
             DB_inpho[str(triple[1])] = str(triple[0])#store the results in key as dbpedia url and value as inpho url 
-
+	   
+	
+	
         # queries for all relationships in dbpedia
         sparqlDB = SPARQLWrapper("http://inpho-dataserve.cogs.indiana.edu:8890/sparql/")
         sparqlDB.setReturnFormat(JSON)
         for inpho,DB in inpho_DB.iteritems():
             predicate = {}
-            for dbprop in dbPropResults:
-                if(str(DB_inpho.get(DB))== var):
+            #for dbprop in dbPropResults:
+            if(str(DB_inpho.get(DB))== var):
+		for dbprop in dbPropResults:
                     sparqlDB.setQuery(""" PREFIX dbpprop: <http://dbpedia.org/ontology/>
                                       SELECT ?b  WHERE { <"""+DB+"""> """+dbprop+""" ?b.
                                                         FILTER (regex(str(?b),"dbpedia.org/resource/","i")).
                                                         }""")
                     resultsDB = sparqlDB.query().convert()
                     predicate[dbprop] = resultsDB["results"]["bindings"]
-            triples[DB] = predicate
+            	triples[DB] = predicate
         
         #retrieve native python object
         c.entity = h.fetch_obj(Entity, id, new_id=True)
+	existing_predicate_list=[]
+	existing_object_list=[]
+
+        predicates_to_compare = ['influenced', 'influenced_by', 'teachers', 'students']
+
+
+        for subject,predicate in triples.iteritems():
+            for predicate1, objectn in predicate.iteritems():
+                predicate_to_match=predicate1.split(":")[1]
+	        attr=getattr(c.entity,dbpedia_web[predicate_to_match])
+              
+		for attr1 in attr:
+               	        if(dbpedia_web[predicate_to_match] in predicates_to_compare) :
+				existing_predicate_list.append(dbpedia_web[predicate_to_match] +':'+attr1.wiki)
+
+
+
 
         # maps from dbpedia relationships back to inpho relationships
         for subject,predicate in triples.iteritems():
-            attr = getattr(c.entity, predicate)
-            for predicate1, objectn in predicate.iteritems():
-                for object1 in objectn:
-                    # returns the inphoid for the object
-                    DB_Entry = DB_inpho.get(object1['b']['value'])#reverse lookup for the inpho data check
-                    
+            #attr = getattr(c.entity, predicate)
+	    #raise Exception
+		
+	    for predicate1, objectn in predicate.iteritems():
+		
+	      
+				
+	
+                for object1 in objectn:                       
+		   #temp_str=dbpedia_web[predicate1.split(":")[1]] + ':'+str(object1['b']['value']).split("/")[len(str(object1['b']['value']).split("/"))-1].replace("_"," ")
+		   temp_str=dbpedia_web[predicate1.split(":")[1]] + ':'+str(object1['b']['value']).split("/")[len(str(object1['b']['value']).split("/"))-1]
 
-                    # if there is not an inpho id, leave it as the dbpedia id
-                    if(DB_Entry == None):
-                        gReturn.add((URIRef(subject),URIRef(dbPropResults.get(predicate1)),URIRef(object1['b']['value'])))
-                    else:
-                        # return the properly mapped id
-                        # TODO: use attr to filter DB_Entry
-                        gReturn.add((URIRef(subject),URIRef(dbPropResults.get(predicate1)),URIRef(DB_Entry)))
+                   
+	#	   raise Exception
+	           if temp_str not in existing_predicate_list:     
+		  # returns the inphoid for the object
+                   	DB_Entry = DB_inpho.get(object1['b']['value'])#reverse lookup for the inpho data check	    
 
+                    	# if there is not an inpho id, leave it as the dbpedia id
+                   	if(DB_Entry == None):
+                        	gReturn.add((URIRef(subject),URIRef(dbPropResults.get(predicate1)),URIRef(object1['b']['value'])))
+                   	else:
+                        	# return the properly mapped id
+                        	# TODO: use attr to filter DB_Entry
+                        	gReturn.add((URIRef(subject),URIRef(dbPropResults.get(predicate1)),URIRef(DB_Entry)))
+                     
+                      #  if "Francisco" in str(object1['b']['value']).split("/")[len(str(object1['b']['value']).split("/"))-1].replace("_", ):
+		   
+#        raise Exception                  
         return gReturn.serialize();
 
     @dispatch_on(DELETE='_delete_date')

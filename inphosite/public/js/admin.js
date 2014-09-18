@@ -217,7 +217,7 @@ var val = $(elt).attr("value");
           $.ajax({
                     type: "POST",
                     url: url, 
-                    data : {'triple' : val}, 
+                    data : {'triple' : decodeURI(val)}, 
                     success : function(data) {
 				if (!$('h4').hasClass('success')){
 					 $(".modal-body #addThinker").append('<h4 class="success">Added to Database Successfully!</h4>');

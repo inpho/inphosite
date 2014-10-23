@@ -267,6 +267,16 @@ class EntityController(BaseController):
             c.entity2 = None
         else:
             c.entity2 = h.fetch_obj(Entity, id2)
+        
+        #creating link ID(s) for Bing + Google manual search by removing parentheses
+
+        if c.entity2 is None:
+            c.entity2_url_label = '' 
+        else:
+            c.entity2_url_label = ((c.entity2.label).split('('))[0]
+            
+
+        c.entity_url_label  = ((c.entity.label).split('('))[0]       
 
         # Run searches
         try:

@@ -82,6 +82,15 @@ while curParent:
 </div> <!-- END DIALOG -->
 %endif
 
+<div class="bar-container">
+  <div id="status" style="width:100%">
+    <div class="progress loading progress-striped active">
+      <div class="bar" style="width:25%">Loading documents...</div>
+    </div>
+  </div>
+<div id="chart"> </div>
+  
+</div>
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
     <li id="home-tab" class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i></a></li>
@@ -162,18 +171,7 @@ rect:hover {
 }
 
 </style>
-</head>
 
-<body>
-<div class="bar-container">
-  <div id="status" style="width:100%">
-    <div class="progress loading progress-striped active">
-      <div class="bar" style="width:25%">Loading documents...</div>
-    </div>
-  </div>
-<div id="chart"> </div>
-  
-</div>
 
 <script>
 var maxRows = 25;
@@ -191,7 +189,7 @@ var x = d3.scale.linear()
 
 var color = d3.scale.category20c();
 
-var svg = d3.select("#chart").insert("svg", ["#content"])
+var svg = d3.select("#chart").insert("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("id","main")

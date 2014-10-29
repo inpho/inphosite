@@ -88,8 +88,7 @@ while curParent:
       <div class="bar" style="width:25%">Loading documents...</div>
     </div>
   </div>
-<div id="chart"> </div>
-  
+  <div id="chart"> </div>
 </div>
 
 <ul class="nav nav-tabs" id="tabnav" data-tabs="tabs">
@@ -189,7 +188,7 @@ var x = d3.scale.linear()
 
 var color = d3.scale.category20c();
 
-var svg = d3.select("#chart").insert("svg")
+var svg = d3.select(".bar-container #chart").insert("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("id","main")
@@ -210,22 +209,19 @@ function calculateTopicMap(data, scale, sortFn){
 }
 
 var url = "/docs_topics/" + docid + '.json?n=1'
-var host = "http://inphodata.cogs.indiana.edu:16020";
+var host = "http://inphodata.cogs.indiana.edu:16080";
 
-d3.json(host + url, function(error, data) {
+d3.json(host + url, function(data, error) {
   $('#status .bar').css('width', '50%').text('Loading topics...');
   if (error) {
     $('#status .progress').removeClass('active progress-striped');
-    var errormsg;
-    
-    if (roottopic) errormsg = "Invalid topic: " + roottopic + ".";
-    else errormsg = "Invalid document: " + docid + ".";
+    var errormsg = "Invalid document: " + docid + ".";
 
     $('#status .bar').addClass('bar-danger').text(errormsg);
     return false;
   }
   console.log(data);
-  d3.json(host + "/topics.json", function(error_top, topics) {
+  d3.json(host + "/topics.json", function(topics, error_top) {
     $('#status .bar').css('width', '75%').text('Rendering chart...');
     if (error_top) {
       $('#status .progress').removeClass('active progress-striped');
@@ -256,7 +252,7 @@ d3.json(host + url, function(error, data) {
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
         .attr("class", function(d) { return "top_" + d.name; })
-        .attr("title", function(d) { return d3.keys(topics[d.name]).join(", ") + ", ..."; })
+        .attr("title", function(d) { return d3.keys(topics[d.name]['words']).join(", ") + ", ..."; })
         .on("mouseover", function(d) {
             // SVG element z-index determined by render order, not style sheet
             // so element must be reappended to the end on hover so border 

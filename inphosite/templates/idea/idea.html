@@ -82,7 +82,7 @@ while curParent:
 </div> <!-- END DIALOG -->
 %endif
 
-<div class="bar-container">
+<div class="bar-container" id="bar">
   <div id="status" style="width:100%">
     <div class="progress loading progress-striped active">
       <div class="bar" style="width:25%">Loading documents...</div>
@@ -171,6 +171,7 @@ rect:hover {
 
 </style>
 
+function visualize(port) {
 
 <script>
 var maxRows = 25;
@@ -188,7 +189,7 @@ var x = d3.scale.linear()
 
 var color = d3.scale.category20c();
 
-var svg = d3.select(".bar-container #chart").insert("svg")
+var svg = d3.select("#bar"+port+" #chart").insert("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("id","main")
@@ -209,7 +210,7 @@ function calculateTopicMap(data, scale, sortFn){
 }
 
 var url = "/docs_topics/" + docid + '.json?n=1'
-var host = "http://inphodata.cogs.indiana.edu:16080";
+var host = "http://inphodata.cogs.indiana.edu:" + port;
 
 d3.json(host + url, function(data, error) {
   $('#status .bar').css('width', '50%').text('Loading topics...');
@@ -274,3 +275,18 @@ d3.json(host + url, function(data, error) {
 }); });
 
 </script>
+}
+
+<%def name="singleBar(port)">
+<script>
+visualize(${port});
+</script>
+</%def>
+
+<!-- render single bar (all ports are hard coded at this time) -->
+${singleBar(16020)}
+${singleBar(16040)}
+${singleBar(16060)}
+${singleBar(16080)}
+${singleBar(16100)}
+${singleBar(16120)}

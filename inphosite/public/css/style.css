@@ -141,12 +141,17 @@ body {
 .terms .tablink {
     margin-left: -18px;
 }
-.terms h3 {
-    margin-left: -20px;    
-    margin-bottom: 0;
-    margin-top: 0;
+.explorer h3, .terms h3 {
     line-height: 27px;
     font-size: 18px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.explorer {
+    margin-bottom: 27px;    
+}
+.terms h3 {
+    margin-left: -20px;    
 }
 
 .terms h3 img {

@@ -2,6 +2,7 @@
 <%inherit file="/base-tree.html" />
 <%namespace name="entity" file="/entity/entity.html" />
 <%namespace name="eval" file="/idea/idea-edit.html" />
+<%namespace name="singleBar" file="/entity/singlebar.html" />
 <%def name="head()">
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
@@ -99,170 +100,19 @@ while curParent:
     <div class="tab-pane active" id="home">
 
 %if c.entity.sep_dir:
+${singleBar.core()}
 <div class="explorer">
 <h3>Topic Explorer</h3>
-<style>
-body {
-  }
-.bar {
-    fill: steelblue;
-}
-.bar:hover {
-    fill: brown;
-}
-rect {
-  opacity: 0.6;
-}
-rect.hover {
-  stroke: #000;
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-  cursor: crosshair;
-  opacity: 0.8;
-}
-.doc:hover rect, .doc.hover rect {
-  cursor: crosshair;
-  opacity: 1.0;
-}
-rect:hover {
-  opacity: 1.0 !important;
-  stroke: #000;
-  stroke-width: 2;
-  shape-rendering: crispEdges;
-}
-
-</style>
-
-
-<script>
-function visualize(port) {
-
-var maxRows = 25;
-var minCols = 2;
-
-//${c.entity.sep_dir}
-var docid = "${c.entity.sep_dir}";
-
-var width = $('.bar-container').width(),
-    height = 20;
-
-var x = d3.scale.linear()
-    .range([0, width])
-    .domain([0,1.0]);
-
-var color = d3.scale.category20c();
-
-var svg = d3.select("#bar"+port+" #chart").insert("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("id","main")
-    .attr("class", "main");
-$('#main', '#bar'+port).hide();
-
-function calculateTopicMap(data, scale, sortFn){
-  data.forEach(function(d) {
-    var sizeFactor = (scale) ? d.prob : 1.0
-    var x0 = 0;
-    if (sortFn) d.topicMap = color.domain()
-      .sort(sortFn)
-      .map(function(name) { return {name: name, x0: x0, x1: x0 += +(d.topics[name]*sizeFactor) }; });
-    else d.topicMap = color.domain()
-      .map(function(name) { return {name: name, x0: x0, x1: x0 += +(d.topics[name]*sizeFactor) }; });
-  });
-  
-}
-
-var url = "/docs_topics/" + docid + '.json?n=1'
-var host = "http://inphodata.cogs.indiana.edu:" + port;
-
-d3.json(host + url, function(data, error) {
-  $('#status .bar', '#bar'+port).css('width', '50%').text('Loading topics...');
-  if (error) {
-    $('#status .progress', '#bar'+port).removeClass('active progress-striped');
-    var errormsg = "Invalid document: " + docid + ".";
-
-    $('#status .bar', '#bar'+port).addClass('bar-danger').text(errormsg);
-    return false;
-  }
-  console.log(data);
-  d3.json(host + "/topics.json", function(topics, error_top) {
-    $('#status .bar', '#bar'+port).css('width', '75%').text('Rendering chart...');
-    if (error_top) {
-      $('#status .progress', '#bar'+port).removeClass('active progress-striped');
-      $('#status .bar-danger', '#bar'+port).addClass('bar-error').text('Could not load topic list.');
-      return false;
-    }
-
-    var k = d3.keys(topics).length;
-    var full_explorer_url = (k < 100) ?
-      "http://inphodata.cogs.indiana.edu:160"+k+"/?doc="+docid :
-      "http://inphodata.cogs.indiana.edu:16"+k+"/?doc="+docid;
-  
-    color.domain(d3.keys(data[0].topics));
-  
-    calculateTopicMap(data, true, function(a,b) {return data[0].topics[b] - data[0].topics[a];});
-  
-    // draw total bar
-    var doc = svg.selectAll("doc")
-        .data(data)
-      .enter().append("g")
-        .attr("class","doc");
-  
-    // Draw topic bars
-    doc.selectAll("rect")
-        .data(function(d) { return d.topicMap; })
-      .enter().append("rect")
-        .attr("height", height)
-        .attr("x", function(d) { return x(d.x0); })
-        .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-        .attr("class", function(d) { return "top_" + d.name; })
-        .attr("title", function(d) { return d3.keys(topics[d.name]['words']).join(", ") + ", ..."; })
-        .on("mouseover", function(d) {
-            // SVG element z-index determined by render order, not style sheet
-            // so element must be reappended to the end on hover so border 
-            // is not occluded
-            var parent = $(this).parent();
-            $(this).detach().appendTo(parent);
-          })
-        .on("click", function(d) { window.location = full_explorer_url; })
-        .style("fill", function(d) { return color(d.name); });
-  
-  
-    $(".doc rect").tooltip({container:'body', 
-                            animation: false, placement: 'top'});
-    
-    $('#status .bar', '#bar'+port).addClass('bar-success').css('width', '100%').text("Complete!");
-    setTimeout(function() {$('#status', '#bar'+port).hide()}, 250);
-    setTimeout(function() {$('#main', '#bar'+port).show()}, 250);
-
-}); });
-
-}
-</script>
-
-<%def name="singleBar(port)">
-<div class="bar-container" id="bar${port}">
-  <div id="status" style="width:100%">
-    <div class="progress loading progress-striped active">
-      <div class="bar" style="width:25%">Loading documents...</div>
-    </div>
-  </div>
-  <div id="chart"> </div>
-</div>
-<script>
-visualize(${port});
-</script>
-</%def>
-
 <!-- render single bar (all ports are hard coded at this time) -->
-${singleBar(16020)}
-${singleBar(16040)}
-${singleBar(16060)}
-${singleBar(16080)}
-${singleBar(16100)}
-${singleBar(16120)}
+${singleBar.render(16020)}
+${singleBar.render(16040)}
+${singleBar.render(16060)}
+${singleBar.render(16080)}
+${singleBar.render(16100)}
+${singleBar.render(16120)}
 </div>
 %endif
+
 <%
 taxonomic = []
 parents = [node.parent or c.entity for node in c.entity.nodes]

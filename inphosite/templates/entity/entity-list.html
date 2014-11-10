@@ -71,6 +71,11 @@ this cycle will be used to develop the taxonomy. The approach is explained in
 more detail in our <a href="/papers/">papers</a>.</p>
 %endif
 
+%if c.missing_entity:
+<p>Could not find any results for <b>${c.query}</b>. Searching for that term in
+the Stanford Encyclopedia of Philosophy suggests these related concepts.</p>
+%endif
+
 <p><i class="icon-user"></i> - Thinker
 </br><i class="icon-book"></i> - Journal
 </br><i class="icon-comment"></i> - Idea
@@ -78,7 +83,8 @@ more detail in our <a href="/papers/">papers</a>.</p>
 </br><i class="icon-file"></i> - Work
 </p>
 <ul class='unstyled'>
-<% entities = sorted(c.entities, cmp=cmpEntities) %>
+<% entities = c.entities %>
+
 %for entity in entities:
 <li><a href="${entity.url()}">${getIcon(entity)}${entity.label}</a></li>
 %endfor

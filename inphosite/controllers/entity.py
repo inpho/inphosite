@@ -35,6 +35,8 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from rdflib import URIRef
 import csv
 
+
+
 log = logging.getLogger(__name__)
 
 class DateException(Exception):
@@ -69,12 +71,37 @@ class EntityController(BaseController):
             response.status_int = 200
             return "OK"
     
+    def missing_entity_search(self, query):
+        query = quote_plus(query)
+        url = 'http://plato.stanford.edu/cgi-bin/search/xmlSearcher.py?query=' + \
+            query
+        
+        results = multi_get([url])[0][1]
+        json = None
+        values_dict = []
+        if results:
+            tree = ET.ElementTree(ET.fromstring(results))
+            root = tree.getroot()
+            json = []
+            for element in root.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Item'):
+                dict = {}
+                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
+                    dict['Location'] = iter.text
+                json.append(dict)
+
+            for j in range(len(json)):
+                for key,value in json[j].iteritems():
+                    values_dict.append(value)
+            
+	    return Session.query(Entity).filter(Entity.sep_dir.in_(values_dict)).all()
+	
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)
         #TODO: Remove the following line when Nodes are eliminated
         entity_q = entity_q.filter(Entity.typeID != 2)
         
+        c.missing_entity = 0
         # get the list of entities
         c.entities = entity_q.all()
 
@@ -85,7 +112,7 @@ class EntityController(BaseController):
         c.query = c.query.strip()
 
         c.sep = request.params.get('sep', '')
-
+        
         if request.params.get('sep_filter', False):
             entity_q = entity_q.filter(Entity.sep_dir != '')
         
@@ -111,8 +138,16 @@ class EntityController(BaseController):
                              filetype=filetype, id=c.entities[0].ID), 
                        code=302)
         else:
-            return render('{type}/{type}-list.'.format(type=self._controller) 
-                          + filetype)
+	    #if there are no results, show the related SEP results
+            if not c.entities:
+                c.entities = self.missing_entity_search(c.query)
+                if c.entities:
+                    c.missing_entity = 1  
+        #raise Exception
+        #render the page
+        return render('{type}/{type}-list.'.format(type=self._controller) 
+                      + filetype)
+
 
     def related_entries(self, id, filetype='html'):
         c.entity = h.fetch_obj(Entity,id)
@@ -125,6 +160,7 @@ class EntityController(BaseController):
             entity = Session.query(Entity).filter(Entity.sep_dir==sep_dir).first()
             if entity is not None:
                 c.entities.append(entity)
+
 
         return render('entity/entity-list.%s' %(filetype))
 
@@ -256,9 +292,7 @@ class EntityController(BaseController):
                 redirect(c.entity.url(filetype, action="view"), code=303)
             else:
                 return "200 OK"
-                
-
-
+           
 
     def search(self, id, id2=None):
         # Grab ID(s) from database and get their search string(s).
@@ -337,6 +371,8 @@ class EntityController(BaseController):
                     dict['LongDescription'] = iter.text
                 for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
                     dict['URL'] = 'http://plato.stanford.edu/entries/%s/' % iter.text
+                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
+                    dict['Location'] = iter.text
                 json.append(dict)
 
         return json

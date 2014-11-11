@@ -1,14 +1,18 @@
+<script type="text/javascript" src="../../public/jquery/jquery-1.7.2.min.js"</script>
 <%def name="render(port)">
-<div class="bar-container" id="bar${port}">
+<dd class="bar-container" id="bar${port}">
   <div id="status" style="width:100%">
     <div class="progress loading progress-striped active">
       <div class="bar" style="width:25%">Loading documents...</div>
     </div>
   </div>
   <div id="chart"> </div>
-</div>
+</dd>
 <script>
 visualize(${port});
+</script>
+<script>
+display_info();
 </script>
 </%def>
 
@@ -44,7 +48,6 @@ rect:hover {
 }
 
 </style>
-
 
 <script>
 function visualize(port) {
@@ -106,6 +109,9 @@ d3.json(host + url, function(error, data) {
     }
 
     var k = d3.keys(topics).length;
+
+    $("#bar" + port).before("<dt>"+k+" Topics</dt>");
+
     var full_explorer_url = (k < 100) ?
       "http://inphodata.cogs.indiana.edu:160"+k+"/?doc="+docid :
       "http://inphodata.cogs.indiana.edu:16"+k+"/?doc="+docid;
@@ -152,3 +158,5 @@ d3.json(host + url, function(error, data) {
 }
 </script>
 </%def>
+
+

@@ -93,8 +93,11 @@ class EntityController(BaseController):
                 for key,value in json[j].iteritems():
                     values_dict.append(value)
             
-	    return Session.query(Entity).filter(Entity.sep_dir.in_(values_dict)).all()
-	
+        
+        entities = Session.query(Entity).filter(Entity.sep_dir.in_(values_dict)).all()
+        entities.sort(key = lambda entity: values_dict.index(entity.sep_dir))
+        #raise Exception
+        return entities
 
     def list(self, filetype='html'):
         entity_q = Session.query(self._type)

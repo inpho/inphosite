@@ -148,10 +148,11 @@ body {
     margin-top: 0;
 }
 .explorer .dl-horizontal dt {
-    width: 90px;    
+    width: 75px;    
 }
 .explorer .dl-horizontal dd {
-    margin-left:105px;
+    margin-left:90px;
+    margin-right: 70px;
 }
 .explorer {
     margin-bottom: 27px;    

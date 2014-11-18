@@ -147,9 +147,18 @@ body {
     margin-bottom: 0;
     margin-top: 0;
 }
+.explorer .dl-horizontal dt {
+    width: 75px;    
+}
+.explorer .dl-horizontal dd {
+    margin-left:90px;
+    margin-right: 70px;
+}
 .explorer {
     margin-bottom: 27px;    
 }
+
+
 .terms h3 {
     margin-left: -20px;    
 }

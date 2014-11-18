@@ -250,7 +250,10 @@ class EntityController(BaseController):
                 valid_params = ["sep_dir", "wiki"]
             elif entity_type == 4: # Journal
                 valid_params = ["ISSN", "noesisInclude", "URL", "source", "abbr", "language", "student", "active"]
-
+            elif entity_type == 6: #School of Thought
+                valid_params = ["sep_dir", "wiki"]
+                
+                
         if '_method' in params:
             del params['_method']
         if 'redirect' in params:
@@ -285,6 +288,8 @@ class EntityController(BaseController):
                 c.entity = Journal(label, sep_dir=sep_dir)
             elif entity_type == 5:
                 c.entity = Work(label, sep_dir=sep_dir)
+            elif entity_type == 6:
+                c.entity = SchoolOfThought(label, sep_dir=sep_dir)
             else:
                 raise NotImplementedError
 

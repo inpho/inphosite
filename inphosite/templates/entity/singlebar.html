@@ -1,3 +1,4 @@
+
 <script type="text/javascript" src="../../public/jquery/jquery-1.7.2.min.js"</script>
 <%def name="render(port)">
 <dd class="bar-container" id="bar${port}">
@@ -90,13 +91,19 @@ var host = "http://inphodata.cogs.indiana.edu:" + port;
 d3.json(host + url, function(error, data) {
   $('#status .bar', '#bar'+port).css('width', '50%').text('Loading topics...');
   if (error) {
+    var isError = $('.bar.bar-danger ');
+   console.log(isError[0] +" Hello");    
     $('#status .progress', '#bar'+port).removeClass('active progress-striped');
-    var errormsg = "Invalid document: " + docid + ".";
-
-    $('#status .bar', '#bar'+port).addClass('bar-danger').text(errormsg);
+    if(isError[0]){
+       $('#status .progress', '#bar'+port).remove();
+    }
+    else{
+      var errormsg = "Invalid document: " + docid + ".";
+      $('#status .bar', '#bar'+port).addClass('bar-danger').text(errormsg);
+    }
     return false;
   }
-  console.log(data);
+  //console.log(data);
   d3.json(host + "/topics.json", function(error_top, topics) {
     $('#status .bar', '#bar'+port).css('width', '75%').text('Rendering chart...');
     if (error_top) {

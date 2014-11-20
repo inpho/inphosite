@@ -89,6 +89,14 @@ except AttributeError: ## catches value = None
     <label class="control-label" for="${attr}">${h.titlecase(attr)}</label>
     <div class="controls">
       %for value in values:
+<%
+try:
+    value = value.decode('utf-8')
+except UnicodeEncodeError:
+    value = value
+except AttributeError: ## catches value = None
+    value = ''
+%>
       <label><i class="icon-remove" onclick="return inpho.admin.remove(this.parentNode, '${attr}', '${url}')" data-url="${url}"></i> ${value} </label>
       %endfor
       <div class="input-append">

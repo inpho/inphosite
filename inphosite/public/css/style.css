@@ -157,6 +157,9 @@ body {
 .explorer {
     margin-bottom: 27px;    
 }
+.explorer dd .progress {
+    margin-bottom: 7px;    
+}
 
 
 .terms h3 {

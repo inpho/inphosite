@@ -86,7 +86,7 @@ function calculateTopicMap(data, scale, sortFn){
 }
 
 var url = "/docs_topics/" + docid + '.json?n=1'
-var host = "http://inphodata.cogs.indiana.edu:" + port;
+var host = "https://inpho.cogs.indiana.edu:" + port;
 
 d3.json(host + url, function(error, data) {
   $('#status .bar', '#bar'+port).css('width', '50%').text('Loading topics...');

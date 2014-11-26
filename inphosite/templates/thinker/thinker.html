@@ -1,6 +1,7 @@
 <%! import urllib %>
 <%inherit file="/base-tree.html" />
 <%namespace name="entity" file="/entity/entity.html" />
+<%namespace name="singleBar" file="/entity/singlebar.html" />
 <%def name="head()">
 <script src="/js/eval.js" type="text/javascript"></script>
 <script src="/js/admin.js" type="text/javascript"></script>
@@ -76,6 +77,24 @@
           %endfor
           %endif
       </dl>
+
+%if c.entity.sep_dir:
+${singleBar.core()}
+<div class="explorer">
+<h3>Topic Explorer</h3>
+<!-- render single bar (all ports are hard coded at this time) -->
+<p>These bars show different topic mixtures for the SEP article with number of topics shown left.<br />
+Click on a bar to go to the full topic explorer for document comparison and more details.</p>
+<dl id="singleBarsDl"  class="dl-horizontal">
+${singleBar.render(16020)}
+${singleBar.render(16040)}
+${singleBar.render(16060)}
+${singleBar.render(16080)}
+${singleBar.render(16100)}
+${singleBar.render(16120)}
+</dl>
+</div>
+%endif
 
       ${entity.printList('influenced', type="thinker", method='manual')}
       ${entity.printList('influenced_by', type="thinker", method='manual')}

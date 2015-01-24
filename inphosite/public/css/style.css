@@ -2,6 +2,14 @@ body {
     padding-top: 60px;
     }
 
+.entityclass {
+    /*hanging indent*/
+    padding-left: 2em;
+    text-indent: -1em;
+    dispay: inline-block;
+    width: 160px;   
+}
+
 .footer {
     clear: both;
     padding-top: 10px;    
@@ -169,6 +177,7 @@ body {
 .terms h3 img {
     margin-top: 7px;
     }
+
 
 .taxonomy {
     background-image: url('../img/taxo-thumbnail.png');

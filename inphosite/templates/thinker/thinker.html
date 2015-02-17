@@ -95,14 +95,14 @@ ${singleBar.render(16120)}
 </dl>
 </div>
 %endif
-
+   <div class="tilecontainer">
       ${entity.printList('influenced', type="thinker", method='manual')}
       ${entity.printList('influenced_by', type="thinker", method='manual')}
       ${entity.printList('students', type="thinker", method='manual')}
       ${entity.printList('teachers', type="thinker", method='manual')}
       ${entity.printList('related', 'Related Thinkers', method='statistical', type="thinker")}
       ${entity.printList('related_ideas', 'Related Terms', method='statistical', type="thinker")}
-
+   </div>
 %if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
 ${entity.printMissing()}
 %endif
@@ -114,3 +114,42 @@ ${entity.printAdminPanel(["id", "label", "sep_dir", "searchstring", "wiki", "sea
     </div>
 %endif
 </div> <!-- tab-content -->
+
+  <!-- include jQuery -->
+  <script src="/jquery/jquery.min.js"></script>
+
+  <!-- Include the imagesLoaded plug-in -->
+  <script src="/Wookmark-jQuery-master/libs/jquery.imagesloaded.js"></script>
+
+  <!-- Include the plug-in -->
+  <script src="/Wookmark-jQuery-master/jquery.wookmark.js"></script>
+
+  <!-- Once the page is loaded, initalize the plug-in. -->
+
+  <script type="text/javascript">
+    (function ($) {
+      var loadedImages = 0, // Counter for loaded images
+          handler = $('.entityclass'); // Get a reference to your grid items.
+      // Prepare layout options.
+      var options = {
+        
+        container: $('.tilecontainer'), // Optional, used for some extra CSS styling
+        itemWidth: 250 // Optional, the width of a grid item
+      };
+
+      $('#tiles').imagesLoaded(function() {
+        // Call the layout function.
+        handler.wookmark(options);
+
+
+      }).progress(function(instance, image) {
+        // Update progress bar after each image load
+        loadedImages++;
+        if (loadedImages == handler.length)
+          $('.progress-bar').hide();
+        else
+          $('.progress-bar').width((loadedImages / handler.length * 100) + '%');
+      });
+    })(jQuery);
+  </script>
+

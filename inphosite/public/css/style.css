@@ -242,3 +242,36 @@ body {
 .pdf2 {
 margin-right:10px;
 }
+
+
+/**
+ * Grid container
+ */
+.tilecontainer {
+  position: relative; /** Needed to ensure items are laid out relative to this container **/
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Grid items
+ */
+#entityclass {
+  width: 300px;
+  background-color: #add8e6;
+
+          border-radius: 2px;
+     -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  display: none; /** Hide items initially to avoid a flicker effect **/
+  cursor: pointer;
+}
+
+.entityclass inactive {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.entityclass img {
+  display: block;
+}

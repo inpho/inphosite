@@ -78,7 +78,7 @@ ${singleBar.render(16120)}
 </dl>
 </div>
 %endif
-
+    <div class="tilecontainer">
     	${entity.printList('instances', method='reasoning')}
         ##${entity.printList('children', 'Subclasses')}  
     	${entity.printList('links', method='reasoning')}
@@ -86,6 +86,7 @@ ${singleBar.render(16120)}
         ${entity.printList('related_thinkers', method='statistical')}
         ${entity.printList('hyponyms', method='statistical')}
         ${entity.printList('occurrences', method='statistical')}
+    </div>
 
 %if not (c.entity.links[:10] or c.entity.instances[:10] or c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
 ${entity.printMissing()}
@@ -103,3 +104,44 @@ ${entity.printMissing()}
     </div>
 %endif
 </div> <!-- tab-content -->
+
+
+
+  <!-- include jQuery -->
+  <script src="/jquery/jquery.min.js"></script>
+
+  <!-- Include the imagesLoaded plug-in -->
+  <script src="/Wookmark-jQuery-master/libs/jquery.imagesloaded.js"></script>
+
+  <!-- Include the plug-in -->
+  <script src="/Wookmark-jQuery-master/jquery.wookmark.js"></script>
+
+  <!-- Once the page is loaded, initalize the plug-in. -->
+
+  <script type="text/javascript">
+    (function ($) {
+      var loadedImages = 0, // Counter for loaded images
+          handler = $('.entityclass'); // Get a reference to your grid items.
+      // Prepare layout options.
+      var options = {
+        
+        container: $('.tilecontainer'), // Optional, used for some extra CSS styling
+        itemWidth: 250 // Optional, the width of a grid item
+      };
+
+      $('#tiles').imagesLoaded(function() {
+        // Call the layout function.
+        handler.wookmark(options);
+
+
+      }).progress(function(instance, image) {
+        // Update progress bar after each image load
+        loadedImages++;
+        if (loadedImages == handler.length)
+          $('.progress-bar').hide();
+        else
+          $('.progress-bar').width((loadedImages / handler.length * 100) + '%');
+      });
+    })(jQuery);
+  </script>
+

@@ -127,13 +127,14 @@ if c.entity.instance_of:
     taxonomic.extend(zip(c.entity.instance_of, itertools.repeat(c.entity)))
 %>
 
+  <div class="tilecontainer">
 ##${entity.printList(taxonomic, 'taxonomy', alt_title='Taxonomic Relations', tax_class='child')}
 ##${entity.printList(zip(c.entity.links_to[:10], itertools.repeat(c.entity)), 'links', alt_title='Non-taxonomic Links', tax_class='childLink', method='reasoning')}
 ${entity.printList('related', 'Related Terms', method='statistical')}
 ${entity.printList('related_thinkers', method='statistical')}
 ${entity.printList('hyponyms', method='statistical')}
 ${entity.printList('occurrences', method='statistical')}
-
+  </div>
 %if not (c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
 ${entity.printMissing()}
 %endif
@@ -150,5 +151,43 @@ ${entity.printMissing()}
     </div>
 %endif
 </div> <!-- tab-content -->
+
+  <!-- include jQuery -->
+  <script src="/jquery/jquery.min.js"></script>
+
+  <!-- Include the imagesLoaded plug-in -->
+  <script src="/Wookmark-jQuery-master/libs/jquery.imagesloaded.js"></script>
+
+  <!-- Include the plug-in -->
+  <script src="/Wookmark-jQuery-master/jquery.wookmark.js"></script>
+
+  <!-- Once the page is loaded, initalize the plug-in. -->
+
+  <script type="text/javascript">
+    (function ($) {
+      var loadedImages = 0, // Counter for loaded images
+          handler = $('.entityclass'); // Get a reference to your grid items.
+      // Prepare layout options.
+      var options = {
+        
+        container: $('.tilecontainer'), // Optional, used for some extra CSS styling
+        itemWidth: 250 // Optional, the width of a grid item
+      };
+
+      $('#tiles').imagesLoaded(function() {
+        // Call the layout function.
+        handler.wookmark(options);
+
+
+      }).progress(function(instance, image) {
+        // Update progress bar after each image load
+        loadedImages++;
+        if (loadedImages == handler.length)
+          $('.progress-bar').hide();
+        else
+          $('.progress-bar').width((loadedImages / handler.length * 100) + '%');
+      });
+    })(jQuery);
+  </script>
 
 

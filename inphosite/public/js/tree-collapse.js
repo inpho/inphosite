@@ -15,7 +15,7 @@ var vis = d3.select("#chart").append("svg")
   .append("g")
   .attr("transform", "translate(80, 0)");
 
-d3.json("/inpho.json", function(json) {
+d3.json("/taxonomy.json", function(json) {
 
   root = json;
   root.x0 = 0;

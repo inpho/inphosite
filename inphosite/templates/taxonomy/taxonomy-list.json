@@ -1,6 +1,31 @@
+##<%
+##a = h.json({'responseData' : {'results' : [n.json_struct(extended=True) for n in c.nodes]},
+##          'responseStatus' : 200, 'responseDetails' : None})
+##%>
 <%
-a = h.json({'responseData' : {'results' : [n.json_struct(extended=True) for n in c.nodes]},
-          'responseStatus' : 200, 'responseDetails' : None})
+def node_struct(nodes, root=True):
+    if root:
+        struct = {"name" : 'Philosophy',
+                  "ID" : 0,
+                  'url' : '/taxonomy',
+                  'idea' : 0}
+        struct['children'] =  node_struct(sorted([node for node in nodes if node.parent_id is None], key=lambda node: node.label), root=False)
+        return struct
+
+    else:
+        structs = list()
+        for node in nodes:
+            struct = {"name" : node.label,
+                      "ID" : node.ID,
+                      'url' : node.url(),
+                      'idea' : node.concept_id}
+            if node.children:
+                struct['children'] = [node_struct(node.children, root=False)]
+            structs.append(struct)
+        return structs
+
+a= h.json(node_struct(c.nodes))
+
 %>
 ${a | n}
 

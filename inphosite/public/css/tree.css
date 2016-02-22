@@ -3,6 +3,12 @@
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+.node circle.instance {
+  fill: #fff;
+  stroke: purple;
+  stroke-width: 1.5px;
+
+}
 .node-path circle {
     stroke: steelblue;
     stroke-width: 2.5px;    

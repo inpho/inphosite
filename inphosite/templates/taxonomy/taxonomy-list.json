@@ -3,25 +3,43 @@
 ##          'responseStatus' : 200, 'responseDetails' : None})
 ##%>
 <%
+from inpho.model import Node
 def node_struct(nodes, root=True):
     if root:
         struct = {"name" : 'Philosophy',
                   "ID" : 0,
                   'url' : '/taxonomy',
-                  'idea' : 0}
+                  'idea' : 0,
+                  'type' : 'root'}
         struct['children'] =  node_struct(sorted([node for node in nodes if node.parent_id is None], key=lambda node: node.label), root=False)
         return struct
 
     else:
         structs = list()
         for node in nodes:
-            struct = {"name" : node.label,
-                      "ID" : node.ID,
-                      'url' : node.url(),
-                      'idea' : node.concept_id}
-            if node.children:
-                struct['children'] = [node_struct(node.children, root=False)]
-            structs.append(struct)
+            if isinstance(node, Node):
+                struct = {"name" : node.label,
+                          "ID" : node.ID,
+                          'url' : node.url(),
+                          'idea' : node.concept_id,
+                          'type' : 'class'}
+                child_instances = []
+                if node.children:
+                    child_instances.extend(node.children)
+                if node.idea.instances:
+                    child_instances.extend(node.idea.instances)
+                if child_instances:
+                    struct['children'] = node_struct(child_instances, root=False)
+                structs.append(struct)
+            else:
+                struct = {"name" : node.label,
+                          "ID" : node.ID,
+                          'url' : node.url(),
+                          'idea' : node.ID, 
+                          'type' : 'instance'}
+                structs.append(struct)
+
+
         return structs
 
 a= h.json(node_struct(c.nodes))

@@ -45,7 +45,7 @@ d3.json("/taxonomy.json", function(json) {
       return false;
     }
   }
-  function toggleAll(d) {
+  /*function toggleAll(d) {
     var ID = $("#chart").attr('data-selected');
 
     // recursive call
@@ -59,6 +59,25 @@ d3.json("/taxonomy.json", function(json) {
       toggle(d);  // doesn't contain child, collapse
     } else if (d.ID == ID) {
       toggle(d); // is the thing, collapse & mark as part of path
+      d.partOfPath = true;
+    }
+    else {
+      d.partOfPath = true; // contains child, so part of path
+    } 
+  }*/
+
+  function toggleAll(d) {
+    var ID = $("#chart").attr('data-selected');
+
+    // recursive call
+    if (d.children) {
+      d.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
+      d.children.forEach(toggleAll);
+    }
+
+    // setting proper appearance
+    if (!containsChild(d, ID)) {
+    } else if (d.ID == ID) {
       d.partOfPath = true;
     }
     else {
@@ -100,6 +119,7 @@ function update(source) {
       return d.id || (d.id = ++i);
     });
 
+
   // Enter in any newfound nodes at parent's previous position.
   var nodeEnter = node.enter().append("svg:g")
     .attr("class", function (d) { return d.partOfPath ? "node node-path" : "node"})
@@ -109,6 +129,7 @@ function update(source) {
 
   // Draw a circle for each newly-found node.
   nodeEnter.append("svg:circle")
+    .attr("class", function(d) { return d.type})
     .attr("r", 4.5)
     .style("fill", filling)
     .on("click", function(d) {

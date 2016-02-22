@@ -25,7 +25,7 @@ d3.json("/taxonomy.json", function(json) {
     if (d.children) {
       d.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
       d.children.forEach(toggleAll);
-      toggle(d);
+      //toggle(d);
     }
   }
 
@@ -61,6 +61,7 @@ function update(source) {
 
   // Draw a circle for each newly-found node.
   nodeEnter.append("svg:circle")
+    .attr("class", function(d) { return d.type})
     .attr("r", 4.5)
     .style("fill", filling)
     .on("click", function(d) {

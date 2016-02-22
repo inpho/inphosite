@@ -1,10 +1,14 @@
 var w = 960;
-var h = 600;
+var h = 400;
 var root;
 var i = 0;
+var scale = 10;
 
 var tree = d3.layout.tree()
   .size([h, w - 160]);
+//(1+(1/(d.depth +1)))
+var leaves = function(d)  { return (d._children || !d.children) ? 1+(1/((d.depth || 0)+1)) : 
+  Math.ceil($.map(d.children, leaves).reduce( (prev, curr) => prev + curr ))};
 
 var diagonal = d3.svg.diagonal()
   .projection(function(d) { return [d.y, d.x]; });
@@ -20,7 +24,7 @@ d3.json("/taxonomy.json", function(json) {
   root = json;
   root.x0 = 0;
   root.y0 = 0;
-
+  
   function toggleAll(d) {
     if (d.children) {
       d.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
@@ -28,22 +32,29 @@ d3.json("/taxonomy.json", function(json) {
       //toggle(d);
     }
   }
+  //d3.select("svg").attr("height",  leaves(root)*15);
 
   root.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
   root.children.forEach(toggleAll);
+  tree.nodes(root);
+  tree.size([leaves(root)*scale, w - 160]);
+  d3.select("svg").attr("height",  leaves(root)*scale + (scale * 3));
   update(root);
+
   $('#chart .node:not(#demoNode)').click(function() {$('#chart .alert').hide()});
 });
 
 
 var filling = function(d) { return d._children ? "lightsteelblue" : "#fff"; };
+var hi;
 
 function update(source) {
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
   var nodes = tree.nodes(root).reverse();
+  tree.size([leaves(root)*scale, w - 160]);
+  var nodes = tree.nodes(root).reverse();
   nodes.forEach(function(d) { d.y = d.depth * 180; });
-
-
+  d3.select("svg").transition().duration(duration).attr("height",  leaves(root)*scale + (scale * 3));
 
 
   /***  NODE HANDLING  ***/

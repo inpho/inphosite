@@ -2,7 +2,7 @@ var w = 960;
 var h = 400;
 var root;
 var i = 0;
-var scale = 10;
+var scale = 8;
 
 var tree = d3.layout.tree()
   .size([h, w - 160]);
@@ -27,14 +27,14 @@ d3.json("/taxonomy.json", function(json) {
   
   function toggleAll(d) {
     if (d.children) {
-      d.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
+      d.children.sort(function(a,b){ return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1;});
       d.children.forEach(toggleAll);
       //toggle(d);
     }
   }
   //d3.select("svg").attr("height",  leaves(root)*15);
 
-  root.children.sort(function(a,b){ return (a.name > b.name) ? 1 : -1;});
+  root.children.sort(function(a,b){ return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1;});
   root.children.forEach(toggleAll);
   tree.nodes(root);
   tree.size([leaves(root)*scale, w - 160]);
@@ -92,7 +92,7 @@ function update(source) {
     .append("svg:a")
     .attr("xlink:href", function(d) { return window.location.protocol + "//" + window.location.host + d.url; })
     .text(function(d) {
-      return d.name;
+      return d.name.toLowerCase();
     });
 
   //Transition nodes to their new positions.
@@ -166,4 +166,21 @@ function toggle(d) {
     d.children = d._children;
     d._children = null;
   }
+}
+
+function toggleAllOn(d) {
+  if (!d.children) {
+    d.children = d._children;
+    d._children = null;
+  }
+  if (d.children)
+    d.children.forEach(toggleAllOn);
+}
+function toggleAllOff(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  }
+  if (d._children)
+    d._children.forEach(toggleAllOff);
 }

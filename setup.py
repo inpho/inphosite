@@ -15,7 +15,7 @@ setup(
     url='http://inpho.cogs.indiana.edu',
     install_requires=[
         "mysql-python>=1.2",
-        "Pylons>=1.0.0,<=1.0.99",
+	"SPARQLWrapper==1.5.2",
         "SQLAlchemy>=0.6.0,<=0.6.99",
         "Mako>=0.5.0,<=0.5.99",
         "WebHelpers>=1.0,<1.99",
@@ -26,8 +26,13 @@ setup(
         "BeautifulSoup>=3.2.0,<=3.2.99",
         "unittest2>=0.5.0",
         "distribute>= 0.6.0",
-	"SPARQLWrapper>=1.5.2",
- 	"rdfextras>=0.4"
+ 	"rdfextras>=0.4",
+        "Paste==1.7.5.1",
+        "PasteDeploy==1.5.2",
+        "PasteScript==1.7.5",
+        "Pylons>=1.0.0,<=1.0.99",
+        "WebOb==1.2.3",
+        "WebError==0.10.3"
         # "nltk>=2.0.0"
     ],
     dependency_links = [

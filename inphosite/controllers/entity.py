@@ -604,7 +604,7 @@ class EntityController(BaseController):
         gLODE = ConjunctiveGraph()
         gReturn = ConjunctiveGraph()
         # import InPhO data
-        gLODE.parse("http://inphodev.cogs.indiana.edu/~jammurdo/out_n3.20140207.rdf", format="n3")
+        gLODE.parse("http://inphodata.cogs.indiana.edu/lode/out_n3.20140207.rdf", format="n3")
 
         # builds a set of triples with the inpho id as the first entry and the
         # dbpedia id as the second 

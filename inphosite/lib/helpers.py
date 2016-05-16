@@ -91,9 +91,12 @@ def get_user(login):
 
     :rtype: :class:`inpho.model.User`
     """
-    user = Session.query(User).filter(or_(User.email==login,
-                                          User.username==login.lower())).first()
-    return user
+    if isinstance(login,str) or isinstance(login,unicode):
+        user = Session.query(User).filter(or_(User.email==login,
+                                              User.username==login.lower())).first()
+        return user
+    else:
+        raise Exception(login)
 
 def fetch_obj(type, id, error=404, new_id=False):
     """

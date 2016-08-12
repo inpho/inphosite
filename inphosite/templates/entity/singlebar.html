@@ -85,7 +85,7 @@ function calculateTopicMap(data, scale, sortFn){
 }
 
 var url = "/docs_topics/" + docid + '.json?n=1'
-var host = "http://inphodata.cogs.indiana.edu/sep/" + k + "/";
+var host = "https://inpho.cogs.indiana.edu:" + port;
 
 d3.json(host + url, function(error, data) {
   $('#status .bar', '#bar'+port).css('width', '50%').text('Loading topics...');
@@ -140,7 +140,14 @@ d3.json(host + url, function(error, data) {
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
         .attr("class", function(d) { return "top_" + d.name; })
-        .attr("title", function(d) { return d3.keys(topics[d.name]['words']).join(", ") + ", ..."; })
+        .attr("title", function(d) { return d3.keys(topics[d.name]['words']).sort(function(a,b) {
+              if (topics[d.name]['words'][a] > topics[d.name]['words'][b])
+                return -1;
+              else if (topics[d.name]['words'][a] < topics[d.name]['words'][b])
+                return 1;
+              else
+                return 0;
+            }).join(", ") + ", ..."; })
         .on("mouseover", function(d) {
             // SVG element z-index determined by render order, not style sheet
             // so element must be reappended to the end on hover so border 

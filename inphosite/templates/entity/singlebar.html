@@ -122,9 +122,7 @@ d3.json(host + url, function(error, data) {
 
     $("#bar" + port).before("<dt>"+k+" Topics</dt>");
 
-    var full_explorer_url = (k < 100) ?
-      "http://inphodata.cogs.indiana.edu:160"+k+"/?doc="+docid :
-      "http://inphodata.cogs.indiana.edu:16"+k+"/?doc="+docid;
+    var full_explorer_url = "http://inphodata.cogs.indiana.edu/sep/"+k+"/?doc="+docid;
   
     color.domain(d3.keys(data[0].topics));
   

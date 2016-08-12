@@ -32,7 +32,9 @@ setup(
         "PasteScript==1.7.5",
         "Pylons>=1.0.0,<=1.0.99",
         "WebOb==1.2.3",
-        "WebError==0.10.3"
+        "WebError==0.10.3",
+	"SPARQLWrapper>=1.5.2",
+ 	#"rdfextras>=0.4"
         # "nltk>=2.0.0"
     ],
     dependency_links = [

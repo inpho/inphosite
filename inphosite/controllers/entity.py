@@ -106,7 +106,7 @@ class EntityController(BaseController):
         
         c.missing_entity = 0
         # get the list of entities
-        c.entities = entity_q.all()
+        #c.entities = entity_q.all()
 
         c.nodes = Session.query(Node).filter(Node.parent_id == None)
         c.nodes = c.nodes.order_by("name").all()
@@ -131,7 +131,7 @@ class EntityController(BaseController):
         c.total = entity_q.count()
         # limit must be the last thing applied to the query
         entity_q = entity_q.limit(request.params.get('limit', None))
-        c.entities = entity_q.order_by(Entity.label).all()
+        c.entities = entity_q.all()
 
         if filetype=='json':
             response.content_type = 'application/json'

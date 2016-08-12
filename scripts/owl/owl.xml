@@ -158,13 +158,6 @@
 </Human>
 %endfor
 
-%for node in nodes:
-##node.idea.instances -- gets instances
-	%for instance in node.idea.instances:
-<${node.name.replace(" ","_")} rdf:ID="${instance.label.replace(" ","_")}" />
-##</${node.name.replace(" ","_")}>
-	%endfor
-%endfor
 
 %for node in nodes:
 <owl:Class rdf:ID="${node.name.replace(" ","_")}">
@@ -177,6 +170,20 @@
   </rdfs:subClassOf>
 </owl:Class>
 
+%endfor
+
+%for idea in ideas:
+%if idea.nodes:
+  %for node in idea.nodes:
+<${node.label.replace(" ","_")}  rdf:ID="${idea.label.replace(" ","_")}">
+  %endfor
+%elif idea.instance_of:
+  %for node in idea.instance_of:
+<${node.label.replace(" ","_")}  rdf:ID="${idea.label.replace(" ","_")}">
+  %endfor
+%else:
+<Idea rdf:ID="${idea.label.replace(" ","_")}">
+%endif
 %endfor
 
 %for profession in professions:

@@ -50,6 +50,7 @@ rect:hover {
 <script>
 function visualize(port) {
 
+var k = port - 16000;
 var maxRows = 25;
 var minCols = 2;
 
@@ -63,8 +64,6 @@ var x = d3.scale.linear()
     .range([0, width])
     .domain([0,1.0]);
 
-var color = d3.scale.category20c();
-
 var svg = d3.select("#bar"+port+" #chart").insert("svg")
     .attr("width", width)
     .attr("height", height)
@@ -76,17 +75,17 @@ function calculateTopicMap(data, scale, sortFn){
   data.forEach(function(d) {
     var sizeFactor = (scale) ? d.prob : 1.0
     var x0 = 0;
-    if (sortFn) d.topicMap = color.domain()
+    if (sortFn) d.topicMap =  d3.keys(d.topics)
       .sort(sortFn)
       .map(function(name) { return {name: name, x0: x0, x1: x0 += +(d.topics[name]*sizeFactor) }; });
-    else d.topicMap = color.domain()
+    else d.topicMap = d3.keys(d.topics)
       .map(function(name) { return {name: name, x0: x0, x1: x0 += +(d.topics[name]*sizeFactor) }; });
   });
   
 }
 
 var url = "/docs_topics/" + docid + '.json?n=1'
-var host = "https://inpho.cogs.indiana.edu:" + port;
+var host = "http://inphodata.cogs.indiana.edu/sep/" + k + "/";
 
 d3.json(host + url, function(error, data) {
   $('#status .bar', '#bar'+port).css('width', '50%').text('Loading topics...');
@@ -124,7 +123,6 @@ d3.json(host + url, function(error, data) {
 
     var full_explorer_url = "http://inphodata.cogs.indiana.edu/sep/"+k+"/?doc="+docid;
   
-    color.domain(d3.keys(data[0].topics));
   
     calculateTopicMap(data, true, function(a,b) {return data[0].topics[b] - data[0].topics[a];});
   
@@ -151,7 +149,7 @@ d3.json(host + url, function(error, data) {
             $(this).detach().appendTo(parent);
           })
         .on("click", function(d) { window.location = full_explorer_url; })
-        .style("fill", function(d) { return color(d.name); });
+        .style("fill", function(d) { return topics[d.name]['color']; });
   
   
     $(".doc rect").tooltip({container:'body', 

@@ -80,8 +80,8 @@ $(function() { $('.admin-text').bind('change', inpho.admin.process_change) });
 
 
 inpho.admin.submit_field = function(attr, url) {
-  var status_icon = $('.input-status', $('#' + attr).parent());
-  var value = document.getElementById(attr).value;
+  var status_icon = $('.input-status', $('input#' + attr).parent());
+  var value = $('input#'+attr).val();
   if (attr == "wiki") {
     if(value && value.substring(0, 29) == "http://en.wikipedia.org/wiki/")
       value = value.substring(29);
@@ -107,7 +107,7 @@ inpho.admin.submit_field = function(attr, url) {
         status_icon.removeClass('icon-share-alt');
         status_icon.removeClass('icon-loading');
         status_icon.addClass('icon-ok');
-        $('#'+attr).parents('.control-group').addClass('success');
+        $('input#'+attr).parents('.control-group').addClass('success');
         if (attr == "searchpatterns" || attr == "abbrs" || attr == "queries") {
           var val = value;
           val = val.replace("<", "&lt;")
@@ -122,7 +122,7 @@ inpho.admin.submit_field = function(attr, url) {
         }
       } else {
         status_icon.removeClass('icon-loading');
-        $('#'+attr).parents('.control-group').addClass('error');
+        $('input#'+attr).parents('.control-group').addClass('error');
         status_icon.addClass('icon-warning-sign');
       }
     }

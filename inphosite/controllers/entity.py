@@ -116,11 +116,16 @@ class EntityController(BaseController):
 
         c.sep = request.params.get('sep', '')
         
+        c.wiki = request.params.get('wiki', '')
+        
         if request.params.get('sep_filter', False):
             entity_q = entity_q.filter(Entity.sep_dir != '')
         
         if c.sep:
             entity_q = entity_q.filter(Entity.sep_dir == c.sep) 
+        
+        if c.wiki:
+            entity_q = entity_q.filter(Entity.wiki == c.wiki) 
 
         if c.query:
             o = or_(Entity.label.like(c.query+'%'), 
@@ -245,11 +250,13 @@ class EntityController(BaseController):
 
         if valid_params is None:
             if entity_type == 1: # Idea
-                valid_params = ["sep_dir", "searchstring", "searchpattern"]
+                valid_params = ["sep_dir", "searchstring", "searchpattern",
+                                "wiki"]
             elif entity_type == 3 or entity_type == 5: # Thinker or Work
                 valid_params = ["sep_dir", "wiki"]
             elif entity_type == 4: # Journal
-                valid_params = ["ISSN", "noesisInclude", "URL", "source", "abbr", "language", "student", "active"]
+                valid_params = ["ISSN", "noesisInclude", "URL", "source",
+                "abbr", "language", "student", "active", "wiki"]
             elif entity_type == 6: #School of Thought
                 valid_params = ["sep_dir", "wiki"]
                 

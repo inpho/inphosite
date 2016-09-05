@@ -62,7 +62,7 @@ while current:
     %else:
     <img src="/img/empty.gif" class="pull-right" width="16"/>
     %endif
-    %if isinstance(idea, Thinker) and idea.wiki:
+    %if idea.wiki:
     <a href="http://wikipedia.org/wiki/${idea.wiki.decode('utf-8')}" data-toggle="tooltip" title="${h.titlecase(idea.label)} on Wikipedia" class="pull-right"><img src="/img/wikiicon.png" class="pull-right"/></a>
     %else:
     <img src="/img/empty.gif" class="pull-right" width="16" />

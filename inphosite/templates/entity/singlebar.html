@@ -90,15 +90,15 @@ var host = "https://inpho.cogs.indiana.edu:" + port;
 d3.json(host + url, function(error, data) {
   $('#status .bar', '#bar'+port).css('width', '50%').text('Loading topics...');
   if (error) {
-    var isError = $('.bar.bar-danger ');
+    var isError = $('.bar.bar-warning ');
    console.log(isError[0] +" Hello");    
     $('#status .progress', '#bar'+port).removeClass('active progress-striped');
     if(isError[0]){
        $('#status .progress', '#bar'+port).remove();
     }
     else{
-      var errormsg = "Invalid document: " + docid + ".";
-      $('#status .bar', '#bar'+port).addClass('bar-danger').text(errormsg);
+      var errormsg = docid + " is a new article, not yet archived by the SEP.";
+      $('#status .bar', '#bar'+port).css('width', '100%').addClass('bar-warning').text(errormsg);
     }
     return false;
   }

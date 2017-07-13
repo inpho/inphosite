@@ -1,7 +1,6 @@
 <%! import urllib, itertools %>
 <%inherit file="/base-tree.html" />
 <%namespace name="entity" file="/entity/entity.html" />
-<%namespace name="eval" file="/idea/idea-edit.html" />
 <%namespace name="singleBar" file="/entity/singlebar.html" />
 <%def name="head()">
 <script src="/js/eval.js" type="text/javascript"></script>
@@ -151,9 +150,6 @@ ${entity.printMissing()}
     </div>
 %endif
 </div> <!-- tab-content -->
-
-  <!-- include jQuery -->
-  <script src="/jquery/jquery-1.7.2.min.js"></script>
 
   <!-- Include the imagesLoaded plug-in -->
   <script src="/js/jquery.imagesloaded.js"></script>

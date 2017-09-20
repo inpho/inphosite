@@ -5,10 +5,13 @@ from repoze.who.classifiers import default_request_classifier
 from repoze.who.interfaces import IRequestClassifier
 from pylons.controllers.util import abort
 from pylons import request
-import helpers as h
 
 from hashlib import md5
 import urllib2
+
+from inpho.model import User
+from inpho.model import Session
+from sqlalchemy import or_
 
 def encrypt(password, secret=''):
     ''' Encryption function for use on passwords '''
@@ -48,9 +51,29 @@ def username(request):
     return request.environ.get('repoze.who.identity')['user'].username
 
 
+def rot(cookie=None):
+    ascii_table = "".join([chr(i) for i in xrange(32,127)])
+    rot_table = ascii_table[48:] + 'O' + ascii_table[:47]
+    trans = string.maketrans(ascii_table, rot_table)
+    decoded = str(cookie).translate(trans)
+    return decoded
+
+def get_user(login):
+    """
+    Returns the User object from the model.
+
+    :rtype: :class:`inpho.model.User`
+    """
+    if isinstance(login,str) or isinstance(login,unicode):
+        user = Session.query(User).filter(or_(User.email==login,
+                                              User.username==login.lower())).first()
+        return user
+    else:
+        raise Exception(login)
+
 
 def user_exists(username):
-    return h.get_user(username) is not None  
+    return get_user(username) is not None  
 
 def get_username_from_cookie(cookie):
     """
@@ -62,7 +85,7 @@ def get_username_from_cookie(cookie):
     if cookie == "null":
         return None
 
-    decodedCookie = h.rot(cookie)
+    decodedCookie = rot(cookie)
     ip = request.environ.get('REMOTE_ADDR')
     index = decodedCookie.find(ip, 0, len(ip))
     if index != -1:
@@ -88,7 +111,7 @@ class UserModelPlugin(object):
             return None
        
          
-        user = h.get_user(username)
+        user = get_user(username)
         if user and encrypt(password) == user.password:
                 return username
         else:
@@ -96,7 +119,7 @@ class UserModelPlugin(object):
     
     def add_metadata(self, environ, identity):
         username = identity.get('repoze.who.userid')
-        user = h.get_user(username)
+        user = get_user(username)
         if user is not None:
             identity['user'] = user    
 

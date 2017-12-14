@@ -275,3 +275,7 @@ margin-right:10px;
 .entityclass img {
   display: block;
 }
+a.link-icon, img.link-icon {
+    width: 14px;
+    height: 14px;
+}

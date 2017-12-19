@@ -186,7 +186,7 @@ Hello %(name)s, you are logged in as %(username)s.
         new_password = user.reset_password()
 
 
-        msg = Message("inpho@indiana.edu", user.email,
+        msg = Message("no-reply@inphoproject.org", user.email,
                       "InPhO password reset")
         msg.plain = """
 %(name)s, your password at the Indiana Philosophy Ontology (InPhO) has been changed to:
@@ -194,7 +194,7 @@ Username: %(uname)s
 Password: %(passwd)s
 
 The Indiana Philosophy Ontology (InPhO) Team
-inpho@indiana.edu
+inpho@inphoproject.org
                        """ % {'passwd' : new_password,
                               'uname' : user.username,
                               'name' : user.fullname or user.username or ''}
@@ -351,21 +351,21 @@ inpho@indiana.edu
         password = user.reset_password()
         Session.commit()
 
-        msg = Message("inpho@indiana.edu", self.form_result['email'], 
+        msg = Message("inpho@inphoproject.org", self.form_result['email'], 
                       "InPhO registration")
         msg.plain = """Dear %(name)s, 
 Thank you for registering with the Indiana Philosophy Ontology Project (InPhO).
 
-You can sign in at https://inpho.cogs.indiana.edu/signin with the following
+You can sign in at https://inphoproject.org/signin with the following
 information:
 
 Username: %(uname)s
 Password: %(passwd)s
 
-You may change your password at https://inpho.cogs.indiana.edu/account/edit .
+You may change your password at https://inphoproject.org/account/edit .
 
 The Indiana Philosophy Ontology Project (InPhO) Team
-inpho@indiana.edu
+inpho@inphoproject.org
                        """ % {'passwd' : password,
                               'uname' : user.username,
                               'name' : user.fullname or user.username or ''}

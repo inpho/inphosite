@@ -175,14 +175,14 @@
 %for idea in ideas:
 %if idea.nodes:
   %for node in idea.nodes:
-<${node.label.replace(" ","_")}  rdf:ID="${idea.label.replace(" ","_")}">
+<${node.label.replace(" ","_")}  rdf:ID="${idea.label.replace(" ","_")}" />
   %endfor
 %elif idea.instance_of:
   %for node in idea.instance_of:
-<${node.label.replace(" ","_")}  rdf:ID="${idea.label.replace(" ","_")}">
+<${node.label.replace(" ","_")}  rdf:ID="${idea.label.replace(" ","_")}" />
   %endfor
 %else:
-<Idea rdf:ID="${idea.label.replace(" ","_")}">
+<Idea rdf:ID="${idea.label.replace(" ","_")}" />
 %endif
 %endfor
 

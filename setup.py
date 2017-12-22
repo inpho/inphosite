@@ -20,7 +20,6 @@ setup(
         "Mako>=0.5.0,<=0.5.99",
         "WebHelpers>=1.0,<1.99",
         "repoze.who>=1.0,<=1.0.99",
-        "Sphinx>=1.1.0,<=1.1.99",
         "inflect>=0.2.0,<=0.2.99",
         "turbomail>=3.0.0,<=3.0.99",
         "BeautifulSoup>=3.2.0,<=3.2.99",
@@ -33,7 +32,6 @@ setup(
         "Pylons>=1.0.0,<=1.0.99",
         "WebOb==1.2.3",
         "WebError==0.10.3",
-	"SPARQLWrapper>=1.5.2",
  	#"rdfextras>=0.4"
         # "nltk>=2.0.0"
     ],

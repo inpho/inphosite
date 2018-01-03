@@ -216,6 +216,10 @@ body {
     content: "@indiana.edu";    
 }
 
+.inphoproject:after {
+    content: "@inphoproject.org";
+}
+
 
 /*
 .person:nth-child(even) {

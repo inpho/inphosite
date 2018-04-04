@@ -102,6 +102,7 @@ ${singleBar.render(16120)}
       ${entity.printList('teachers', type="thinker", method='manual')}
       ${entity.printList('related', 'Related Thinkers', method='statistical', type="thinker")}
       ${entity.printList('related_ideas', 'Related Terms', method='statistical', type="thinker")}
+      <script>loadMore()</script> <!--Checks to see if there are any sections with no content-->
    </div>
 %if not (c.entity.influenced[:10] or c.entity.influenced_by[:10] or c.entity.related[:10] or c.entity.related_ideas[:10] or c.entity.teachers[:10] or c.entity.students[:10]):
 ${entity.printMissing()}

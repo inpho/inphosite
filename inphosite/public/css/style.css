@@ -2,12 +2,32 @@ body {
     padding-top: 60px;
     }
 
+/*Overrides default values and also adjusts indentation to fit in grids*/
 .entityclass {
     /*hanging indent*/
     padding-left: 2em;
-    text-indent: -1em;
+    text-indent: 0em;
     dispay: inline-block;
-    width: 160px;   
+    width: 160px;
+    left: 55px !important;
+    top: 0px !important;
+    position: relative !important;
+}
+
+/*Adds border per section*/
+.content {
+    border-bottom: 1px dashed black;
+}
+
+/*Allows tooltips to be positioned properly*/
+.tooltip  {
+    position: fixed !important;
+    margin-left: 160px !important;
+    margin-top: -107px !important;
+}
+
+.tab-content {
+    overflow: unset !important;
 }
 
 .footer {
@@ -255,6 +275,10 @@ margin-right:10px;
   position: relative; /** Needed to ensure items are laid out relative to this container **/
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 310px);
+  grid-template-rows: repeat(3, 30px auto);
+  grid-row-gap: 5px;
 }
 
 /**

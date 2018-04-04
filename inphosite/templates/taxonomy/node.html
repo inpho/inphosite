@@ -78,7 +78,7 @@ ${singleBar.render(16120)}
 </dl>
 </div>
 %endif
-    <div class="tilecontainer">
+    <div class="tilecontainer" id="tc">
     	${entity.printList('instances', method='reasoning')}
         ##${entity.printList('children', 'Subclasses')}  
     	${entity.printList('links', method='reasoning')}
@@ -86,6 +86,7 @@ ${singleBar.render(16120)}
         ${entity.printList('related_thinkers', method='statistical')}
         ${entity.printList('hyponyms', method='statistical')}
         ${entity.printList('occurrences', method='statistical')}
+      <script>loadMore()</script> <!--Checks to see if there are any sections with no content-->
     </div>
 
 %if not (c.entity.links[:10] or c.entity.instances[:10] or c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):

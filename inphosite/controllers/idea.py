@@ -36,6 +36,10 @@ import time
 from collections import defaultdict
 import urllib2
 
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 #Schema for validating form data from "edit idea" admin interface
 #class IdeaSchema(Schema):
 #    idea_id = validators.String(not_empty=True)

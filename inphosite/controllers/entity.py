@@ -35,7 +35,9 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from rdflib import URIRef
 import csv
 
-
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 log = logging.getLogger(__name__)
 

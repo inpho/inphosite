@@ -11,6 +11,10 @@ from inpho.model.idea import IdeaEvaluation
 from inpho.model.taxonomy import *
 from inpho.model import Session
 
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 log = logging.getLogger(__name__)
 
 class TaxonomyController(EntityController):

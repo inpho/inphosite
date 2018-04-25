@@ -121,7 +121,7 @@ d3.json(host + url, function(error, data) {
 
     $("#bar" + port).before("<dt>"+k+" Topics</dt>");
 
-    var full_explorer_url = "http://inphodata.cogs.indiana.edu/sep/"+k+"/?doc="+docid;
+    var full_explorer_url = "https://www.hypershelf.org/sep/"+k+"/?doc="+docid;
   
   
     calculateTopicMap(data, true, function(a,b) {return data[0].topics[b] - data[0].topics[a];});

@@ -156,7 +156,7 @@ d3.json(host + url, function(error, data) {
             $(this).detach().appendTo(parent);
           })
         .on("click", function(d) { window.location = full_explorer_url; })
-        .style("fill", function(d) { return topics[d.name]['color']; });
+        .style("fill", function(d) { return barColors(topics[d.name]['color'], d.name); });
   
   
     $(".doc rect").tooltip({container:'body', 
@@ -167,6 +167,32 @@ d3.json(host + url, function(error, data) {
     setTimeout(function() {$('#main', '#bar'+port).show()}, 250);
 
 }); });
+
+//Functions to help with gradient, similar to the ones in topicexplorer
+function barColors(myColor, myId) {
+  var mainGradient = svg.append('linearGradient')
+      .attr('id', myId);
+  mainGradient.append('stop')
+      .attr('stop-color', myColor)
+      .attr('offset', '0');
+  mainGradient.append('stop')
+      .attr('stop-color', hexToRgbA(myColor, .7))
+      .attr('offset', '1');
+  return "url(#" + myId + ")";
+}
+
+function hexToRgbA(hex, a){
+  var c;
+  if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+      c= hex.substring(1).split('');
+      if(c.length== 3){
+          c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c= '0x'+c.join('');
+      return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + a + ')';
+  }
+  throw new Error('Bad Hex');
+}
 
 }
 </script>

@@ -2,6 +2,7 @@
 *.egg/
 *.egg-info
 docs/build
+.eggs
 
 sandbox
 development.ini

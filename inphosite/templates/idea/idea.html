@@ -133,6 +133,7 @@ ${entity.printList('related', 'Related Terms', method='statistical')}
 ${entity.printList('related_thinkers', method='statistical')}
 ${entity.printList('hyponyms', method='statistical')}
 ${entity.printList('occurrences', method='statistical')}
+<script>loadMore()</script> <!--Checks for sections with no content-->
   </div>
 %if not (c.entity.related[:10] or c.entity.related_thinkers[:10] or c.entity.hyponyms[:10] or c.entity.occurrences[:10]):
 ${entity.printMissing()}

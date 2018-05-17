@@ -17,6 +17,10 @@ from inpho.model import Idea, Entity, User
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 log = logging.getLogger(__name__)
 
 unary_vars = {

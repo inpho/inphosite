@@ -66,7 +66,7 @@ while current:
     <img src="/img/empty.gif" class="pull-right link-icon" width="16"/>
     %endif
     %if idea.wiki:
-    <a href="http://wikipedia.org/wiki/${idea.wiki.decode('utf-8')}" data-toggle="tooltip" title="${h.titlecase(idea.label)} on Wikipedia" class="link-icon pull-right" target="_blank"><img src="/img/wikiicon.png" class="pull-right link-icon"/></a>
+    <a href="http://wikipedia.org/wiki/${idea.wiki}" data-toggle="tooltip" title="${h.titlecase(idea.label)} on Wikipedia" class="link-icon pull-right" target="_blank"><img src="/img/wikiicon.png" class="pull-right link-icon"/></a>
     %else:
     <img src="/img/empty.gif" class="pull-right link-icon" width="16" />
     %endif

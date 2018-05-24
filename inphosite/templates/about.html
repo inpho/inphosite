@@ -45,48 +45,110 @@ And the ongoing support of the <a href="http://www.cogs.indiana.edu/">Cognitive 
 
 <div class="span5 inphormers offset1">
 <h3>The InPhOrmers</h3>
-<ul class="unstyled">
-<li class="person">
-  <img src="/img/front/colin.jpg" />
-  <h4><a href="http://mypage.iu.edu/~colallen">Colin Allen</a> <small>Project Director</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/cbuckner.jpg" />
-  <h4><a href="http://cameronbuckner.net/professional/">Cameron Buckner</a> <small>Founding Project Member</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/mniepert.jpg" />
-  <h4><a href="http://www.matlog.net/research.php">Mathias Niepert</a> <small>Founding Project Member</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/anon.jpg" />
-  <h4><a href="http://mypage.iu.edu/~bkievitk/">Brent Kievit-Kylar</a> <small>Graduate Asisstant</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/anon.jpg" />
-  <h4><a href="http://jamram.net">Jaimie Murdock</a> <small>Graduate Asisstant</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/anon.jpg" />
-  <h4><a href="https://sites.google.com/site/junotk/">Jun Otsuka</a> <small>Graduate Asisstant</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/anon.jpg" />
-  <h4>Robert Rose <small>Graduate Asisstant</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/anon.jpg" />
-  <h4>Alex Frost <small>Undergraduate Programmer</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/anon.jpg" />
-  <h4><a href="http://www.hexedbits.com/">Jesse Squires</a> <small>Programmer</small></h4>
-</li>
-<li class="person">
-  <img src="/img/front/jessie.jpg" />
-  <h4>Jessie Pusateri <small> Undergraduate Programmer</small></h4>
-</li>
-</ul>
+<ul class="unstyled" id="people"></ul>
+<script>
+  //Loads the json in
+  fetch('../people.json')
+    .then(resp => resp.json()).then(json => {loadData(json);});
+
+  //Lods the data into the html page
+  function loadData(json) {
+    let otherData = [];
+    var active = [];
+    var inactive = [];
+    for (const person of json) {
+      otherData.push({"times" : person.roles.map(role => ({"starting_time" : role.start,
+                                  "ending_time" : role.end ? role.end : 2018}) ),
+                      "label" : person.name,
+                      "role" : person.roles[person.roles.length - 1].role});
+      if(person.roles[person.roles.length - 1].end) {
+        inactive.push(otherData[otherData.length - 1]);
+      } else {
+        active.push(otherData[otherData.length - 1]);
+      }
+    }
+
+    otherData = sortData(inactive, active);
+    var i = 0;
+    var ul = document.getElementById("people");
+    while(i < otherData.length) {
+      var child = document.createElement('p');
+      child.innerHTML = "<Strong>" + otherData[i].label + " - " + otherData[i].role + "</Strong>";
+      ul.appendChild(child);
+      i++;
+    }
+  }
+
+  //Calculates the sums for everyone involved using the calculateSum method
+  function sortData(inactive, active) {
+  var act = active;
+  var actSums = [];
+  var inact = inactive;
+  var inactSums = [];
+  var i = 0;
+  while(i < act.length) {
+    actSums[i] = calculateSum(act[i]);
+    i++;
+  }
+  i = 0;
+  while(i < inact.length) {
+    inactSums[i] = calculateSum(inact[i]);
+    i++;
+  }
+  act = sort(act, actSums);
+  inact = sort(inact, inactSums);
+  var newArr = act;
+  i = 0;
+  while(i < inact.length) {
+    newArr.push(inact[i]);
+    i++;
+  }
+  return newArr;
+}
+
+//Helps determine the amount everyone has been working on the project
+function calculateSum(person) {
+  var j = 0;
+  var sum = 0;
+  while(j < person.times.length) {
+    sum += person.times[j].ending_time - person.times[j].starting_time;
+    j++;
+  }
+  return sum;
+}
+
+//Sorts the data of the array based off those involved the longest
+function sort(arr, sums) {
+  var i = 1;
+  var boo = false;
+  var ret;
+  do {
+    boo = false;
+    i = 1;
+    while(i < arr.length) {
+      if(sums[i - 1] < sums[i]) {
+        ret = exch(arr, sums, i - 1, i);
+        arr = ret[0];
+        sums = ret[1];
+        boo = true;
+      }
+      i++;
+    }
+  } while(boo);
+  return arr;
+}
+
+//Swaps two elements in an array to help with sorting
+function exch(arr, sums, i, j) {
+  var temp = arr[i];
+  var temp2 = sums[i];
+  arr[i] = arr[j];
+  sums[i] = sums[j];
+  arr[j] = temp;
+  sums[j] = temp2;
+  return [arr, sums];
+}
+</script>
 </div>
 
 <div class="span3">
@@ -117,4 +179,71 @@ $('#search-btn').click(function() {
   $('#search-form').toggle('slow');
   $('#q').focus();
   });
+
+function getData() {
+  console.log("hello");
+}
+
+function sortData(inactive, active) {
+  var act = active;
+  var actSums = [];
+  var inact = inactive;
+  var inactSums = [];
+  var i = 0;
+  while(i < act.length) {
+    actSums[i] = calculateSum(act[i]);
+    i++;
+  }
+  i = 0;
+  while(i < inact.length) {
+    inactSums[i] = calculateSum(inact[i]);
+    i++;
+  }
+  act = sort(act, actSums);
+  inact = sort(inact, inactSums);
+  var newArr = act;
+  i = 0;
+  while(i < inact.length) {
+    newArr.push(inact[i]);
+    i++;
+  }
+  return newArr;
+}
+function calculateSum(person) {
+  var j = 0;
+  var sum = 0;
+  while(j < person.times.length) {
+    sum += person.times[j].ending_time - person.times[j].starting_time;
+    j++;
+  }
+  return sum;
+}
+function sort(arr, sums) {
+  var i = 1;
+  var boo = false;
+  var ret;
+  do {
+    boo = false;
+    i = 1;
+    while(i < arr.length) {
+      if(sums[i - 1] < sums[i]) {
+        ret = exch(arr, sums, i - 1, i);
+        arr = ret[0];
+        sums = ret[1];
+        boo = true;
+      }
+      i++;
+    }
+  } while(boo);
+  return arr;
+}
+function exch(arr, sums, i, j) {
+  var temp = arr[i];
+  var temp2 = sums[i];
+  arr[i] = arr[j];
+  sums[i] = sums[j];
+  arr[j] = temp;
+  sums[j] = temp2;
+  return [arr, sums];
+}
 </script>

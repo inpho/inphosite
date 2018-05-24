@@ -1,0 +1,142 @@
+[{"name" : "Colin Allen",
+  "roles" : [{"role" : "Director", "start" : 2007}],
+  "link" : "http://colinallen.dnsalias.org/"},
+
+ {"name" : "Cameron Buckner",
+  "current" : "Assistant Professor, University of Houston",
+  "roles" : [{"role" : "Research Assistant", "start" : 2007, "end": 2013.66}],
+  "link" : "http://cameronbuckner.net/professional/"},
+ {"name" : "Mathias Niepert",
+  "current" : "Senior Researcher, NEC Labs",
+  "roles" : [{"role" : "Research Assistant", "start" : 2007, "end": 2011.33},
+    {"role" : "Principal Investigator", "start" : 2011.33, "end" : 2013.66}],
+  "link" : "http://matlog.net/"},
+ 
+ {"name" : "Jaimie Murdock",
+  "current" : "Web Applications Developer at arXiv (Cornell)",
+  "roles" : [
+     {"role" : "Undergraduate Programmer", "start" : 2007.66, "end": 2011.66},
+     {"role" : "Research Associate", "start" : 2011.66, "end": 2013.66},
+     {"role" : "Research Assistant", "start" : 2013.66, "end": 2016.33},
+     {"role" : "Consultant", "start" : 2016.33}],
+  "link" : "http://jamram.net"},
+ 
+ {"name" : "Tarun Gangwani",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2008.00, "end": 2009.66}]},
+ 
+ {"name" : "Scott Weingart",
+  "current" : "Program Director, Digital Humanities, Carnegie Mellon University",
+  "roles" : [{"role" : "Research Associate", "start" : 2009.66, "end": 2011.00}],
+  "link" : "http://scottbot.net/"},
+
+ {"name" : "Evan Boggs",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2011.20, "end": 2011.66}]},
+ 
+ {"name" : "Samuel Waggoner",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2011.66, "end": 2013.33}]},
+
+ {"name" : "Robert Rose",
+  "current" : "Lecturer, Indiana University",
+  "roles" : [{"role" : "Research Assistant", "start" : 2011.66, "end": 2015.00}]},
+ 
+ 
+ {"name" : "Alex Frost",
+  "roles" : [
+    {"role" : "Undergraduate Programmer", "start" : 2011.66, "end": 2012.33},
+    {"role" : "Undergraduate Programmer", "start" : 2012.66, "end": 2013.33},
+    {"role" : "Undergraduate Researcher", "start" : 2013.66, "end": 2014.33}
+  ]},
+ {"name" : "Wesley Pettyjohn",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2011.66, "end": 2012.33}]},
+ 
+
+ {"name" : "Indraneel Dey",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2012.66, "end": 2014.00}]},
+ {"name" : "Jun Otsuka",
+  "current" : "Associate Professor, Kyoto University",
+  "roles" : [{"role" : "Research Assistant", "start" : 2012.66, "end": 2013.33}],
+  "link" : "https://junotk.wordpress.com/"},
+ {"name" : "Jesse Squires",
+  "current" : "iOS Developer, PlanGrid",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2012.66, "end": 2013.33}]},
+ {"name" : "Sam Zorowitz",
+  "current" : "PhD Candidate, Neuroscience, Princeton Unversity",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2012.66, "end": 2013.33}]},
+ 
+ {"name" : "Ryan Penelton",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2013.00, "end": 2013.33}]},
+ {"name" : "Tim Downey",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2013.00, "end": 2013.33}]},
+ {"name" : "Brent Kievit-Kylar",
+  "current" : "Senior Software Engineer, Google",
+  "roles" : [{"role" : "Research Assistant", "start" : 2013.00, "end": 2013.66}]},
+ {"name" : "Doori Rose",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2013.00, "end": 2015.00}]},
+ {"name" : "Jessie Pusateri",
+  "current" : "Hardware Reliability Engineer, Apple Computer",
+  "roles" : [
+    {"role" : "Undergraduate Programmer", "start" : 2014.00, "end": 2014.33},
+    {"role" : "Undergraduate Programmer", "start" : 2014.66, "end": 2015.33},
+    {"role" : "Undergraduate Programmer", "start" : 2015.66, "end": 2016.00},
+    {"role" : "Undergraduate Researcher", "start" : 2016.00, "end": 2016.33}
+  ]},
+ {"name" : "Loran Saggu",
+  "roles" : [
+    {"role" : "Undergraduate Programmer", "start" : 2014.00, "end": 2014.33},
+    {"role" : "Undergraduate Researcher", "start" : 2016.00, "end": 2016.33}
+  ]},
+ 
+ {"name" : "Sara Zhang",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2014.00, "end": 2014.66}]},
+ 
+ {"name" : "Rohit Zawar",
+  "roles" : [{"role" : "Graduate Programmer", "start" : 2014.0, "end" : 2015.33}]},
+ {"name" : "Aishwarya Iyer",
+  "roles" : [{"role" : "Graduate Programmer", "start" : 2014.5, "end" : 2015.33}]},
+ {"name" : "Clayton Tow",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2014.66, "end": 2015.33}]},
+ {"name" : "Justin Stamets",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2015.00, "end": 2017.00}]},
+
+ {"name" : "Hannah Eli",
+  "roles" : [
+    {"role" : "Undergraduate Researcher", "start" : 2015.66, "end": 2016.33},
+    {"role" : "Undergraduate Researcher", "start" : 2016.66, "end": 2017.00}]},
+ {"name" : "Lauren Gaynor",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2015.66, "end": 2016.33}]},
+ {"name" : "Catherine Xu",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2015.66, "end": 2017.33}]},
+
+ {"name" : "Adithya Nagaraj-Tirumale",
+  "roles" : [{"role" : "Graduate Programmer", "start" : 2016.00, "end" : 2016.33}]},
+{"name" : "Aish Thamba",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2016.66, "end": 2017.33}]},
+ {"name" : "Gahyeong Jung",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2016.66, "end": 2017.33}]},
+
+
+ {"name" : "Kirtan Sakariya",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2017.66 }]},
+ {"name" : "Ram Iyer",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2018.25 }]},
+ {"name" : "Pat Healy",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2018.25 }]},
+ {"name" : "Vanessa Colihan",
+  "roles" : [{"role" : "Undergraduate Programmer", "start" : 2018.25 }]},
+ {"name" : "Rachel Boward",
+  "roles" : [{"role" : "Undergraduate Researcher", "start" : 2018.25 }]},
+ 
+ {"name" : "Ruth Eberle",
+  "roles" : [{"role" : "IU COGS", "start" : 2007.00 }]},
+ {"name" : "Nubli Mohd-Kasa",
+  "roles" : [{"role" : "IU COGS", "start" : 2007.00, "end" : 2012.00}]},
+ {"name" : "Patrick Craig",
+  "roles" : [{"role" : "IU COGS", "start" : 2012.50, "end" : 2015.66}]},
+ {"name" : "Abhinav Rane",
+  "roles" : [{"role" : "IU COGS", "start" : 2012.5, "end" : 2013.0}]},
+ {"name" : "Krishna Sripada",
+  "roles" : [{"role" : "IU COGS", "start" : 2016.00, "end" : 2017.33}]},
+ {"name" : "Sairam Bhyravabhotla",
+  "roles" : [{"role" : "IU COGS", "start" : 2016.33, "end" : 2017.33}]}
+
+]

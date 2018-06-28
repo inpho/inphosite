@@ -1,0 +1,21 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Entities with errors loading</%def>
+<%def name="head_title()">Entities with errors loading</%def>
+<div id="content">
+
+<div value="load_error" class="di_filter">
+  <h2>Cannot load (${len(c.load_error)})</h2>
+  <ul>
+    %for entity in c.load_error:
+    <li><a href="${entity.url()}" target="_blank">${entity.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<script>
+$('.di_filter').each(function (idx, elt) {
+    $(elt).show();
+});
+</script>
+
+</div>

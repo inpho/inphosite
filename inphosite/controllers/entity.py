@@ -24,6 +24,7 @@ from sqlalchemy.sql.expression import func
 from inphosite.lib.multi_get import multi_get
 from urllib import quote_plus
 import urllib
+from urllib import urlopen
 import simplejson
 
 from xml.etree.ElementTree import parse
@@ -47,6 +48,48 @@ class DateException(Exception):
 class EntityController(BaseController):
     _type = Entity
     _controller = 'entity'
+
+    def data_integrity(self, filetype="html", redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        entity_q = Session.query(Entity)
+        c.entities = list(entity_q)
+
+        c.missing_sep_dir = []
+        c.mult_sep_dir = []
+
+        for entity in c.entities:
+            if not getattr(entity, 'sep_dir'):
+                c.missing_sep_dir.append(entity)
+            else:
+                for comp_entity in c.entities:
+                    if getattr(entity, 'sep_dir') == getattr(comp_entity, 'sep_dir') and entity != comp_entity:
+                       c.mult_sep_dir.append(getattr(entity, 'sep_dir'))
+
+        return render('entity/data_integrity.' + filetype)
+
+    #separate from data_integrity for time required to check
+    def load_check(self, filetype="html", redirect=False):
+        if not h.auth.is_logged_in():
+            abort(401)
+        if not h.auth.is_admin():
+            abort(403)
+
+        entity_q = Session.query(Entity)
+        c.entities = list(entity_q)
+
+        c.load_error = []
+
+        for entity in c.entities:
+            try:
+                urlopen(h.url('https://www.inphoproject.org', getattr(entity, 'url')))
+            except Exception as e:
+                c.load_error.append(entity)
+
+        return render('entity/load_check.' + filetype)
 
     # UPDATE
     def update(self, id, terms=None):

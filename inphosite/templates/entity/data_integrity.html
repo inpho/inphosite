@@ -1,0 +1,47 @@
+<%inherit file="/base-tree.html"/>
+<%def name="title()">Entities with bad/missing sep_dirs</%def>
+<%def name="head_title()">Entities with bad/missing sep_dirs</%def>
+<div id="content">
+
+<p>Select a field to see the list of Entities with the missing/bad sep_dirs.</p>
+<script>
+function showFilter(){
+    var chosen = $('#bad_field').val();
+    $('.di_filter').each(function (idx, elt) {
+        if ($(elt).attr('value') == chosen)
+            $(elt).show();
+        else
+            $(elt).hide();
+    });
+}
+</script>
+
+<select id="bad_field" onchange="showFilter()">
+  <option>None</option>
+  <option value="sep_dir">Missing sep_dir (${len(c.missing_sep_dir)} Entity(s))</option>
+  <option value="mult_sep_dir">Same sep_dir sharing (${len(c.mult_sep_dir)} Entity(s))</option>
+</select>
+
+
+<div value="sep_dir" class="di_filter">
+  <h2>Missing sep_dir (${len(c.missing_sep_dir)})</h2>
+  <ul>
+    %for entity in c.missing_sep_dir:
+    <li><a href="${entity.url()}" target="_blank">${entity.label}</a></li>
+    %endfor
+  </ul>
+</div>
+
+<div value="mult_sep_dir" class="di_filter">
+  <h2>Multiple sep_dir (${len(c.mult_sep_dir)})</h2>
+  <ul>
+    %for dir in c.mult_sep_dir:
+    <li><a href="${h.url('/entity', sep=dir)}" target="_blank">${dir}</a></li>
+    %endfor
+  </ul>
+</div>
+
+
+<script>showFilter()</script>
+
+</div>

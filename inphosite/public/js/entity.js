@@ -86,9 +86,7 @@ function loadMore() {
   //Handles formatting of message in the last empty section if thers is one
   if (m == 1)
     add.innerHTML = '<p align="center">Currently we have no data for ' + list[0] + '. If you have suggestions, please send them to <strong>inpho@inphoproject.org</strong></p>';
-  if (m == 4)
-    add.innerHTML = '<p align="center">Currently we are experiencing technical difficulties so some data may not be displayed.</p>';
-  if (m > 1 && m < 4) {
+  if (m > 1) {
     for (i = 0; i < m - 1; i++) {
       text += list[i] + ", ";
     }

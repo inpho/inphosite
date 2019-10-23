@@ -52,7 +52,7 @@
   <p>No search results.</p>
   %else:
   <ol class="unstyled">
-    %for i in range(min(len(results['items']), 4)):
+    %for i in range(min(len(results['items']), 10)):
     <% r = results['items'][i] %>
     <li>
       <h4>
@@ -71,11 +71,6 @@ if icon:
   <p style="text-align:right; font-weight:bold">
     <a target="_blank" href="${results['responseData']['cursor']['moreResultsUrl'] | n}">${img}More results...</a>
   </p>
-  %else:
-  <% more = results_link + "?cx=" + c.noesis_cx + "&q=" + c.noesis_searchstr + "&cof=FORID:11" %>
-  <p style="text-align:right; font-weight:bold">
-    <a target="_blank" href="${more | n}">${img}More results...</a>
-  </p>
   %endif
   %endif
 </div>
@@ -92,8 +87,18 @@ if icon:
   <ol class="unstyled">
     %for item in c.sep[:4]:
     <li>
-      <h4><a href="${item['URL']}" target="_blank">${item['Text'] | n}</a></h4>
-      <p>${item['LongDescription'] | n}</p>
+      <h4>
+        <a href="${item['URL']}" target="_blank">
+          %for te in item['Text']:
+            ${te}
+          %endfor
+        </a>
+      </h4>
+      <p>
+        %for desc in item['LongDescription']:
+          ${desc}
+        %endfor
+      </p>
     </li>
     %endfor
   </ol>

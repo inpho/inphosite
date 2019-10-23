@@ -31,6 +31,8 @@ from xml.etree.ElementTree import parse
 from xml.etree import ElementTree as ET
 from sqlalchemy.exc import IntegrityError
 
+from bs4 import BeautifulSoup
+
 from rdflib.graph import ConjunctiveGraph
 from SPARQLWrapper import SPARQLWrapper, JSON
 from rdflib import URIRef
@@ -375,7 +377,7 @@ class EntityController(BaseController):
         # Run searches
         try:
             c.sep = EntityController._search_sep(c.entity, c.entity2)
-        except:
+        except Exception as e:
             c.sep = None
 
         try:
@@ -413,26 +415,22 @@ class EntityController(BaseController):
             c.sep_searchstr = quote_plus(searchstr.encode('utf8'))
 
         # Put together URL string
-        url = "http://plato.stanford.edu/cgi-bin/search/xmlSearcher.py?query=" + \
+        url = "http://plato.stanford.edu/search/searcher.py?query=" + \
               c.sep_searchstr
 
-        # Get results and parse the XML
         results = multi_get([url])[0][1]
         json = None
         if results:
-            tree = ET.ElementTree(ET.fromstring(results))
-            root = tree.getroot()
+            soup = BeautifulSoup(results, 'html.parser')
+            divs = soup.findAll('div', {'class': 'result_listing'})
             json = []
-            for element in root.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Item'):
+            for div in divs:
                 dict = {}
-                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Text'):
-                    dict['Text'] = iter.text
-                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}LongDescription'):
-                    dict['LongDescription'] = iter.text
-                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
-                    dict['URL'] = 'http://plato.stanford.edu/entries/%s/' % iter.text
-                for iter in element.getiterator('{http://a9.com/-/spec/opensearch/1.1/}Location'):
-                    dict['Location'] = iter.text
+                dict['Text'] = div.find('a', {'class': 'l'}).contents
+                dict['LongDescription'] = div.find('div', {'class': 'result_snippet'}).contents
+                del dict['LongDescription'][-2:-1]
+                dict['URL'] = div.find('a', {'class', 'l'})['href']
+                dict['Location'] = 'test'
                 json.append(dict)
 
         return json

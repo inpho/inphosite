@@ -24,7 +24,8 @@ def titlecase(s):
     title = []
     stops = ['the', 'a', 'an', 'of',
              'and', 'or', 'but',
-             'in', 'on', 'from', 'with', 'to', 'by']
+             'in', 'on', 'from', 'with', 'to', 'by',
+             'y', 'de', 'al']
     for i, subst in enumerate(s.split()):
         if i > 0 and subst in stops:
             title.append(subst)
